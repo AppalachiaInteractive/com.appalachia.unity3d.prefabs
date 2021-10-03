@@ -1,0 +1,342 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: ExternalRenderingParameters_3d_Icelandic-Mossy-Rock_thkqfbjda_2d63e3fb-bc16-403c-9f85-2ed5518c3e5f
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 197
+  identifyingKey: 3d_Icelandic-Mossy-Rock_thkqfbjda_2d63e3fb-bc16-403c-9f85-2ed5518c3e5f
+  vegetationItemID: 2d63e3fb-bc16-403c-9f85-2ed5518c3e5f
+  prefab: {fileID: 8758318657653482832, guid: 3b9ccc448b6a101458acfcf23064c4c0, type: 3}
+  enabled: 1
+  veggie:
+    VegetationItemID: 2d63e3fb-bc16-403c-9f85-2ed5518c3e5f
+    Name: 3d_Icelandic-Mossy-Rock_thkqfbjda
+    VegetationType: 4
+    PrefabType: 0
+    VegetationRenderMode: 0
+    lightProbeUsage: 1
+    lightProbeProxyVolume: {fileID: 0}
+    EnableRuntimeSpawn: 1
+    EnableRuntimeRendering: 0
+    EnableExternalRendering: 1
+    EnableMeshBurying: 1
+    TestOnly: 0
+    DisableShadows: 0
+    CullShadows: 0
+    VegetationPrefab: {fileID: 8758318657653482832, guid: 3b9ccc448b6a101458acfcf23064c4c0,
+      type: 3}
+    VegetationTexture: {fileID: 0}
+    VegetationGuid: 3b9ccc448b6a101458acfcf23064c4c0
+    SampleDistance: 21
+    Density: 1
+    RandomizePosition: 1
+    UseVegetationMasksOnStorage: 0
+    UseSamplePointOffset: 0
+    SamplePointMinOffset: 0
+    SamplePointMaxOffset: 0
+    Offset: {x: 0, y: 0, z: 0}
+    RotationOffset: {x: -0, y: 0, z: 0}
+    Rotation: 7
+    MinUpOffset: -0.009329309
+    MaxUpOffset: -0.008396378
+    Bounds:
+      m_Center: {x: 0.042452753, y: 0.44274643, z: 0.0019032955}
+      m_Extent: {x: 0.9365715, y: 0.46646544, z: 1.0906503}
+    ScaleMultiplier: {x: 1, y: 1, z: 1}
+    RenderDistanceFactor: 1
+    Seed: 7
+    MinScale: 0.7
+    MaxScale: 2
+    YScale: 1
+    RequiresNormal: 0
+    ColliderType: 6
+    ColliderRadius: 0.25
+    ColliderHeight: 2
+    ColliderOffset: {x: 0, y: 0, z: 0}
+    ColliderSize: {x: 1, y: 1, z: 1}
+    ColliderTrigger: 0
+    ColliderMesh: {fileID: 0}
+    ColliderUseForBake: 1
+    ColliderDistanceFactor: 3
+    ColliderTag: 
+    ColliderConvex: 0
+    NavMeshObstacleType: 0
+    NavMeshObstacleCenter: {x: 0, y: 0, z: 0}
+    NavMeshObstacleSize: {x: 1, y: 1, z: 1}
+    NavMeshObstacleRadius: 0.5
+    NavMeshObstacleHeight: 2
+    NavMeshObstacleCarve: 1
+    NavMeshArea: 0
+    UseBillboards: 0
+    BillboardQuality: 0
+    BillboardTexture: {fileID: 0}
+    BillboardNormalTexture: {fileID: 0}
+    BillboardAoTexture: {fileID: 0}
+    BillboardSourceLODLevel: 0
+    BillboardColorSpace: -1
+    BillboardBrightness: 1
+    BillboardCutoff: 0.2
+    BillboardTintColor: {r: 1, g: 1, b: 1, a: 1}
+    BillboardAtlasBackgroundColor: {r: 0.3137255, g: 0.3137255, b: 0.078431375, a: 1}
+    BillboardMipmapBias: -2
+    BillboardWindSpeed: 1
+    BillboardSmoothness: 0.2
+    BillboardMetallic: 0.5
+    BillboardSpecular: 0
+    BillboardOcclusion: 1
+    BillboardNormalStrength: 1
+    BillboardRecalculateNormals: 0
+    BillboardNormalBlendFactor: 1
+    BillboardRenderMode: 0
+    BillboardFlipBackNormals: 0
+    UseHeightRule: 0
+    MinHeight: 0
+    MaxHeight: 1500
+    UseAdvancedHeightRule: 0
+    MaxCurveHeight: 500
+    HeightRuleCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    UseSteepnessRule: 1
+    MinSteepness: 0
+    MaxSteepness: 30
+    UseAdvancedSteepnessRule: 1
+    SteepnessRuleCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.3430127
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.8022152
+        value: 0
+        inSlope: -0
+        outSlope: -0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    UseConcaveLocationRule: 1
+    ConcaveLocationSampling: 0
+    ConcaveLocationConvex: 0
+    ConcaveLocationSampleResolution: 1
+    ConcaveLocationSampleLevels: 1
+    ConcaveLocationThreshold: 1
+    ConcaveLocationDistance: 10
+    ConcaveLocationFarDistance: 20
+    ConcaveLocationConsiderBounds: 0
+    ConcaveLocationInverse: 0
+    UseAdvancedConcaveRule: 1
+    ConcaveRuleCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0.47003746
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5949367
+        value: 0
+        inSlope: -0
+        outSlope: -0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    UseDepressionLocationRule: 0
+    DepressionLocationSampling: 3
+    DepressionLocationHill: 0
+    DepressionLocationSampleResolution: 1
+    DepressionLocationSampleLevels: 1
+    DepressionLocationMinHeightDifference: 2
+    DepressionLocationDistance: 10
+    DepressionLocationFarDistance: 20
+    DepressionLocationConsiderBounds: 0
+    DepressionLocationInverse: 0
+    UseAdvancedDepressionRule: 1
+    MaxCurveDepression: 25
+    DepressionRuleCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    UseAspectLocationRule: 0
+    AspectLocationSampling: 4
+    AspectLocationSampleResolution: 1
+    AspectLocationSampleLevels: 1
+    AspectLocationDistance: 3
+    AspectLocationFarDistance: 20
+    AspectReferenceDirection: 0
+    UseAdvancedAspectRule: 1
+    AspectRuleCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 0.5
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    AspectDirectionalTolerance: 1
+    AspectLocationInverse: 0
+    UseNoiseCutoff: 0
+    NoiseCutoffValue: 0.5
+    NoiseCutoffScale: 5
+    NoiseCutoffInverse: 0
+    NoiseCutoffOffset: {x: 0, y: 0}
+    UseNoiseDensity: 0
+    NoiseDensityScale: 5
+    NoiseDensityInverse: 0
+    NoiseDensityOffset: {x: 0, y: 0}
+    UseNoiseScaleRule: 0
+    NoiseScaleMinScale: 0.7
+    NoiseScaleMaxScale: 1.3
+    NoiseScaleScale: 5
+    NoiseScaleInverse: 0
+    NoiseScaleOffset: {x: 0, y: 0}
+    UseBiomeEdgeScaleRule: 0
+    BiomeEdgeScaleDistance: 10
+    BiomeEdgeScaleMinScale: 0.3
+    BiomeEdgeScaleMaxScale: 1
+    BiomeEdgeScaleInverse: 0
+    UseBiomeEdgeIncludeRule: 0
+    BiomeEdgeIncludeDistance: 10
+    BiomeEdgeIncludeInverse: 0
+    UseTerrainTextureIncludeRules: 0
+    TerrainTextureIncludeRuleList: []
+    UseTerrainTextureExcludeRules: 0
+    TerrainTextureExcludeRuleList: []
+    UseTextureMaskIncludeRules: 0
+    TextureMaskIncludeRuleList: []
+    UseTextureMaskExcludeRules: 0
+    TextureMaskExcludeRuleList: []
+    UseTextureMaskScaleRules: 0
+    TextureMaskScaleRuleList: []
+    UseTextureMaskDensityRules: 0
+    TextureMaskDensityRuleList: []
+    ShaderName: internal/standard
+    ShaderControllerSettings:
+      ControlerPropertyList: []
+      Heading: Internal Tree Shader
+      Description: 
+      SupportsInstantIndirect: 1
+      LODFadeCrossfade: 1
+      LODFadePercentage: 0
+      SampleWind: 0
+      UpdateWind: 0
+      DynamicHUE: 0
+      BillboardSnow: 0
+      BillboardHDWind: 0
+      OverrideBillboardAtlasShader: 
+      OverrideBillboardAtlasNormalShader: 
+      BillboardRenderMode: 0
+    UseTerrainSourceIncludeRule: 0
+    TerrainSourceIncludeRule:
+      UseTerrainSourceID1: 0
+      UseTerrainSourceID2: 0
+      UseTerrainSourceID3: 0
+      UseTerrainSourceID4: 0
+      UseTerrainSourceID5: 0
+      UseTerrainSourceID6: 0
+      UseTerrainSourceID7: 0
+      UseTerrainSourceID8: 0
+    UseTerrainSourceExcludeRule: 0
+    TerrainSourceExcludeRule:
+      UseTerrainSourceID1: 0
+      UseTerrainSourceID2: 0
+      UseTerrainSourceID3: 0
+      UseTerrainSourceID4: 0
+      UseTerrainSourceID5: 0
+      UseTerrainSourceID6: 0
+      UseTerrainSourceID7: 0
+      UseTerrainSourceID8: 0
+    DisableLOD: 0
+    LODFactor: 1
+    UseDistanceFalloff: 0
+    DistanceFalloffStartDistance: 1
+    UseVegetationMask: 0
+    VegetationTypeIndex: 1
+    RuntimePrefabRuleList: []

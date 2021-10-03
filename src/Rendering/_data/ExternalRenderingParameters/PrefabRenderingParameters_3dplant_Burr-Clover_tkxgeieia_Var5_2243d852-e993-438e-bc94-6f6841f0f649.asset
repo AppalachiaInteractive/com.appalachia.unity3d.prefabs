@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3dplant_Burr-Clover_tkxgeieia_Var5_2243d852-e993-438e-bc94-6f6841f0f649
+  m_EditorClassIdentifier: 
+  id: 114
+  prefab: {fileID: 3787117929518809064, guid: 35f0712887c17fb478929cf7bceee156, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3dplant_Burr-Clover_tkxgeieia_Var5_2243d852-e993-438e-bc94-6f6841f0f649
+  vegetationItemID: 2243d852-e993-438e-bc94-6f6841f0f649
+  prefabType: 0
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 0
+  rotationType: 0
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 1
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.00728108, y: 0.06067651, z: 0.005443573}
+    m_Extent: {x: 0.23421657, y: 0.06844073, z: 0.21528871}
+  requiresNormal: 0
+  requiresInstancing: 0

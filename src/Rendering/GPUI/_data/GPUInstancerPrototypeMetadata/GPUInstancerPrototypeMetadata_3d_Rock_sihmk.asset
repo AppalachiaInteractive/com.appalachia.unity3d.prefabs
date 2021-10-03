@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6705c435dfe048019f53a12f2651494a, type: 3}
+  m_Name: GPUInstancerPrototypeMetadata_3d_Rock_sihmk
+  m_EditorClassIdentifier: 
+  id: 15
+  _originalPrefab: {fileID: 8627886458016139664, guid: b3b96a739f6c4af4e8dcc025d17f5acc,
+    type: 3}
+  _updatedPrefab: {fileID: 9101815038653049767, guid: 236341abfc9b6cf4896f62116b842fdf,
+    type: 3}
+  _prefabHashForNoGoGeneration: b3b96a739f6c4af4e8dcc025d17f5acc
+  _prototype: {fileID: 11400000, guid: 2e6a42edf5515f44f9a5560f9f4bc0fb, type: 2}
+  hasRigidBody: 0
+  rigidbodyData:
+    useGravity: 1
+    angularDrag: 0
+    mass: 2721.883
+    constraints: 0
+    detectCollisions: 1
+    drag: 0
+    isKinematic: 0
+    interpolation: 0
+    showMass: 1

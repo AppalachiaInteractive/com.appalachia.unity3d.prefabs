@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Mossy-Twigs_qhykXD_Var3_68f6858a-e685-4a3b-a958-a5795c3c1c8c
+  m_EditorClassIdentifier: 
+  id: 4
+  prefab: {fileID: 8820698346956820030, guid: a59db00c16a9d174f82c1aa8d2a12aa1, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Mossy-Twigs_qhykXD_Var3_68f6858a-e685-4a3b-a958-a5795c3c1c8c
+  vegetationItemID: 68f6858a-e685-4a3b-a958-a5795c3c1c8c
+  prefabType: 1
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 1
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: -0.00014667958, y: -0.00007537473, z: -0.000053223222}
+    m_Extent: {x: 0.08749076, y: 0.010805408, z: 0.044678494}
+  requiresNormal: 1
+  requiresInstancing: 0

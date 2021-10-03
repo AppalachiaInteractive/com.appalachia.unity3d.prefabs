@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6705c435dfe048019f53a12f2651494a, type: 3}
+  m_Name: GPUInstancerPrototypeMetadata_3dplant_Burr-Clover_tkxgeieia_Var6
+  m_EditorClassIdentifier: 
+  id: 78
+  _originalPrefab: {fileID: 6110514365985130899, guid: d4084d097a9528f449aab6905795da96,
+    type: 3}
+  _updatedPrefab: {fileID: 7100098192230531711, guid: b962adcf1af686544afc6d73a4a60fac,
+    type: 3}
+  _prefabHashForNoGoGeneration: d4084d097a9528f449aab6905795da96
+  _prototype: {fileID: 11400000, guid: 7fec041984ac7c24183fed71e720a5d7, type: 2}
+  hasRigidBody: 0
+  rigidbodyData:
+    useGravity: 0
+    angularDrag: 0
+    mass: 0
+    constraints: 0
+    detectCollisions: 0
+    drag: 0
+    isKinematic: 0
+    interpolation: 0
+    showMass: 0

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6705c435dfe048019f53a12f2651494a, type: 3}
+  m_Name: GPUInstancerPrototypeMetadata_3d_Mossy-Embankment_tkkodbhfa
+  m_EditorClassIdentifier: 
+  id: 57
+  _originalPrefab: {fileID: 5948119558496358594, guid: ca5a17cd9e9bd724aae18e09b9899fe5,
+    type: 3}
+  _updatedPrefab: {fileID: 8640157115665035639, guid: fb323c131b32fc040b481a9c1ae63d54,
+    type: 3}
+  _prefabHashForNoGoGeneration: ca5a17cd9e9bd724aae18e09b9899fe5
+  _prototype: {fileID: 11400000, guid: 1a00fc8988b9b1e4a9c9b6742aeb65eb, type: 2}
+  hasRigidBody: 0
+  rigidbodyData:
+    useGravity: 0
+    angularDrag: 0
+    mass: 0
+    constraints: 0
+    detectCollisions: 0
+    drag: 0
+    isKinematic: 0
+    interpolation: 0
+    showMass: 0

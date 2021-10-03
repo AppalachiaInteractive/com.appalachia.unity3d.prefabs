@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Icelandic-Mossy-Rock_tghddfmda_1def3e22-bb05-4c79-9a53-11a91635dd25
+  m_EditorClassIdentifier: 
+  id: 29
+  prefab: {fileID: 4129135866089276196, guid: 86511fd2f0e9fae4294230bff1b5f88a, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Icelandic-Mossy-Rock_tghddfmda_1def3e22-bb05-4c79-9a53-11a91635dd25
+  vegetationItemID: 1def3e22-bb05-4c79-9a53-11a91635dd25
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 0
+  distanceFalloffStartDistance: 0.4
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.0053600073, y: 0.29791453, z: -0.012324154}
+    m_Extent: {x: 0.745754, y: 0.3967405, z: 0.7273798}
+  requiresNormal: 0
+  requiresInstancing: 1

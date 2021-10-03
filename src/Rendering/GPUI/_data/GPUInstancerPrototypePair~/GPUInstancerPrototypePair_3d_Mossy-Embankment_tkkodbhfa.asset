@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Mossy-Embankment_tkkodbhfa
+  m_EditorClassIdentifier: 
+  id: 87
+  _gameObject: {_prefab: {fileID: 5948119558496358594, guid: ca5a17cd9e9bd724aae18e09b9899fe5,
+      type: 3}, _gpuiPrefab: {fileID: 3889800616487067180, guid: ca5a17cd9e9bd724aae18e09b9899fe5,
+      type: 3}, _prototype: {fileID: 11400000, guid: 8ebf06a3e97db6f4aaed4e37deead6a9,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 8640157115665035639, guid: fb323c131b32fc040b481a9c1ae63d54,
+      type: 3}, _gpuiPrefab: {fileID: 5782307021993108638, guid: fb323c131b32fc040b481a9c1ae63d54,
+      type: 3}, _prototype: {fileID: 11400000, guid: fa77bf2baf1507941b55e495038c50d8,
+      type: 2}}
+  _prefabHashForNoGoGeneration: ca5a17cd9e9bd724aae18e09b9899fe5

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6705c435dfe048019f53a12f2651494a, type: 3}
+  m_Name: GPUInstancerPrototypeMetadata_3d_mossy-flat-stone_oidxM
+  m_EditorClassIdentifier: 
+  id: 7
+  _originalPrefab: {fileID: 4218639824903216209, guid: 18df0d8bd6dbe084680747ee58581e2d,
+    type: 3}
+  _updatedPrefab: {fileID: 7674237021756623730, guid: 5f81844f7888200429d7f342498bcdbe,
+    type: 3}
+  _prefabHashForNoGoGeneration: 18df0d8bd6dbe084680747ee58581e2d
+  _prototype: {fileID: 11400000, guid: b03dc8f722e3cfc4797f99adf27fbed9, type: 2}
+  hasRigidBody: 0
+  rigidbodyData:
+    useGravity: 1
+    angularDrag: 0
+    mass: 393.81842
+    constraints: 0
+    detectCollisions: 1
+    drag: 0
+    isKinematic: 0
+    interpolation: 0
+    showMass: 1

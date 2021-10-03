@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca0fb8346dd94a1eb39467df1c752c4b, type: 3}
+  m_Name: 3d_Fir-Tree-Stump_tivkaewfa
+  m_EditorClassIdentifier: 
+  id: 34
+  type: 4100
+  _setOverrides:
+    minimumRenderingDistance:
+      overrideEnabled: 0
+      value: 0
+    maximumRenderingDistance:
+      overrideEnabled: 0
+      value: 256
+    layer:
+      overrideEnabled: 0
+      value:
+        layer: 0
+    rangeSettings:
+      overrideEnabled: 0
+      value:
+      - enabled: 1
+        showRangeLimit: 1
+        rangeLimit: 25
+        frustumOverridesRange: 1
+        outOfFrustumRangeLimit: 5
+        rendering: 2
+        physics: 1
+        interactions: 2
+      - enabled: 1
+        showRangeLimit: 0
+        rangeLimit: 3.4028235e+38
+        frustumOverridesRange: 1
+        outOfFrustumRangeLimit: 8.5070587e+37
+        rendering: 2
+        physics: 2
+        interactions: 2
+    normalLighting:
+      overrideEnabled: 0
+      value:
+        isShadowCasting: 1
+        canCullShadows: 1
+        isShadowReceiving: 1
+        cullShadows: 1
+        lightProbeUsage: 1
+        useOriginalShaderForShadow: 1
+        useCustomShadowDistance: 1
+        shadowRenderingDistance: 128
+    instancedLighting:
+      overrideEnabled: 0
+      value:
+        isShadowCasting: 1
+        canCullShadows: 1
+        isShadowReceiving: 1
+        cullShadows: 1
+        lightProbeUsage: 1
+        useOriginalShaderForShadow: 1
+        useCustomShadowDistance: 1
+        shadowRenderingDistance: 128
+    cullingSettings:
+      overrideEnabled: 0
+      value:
+        isFrustumCulling: 1
+        frustumOffset: 0.2
+        isOcclusionCulling: 1
+        occlusionOffset: 0
+        occlusionAccuracy: 1
+        minCullingDistance: 0
+    distanceFalloffSettings:
+      overrideEnabled: 0
+      value:
+        useDistanceFalloff: 1
+        distanceFalloffStartDistance: 0.6
+    lodFadeSettings:
+      overrideEnabled: 0
+      value:
+        lodBiasAdjustment: 1
+        useLODCrossFade: 1
+        animateLODCrossFade: 0
+        lodFadeTransitionWidth: 0.1
+    burialOptions:
+      overrideEnabled: 0
+      value:
+        buryMesh: 1
+        adoptTerrainNormal: 1
+        adjustmentStrength: 1
+  _typeOptions: {fileID: 11400000, guid: 00dedd367b6398546a1a46a265e40cbf, type: 2}

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Fallen-Tree-Assembly_rgzoN_e70a4372-0494-4fc5-a797-ea256407b6ea
+  m_EditorClassIdentifier: 
+  id: 187
+  prefab: {fileID: 6235514783280349690, guid: 51c1a35a2cbe8264ba7167d3005acb48, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Fallen-Tree-Assembly_rgzoN_e70a4372-0494-4fc5-a797-ea256407b6ea
+  vegetationItemID: e70a4372-0494-4fc5-a797-ea256407b6ea
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 5
+  bounds:
+    m_Center: {x: 0.36607122, y: 0.71346384, z: -0.035301924}
+    m_Extent: {x: 3.5414543, y: 0.937141, z: 1.803086}
+  requiresNormal: 0
+  requiresInstancing: 1

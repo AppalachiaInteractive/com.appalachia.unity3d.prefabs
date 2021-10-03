@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_mossy-tree-log_rdkeg_9e0f8401-7d35-409f-94da-04cb1343ac37
+  m_EditorClassIdentifier: 
+  id: 190
+  prefab: {fileID: 866088995645804587, guid: f29c6ef7ddbfbcc4581ab6b665a198ac, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_mossy-tree-log_rdkeg_9e0f8401-7d35-409f-94da-04cb1343ac37
+  vegetationItemID: 9e0f8401-7d35-409f-94da-04cb1343ac37
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 5
+  bounds:
+    m_Center: {x: -0.051000834, y: 0.28103772, z: -0.06639758}
+    m_Extent: {x: 2.4922023, y: 0.33554956, z: 0.41818905}
+  requiresNormal: 0
+  requiresInstancing: 1

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Mossy-Rock_ti4sfikda
+  m_EditorClassIdentifier: 
+  id: 116
+  _gameObject:
+    _prefab: {fileID: 8584532751980974262, guid: aeca3819ddacd044d8b146732739112c,
+      type: 3}
+    _gpuiPrefab: {fileID: 321007250656023917, guid: aeca3819ddacd044d8b146732739112c,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: b86d5b121752e5641be284581c260836, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 7573569770858078100, guid: 882e7894158b8c649855e01dbb67804c,
+      type: 3}
+    _gpuiPrefab: {fileID: 6962272981077828207, guid: 882e7894158b8c649855e01dbb67804c,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 786a10d406a3095468e7341997d955ad, type: 2}

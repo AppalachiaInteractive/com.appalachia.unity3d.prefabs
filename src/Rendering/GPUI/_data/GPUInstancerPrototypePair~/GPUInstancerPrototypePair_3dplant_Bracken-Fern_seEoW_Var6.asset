@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Bracken-Fern_seEoW_Var6
+  m_EditorClassIdentifier: 
+  id: 72
+  _gameObject:
+    _prefab: {fileID: 3924209545199653041, guid: 26c4640ecb5e7cc498e78949d40ed6c0,
+      type: 3}
+    _gpuiPrefab: {fileID: 6327954783032637251, guid: 26c4640ecb5e7cc498e78949d40ed6c0,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 2a1bf3bebf4b9bf41abafc9d3ca5d76a, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 5113111698221096228, guid: e7a95a74099f8ed488fc209748930c59,
+      type: 3}
+    _gpuiPrefab: {fileID: 6553336652563423355, guid: e7a95a74099f8ed488fc209748930c59,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: b41210d7146b0744097ae3472ad41bdb, type: 2}

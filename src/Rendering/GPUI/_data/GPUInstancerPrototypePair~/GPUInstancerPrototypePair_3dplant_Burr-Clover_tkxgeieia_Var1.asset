@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Burr-Clover_tkxgeieia_Var1
+  m_EditorClassIdentifier: 
+  id: 44
+  _gameObject: {_prefab: {fileID: 6738791599766706297, guid: 3f1885a7cda2d9d4aab0517c13862832,
+      type: 3}, _gpuiPrefab: {fileID: 4010899998802020423, guid: 3f1885a7cda2d9d4aab0517c13862832,
+      type: 3}, _prototype: {fileID: 11400000, guid: 5b78997993e39db4abeacb6ebeb2a445,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 1913173531790399987, guid: 38c47dd48609af3418a9a4caec45b6a7,
+      type: 3}, _gpuiPrefab: {fileID: 1556212812764472300, guid: 38c47dd48609af3418a9a4caec45b6a7,
+      type: 3}, _prototype: {fileID: 11400000, guid: ec0ad6e9c67a3cd498f4ed6c681cb840,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 3f1885a7cda2d9d4aab0517c13862832

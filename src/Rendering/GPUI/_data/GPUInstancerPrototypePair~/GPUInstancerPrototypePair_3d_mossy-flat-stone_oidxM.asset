@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_mossy-flat-stone_oidxM
+  m_EditorClassIdentifier: 
+  id: 121
+  _gameObject: {_prefab: {fileID: 4218639824903216209, guid: 18df0d8bd6dbe084680747ee58581e2d,
+      type: 3}, _gpuiPrefab: {fileID: 1548820357427765388, guid: 18df0d8bd6dbe084680747ee58581e2d,
+      type: 3}, _prototype: {fileID: 11400000, guid: fa8edabb6b7dcca44b4e449d70e60a48,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 7674237021756623730, guid: 5f81844f7888200429d7f342498bcdbe,
+      type: 3}, _gpuiPrefab: {fileID: 6661144039867277894, guid: 5f81844f7888200429d7f342498bcdbe,
+      type: 3}, _prototype: {fileID: 11400000, guid: 65162e3018ded104790876551487e619,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 18df0d8bd6dbe084680747ee58581e2d

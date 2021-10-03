@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3dplant_Fern_rmAsg_Var3_369f09c8-f56e-4ff2-b63d-90d820baf14a
+  m_EditorClassIdentifier: 
+  id: 85
+  prefab: {fileID: 1161289666103952633, guid: 1977f5d60856bf54aac778fed503a089, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3dplant_Fern_rmAsg_Var3_369f09c8-f56e-4ff2-b63d-90d820baf14a
+  vegetationItemID: 369f09c8-f56e-4ff2-b63d-90d820baf14a
+  prefabType: 2
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.2
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.036202013, y: 0.21261552, z: -0.035924762}
+    m_Extent: {x: 0.5663748, y: 0.24732408, z: 0.47276118}
+  requiresNormal: 0
+  requiresInstancing: 0

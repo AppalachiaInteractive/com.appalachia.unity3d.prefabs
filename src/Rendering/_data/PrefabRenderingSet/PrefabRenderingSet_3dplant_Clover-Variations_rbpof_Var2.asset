@@ -1,0 +1,154 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_Clover-Variations_rbpof_Var2
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 87
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 1024
+  _contentType:
+    overrideEnabled: 0
+    value: 240
+  _modelType:
+    overrideEnabled: 0
+    value: 100
+  prototypeMetadata: {fileID: 11400000, guid: 18c26633763114a4b82f0a0405a3eb19, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: 97b8035727a32b54c897ed951dab2117, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: 86d42504f0b3a5848a8b77a7156e4b47, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_Clover-Variations_rbpof_Var2_81ce6d48-5653-4484-84ee-ef1e7dd8fe59
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - GroundCover
+      - Vegetation
+      - VegetationVerySmall
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: -0.01820594, y: 0.056012645, z: 0.060411826}
+    m_Extent: {x: 0.3613951, y: 0.07275376, z: 0.27812392}
+  cheapestMeshFilter: {fileID: 7414436371852330274, guid: f87345a1766c9a942867bf22ac4c7058,
+    type: 3}
+  cheapestMesh: {fileID: 378132811784881898, guid: 2a05bb584accd7a4da25c3960193126d,
+    type: 3}
+  cheapestMeshVerts:
+  - {x: 0.31780556, y: -0.016741103, z: -0.019795237}
+  - {x: 0.14935125, y: 0.06172155, z: 0.0068571186}
+  - {x: 0.34318918, y: -0.012014923, z: 0.14021058}
+  - {x: 0.1730299, y: -0.0074269865, z: -0.17633925}
+  - {x: -0.08008514, y: -0.0041431426, z: 0.3260869}
+  - {x: -0.01142853, y: 0.056227047, z: -0.12905665}
+  - {x: -0.008324059, y: -0.0045960234, z: -0.21771206}
+  - {x: -0.31367138, y: -0.012919194, z: 0.0039558457}
+  - {x: -0.14136027, y: 0.06361221, z: 0.0036399888}
+  - {x: -0.37960106, y: 0, z: 0.15876238}
+  - {x: -0.23619604, y: 0.015442963, z: 0.2527466}
+  - {x: -0.01726796, y: 0.057026453, z: 0.14691456}
+  cheapestMeshTris: 000000000100000002000000000000000300000001000000020000000100000004000000010000000300000005000000060000000500000003000000060000000700000005000000080000000500000007000000050000000800000001000000090000000800000007000000090000000a000000080000000b0000000400000001000000040000000b0000000a00000001000000080000000b0000000b000000080000000a000000
+  _modelOptions: {fileID: 11400000, guid: 737744bc389ae5d468752b834a9841b5, type: 2}
+  _contentOptions: {fileID: 11400000, guid: b5d1a2613ea34ea40ab2b0b7cc8f76ae, type: 2}
+  prefab: {fileID: 2838382375350610456, guid: f87345a1766c9a942867bf22ac4c7058, type: 3}

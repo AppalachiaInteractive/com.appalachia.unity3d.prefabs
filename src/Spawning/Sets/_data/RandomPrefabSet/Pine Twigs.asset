@@ -1,0 +1,299 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 396bc9b9e4940774686061c2a3a80518, type: 3}
+  m_Name: Pine Twigs
+  m_EditorClassIdentifier: 
+  id: 2
+  profileName: Pine Twigs
+  spawnablePrefabs:
+  - enabled: 1
+    prefab: {fileID: 8133599387081165895, guid: 20ddf08c6843bdd43a01668693690b21,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 4556025647526407371, guid: 62188296fad7c264f89112fb8f22b359,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 8665869804999030469, guid: ed11b019a7438504a83460840129a7fa,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 6945175777807790405, guid: 9fb4e620a3cc0664f8dd198514809102,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 8100159745056020218, guid: 377abf986b506cc469eba189b0da52cb,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 4846391610996085308, guid: f6e0d8477dcdd9d49904b1ecb7c1d756,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 3142497905649750253, guid: c28d99c0df0b9ff4bac07f759310d413,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 5547854239207304111, guid: 5622c0ea42a5239439bcc0f4e19ca39f,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 3576041242730822860, guid: 96e47e6374be36f408d7d4116f8a9773,
+      type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  - enabled: 1
+    prefab: {fileID: 10311173391166879, guid: b1d58d789076a19448bf097e10a865e0, type: 3}
+    probability: 1
+    overridePositioning: 0
+    transformOverrideData:
+      type: 20
+      dropOffset: {x: 0, y: 10, z: 0}
+      throwOffset: {x: 0, y: 5, z: 0}
+      throwForce: {x: 1, y: 5}
+      randomThrowDirection: 1
+      throwDirection: {x: 0, y: 1, z: 0}
+      spawnOffset: {x: 0, y: 0, z: 0}
+      enableBurying: 0
+      randomXZOffset: 1
+      circularOffset: 1
+      rotationType: 20
+      xRotationLimit: {x: -180, y: 180}
+      yRotationLimit: {x: -180, y: 180}
+      zRotationLimit: {x: -180, y: 180}
+      useUniformScale: 1
+      scaleLimit: {x: 0.8, y: 1.2}
+      minScale: {x: 0.8, y: 0.8, z: 0.8}
+      maxScale: {x: 1.2, y: 1.2, z: 1.2}
+  transformData:
+    type: 20
+    dropOffset: {x: 0, y: 10, z: 0}
+    throwOffset: {x: 0, y: 5, z: 0}
+    throwForce: {x: 1, y: 5}
+    randomThrowDirection: 1
+    throwDirection: {x: 0, y: 1, z: 0}
+    spawnOffset: {x: 0, y: 0, z: 0}
+    enableBurying: 0
+    randomXZOffset: 10
+    circularOffset: 1
+    rotationType: 20
+    xRotationLimit: {x: -180, y: 180}
+    yRotationLimit: {x: -180, y: 180}
+    zRotationLimit: {x: -180, y: 180}
+    useUniformScale: 1
+    scaleLimit: {x: 1, y: 2}
+    minScale: {x: 1, y: 1, z: 1}
+    maxScale: {x: 2.5, y: 2.5, z: 2.5}
+  addPrefabs: []
+  probabilities:
+    sum: 10
+    pairs:
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 0.1
+    - inclusiveStart: 0
+      exclusiveEnd: 1

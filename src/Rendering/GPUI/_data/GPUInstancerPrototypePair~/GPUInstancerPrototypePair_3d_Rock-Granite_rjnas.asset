@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Rock-Granite_rjnas
+  m_EditorClassIdentifier: 
+  id: 170
+  _gameObject: {_prefab: {fileID: 1605970650526030556, guid: 829a5b09ab73dab4c852e6e779c21168,
+      type: 3}, _gpuiPrefab: {fileID: 3884694952991115681, guid: 829a5b09ab73dab4c852e6e779c21168,
+      type: 3}, _prototype: {fileID: 11400000, guid: 2f4b8b7c0474c274d8ddc94022a43835,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 6812682589931149398, guid: be51fb96a7f9b924f95d15bf048d6f41,
+      type: 3}, _gpuiPrefab: {fileID: 1529717551667021047, guid: be51fb96a7f9b924f95d15bf048d6f41,
+      type: 3}, _prototype: {fileID: 11400000, guid: dd678000a7d6adb4bbe709c5f49886e1,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 829a5b09ab73dab4c852e6e779c21168

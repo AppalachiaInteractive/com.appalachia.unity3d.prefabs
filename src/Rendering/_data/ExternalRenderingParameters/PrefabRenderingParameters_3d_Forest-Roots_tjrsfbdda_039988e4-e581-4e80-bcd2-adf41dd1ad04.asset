@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Forest-Roots_tjrsfbdda_039988e4-e581-4e80-bcd2-adf41dd1ad04
+  m_EditorClassIdentifier: 
+  id: 65
+  prefab: {fileID: 1697466812814366543, guid: 3a72bff2e5e9bb847b6cfe38b9a47b16, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Forest-Roots_tjrsfbdda_039988e4-e581-4e80-bcd2-adf41dd1ad04
+  vegetationItemID: 039988e4-e581-4e80-bcd2-adf41dd1ad04
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.2
+  renderDistanceFactor: 0.4
+  colliderDistanceFactor: 3
+  bounds:
+    m_Center: {x: 0.01612997, y: 0.09139673, z: 0.05537474}
+    m_Extent: {x: 1.1404943, y: 0.10259611, z: 0.7475827}
+  requiresNormal: 0
+  requiresInstancing: 1

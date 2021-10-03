@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_California-Coastal-Rock_sknwO_d4636da0-0d1d-4b86-9bb8-2178934c88cf
+  m_EditorClassIdentifier: 
+  id: 174
+  prefab: {fileID: 2415758494967802156, guid: a3ba26c5265a7d54da39d47f4c9e01e6, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_California-Coastal-Rock_sknwO_d4636da0-0d1d-4b86-9bb8-2178934c88cf
+  vegetationItemID: d4636da0-0d1d-4b86-9bb8-2178934c88cf
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 5
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.5
+  renderDistanceFactor: 0.2
+  colliderDistanceFactor: 3
+  bounds:
+    m_Center: {x: -3.7275298, y: 2.455924, z: -5.0098953}
+    m_Extent: {x: 2.1762378, y: 1.583848, z: 4.3562956}
+  requiresNormal: 0
+  requiresInstancing: 1

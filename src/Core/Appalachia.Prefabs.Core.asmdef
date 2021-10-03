@@ -1,0 +1,19 @@
+{
+    "name": "Appalachia.Prefabs.Core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:873f913f34eb2c34385d17b9a87f21b9",
+        "GUID:06d89ef463696534486384c7cc9fab96",
+        "GUID:cf75d8bea22d8fb469a2aa239cfc6930",
+        "GUID:2665a8d13d1b3f18800f46e256720795"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

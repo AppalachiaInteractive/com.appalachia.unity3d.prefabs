@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_pine-white_00_young_normal
+  m_EditorClassIdentifier: 
+  id: 6
+  _gameObject: {_prefab: {fileID: 2631043312754641439, guid: 80361b36727e35943b637ea9607bae8e,
+      type: 3}, _gpuiPrefab: {fileID: 731686854190350265, guid: 80361b36727e35943b637ea9607bae8e,
+      type: 3}, _prototype: {fileID: 11400000, guid: ab11212ccc07411419f7ddbf18ec0408,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 8936125937182780149, guid: d9b8aa2da191df743b04132095be2faa,
+      type: 3}, _gpuiPrefab: {fileID: 4024169845011140433, guid: d9b8aa2da191df743b04132095be2faa,
+      type: 3}, _prototype: {fileID: 11400000, guid: 9fa0d70bda3f7cc4793945d134765715,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 80361b36727e35943b637ea9607bae8e

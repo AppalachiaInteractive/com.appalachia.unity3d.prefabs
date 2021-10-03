@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6705c435dfe048019f53a12f2651494a, type: 3}
+  m_Name: GPUInstancerPrototypeMetadata_3d_lichen-rock_rbycT
+  m_EditorClassIdentifier: 
+  id: 5
+  _originalPrefab: {fileID: 260841496837692875, guid: 7f5a78e83d179b8429973c76d4c078e5,
+    type: 3}
+  _updatedPrefab: {fileID: 2877511255357056481, guid: e6c46d132be59db43972b4b804b89abe,
+    type: 3}
+  _prefabHashForNoGoGeneration: 7f5a78e83d179b8429973c76d4c078e5
+  _prototype: {fileID: 11400000, guid: 0af1c3e296b706b4888132265b407c28, type: 2}
+  hasRigidBody: 0
+  rigidbodyData:
+    useGravity: 0
+    angularDrag: 0
+    mass: 420.4297
+    constraints: 0
+    detectCollisions: 1
+    drag: 0
+    isKinematic: 0
+    interpolation: 0
+    showMass: 1

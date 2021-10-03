@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Mossy-Embankment_ti0qeiuda_99c8b32e-c864-488c-9c02-857060c88171
+  m_EditorClassIdentifier: 
+  id: 22
+  prefab: {fileID: 1274735761769783098, guid: 9f8a2af06854020458936d9e12e9ba2a, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Mossy-Embankment_ti0qeiuda_99c8b32e-c864-488c-9c02-857060c88171
+  vegetationItemID: 99c8b32e-c864-488c-9c02-857060c88171
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 6
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 0
+  distanceFalloffStartDistance: 0.4
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: -0.0016071796, y: 0.17213903, z: -0.005543351}
+    m_Extent: {x: 2.0665684, y: 0.2576261, z: 0.95900106}
+  requiresNormal: 0
+  requiresInstancing: 1

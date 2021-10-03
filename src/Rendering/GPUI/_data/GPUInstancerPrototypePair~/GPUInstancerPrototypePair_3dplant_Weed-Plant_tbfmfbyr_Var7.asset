@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Weed-Plant_tbfmfbyr_Var7
+  m_EditorClassIdentifier: 
+  id: 26
+  _gameObject: {_prefab: {fileID: 2947103942492109389, guid: 6710950388fe52c49bde03f61a97190c,
+      type: 3}, _gpuiPrefab: {fileID: 7920469891828507314, guid: 6710950388fe52c49bde03f61a97190c,
+      type: 3}, _prototype: {fileID: 11400000, guid: a8bd7677784ca6a4ca65c94148f22643,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 1980354334399376846, guid: 0a88a1aed0cb2b54582e697ca53803c0,
+      type: 3}, _gpuiPrefab: {fileID: 7864345715842280246, guid: 0a88a1aed0cb2b54582e697ca53803c0,
+      type: 3}, _prototype: {fileID: 11400000, guid: c20a076f7dbca4a44a4636f633da0a9c,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 6710950388fe52c49bde03f61a97190c

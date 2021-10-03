@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Mossy-Boulder-Rock_plww4
+  m_EditorClassIdentifier: 
+  id: 122
+  _gameObject: {_prefab: {fileID: 700497146069650997, guid: 526ca127d42e7e744b78097b9910a3fc,
+      type: 3}, _gpuiPrefab: {fileID: 6125702889856748084, guid: 526ca127d42e7e744b78097b9910a3fc,
+      type: 3}, _prototype: {fileID: 11400000, guid: 0d3aa69e8e3b74942b49de89d2ae223d,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 7011640173106066625, guid: 754e210a827ad6246b93d008920851ff,
+      type: 3}, _gpuiPrefab: {fileID: 2792640104370216583, guid: 754e210a827ad6246b93d008920851ff,
+      type: 3}, _prototype: {fileID: 11400000, guid: aaf3b503e9a1932488a345071691f933,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 526ca127d42e7e744b78097b9910a3fc

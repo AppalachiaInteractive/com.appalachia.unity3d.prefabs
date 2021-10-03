@@ -1,0 +1,159 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_Leather-Fern_tkytbjdia_Var1
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 99
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 10357
+  _contentType:
+    overrideEnabled: 0
+    value: 210
+  _modelType:
+    overrideEnabled: 0
+    value: 200
+  prototypeMetadata: {fileID: 11400000, guid: e3972fe50478a6d4bb2f11cc196c1c32, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: 84f6a00f7051c3941ba4bc902e6b5a2a, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: 21c087a5cefe71f46925600443fe8573, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_Leather-Fern_tkytbjdia_Var1_82250ba5-1c28-4546-8d22-5b968b22376d
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - Fern
+      - Vegetation
+      - VegetationMedium
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: -0.08322841, y: 0.19442874, z: 0.019804835}
+    m_Extent: {x: 0.5908829, y: 0.20188037, z: 0.5274594}
+  cheapestMeshFilter: {fileID: 6865629411598327979, guid: df3c3798b2aa8794bacdd5166547a917,
+    type: 3}
+  cheapestMesh: {fileID: 1460341875272657245, guid: 9357e36250596894589a1851e1bd9be0,
+    type: 3}
+  cheapestMeshVerts:
+  - {x: 0.24549605, y: 0.31789392, z: -0.0043075564}
+  - {x: 0.32639256, y: 0.20418338, z: 0.37014654}
+  - {x: 0.5042426, y: 0.37943792, z: 0.0026583557}
+  - {x: 0.40513042, y: 0.1401043, z: -0.32802328}
+  - {x: 0.17914757, y: 0.24815075, z: -0.17678906}
+  - {x: -0.00032002953, y: -0.0000000032782557, z: -0.0006098069}
+  - {x: -0.00038587, y: 0.110953525, z: -0.49380264}
+  - {x: 0.1811952, y: 0.24815075, z: 0.17912695}
+  - {x: -0.00032002953, y: 0.24815075, z: 0.24606682}
+  - {x: -0.0037992098, y: 0.21418726, z: 0.54726416}
+  - {x: -0.16977675, y: 0.24815074, z: 0.1689741}
+  - {x: -0.37243927, y: 0.17503257, z: 0.29979753}
+  - {x: -0.6625727, y: 0.11095361, z: 0.0011308823}
+  - {x: -0.24805416, y: 0.24815075, z: -0.0005062561}
+  - {x: -0.40315923, y: 0.110953525, z: -0.3862824}
+  - {x: -0.17200847, y: 0.24815075, z: -0.17342116}
+  - {x: -0.00035971904, y: 0.24815075, z: -0.24041024}
+  cheapestMeshTris: 0000000001000000020000000300000000000000020000000300000004000000000000000500000000000000040000000600000004000000030000000000000007000000010000000500000007000000000000000100000007000000080000000500000008000000070000000100000008000000090000000a0000000900000008000000050000000a000000080000000a0000000b000000090000000a0000000c0000000b0000000a0000000d0000000c000000050000000d0000000a0000000e0000000c0000000d0000000e0000000d0000000f000000060000000e0000000f000000050000000f0000000d00000005000000040000001000000006000000100000000400000005000000100000000f000000060000000f00000010000000
+  _modelOptions: {fileID: 11400000, guid: 0cdd46d876c962844a414359bada5207, type: 2}
+  _contentOptions: {fileID: 11400000, guid: 5368bc759facfe94ab2c8a506fd11b98, type: 2}
+  prefab: {fileID: 2530359368242731106, guid: df3c3798b2aa8794bacdd5166547a917, type: 3}

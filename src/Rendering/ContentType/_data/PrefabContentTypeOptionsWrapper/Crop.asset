@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccb21d05f10c4b95b603dcdfd7bae443, type: 3}
+  m_Name: Crop
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  type: 270
+  _options:
+    type: 270
+    isEnabled: 1
+    _dirty:
+      initializerCount: 64
+      values:
+        noTracking: 0
+        _values: 
+        _capacityIncreaseMultiplier: 2
+        _count: 0
+      keys:
+        noTracking: 0
+        _values: []
+        _capacityIncreaseMultiplier: 2
+        _count: 0
+      defaultStateIsDirty: 1
+    _soloed: 0
+    _muted: 0
+  labels:
+    matchStyle: 0
+    terms:
+    - enabled: 1
+      label: Crop
+    exclusionStyle: 0
+    exclusions: []
+  _baseEnabledState: 0

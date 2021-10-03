@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3dplant_White-Ramping-Fumitory_ti4efc3ia_Var2_bd568dce-c1c3-44b4-8f9e-5458553c87d7
+  m_EditorClassIdentifier: 
+  id: 117
+  prefab: {fileID: 1882778425723605987, guid: 510f6f497d5f7f24798293bd601c6ff8, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3dplant_White-Ramping-Fumitory_ti4efc3ia_Var2_bd568dce-c1c3-44b4-8f9e-5458553c87d7
+  vegetationItemID: bd568dce-c1c3-44b4-8f9e-5458553c87d7
+  prefabType: 0
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 0
+  rotationType: 0
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 1
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.031581223, y: 0.3948546, z: 0.025572091}
+    m_Extent: {x: 0.4279103, y: 0.41073692, z: 0.38248646}
+  requiresNormal: 0
+  requiresInstancing: 0

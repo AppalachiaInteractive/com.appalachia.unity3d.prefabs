@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Fallen-Fir-Tree_tkerbglda
+  m_EditorClassIdentifier: 
+  id: 166
+  _gameObject: {_prefab: {fileID: 6565445219579803927, guid: bc0a5a7e6d36fa748886b12e1178da9c,
+      type: 3}, _gpuiPrefab: {fileID: 387464020823484980, guid: bc0a5a7e6d36fa748886b12e1178da9c,
+      type: 3}, _prototype: {fileID: 11400000, guid: 55d2411563ba1494cb04f9e7154e6ed9,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 1091089193121297532, guid: 3e2f7076d5895944fbf624719a8886f8,
+      type: 3}, _gpuiPrefab: {fileID: 6007166922306127825, guid: 3e2f7076d5895944fbf624719a8886f8,
+      type: 3}, _prototype: {fileID: 11400000, guid: 4c5f86c85988f87449980d8aedcc0356,
+      type: 2}}
+  _prefabHashForNoGoGeneration: bc0a5a7e6d36fa748886b12e1178da9c

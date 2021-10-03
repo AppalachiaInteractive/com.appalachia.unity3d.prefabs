@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_Weed-Plant_tbfmfbyr_Var2
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 104
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 1024
+  _contentType:
+    overrideEnabled: 0
+    value: 240
+  _modelType:
+    overrideEnabled: 0
+    value: 200
+  prototypeMetadata: {fileID: 11400000, guid: 4be70400f92c5354f80faf65033d407c, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: 2424fbb084e25a947a14646aef191fa4, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: 4e6afc636069e4744a9cd8b87005017e, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_Weed-Plant_tbfmfbyr_Var2_bd0d8ecd-8b38-4abb-87d4-7eca1840685d
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - GroundCover
+      - Vegetation
+      - VegetationMedium
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: 0.007774953, y: 0.19175287, z: -0.015489671}
+    m_Extent: {x: 0.05942482, y: 0.19274242, z: 0.05257454}
+  cheapestMeshFilter: {fileID: 2108673952725784770, guid: b4182b1345f496d4fa36309d09d3792f,
+    type: 3}
+  cheapestMesh: {fileID: 4796681652512479455, guid: b2910518483ab4e44bc5a5136d259a4d,
+    type: 3}
+  cheapestMeshVerts: []
+  cheapestMeshTris: 
+  _modelOptions: {fileID: 11400000, guid: eb08120541a6ada4da6293a41e7772ad, type: 2}
+  _contentOptions: {fileID: 11400000, guid: 3421a1dbeca66af469882aa3a2a30f76, type: 2}
+  prefab: {fileID: 801789183874194640, guid: b4182b1345f496d4fa36309d09d3792f, type: 3}

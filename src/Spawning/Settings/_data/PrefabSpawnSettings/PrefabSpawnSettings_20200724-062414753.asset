@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1063a2f89b4e85b38bbb1f23e6a89f, type: 3}
+  m_Name: PrefabSpawnSettings_20200724-062414753
+  m_EditorClassIdentifier: 
+  id: 1
+  timing:
+    showAdvanced: 0
+    spawnLimitMax: 60
+    prefabSpawnStyle: 0
+    spawnsPerSecond: 30
+    frameDelay: 60
+  physics:
+    showAdvanced: 0
+    spawnLimitMax: 60
+    rigidbodyMax: 500
+    rigidbodyVelocityActiveThreshold: 0.1
+    addRigidbodies: 1
+    modifyExistingRigidbodies: 0
+    mass: 1
+    drag: 1
+    angularDrag: 1
+    removeRigidbodiesAtLimit: 1
+    rigidbodyLimit: 250
+    dontDeleteActiveRigidbodies: 1
+    delaySpawningUntilRigidbodiesLimited: 1
+  instance:
+    updateSpawnLayer: 0
+    spawnLayer:
+      layer: 0
+  combine:
+    combiningEnabled: 0
+    removeRigidbodiesWhileCombining: 1
+    removeCollidersWhileCombining: 1
+    disableAfterCombining: 1

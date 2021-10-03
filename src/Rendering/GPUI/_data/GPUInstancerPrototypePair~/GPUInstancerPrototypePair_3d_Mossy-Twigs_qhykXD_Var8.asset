@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Mossy-Twigs_qhykXD_Var8
+  m_EditorClassIdentifier: 
+  id: 145
+  _gameObject:
+    _prefab: {fileID: 4197584802579822900, guid: f97773a706eb6f84faf591e22199e612,
+      type: 3}
+    _gpuiPrefab: {fileID: 6847290565622833713, guid: f97773a706eb6f84faf591e22199e612,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: ffd31d27f995392478b7a2ef3b02b832, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 8096609983884304481, guid: 5db4bc344f6de8648bee21769c576a38,
+      type: 3}
+    _gpuiPrefab: {fileID: 7373199306258572367, guid: 5db4bc344f6de8648bee21769c576a38,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 71dd47305b2a8974897c3a5a8ae91084, type: 2}

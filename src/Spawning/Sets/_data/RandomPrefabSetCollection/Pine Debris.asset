@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c5724bb6ca263409048e326b5c9042, type: 3}
+  m_Name: Pine Debris
+  m_EditorClassIdentifier: 
+  id: 1
+  profileName: Pine Debris
+  prefabSets:
+  - enabled: 1
+    spawnLimit: 50
+    set: {fileID: 11400000, guid: 386547490ff8d93488a3cc0e88245dfa, type: 2}
+    setTransform: {fileID: 0}
+  - enabled: 1
+    spawnLimit: 5
+    set: {fileID: 11400000, guid: 92fe1492de9feab46b9f71507b93d326, type: 2}
+    setTransform: {fileID: 0}
+  spawners:
+  - enabled: 0
+    spawnerType: 0
+    instanceDensity: 10
+    prefab: {fileID: 5359695793748850664, guid: ccfdfd5b98713f64ca0079259b14e269,
+      type: 3}
+    sceneObject: {fileID: 0}
+    vegetationPackage: {fileID: 0}
+    vegetationItemID: 
+    prefabRenderingSet: {fileID: 0}
+  - enabled: 1
+    spawnerType: 20
+    instanceDensity: 1
+    prefab: {fileID: 0}
+    sceneObject: {fileID: 0}
+    vegetationPackage: {fileID: 11400000, guid: 5a401cbddcc0e244c9a6b04ea6a4566c,
+      type: 2}
+    vegetationItemID: 
+    prefabRenderingSet: {fileID: 0}
+  - enabled: 0
+    spawnerType: 20
+    instanceDensity: 1
+    prefab: {fileID: 0}
+    sceneObject: {fileID: 0}
+    vegetationPackage: {fileID: 11400000, guid: a971e04db88346143bb5045d6b7f019f,
+      type: 2}
+    vegetationItemID: 
+    prefabRenderingSet: {fileID: 0}
+  - enabled: 0
+    spawnerType: 20
+    instanceDensity: 1
+    prefab: {fileID: 0}
+    sceneObject: {fileID: 0}
+    vegetationPackage: {fileID: 11400000, guid: d9d3a7ec26d5e2048a3e21c90d9a3bae,
+      type: 2}
+    vegetationItemID: 
+    prefabRenderingSet: {fileID: 0}
+  - enabled: 0
+    spawnerType: 20
+    instanceDensity: 1
+    prefab: {fileID: 0}
+    sceneObject: {fileID: 0}
+    vegetationPackage: {fileID: 11400000, guid: b457309d47b1d554a830ac4a3dc72667,
+      type: 2}
+    vegetationItemID: 
+    prefabRenderingSet: {fileID: 0}
+  - enabled: 0
+    spawnerType: 20
+    instanceDensity: 1
+    prefab: {fileID: 0}
+    sceneObject: {fileID: 0}
+    vegetationPackage: {fileID: 11400000, guid: 2fab4f61cfa52db46b460df66ded1710,
+      type: 2}
+    vegetationItemID: 
+    prefabRenderingSet: {fileID: 0}

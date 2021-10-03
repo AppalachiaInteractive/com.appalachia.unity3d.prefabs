@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_White-Ramping-Fumitory_ti4efc3ia_Var6
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 115
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 1024
+  _contentType:
+    overrideEnabled: 0
+    value: 250
+  _modelType:
+    overrideEnabled: 0
+    value: 100
+  prototypeMetadata: {fileID: 11400000, guid: 546121217085687479110800bb5e341e, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: 80d2fab11f2f77e4e91120a67318accc, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: caac32737afe94c43912810d12599169, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_White-Ramping-Fumitory_ti4efc3ia_Var6_5441202b-4378-4d21-9dc0-81616bb59225
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - Plant
+      - Vegetation
+      - VegetationVerySmall
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: 0.002751097, y: 0.018865539, z: -0.010099009}
+    m_Extent: {x: 0.17781527, y: 0.025481543, z: 0.21376516}
+  cheapestMeshFilter: {fileID: 6689998266413239461, guid: 859a069b9b4b8184f8d3ba9e2f0cf993,
+    type: 3}
+  cheapestMesh: {fileID: 1622656910838592595, guid: 21fab5983f3d9e34b992380887edda75,
+    type: 3}
+  cheapestMeshVerts: []
+  cheapestMeshTris: 
+  _modelOptions: {fileID: 11400000, guid: f16ee85fb4cdc3d4392bd2bcc85c48f5, type: 2}
+  _contentOptions: {fileID: 11400000, guid: a7d56f0a653165f428febb1b502a313a, type: 2}
+  prefab: {fileID: 3249851901935072809, guid: 859a069b9b4b8184f8d3ba9e2f0cf993, type: 3}

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_pine-table-mountain_00_sapling_normal_b8d86a40-a6f1-48fb-9a02-5410f69e1a8f
+  m_EditorClassIdentifier: 
+  id: 139
+  prefab: {fileID: 2056343403259280640, guid: 7574a78c76da449409e88e3954234cc4, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: pine-table-mountain_00_sapling_normal_b8d86a40-a6f1-48fb-9a02-5410f69e1a8f
+  vegetationItemID: b8d86a40-a6f1-48fb-9a02-5410f69e1a8f
+  prefabType: 3
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 0
+  adoptTerrainNormal: 0
+  rotationType: 0
+  lightProbeUsage: 2
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.5
+  renderDistanceFactor: 0.5
+  colliderDistanceFactor: 5
+  bounds:
+    m_Center: {x: 0.013394892, y: 1.121299, z: 0.06558335}
+    m_Extent: {x: 1.1813905, y: 4.121299, z: 1.1204544}
+  requiresNormal: 1
+  requiresInstancing: 1

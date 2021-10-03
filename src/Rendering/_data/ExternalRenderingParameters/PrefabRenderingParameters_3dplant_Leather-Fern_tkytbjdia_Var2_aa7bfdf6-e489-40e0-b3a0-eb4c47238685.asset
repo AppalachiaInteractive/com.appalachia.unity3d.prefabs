@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3dplant_Leather-Fern_tkytbjdia_Var2_aa7bfdf6-e489-40e0-b3a0-eb4c47238685
+  m_EditorClassIdentifier: 
+  id: 89
+  prefab: {fileID: 6088912095129013363, guid: 1817c131eff578b4eb54d597d81c23e7, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3dplant_Leather-Fern_tkytbjdia_Var2_aa7bfdf6-e489-40e0-b3a0-eb4c47238685
+  vegetationItemID: aa7bfdf6-e489-40e0-b3a0-eb4c47238685
+  prefabType: 2
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.2
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.059698522, y: 0.17851296, z: 0.07795149}
+    m_Extent: {x: 0.6144129, y: 0.19201154, z: 0.5961599}
+  requiresNormal: 0
+  requiresInstancing: 0

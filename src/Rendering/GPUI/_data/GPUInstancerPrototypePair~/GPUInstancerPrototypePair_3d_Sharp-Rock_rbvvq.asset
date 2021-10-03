@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Sharp-Rock_rbvvq
+  m_EditorClassIdentifier: 
+  id: 99
+  _gameObject: {_prefab: {fileID: 9177660121138504844, guid: 9a5c47182d3f49148b234d81cd490111,
+      type: 3}, _gpuiPrefab: {fileID: 3049157899412867418, guid: 9a5c47182d3f49148b234d81cd490111,
+      type: 3}, _prototype: {fileID: 11400000, guid: f217b15520867164888c1c53d69da784,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 4075796585056741240, guid: 68407dd6f46ceed43a30715b30943720,
+      type: 3}, _gpuiPrefab: {fileID: 6807917271673532889, guid: 68407dd6f46ceed43a30715b30943720,
+      type: 3}, _prototype: {fileID: 11400000, guid: b67ad32e6193c7449aece73a300f5c0d,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 9a5c47182d3f49148b234d81cd490111

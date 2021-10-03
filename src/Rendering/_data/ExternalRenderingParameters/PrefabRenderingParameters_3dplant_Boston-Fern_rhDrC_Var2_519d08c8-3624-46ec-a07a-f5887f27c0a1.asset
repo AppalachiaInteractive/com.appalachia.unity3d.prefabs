@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3dplant_Boston-Fern_rhDrC_Var2_519d08c8-3624-46ec-a07a-f5887f27c0a1
+  m_EditorClassIdentifier: 
+  id: 80
+  prefab: {fileID: 2986390018345311089, guid: 142a94fb878aa7c4f88c5adf243ff6f7, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3dplant_Boston-Fern_rhDrC_Var2_519d08c8-3624-46ec-a07a-f5887f27c0a1
+  vegetationItemID: 519d08c8-3624-46ec-a07a-f5887f27c0a1
+  prefabType: 2
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.2
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.035172343, y: 0.2696282, z: 0.020359218}
+    m_Extent: {x: 0.6079773, y: 0.29729763, z: 0.5937938}
+  requiresNormal: 0
+  requiresInstancing: 0

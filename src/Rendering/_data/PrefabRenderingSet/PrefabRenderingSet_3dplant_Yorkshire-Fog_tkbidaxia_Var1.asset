@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_Yorkshire-Fog_tkbidaxia_Var1
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 116
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 1160
+  _contentType:
+    overrideEnabled: 0
+    value: 250
+  _modelType:
+    overrideEnabled: 0
+    value: 300
+  prototypeMetadata: {fileID: 11400000, guid: d58fa46b014f8024fb853137ca8a55ad, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: a1a2be9fa1adde24a8390341f7826aa6, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: 4303afc0b31f00d41b517bb6e3eb6e08, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_Yorkshire-Fog_tkbidaxia_Var1_c1cdb2dc-ac53-4b76-856b-a0ddfe767dd6
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - Plant
+      - Vegetation
+      - VegetationLarge
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: -0.015543655, y: 0.24700262, z: -0.008484602}
+    m_Extent: {x: 0.22297882, y: 0.3163597, z: 0.15603738}
+  cheapestMeshFilter: {fileID: 2926853708772180424, guid: b3299fccc97c6cf458810bee0b06b3b1,
+    type: 3}
+  cheapestMesh: {fileID: -1590509860296669409, guid: a08e39fdafac81d4f8bdc2d6f95fa88a,
+    type: 3}
+  cheapestMeshVerts: []
+  cheapestMeshTris: 
+  _modelOptions: {fileID: 11400000, guid: f941529326961894d96f3fb8ff9ed43a, type: 2}
+  _contentOptions: {fileID: 11400000, guid: 48f459f959126a747b559d599acfca45, type: 2}
+  prefab: {fileID: 4723951738010007837, guid: b3299fccc97c6cf458810bee0b06b3b1, type: 3}

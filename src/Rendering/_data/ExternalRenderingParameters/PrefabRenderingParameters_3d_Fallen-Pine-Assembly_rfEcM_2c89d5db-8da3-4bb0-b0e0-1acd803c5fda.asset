@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Fallen-Pine-Assembly_rfEcM_2c89d5db-8da3-4bb0-b0e0-1acd803c5fda
+  m_EditorClassIdentifier: 
+  id: 188
+  prefab: {fileID: 1382545599269226988, guid: 56366af9f69edae4bb88b7b947f0449a, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Fallen-Pine-Assembly_rfEcM_2c89d5db-8da3-4bb0-b0e0-1acd803c5fda
+  vegetationItemID: 2c89d5db-8da3-4bb0-b0e0-1acd803c5fda
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 5
+  bounds:
+    m_Center: {x: -0.2401185, y: 0.093379796, z: 0.012449741}
+    m_Extent: {x: 2.826415, y: 0.6556075, z: 3.1209092}
+  requiresNormal: 0
+  requiresInstancing: 1

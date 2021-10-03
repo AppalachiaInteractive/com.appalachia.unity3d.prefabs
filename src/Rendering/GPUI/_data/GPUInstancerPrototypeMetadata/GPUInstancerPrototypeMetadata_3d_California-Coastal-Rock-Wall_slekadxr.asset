@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6705c435dfe048019f53a12f2651494a, type: 3}
+  m_Name: GPUInstancerPrototypeMetadata_3d_California-Coastal-Rock-Wall_slekadxr
+  m_EditorClassIdentifier: 
+  id: 43
+  _originalPrefab: {fileID: 2962557083702550489, guid: d9b5864c1cf9a5e4fb8ff3b9e7dc0c7a,
+    type: 3}
+  _updatedPrefab: {fileID: 111280243489363828, guid: 2a31be394a690e64b988fd10774a8b78,
+    type: 3}
+  _prefabHashForNoGoGeneration: d9b5864c1cf9a5e4fb8ff3b9e7dc0c7a
+  _prototype: {fileID: 11400000, guid: d669302e2b049584c9d083f8603ea7bd, type: 2}
+  hasRigidBody: 0
+  rigidbodyData:
+    useGravity: 0
+    angularDrag: 0
+    mass: 0
+    constraints: 0
+    detectCollisions: 0
+    drag: 0
+    isKinematic: 0
+    interpolation: 0
+    showMass: 0

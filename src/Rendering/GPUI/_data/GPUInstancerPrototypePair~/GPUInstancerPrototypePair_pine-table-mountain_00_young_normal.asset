@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_pine-table-mountain_00_young_normal
+  m_EditorClassIdentifier: 
+  id: 14
+  _gameObject: {_prefab: {fileID: 8257631619004404749, guid: fc95834e940788e4797fe9d3e5501f2e,
+      type: 3}, _gpuiPrefab: {fileID: 6326351886928416028, guid: fc95834e940788e4797fe9d3e5501f2e,
+      type: 3}, _prototype: {fileID: 11400000, guid: bbb85ab9d3ccd5948b4529c8b9335821,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 2827681279721368969, guid: aab70033614dd7d4f99c49016da2f977,
+      type: 3}, _gpuiPrefab: {fileID: 7153200288083637211, guid: aab70033614dd7d4f99c49016da2f977,
+      type: 3}, _prototype: {fileID: 11400000, guid: b4dbcd84fef22954584022f53287ad18,
+      type: 2}}
+  _prefabHashForNoGoGeneration: fc95834e940788e4797fe9d3e5501f2e

@@ -1,0 +1,33 @@
+{
+    "name": "Appalachia.Prefabs.Spawning",
+    "rootNamespace": "",
+    "references": [
+        "GUID:195705ddaa6fe6c42a576177c5d36a5c",
+        "GUID:a15d55b77c0da1b42af8372f5619c965",
+        "GUID:01789cac4a2597b458bedef85a39c3f2",
+        "GUID:873f913f34eb2c34385d17b9a87f21b9",
+        "GUID:4c32fdd75da6bc94f9b79f03f11f5e30",
+        "GUID:52c3a4fa2ed74f14faae11aff711e57d",
+        "GUID:7ec7e612bfbe14a459c7dc59c358e760",
+        "GUID:15a8a4345cdb8584c9a4bab175bd5ded",
+        "GUID:cf75d8bea22d8fb469a2aa239cfc6930",
+        "GUID:a4d999b198ed04a449148ce79f89f0f4",
+        "GUID:4478509a2a02c3644b5cb3c831aca378",
+        "GUID:030cdfbdf31bdb14dae55d9c2249171b",
+        "GUID:b6294acf83d7a2d4ebc14a1f0fb45380",
+        "GUID:1d9bff6eb4c4a694e9d9687c9a3d170b",
+        "GUID:77e5466b8e149524e866bc8a5ebdef0a",
+        "GUID:d8b63aba1907145bea998dd612889d6b",
+        "GUID:e0cd26848372d4e5c891c569017e11f1",
+        "GUID:fb58d5396d4f85044a40c7548929c37d"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

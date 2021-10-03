@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Clover-Variations_rbpof_Var2
+  m_EditorClassIdentifier: 
+  id: 60
+  _gameObject: {_prefab: {fileID: 2838382375350610456, guid: f87345a1766c9a942867bf22ac4c7058,
+      type: 3}, _gpuiPrefab: {fileID: 6503233928390272232, guid: f87345a1766c9a942867bf22ac4c7058,
+      type: 3}, _prototype: {fileID: 11400000, guid: fb703259921e9fb439a11e2435f428c9,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 4343622035167932855, guid: cb282befced896c48a92dcdf61dbd5d7,
+      type: 3}, _gpuiPrefab: {fileID: 9193222236192848511, guid: cb282befced896c48a92dcdf61dbd5d7,
+      type: 3}, _prototype: {fileID: 11400000, guid: c4d171c0103b85347a95b96dc62b9369,
+      type: 2}}
+  _prefabHashForNoGoGeneration: f87345a1766c9a942867bf22ac4c7058

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Rock_sipis
+  m_EditorClassIdentifier: 
+  id: 101
+  _gameObject: {_prefab: {fileID: 5939592738479542573, guid: 7113a6c79c054434587333868d661427,
+      type: 3}, _gpuiPrefab: {fileID: -7218924920122284099, guid: 7113a6c79c054434587333868d661427,
+      type: 3}, _prototype: {fileID: 11400000, guid: 6ac52322996aaa844ace799f1bb2b843,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 7226345386090951269, guid: 15d26a820dfeadd4798969ea8127f798,
+      type: 3}, _gpuiPrefab: {fileID: 1780005562097037531, guid: 15d26a820dfeadd4798969ea8127f798,
+      type: 3}, _prototype: {fileID: 11400000, guid: 91307d42cf8ecb64b80c6df731ebda96,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 7113a6c79c054434587333868d661427

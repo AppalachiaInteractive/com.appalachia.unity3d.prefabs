@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_White-Ramping-Fumitory_ti4efc3ia_Var3
+  m_EditorClassIdentifier: 
+  id: 36
+  _gameObject: {_prefab: {fileID: 999107701488605542, guid: d102b39a0bfdddb4eb9da6d39519a4c8,
+      type: 3}, _gpuiPrefab: {fileID: 8880440339935486218, guid: d102b39a0bfdddb4eb9da6d39519a4c8,
+      type: 3}, _prototype: {fileID: 11400000, guid: 6f3fd1eb9da3211408ef246098186a2d,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 2844482474245614977, guid: 0e296d05afed01c4590bb1f24fa5e508,
+      type: 3}, _gpuiPrefab: {fileID: 9128312858596410847, guid: 0e296d05afed01c4590bb1f24fa5e508,
+      type: 3}, _prototype: {fileID: 11400000, guid: f82f571fbc6314e489dbefdba923a7fb,
+      type: 2}}
+  _prefabHashForNoGoGeneration: d102b39a0bfdddb4eb9da6d39519a4c8

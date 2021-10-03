@@ -1,0 +1,111 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 899152e5f6bb4d4fbafff9fdeb271573, type: 3}
+  m_Name: AssemblyLarge
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  type: 4200
+  _options:
+    type: 4200
+    isEnabled: 1
+    _dirty:
+      initializerCount: 64
+      values:
+        noTracking: 0
+        _values: 
+        _capacityIncreaseMultiplier: 2
+        _count: 0
+      keys:
+        noTracking: 0
+        _values: []
+        _capacityIncreaseMultiplier: 2
+        _count: 0
+      defaultStateIsDirty: 1
+    _soloed: 0
+    _muted: 0
+    minimumRenderingDistance: 0
+    maximumRenderingDistance: 200
+    layer:
+      layer: 0
+    frustum:
+      fovOffset: 0
+      aspectOffset: 1
+      depthOffset: 0
+      nearPlaneOffset: 0
+      farPlaneOffset: 0
+    rangeSettings:
+    - enabled: 1
+      showRangeLimit: 1
+      rangeLimit: 20
+      frustumOverridesRange: 1
+      outOfFrustumRangeLimit: 4
+      rendering: 2
+      physics: 1
+      interactions: 2
+    - enabled: 1
+      showRangeLimit: 0
+      rangeLimit: 3.4028235e+38
+      frustumOverridesRange: 1
+      outOfFrustumRangeLimit: 8.5070587e+37
+      rendering: 2
+      physics: 2
+      interactions: 2
+    normalLighting:
+      lightProbeUsage: 1
+      forceAdditionalShadowPass: 0
+      isShadowCasting: 1
+      isShadowReceiving: 1
+      cullShadows: 1
+      useOriginalShaderForShadow: 0
+      useCustomShadowDistance: 0
+      shadowRenderingDistance: 0
+      instancedShader: 1
+    instancedLighting:
+      lightProbeUsage: 1
+      forceAdditionalShadowPass: 0
+      isShadowCasting: 1
+      isShadowReceiving: 1
+      cullShadows: 1
+      useOriginalShaderForShadow: 0
+      useCustomShadowDistance: 0
+      shadowRenderingDistance: 0
+      instancedShader: 1
+    cullingSettings:
+      isFrustumCulling: 1
+      frustumOffset: 0.2
+      isOcclusionCulling: 0
+      occlusionOffset: 0
+      occlusionAccuracy: 1
+      minCullingDistance: 0
+      updateCullingEveryIteration: 0
+      updateCullingEveryXFrames: 3
+    distanceFalloffSettings:
+      useDistanceFalloff: 1
+      distanceFalloffStartDistance: 0.8
+    lodFadeSettings:
+      lodBiasAdjustment: 1
+      useLODCrossFade: 0
+      animateLODCrossFade: 0
+      lodFadeTransitionWidth: 0.2
+    burialOptions:
+      buryMesh: 1
+      adoptTerrainNormal: 1
+      adjustmentStrength: 1
+  labels:
+    matchStyle: 0
+    terms:
+    - enabled: 1
+      label: AssemblyLarge
+    exclusionStyle: 0
+    exclusions: []
+  _baseEnabledState: 0

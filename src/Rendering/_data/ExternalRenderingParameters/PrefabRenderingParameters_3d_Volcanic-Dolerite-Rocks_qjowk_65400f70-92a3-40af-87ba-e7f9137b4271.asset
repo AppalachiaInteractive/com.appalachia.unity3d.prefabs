@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Volcanic-Dolerite-Rocks_qjowk_65400f70-92a3-40af-87ba-e7f9137b4271
+  m_EditorClassIdentifier: 
+  id: 56
+  prefab: {fileID: 2939372085183901495, guid: 4fbaec156fb3f5b4988b4516b51ff3a0, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Volcanic-Dolerite-Rocks_qjowk_65400f70-92a3-40af-87ba-e7f9137b4271
+  vegetationItemID: 65400f70-92a3-40af-87ba-e7f9137b4271
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.3
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 3
+  bounds:
+    m_Center: {x: -0.008072674, y: 0.14959174, z: -0.02414009}
+    m_Extent: {x: 0.2903394, y: 0.23172781, z: 0.22210667}
+  requiresNormal: 0
+  requiresInstancing: 1

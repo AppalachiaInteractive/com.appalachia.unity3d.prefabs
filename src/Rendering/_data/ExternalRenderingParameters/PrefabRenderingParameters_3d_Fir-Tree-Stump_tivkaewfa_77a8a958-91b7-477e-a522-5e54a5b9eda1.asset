@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Fir-Tree-Stump_tivkaewfa_77a8a958-91b7-477e-a522-5e54a5b9eda1
+  m_EditorClassIdentifier: 
+  id: 158
+  prefab: {fileID: 1968394952433598215, guid: a0f5aede9db6fcc47a307196f54aafa2, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Fir-Tree-Stump_tivkaewfa_77a8a958-91b7-477e-a522-5e54a5b9eda1
+  vegetationItemID: 77a8a958-91b7-477e-a522-5e54a5b9eda1
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 1
+  adoptTerrainNormal: 0
+  rotationType: 0
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 0
+  distanceFalloffStartDistance: 0.4
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: -0.065320164, y: 1.037374, z: -0.011629581}
+    m_Extent: {x: 0.39076087, y: 1.0505698, z: 0.4021533}
+  requiresNormal: 0
+  requiresInstancing: 1

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_pine-pitch_00_mature_normal
+  m_EditorClassIdentifier: 
+  id: 24
+  _gameObject: {_prefab: {fileID: 4406492905163422006, guid: 4c71f88770660224e9de07dd173a04ba,
+      type: 3}, _gpuiPrefab: {fileID: 2193534566291438984, guid: 4c71f88770660224e9de07dd173a04ba,
+      type: 3}, _prototype: {fileID: 11400000, guid: d228e6ba99589b246b58b5e23cd05a2f,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 8513801617062222099, guid: 1004080c451964e4086a990c2da29cd5,
+      type: 3}, _gpuiPrefab: {fileID: 4372967305275195318, guid: 1004080c451964e4086a990c2da29cd5,
+      type: 3}, _prototype: {fileID: 11400000, guid: 654abf86ab3269b4bb7ee6430c627dd1,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 4c71f88770660224e9de07dd173a04ba

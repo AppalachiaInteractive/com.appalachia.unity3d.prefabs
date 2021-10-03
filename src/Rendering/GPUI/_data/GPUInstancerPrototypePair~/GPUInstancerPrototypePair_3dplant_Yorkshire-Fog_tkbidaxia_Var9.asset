@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Yorkshire-Fog_tkbidaxia_Var9
+  m_EditorClassIdentifier: 
+  id: 47
+  _gameObject:
+    _prefab: {fileID: 6698855239881667280, guid: 410b995f5f4569746a740ce50a2361c3,
+      type: 3}
+    _gpuiPrefab: {fileID: 8864112192269988768, guid: 410b995f5f4569746a740ce50a2361c3,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 1a7bd31d8ed5e7f4ab437fc0ac580f9b, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 2018789033529755813, guid: 492e9d98a4d6f214989bced6208db6fb,
+      type: 3}
+    _gpuiPrefab: {fileID: 8394320154241664278, guid: 492e9d98a4d6f214989bced6208db6fb,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 1688e39be278e5246a78107a8d48a0ff, type: 2}

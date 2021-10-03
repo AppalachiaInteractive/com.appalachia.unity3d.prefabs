@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Fallen-Pine-Assembly_rfEcM
+  m_EditorClassIdentifier: 
+  id: 162
+  _gameObject: {_prefab: {fileID: 1382545599269226988, guid: 56366af9f69edae4bb88b7b947f0449a,
+      type: 3}, _gpuiPrefab: {fileID: 8768702937564984468, guid: 56366af9f69edae4bb88b7b947f0449a,
+      type: 3}, _prototype: {fileID: 11400000, guid: 01385641b4da33349af9cfd840f588a2,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 2972196318516952643, guid: 1b6545160691e464bbdfc85614566d36,
+      type: 3}, _gpuiPrefab: {fileID: 7184999757066496667, guid: 1b6545160691e464bbdfc85614566d36,
+      type: 3}, _prototype: {fileID: 11400000, guid: a6a702698d18e0d41b684dd444c8ca74,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 56366af9f69edae4bb88b7b947f0449a

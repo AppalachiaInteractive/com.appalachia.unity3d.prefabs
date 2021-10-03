@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Common-Fern_rhDso_Var1
+  m_EditorClassIdentifier: 
+  id: 78
+  _gameObject: {_prefab: {fileID: 8579308698539126922, guid: c8ffffb7898512f429405c5c5447f0b4,
+      type: 3}, _gpuiPrefab: {fileID: 1689930762615197593, guid: c8ffffb7898512f429405c5c5447f0b4,
+      type: 3}, _prototype: {fileID: 11400000, guid: 2732145b6a95ca541af3ba1c3f08c14c,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 517148888176817924, guid: f29a904fb21ce6c498f6c98433c74448,
+      type: 3}, _gpuiPrefab: {fileID: 3684581947378492509, guid: f29a904fb21ce6c498f6c98433c74448,
+      type: 3}, _prototype: {fileID: 11400000, guid: a0be02f0d9022ef4cb80f8d8cf30abac,
+      type: 2}}
+  _prefabHashForNoGoGeneration: c8ffffb7898512f429405c5c5447f0b4

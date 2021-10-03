@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_Sphere_Red
+  m_EditorClassIdentifier: 
+  id: 4
+  _gameObject:
+    _prefab: {fileID: 7483064610004763241, guid: 5f33c51d79820004ab756fbe44bc0102,
+      type: 3}
+    _gpuiPrefab: {fileID: 829071268251695378, guid: 5f33c51d79820004ab756fbe44bc0102,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 65b66aaf71371f94ba2cadeb05a318de, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 2451161839459266556, guid: 5cd270f1a02e2f04c8537f1c66c69c6d,
+      type: 3}
+    _gpuiPrefab: {fileID: 8013892867668480089, guid: 5cd270f1a02e2f04c8537f1c66c69c6d,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: c25f536664ec91645b51b387b1f3f7d1, type: 2}

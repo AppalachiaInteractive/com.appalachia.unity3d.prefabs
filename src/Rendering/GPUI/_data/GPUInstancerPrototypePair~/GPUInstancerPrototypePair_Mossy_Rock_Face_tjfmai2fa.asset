@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_Mossy_Rock_Face_tjfmai2fa
+  m_EditorClassIdentifier: 
+  id: 167
+  _gameObject: {_prefab: {fileID: 5560352911953985366, guid: 29e6ceb6f4a96de409591c6c4fd33c34,
+      type: 3}, _gpuiPrefab: {fileID: 442418948046881358, guid: 29e6ceb6f4a96de409591c6c4fd33c34,
+      type: 3}, _prototype: {fileID: 11400000, guid: 06cbe847a1147de47a0fe30b2b9dad39,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 6969199887169455561, guid: f5c133e029d1b0c40bc3d31221598072,
+      type: 3}, _gpuiPrefab: {fileID: 31050291400501716, guid: f5c133e029d1b0c40bc3d31221598072,
+      type: 3}, _prototype: {fileID: 11400000, guid: 4221ac07f5daf6e4c8ae05cac528ed4e,
+      type: 2}}
+  _prefabHashForNoGoGeneration: 29e6ceb6f4a96de409591c6c4fd33c34

@@ -1,0 +1,148 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_Fern_rmAsg_Var3
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 95
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 10413
+  _contentType:
+    overrideEnabled: 0
+    value: 210
+  _modelType:
+    overrideEnabled: 0
+    value: 200
+  prototypeMetadata: {fileID: 11400000, guid: 32023461081497b4481c730ef5d176e0, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: 619335fc4923e834e9fe46be99795114, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: d81e13549e6cab245bf7ab2dc5b2c8bc, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_Fern_rmAsg_Var3_369f09c8-f56e-4ff2-b63d-90d820baf14a
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - Fern
+      - Vegetation
+      - VegetationMedium
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: 0.036202013, y: 0.21261552, z: -0.035924762}
+    m_Extent: {x: 0.5663748, y: 0.24732408, z: 0.47276118}
+  cheapestMeshFilter: {fileID: 184115760161894975, guid: 1977f5d60856bf54aac778fed503a089,
+    type: 3}
+  cheapestMesh: {fileID: 427879364790997274, guid: 7ac653dfb9560e14cb0fb55a51e5490e,
+    type: 3}
+  cheapestMeshVerts:
+  - {x: 0.60257673, y: 0.2853614, z: 0.000000019073486}
+  - {x: 0.36819243, y: 0.43362227, z: 0.000000038146972}
+  - {x: -0.22280438, y: 0.4599396, z: 0.000000038146972}
+  - {x: -0.41203848, y: 0.37751007, z: 0.000000038146972}
+  - {x: 0.3306723, y: -0.03470856, z: -0.0000000333786}
+  - {x: -0.38232893, y: -0.02415407, z: -0.0000000333786}
+  cheapestMeshTris: 000000000100000002000000000000000200000003000000040000000000000003000000040000000300000005000000
+  _modelOptions: {fileID: 11400000, guid: a954251a338066040a8bfc50fd4ab872, type: 2}
+  _contentOptions: {fileID: 11400000, guid: d16c50aee4d791c4eb079c0a94eff3bb, type: 2}
+  prefab: {fileID: 1161289666103952633, guid: 1977f5d60856bf54aac778fed503a089, type: 3}

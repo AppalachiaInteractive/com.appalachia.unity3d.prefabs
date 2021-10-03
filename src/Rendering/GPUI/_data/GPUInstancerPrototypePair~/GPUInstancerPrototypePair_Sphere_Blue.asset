@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_Sphere_Blue
+  m_EditorClassIdentifier: 
+  id: 2
+  _gameObject:
+    _prefab: {fileID: 7483064610004763241, guid: 67530f029558b4f4ebb57b3a48d36f91,
+      type: 3}
+    _gpuiPrefab: {fileID: 6449180819898260106, guid: 67530f029558b4f4ebb57b3a48d36f91,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 95691da3465e3a94ba94d4837e0b5c18, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 7185222942877411377, guid: 1cd210bb79ab0274dbcd957189e1acad,
+      type: 3}
+    _gpuiPrefab: {fileID: 4048731448830647909, guid: 1cd210bb79ab0274dbcd957189e1acad,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 3e21d7b1f4ee58a448942302100d02db, type: 2}

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Granite-Rock-Assembly_reFto_651e4551-a658-4188-9165-009d830b141c
+  m_EditorClassIdentifier: 
+  id: 180
+  prefab: {fileID: 7936535911094540645, guid: 532b7bfc64a93764d90375e87c446d3f, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Granite-Rock-Assembly_reFto_651e4551-a658-4188-9165-009d830b141c
+  vegetationItemID: 651e4551-a658-4188-9165-009d830b141c
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.2
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 3
+  bounds:
+    m_Center: {x: 0.08520424, y: 0.018056553, z: 0.09197056}
+    m_Extent: {x: 0.9201281, y: 0.0795703, z: 0.7742864}
+  requiresNormal: 0
+  requiresInstancing: 1

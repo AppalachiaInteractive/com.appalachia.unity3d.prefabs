@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Mossy-Rock_ti4sfikda_2fe08208-f313-42fc-8fe2-0b33a0eecc7b
+  m_EditorClassIdentifier: 
+  id: 38
+  prefab: {fileID: 8584532751980974262, guid: aeca3819ddacd044d8b146732739112c, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Mossy-Rock_ti4sfikda_2fe08208-f313-42fc-8fe2-0b33a0eecc7b
+  vegetationItemID: 2fe08208-f313-42fc-8fe2-0b33a0eecc7b
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 0
+  distanceFalloffStartDistance: 0.4
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: 0.00145787, y: 0.253466, z: 0.0005155206}
+    m_Extent: {x: 0.54420125, y: 0.27047253, z: 0.48709568}
+  requiresNormal: 0
+  requiresInstancing: 1

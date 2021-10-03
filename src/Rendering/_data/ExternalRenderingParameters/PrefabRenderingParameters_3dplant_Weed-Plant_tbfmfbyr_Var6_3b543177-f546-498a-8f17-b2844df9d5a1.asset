@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3dplant_Weed-Plant_tbfmfbyr_Var6_3b543177-f546-498a-8f17-b2844df9d5a1
+  m_EditorClassIdentifier: 
+  id: 127
+  prefab: {fileID: 6372596996077439979, guid: 3e0d51fd95876ec4c9bb006153a1c5f7, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3dplant_Weed-Plant_tbfmfbyr_Var6_3b543177-f546-498a-8f17-b2844df9d5a1
+  vegetationItemID: 3b543177-f546-498a-8f17-b2844df9d5a1
+  prefabType: 0
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 0
+  rotationType: 0
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 1
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 1
+  bounds:
+    m_Center: {x: -0.04157979, y: 0.09135247, z: -0.014566414}
+    m_Extent: {x: 0.07529387, y: 0.093834884, z: 0.050459243}
+  requiresNormal: 0
+  requiresInstancing: 0

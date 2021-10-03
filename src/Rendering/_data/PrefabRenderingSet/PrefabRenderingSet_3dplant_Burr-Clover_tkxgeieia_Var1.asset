@@ -1,0 +1,163 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0b68112ddd24b6eb8a1ca74fc4f8579, type: 3}
+  m_Name: PrefabRenderingSet_3dplant_Burr-Clover_tkxgeieia_Var1
+  m_EditorClassIdentifier: 
+  _niceName: 
+  _cachedName: 
+  id: 78
+  renderingEnabled: 0
+  _soloed: 0
+  _muted: 0
+  _instanceManager:
+    _adoptedBaseSize: 1024
+  _contentType:
+    overrideEnabled: 0
+    value: 240
+  _modelType:
+    overrideEnabled: 0
+    value: 100
+  prototypeMetadata: {fileID: 11400000, guid: ccc5e16e7b1bfd14ebedd8bc9346b234, type: 2}
+  useLocations: 0
+  locations: {fileID: 11400000, guid: ddb5f4aea66a3e14dbc758dabcce129e, type: 2}
+  _externalParameters:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - {fileID: 11400000, guid: e3e27f2b019c5be4daa3b608655d2850, type: 2}
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+    keys:
+      noTracking: 0
+      _values:
+      - 3dplant_Burr-Clover_tkxgeieia_Var1_cb48592d-253f-4d1b-a48c-56d9cbfcf1b1
+      _capacityIncreaseMultiplier: 2
+      _count: 1
+  modifications:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values: []
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+    keys:
+      noTracking: 0
+      _values: 
+      _capacityIncreaseMultiplier: 2
+      _count: 0
+  useReplacement: 0
+  replacement: {fileID: 0}
+  labels:
+    initializerCount: 64
+    values:
+      noTracking: 0
+      _values:
+      - GroundCover
+      - Vegetation
+      - VegetationVerySmall
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _capacityIncreaseMultiplier: 2
+      _count: 3
+  bounds:
+    m_Center: {x: 0.004857436, y: 0.060242668, z: -0.015472919}
+    m_Extent: {x: 0.2054158, y: 0.070487455, z: 0.23171449}
+  cheapestMeshFilter: {fileID: 4972914328568946646, guid: 3f1885a7cda2d9d4aab0517c13862832,
+    type: 3}
+  cheapestMesh: {fileID: 1057966066747707363, guid: 315b0614403324f4d8e4788edc82f9fe,
+    type: 3}
+  cheapestMeshVerts:
+  - {x: -0.061759703, y: 0.0076612183, z: 0.09169886}
+  - {x: -0.12459775, y: 0.02726181, z: 0.18461254}
+  - {x: 0.006786398, y: 0.027264347, z: 0.21215999}
+  - {x: -0.11012459, y: 0.027261786, z: 0.044617195}
+  - {x: 0.003932362, y: 0.0076624868, z: 0.1054726}
+  - {x: 0.104988, y: 0.027261801, z: 0.12684977}
+  - {x: 0.0010783857, y: 0, z: -0.0012146984}
+  - {x: -0.08958226, y: 0.007663746, z: 0.035351023}
+  - {x: 0.06824266, y: 0.007666292, z: 0.08159209}
+  - {x: -0.20055827, y: 0.027261779, z: -0.017079132}
+  - {x: 0.10567568, y: 0.0076612043, z: 0.03287377}
+  - {x: 0.21027313, y: 0.027261795, z: 0.06696222}
+  - {x: -0.09974003, y: 0.0076611987, z: -0.009146931}
+  - {x: -0.16013494, y: 0.027261762, z: -0.119966626}
+  - {x: 0.10606398, y: 0.0076611983, z: -0.011001301}
+  - {x: 0.19337308, y: 0.027261779, z: -0.012838732}
+  - {x: -0.07952834, y: 0.00766119, z: -0.06059068}
+  - {x: -0.064882495, y: 0.027261734, z: -0.24718721}
+  - {x: 0.06723257, y: 0.00766119, z: -0.090875775}
+  - {x: 0.13338698, y: 0.027261753, z: -0.18053691}
+  - {x: -0.0244815, y: 0.00766118, z: -0.10927316}
+  cheapestMeshTris: 0000000001000000020000000000000003000000010000000000000002000000040000000400000002000000050000000000000004000000060000000700000000000000060000000000000007000000030000000400000008000000060000000400000005000000080000000700000009000000030000000a0000000800000005000000080000000a000000060000000a000000050000000b000000070000000c000000090000000c00000007000000060000000c0000000d000000090000000e0000000a0000000b000000060000000a0000000e0000000e0000000b0000000f0000000c000000100000000d00000006000000100000000c00000010000000110000000d000000120000000e0000000f000000060000000e00000012000000120000000f00000013000000100000001400000011000000140000001000000006000000060000001200000014000000140000001200000013000000140000001300000011000000
+  _modelOptions: {fileID: 11400000, guid: 0cb61e1b5f96a43498b60c3cfef8cb5c, type: 2}
+  _contentOptions: {fileID: 11400000, guid: ce110cb86e60f9c4ca754084c942699b, type: 2}
+  prefab: {fileID: 6738791599766706297, guid: 3f1885a7cda2d9d4aab0517c13862832, type: 3}

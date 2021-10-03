@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Icelandic-Mossy-Rock_tfymajyda
+  m_EditorClassIdentifier: 
+  id: 126
+  _gameObject:
+    _prefab: {fileID: 1835827269107128434, guid: 5b73c3af4694f6a428cda8518252a120,
+      type: 3}
+    _gpuiPrefab: {fileID: 2766021905357165583, guid: 5b73c3af4694f6a428cda8518252a120,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: d77675100dc98d94386261eb22c8a26f, type: 2}
+  _noGameObject:
+    _prefab: {fileID: 7436088388402347131, guid: d3da4b7a4bad54541bd9e4add9fa3ad6,
+      type: 3}
+    _gpuiPrefab: {fileID: 4295523303943939464, guid: d3da4b7a4bad54541bd9e4add9fa3ad6,
+      type: 3}
+    _prototype: {fileID: 11400000, guid: 4d6ad3d3e679e07468e46032ff76de84, type: 2}

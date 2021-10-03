@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_pine-virginia_00_adult_normal
+  m_EditorClassIdentifier: 
+  id: 13
+  _gameObject: {_prefab: {fileID: 2292502537722159888, guid: d46c1c75ead448440812fa9f9b4b369e,
+      type: 3}, _gpuiPrefab: {fileID: 7499673130679218809, guid: d46c1c75ead448440812fa9f9b4b369e,
+      type: 3}, _prototype: {fileID: 11400000, guid: b93ea3caf42fded4babfc01951708f6e,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 8562549375431543176, guid: d8303c6f45e8c5e4dbad0e69c2f13f37,
+      type: 3}, _gpuiPrefab: {fileID: 6011432482171515387, guid: d8303c6f45e8c5e4dbad0e69c2f13f37,
+      type: 3}, _prototype: {fileID: 11400000, guid: 79992732d8c17d94bb120a9da7797ad8,
+      type: 2}}
+  _prefabHashForNoGoGeneration: d46c1c75ead448440812fa9f9b4b369e

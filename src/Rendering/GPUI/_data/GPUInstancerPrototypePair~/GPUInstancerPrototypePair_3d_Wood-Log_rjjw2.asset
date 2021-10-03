@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3d_Wood-Log_rjjw2
+  m_EditorClassIdentifier: 
+  id: 165
+  _gameObject: {_prefab: {fileID: 584032717033072866, guid: a41119d1f73f83f4d93cc350e8ad9aa8,
+      type: 3}, _gpuiPrefab: {fileID: 3775814635744080798, guid: a41119d1f73f83f4d93cc350e8ad9aa8,
+      type: 3}, _prototype: {fileID: 11400000, guid: 40695e451414b9647b82046f5be93ff6,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 3888693623137538593, guid: b64dccee12909754fa50f14b1622534d,
+      type: 3}, _gpuiPrefab: {fileID: 7467815080894922563, guid: b64dccee12909754fa50f14b1622534d,
+      type: 3}, _prototype: {fileID: 11400000, guid: 513803714858aa64aaef61b4e0b40aec,
+      type: 2}}
+  _prefabHashForNoGoGeneration: a41119d1f73f83f4d93cc350e8ad9aa8

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_model_pine-oak_depression_pine-pitch-shortleaf_fab775f7-6b99-46f2-8722-340230545150
+  m_EditorClassIdentifier: 
+  id: 152
+  prefab: {fileID: 7483064610004763241, guid: 67530f029558b4f4ebb57b3a48d36f91, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: model_pine-oak_depression_pine-pitch-shortleaf_fab775f7-6b99-46f2-8722-340230545150
+  vegetationItemID: fab775f7-6b99-46f2-8722-340230545150
+  prefabType: 1
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 0
+  enableExternalRendering: 0
+  buryMesh: 0
+  adoptTerrainNormal: 0
+  rotationType: 4
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 1
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 0
+  distanceFalloffStartDistance: 0.4
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 0.15
+  bounds:
+    m_Center: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 0.5, y: 0.5, z: 0.5}
+  requiresNormal: 0
+  requiresInstancing: 0

@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_3d_Fallen-Fir-Tree_tkerbglda_29a10244-177b-484f-a6f3-6e02a7d0e417
+  m_EditorClassIdentifier: 
+  id: 184
+  prefab: {fileID: 6565445219579803927, guid: bc0a5a7e6d36fa748886b12e1178da9c, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: 3d_Fallen-Fir-Tree_tkerbglda_29a10244-177b-484f-a6f3-6e02a7d0e417
+  vegetationItemID: 29a10244-177b-484f-a6f3-6e02a7d0e417
+  prefabType: 4
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 1
+  adoptTerrainNormal: 1
+  rotationType: 7
+  lightProbeUsage: 1
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.1
+  renderDistanceFactor: 1
+  colliderDistanceFactor: 5
+  bounds:
+    m_Center: {x: 2.7183883, y: 0.44537655, z: 0.04799813}
+    m_Extent: {x: 3.6478071, y: 0.45744237, z: 0.96829236}
+  requiresNormal: 0
+  requiresInstancing: 1

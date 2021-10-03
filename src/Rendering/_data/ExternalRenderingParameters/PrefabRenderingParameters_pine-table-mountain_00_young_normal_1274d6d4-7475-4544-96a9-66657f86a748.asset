@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d708365cb9e141b5aa513f27c2216ae6, type: 3}
+  m_Name: PrefabRenderingParameters_pine-table-mountain_00_young_normal_1274d6d4-7475-4544-96a9-66657f86a748
+  m_EditorClassIdentifier: 
+  id: 140
+  prefab: {fileID: 8257631619004404749, guid: fc95834e940788e4797fe9d3e5501f2e, type: 3}
+  replacement: {fileID: 0}
+  identifyingKey: pine-table-mountain_00_young_normal_1274d6d4-7475-4544-96a9-66657f86a748
+  vegetationItemID: 1274d6d4-7475-4544-96a9-66657f86a748
+  prefabType: 3
+  deferSettingsToAnother: 0
+  enableRuntimeSpawn: 1
+  enableExternalRendering: 1
+  buryMesh: 0
+  adoptTerrainNormal: 0
+  rotationType: 0
+  lightProbeUsage: 2
+  lightProbeProxyVolume: {fileID: 0}
+  disableShadows: 0
+  cullShadows: 0
+  lodFactor: 1
+  useDistanceFalloff: 1
+  distanceFalloffStartDistance: 0.5
+  renderDistanceFactor: 0.5
+  colliderDistanceFactor: 5
+  bounds:
+    m_Center: {x: 0.52113837, y: 2.8184276, z: 0.35466665}
+    m_Extent: {x: 2.182029, y: 5.8184276, z: 2.1113932}
+  requiresNormal: 1
+  requiresInstancing: 1

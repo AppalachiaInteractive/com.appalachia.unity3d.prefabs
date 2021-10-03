@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da674912cb0d4619b96c920a834746b7, type: 3}
+  m_Name: GPUInstancerPrototypePair_3dplant_Prickly-Shield-Fern_tkvifeyia_Var2
+  m_EditorClassIdentifier: 
+  id: 63
+  _gameObject: {_prefab: {fileID: 5238049096160762468, guid: aadd8743c54f36a418f985b5475b0f81,
+      type: 3}, _gpuiPrefab: {fileID: 3905347220364162461, guid: aadd8743c54f36a418f985b5475b0f81,
+      type: 3}, _prototype: {fileID: 11400000, guid: cba0ee81545ec0741a8a5fb98bb73a5b,
+      type: 2}}
+  _noGameObject: {_prefab: {fileID: 4851743301624471589, guid: 05e11753a6528554bb01e58690653bd9,
+      type: 3}, _gpuiPrefab: {fileID: 3196534122679017186, guid: 05e11753a6528554bb01e58690653bd9,
+      type: 3}, _prototype: {fileID: 11400000, guid: 0c4d41a9fa3008f4bbeee317aae2e673,
+      type: 2}}
+  _prefabHashForNoGoGeneration: aadd8743c54f36a418f985b5475b0f81
