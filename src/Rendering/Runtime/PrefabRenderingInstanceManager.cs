@@ -31,24 +31,105 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Rendering.Runtime
 {
-
     [Serializable]
-    public class PrefabRenderingInstanceManager : InternalBase<PrefabRenderingInstanceManager>, IDisposable
+    public class PrefabRenderingInstanceManager : InternalBase<PrefabRenderingInstanceManager>,
+                                                  IDisposable
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstanceManager) + ".";
-        
+
         private const int BaseSize = 1024;
 
-        [SerializeField] private int _adoptedBaseSize = BaseSize;
+        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
 
-        /// <summary>
-        ///     The value at the beginning of the previous frame.
-        /// </summary>
-        [NonSerialized]
-        [ShowInInspector]
-        [SmartLabel]
-        [Sirenix.OdinInspector.ReadOnly]
-        private RuntimeStateCode _previousState = RuntimeStateCode.NotReady;
+        private static readonly ProfilerMarker
+            _PRF_ResetExternalParameterCollectionsBeforeExecution =
+                new(_PRF_PFX + nameof(ResetExternalParameterCollectionsBeforeExecution));
+
+        private static readonly ProfilerMarker _PRF_InstantiateNewInstances =
+            new(_PRF_PFX + nameof(InstantiateNewInstances));
+
+        private static readonly ProfilerMarker _PRF_IsExternalStateValidForExecution =
+            new(_PRF_PFX + nameof(IsExternalStateValidForExecution));
+
+        private static readonly ProfilerMarker _PRF_UpdateNextState =
+            new(_PRF_PFX + nameof(UpdateNextState));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize =
+            new(_PRF_PFX + nameof(OnUpdate_Initialize));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Data =
+            new(_PRF_PFX + nameof(OnUpdate_Initialize_Data));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Jobs =
+            new(_PRF_PFX + nameof(OnUpdate_Initialize_Jobs));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute =
+            new(_PRF_PFX + nameof(OnUpdate_Execute));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Frustum =
+            new(_PRF_PFX + nameof(OnUpdate_Execute) + ".Frustum");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_Prepare =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".Prepare");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_CopySettings =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".CopySettings");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleTransfer =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleTransfer");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleEnabled =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleEnabled");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleDisabled =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleDisabled");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleCounts =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleCounts");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize =
+            new(_PRF_PFX + nameof(OnLateUpdate_Initialize));
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize_InitializeNative =
+            new(_PRF_PFX + nameof(OnLateUpdate_Initialize) + ".InitializeNative");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute));
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckDisabled =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckDisabled");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_Processing =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".Processing");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GPUMatrixPush =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GPUMatrixPush");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GetInstanceAndState =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GetInstanceAndState");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_FinalErrorCheck =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".FinalErrorCheck");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckErrors =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckErrors");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_SetCounts =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".SetCounts");
+
+        private static readonly ProfilerMarker _PRF_PushAllGPUMatrices =
+            new(_PRF_PFX + nameof(PushAllGPUMatrices));
+
+        private static readonly ProfilerMarker _PRF_TearDownInstances =
+            new(_PRF_PFX + nameof(TearDownInstances));
+
+        private static readonly ProfilerMarker _PRF_TearDownInstances_UpdateInstancesAndPush =
+            new(_PRF_PFX + nameof(TearDownInstances) + ".UpdateInstancesAndPush");
+
+        [SerializeField] private int _adoptedBaseSize = BaseSize;
 
         /// <summary>
         ///     The value as the beginning of the current frame;
@@ -58,6 +139,15 @@ namespace Appalachia.Prefabs.Rendering.Runtime
         [SmartLabel]
         [Sirenix.OdinInspector.ReadOnly]
         private RuntimeStateCode _currentState = RuntimeStateCode.NotReady;
+
+        [NonSerialized]
+        [ShowInInspector]
+        [SmartLabel]
+        [Sirenix.OdinInspector.ReadOnly]
+        private RuntimeSupplementalStateCode _currentSupplementalStateCode;
+
+        [NonSerialized] private RuntimePrefabRenderingElement _element;
+        [NonSerialized] private NativeList<bool> _externalParameterEnabledState;
 
         /// <summary>
         ///     The value at the beginning of the next frame.
@@ -72,34 +162,39 @@ namespace Appalachia.Prefabs.Rendering.Runtime
         [ShowInInspector]
         [SmartLabel]
         [Sirenix.OdinInspector.ReadOnly]
+        private RuntimeSupplementalStateCode _nextSupplementalStateCode;
+
+        [NonSerialized] private GameObject _prefabInstanceRoot;
+
+        /// <summary>
+        ///     The value at the beginning of the previous frame.
+        /// </summary>
+        [NonSerialized]
+        [ShowInInspector]
+        [SmartLabel]
+        [Sirenix.OdinInspector.ReadOnly]
+        private RuntimeStateCode _previousState = RuntimeStateCode.NotReady;
+
+        [NonSerialized]
+        [ShowInInspector]
+        [SmartLabel]
+        [Sirenix.OdinInspector.ReadOnly]
         private RuntimeSupplementalStateCode _previousSupplementalStateCode;
 
-        [NonSerialized]
-        [ShowInInspector]
-        [SmartLabel]
-        [Sirenix.OdinInspector.ReadOnly]
-        private RuntimeSupplementalStateCode _currentSupplementalStateCode;
-
-        [NonSerialized]
-        [ShowInInspector]
-        [SmartLabel]
-        [Sirenix.OdinInspector.ReadOnly]
-        private RuntimeSupplementalStateCode _nextSupplementalStateCode;
+        [NonSerialized] private int _realActiveInstances;
+        [NonSerialized] private RuntimePrefabRenderingSetTemporary _temp;
 
         //[NonSerialized] private bool _forceDisabled;
 
         [NonSerialized] private bool _transferOriginalToCurrent;
-        [NonSerialized] private int _realActiveInstances;
-        [NonSerialized] private GameObject _prefabInstanceRoot;
-        [NonSerialized] private RuntimePrefabRenderingElement _element;
-        [NonSerialized] private RuntimePrefabRenderingSetTemporary _temp;
-        [NonSerialized] private NativeList<bool> _externalParameterEnabledState;
 
         public bool StateChanged => _currentState != _previousState;
         public bool StateChanging => _currentState != _nextState;
 
         public bool ShouldProcess =>
-            (_previousState == RuntimeStateCode.Enabled) || (_currentState == RuntimeStateCode.Enabled) || (_nextState == RuntimeStateCode.Enabled);
+            (_previousState == RuntimeStateCode.Enabled) ||
+            (_currentState == RuntimeStateCode.Enabled) ||
+            (_nextState == RuntimeStateCode.Enabled);
 
         public RuntimeStateCode previousState
         {
@@ -153,7 +248,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
         public RuntimePrefabRenderingElement element => _element;
 
-        private static readonly ProfilerMarker _PRF_Dispose = new ProfilerMarker(_PRF_PFX + nameof(Dispose));
         public void Dispose()
         {
             using (_PRF_Dispose.Auto())
@@ -167,17 +261,22 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             return _element?.stateCounts ?? default;
         }
 
-        private static readonly ProfilerMarker _PRF_ResetExternalParameterCollectionsBeforeExecution = new ProfilerMarker(_PRF_PFX + nameof(ResetExternalParameterCollectionsBeforeExecution));
-        private void ResetExternalParameterCollectionsBeforeExecution(PrefabRenderingSet renderingSet)
+        private void ResetExternalParameterCollectionsBeforeExecution(
+            PrefabRenderingSet renderingSet)
         {
             using (_PRF_ResetExternalParameterCollectionsBeforeExecution.Auto())
             {
                 if (!_externalParameterEnabledState.IsCreated)
                 {
-                    _externalParameterEnabledState = new NativeList<bool>(renderingSet.ExternalParameters.Count, Allocator.Persistent);
+                    _externalParameterEnabledState = new NativeList<bool>(
+                        renderingSet.ExternalParameters.Count,
+                        Allocator.Persistent
+                    );
                 }
 
-                _externalParameterEnabledState.ResizeUninitialized(renderingSet.ExternalParameters.Count);
+                _externalParameterEnabledState.ResizeUninitialized(
+                    renderingSet.ExternalParameters.Count
+                );
 
                 for (var i = 0; i < renderingSet.ExternalParameters.Count; i++)
                 {
@@ -188,7 +287,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_InstantiateNewInstances = new ProfilerMarker(_PRF_PFX + nameof(InstantiateNewInstances));
         private void InstantiateNewInstances(int instanceSum)
         {
             using (_PRF_InstantiateNewInstances.Auto())
@@ -202,8 +300,9 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_IsExternalStateValidForExecution = new ProfilerMarker(_PRF_PFX + nameof(IsExternalStateValidForExecution));
-        public bool IsExternalStateValidForExecution(PrefabRenderingSet renderingSet, GPUInstancerPrefabManager gpui)
+        public bool IsExternalStateValidForExecution(
+            PrefabRenderingSet renderingSet,
+            GPUInstancerPrefabManager gpui)
         {
             using (_PRF_IsExternalStateValidForExecution.Auto())
             {
@@ -222,7 +321,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 {
                     if (nogoRequiresInitialization)
                     {
-                        noGameObjectRuntimeData = gpui.InitializeRuntimeDataForPrefabPrototype(noGameObjectPrototype);
+                        noGameObjectRuntimeData =
+                            gpui.InitializeRuntimeDataForPrefabPrototype(noGameObjectPrototype);
 
                         GPUInstancerUtility.InitializeGPUBuffer(noGameObjectRuntimeData);
                     }
@@ -239,7 +339,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_UpdateNextState = new ProfilerMarker(_PRF_PFX + nameof(UpdateNextState));
         public void UpdateNextState(PrefabRenderingSet renderingSet)
         {
             using (_PRF_UpdateNextState.Auto())
@@ -255,7 +354,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 if (renderingSet.Muted)
                 {
                     _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.PrefabRenderingSetIsMuted;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.PrefabRenderingSetIsMuted;
                     return;
                 }
 
@@ -276,7 +376,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 if (renderingSet.Soloed)
                 {
                     _nextState = RuntimeStateCode.Enabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.PrefabRenderingSetIsSoloed;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.PrefabRenderingSetIsSoloed;
                     return;
                 }
 
@@ -297,21 +398,24 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 if (PrefabRenderingSet.AnySolo)
                 {
                     _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.AnotherPrefabRenderingSetIsSoloed;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.AnotherPrefabRenderingSetIsSoloed;
                     return;
                 }
 
                 if (PrefabModelTypeOptions.AnySolo)
                 {
                     _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.AnotherModelTypeIsSoloed;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.AnotherModelTypeIsSoloed;
                     return;
                 }
 
                 if (PrefabContentTypeOptions.AnySolo)
                 {
                     _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.AnotherContentTypeIsSoloed;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.AnotherContentTypeIsSoloed;
                     return;
                 }
 
@@ -332,7 +436,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 if (!renderingSet.renderingEnabled)
                 {
                     _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.PrefabRenderingSetDisabled;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.PrefabRenderingSetDisabled;
                     return;
                 }
 
@@ -348,7 +453,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     else
                     {
                         _nextState = RuntimeStateCode.Enabled;
-                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.UsingSavedLocations;
+                        _nextSupplementalStateCode =
+                            RuntimeSupplementalStateCode.UsingSavedLocations;
                     }
                 }
                 else
@@ -356,38 +462,44 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     if (renderingSet.ExternalParameters.Count == 0)
                     {
                         _nextState = RuntimeStateCode.Enabled;
-                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.NoExternalParameters;
+                        _nextSupplementalStateCode =
+                            RuntimeSupplementalStateCode.NoExternalParameters;
                         return;
                     }
 
                     _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ExternalParametersDisabled;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.ExternalParametersDisabled;
 
-                    for (var parameterIndex = 0; parameterIndex < renderingSet.ExternalParameters.Count; parameterIndex++)
+                    for (var parameterIndex = 0;
+                        parameterIndex < renderingSet.ExternalParameters.Count;
+                        parameterIndex++)
                     {
                         var parameters = renderingSet.ExternalParameters.at[parameterIndex];
 
                         if (parameters.vegetationItemID == null)
                         {
                             _nextState = RuntimeStateCode.Enabled;
-                            _nextSupplementalStateCode = RuntimeSupplementalStateCode.ExternalParametersEnabledByDefault;
+                            _nextSupplementalStateCode = RuntimeSupplementalStateCode
+                               .ExternalParametersEnabledByDefault;
                             return;
                         }
 
-                        if (!parameters.veggie.EnableRuntimeSpawn || !parameters.veggie.EnableExternalRendering)
+                        if (!parameters.veggie.EnableRuntimeSpawn ||
+                            !parameters.veggie.EnableExternalRendering)
                         {
                             continue;
                         }
 
                         _nextState = RuntimeStateCode.Enabled;
-                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.ExternalParameterExplicitlyEnabled;
+                        _nextSupplementalStateCode = RuntimeSupplementalStateCode
+                           .ExternalParameterExplicitlyEnabled;
                         return;
                     }
                 }
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Initialize));
         public JobHandle OnUpdate_Initialize(
             PrefabRenderingSet renderingSet,
             GPUInstancerPrefabManager gpui,
@@ -404,7 +516,10 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                 if (_prefabInstanceRoot == null)
                 {
-                    _prefabInstanceRoot = PrefabRenderingManager.instance.GetInstanceRootForPrefab(renderingSet.prefab);
+                    _prefabInstanceRoot =
+                        PrefabRenderingManager.instance.GetInstanceRootForPrefab(
+                            renderingSet.prefab
+                        );
                 }
 
                 if ((_element != null) && _element.populated)
@@ -414,7 +529,12 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                 ResetExternalParameterCollectionsBeforeExecution(renderingSet);
 
-                var newHandle = OnUpdate_Initialize_Data(renderingSet, prefabSource, referencePoints, globalRenderingOptions);
+                var newHandle = OnUpdate_Initialize_Data(
+                    renderingSet,
+                    prefabSource,
+                    referencePoints,
+                    globalRenderingOptions
+                );
 
                 if (_element.populated)
                 {
@@ -425,7 +545,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Data = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Initialize_Data));
         private JobHandle OnUpdate_Initialize_Data(
             PrefabRenderingSet renderingSet,
             PrefabLocationSource prefabSource,
@@ -439,7 +558,12 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     _element = new RuntimePrefabRenderingElement();
                 }
 
-                _element.Initialize(_adoptedBaseSize, renderingSet.ExternalParameters.Count, false, _prefabInstanceRoot);
+                _element.Initialize(
+                    _adoptedBaseSize,
+                    renderingSet.ExternalParameters.Count,
+                    false,
+                    _prefabInstanceRoot
+                );
 
                 if (_temp == null)
                 {
@@ -467,15 +591,24 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                     _element.ResizeUninitialized(_temp.matrices.Length);
 
-                    new InitializeJob_int_NA {input = -1, output = _element.parameterIndices}.Run(_temp.matrices.Length);
+                    new InitializeJob_int_NA {input = -1, output = _element.parameterIndices}.Run(
+                        _temp.matrices.Length
+                    );
                 }
                 else
                 {
-                    for (var parameterIndex = 0; parameterIndex < renderingSet.ExternalParameters.Count; parameterIndex++)
+                    for (var parameterIndex = 0;
+                        parameterIndex < renderingSet.ExternalParameters.Count;
+                        parameterIndex++)
                     {
                         var parameters = renderingSet.ExternalParameters.at[parameterIndex];
 
-                        prefabSource.UpdateRuntimeRenderingParameters(parameters, out var packageIndex, out var itemIndex, out _);
+                        prefabSource.UpdateRuntimeRenderingParameters(
+                            parameters,
+                            out var packageIndex,
+                            out var itemIndex,
+                            out _
+                        );
 
                         if (packageIndex == -1)
                         {
@@ -494,7 +627,9 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                             );
                         }
 
-                        for (var storagePackageIndex = 0; storagePackageIndex < prefabSource.storagePackages.Count; storagePackageIndex++)
+                        for (var storagePackageIndex = 0;
+                            storagePackageIndex < prefabSource.storagePackages.Count;
+                            storagePackageIndex++)
                         {
                             var storagePackage = prefabSource.storagePackages[storagePackageIndex];
 
@@ -526,7 +661,13 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                 _element.ResizeUninitialized(instanceSum);
 
-                var newHandle = OnUpdate_Initialize_Jobs(renderingSet, globalRenderingOptions, referencePoints, instanceSum, positionOffset);
+                var newHandle = OnUpdate_Initialize_Jobs(
+                    renderingSet,
+                    globalRenderingOptions,
+                    referencePoints,
+                    instanceSum,
+                    positionOffset
+                );
 
                 InstantiateNewInstances(instanceSum);
 
@@ -536,7 +677,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Jobs = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Initialize_Jobs));
         private JobHandle OnUpdate_Initialize_Jobs(
             PrefabRenderingSet renderingSet,
             RuntimeRenderingOptions globalRenderingOptions,
@@ -593,8 +733,10 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 {
                     matrices_original = _element.matrices_original.AsDeferredJobArray(),
                     matrices_current = _element.matrices_current.AsDeferredJobArray(),
-                    matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
-                    matrices_noGameObject_SHARED = _element.matrices_noGameObject_SHARED.AsDeferredJobArray()
+                    matrices_noGameObject_OWNED =
+                        _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
+                    matrices_noGameObject_SHARED =
+                        _element.matrices_noGameObject_SHARED.AsDeferredJobArray()
                 }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
 
                 handle = new CalculateDistanceJob
@@ -605,7 +747,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     positions = _element.positions.AsDeferredJobArray(),
                     referencePoints = referencePoints,
                     maximumDistance = float.MaxValue,
-                    instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                    instancesExcludedFromFrame =
+                        _element.instancesExcludedFromFrame.AsDeferredJobArray(),
                     instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
                 }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
 
@@ -614,7 +757,10 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     _element.SafeDispose();
                 }
 
-                _element.assetRangeSettings = new NativeList<AssetRangeSettings>(renderingSet.modelOptions.rangeSettings.Length, Allocator.Persistent);
+                _element.assetRangeSettings = new NativeList<AssetRangeSettings>(
+                    renderingSet.modelOptions.rangeSettings.Length,
+                    Allocator.Persistent
+                );
                 _element.assetRangeSettings.CopyFromNBC(renderingSet.modelOptions.rangeSettings);
 
                 handle = new UpdatePendingStateJob
@@ -625,15 +771,14 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     pendingStates = _element.nextStates.AsDeferredJobArray(),
                     inFrustums = _element.inFrustums.AsDeferredJobArray(),
                     assetRangeSettings = _element.assetRangeSettings,
-                    instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray()
+                    instancesExcludedFromFrame =
+                        _element.instancesExcludedFromFrame.AsDeferredJobArray()
                 }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
 
                 return handle;
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute));
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Frustum = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute) + ".Frustum");
         public bool OnUpdate_Execute(
             PrefabRenderingSet renderingSet,
             GPUInstancerPrefabManager gpui,
@@ -652,28 +797,28 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 }
 
                 FrustumPlanesWrapper frustum;
-                
+
                 using (_PRF_OnUpdate_Execute_Frustum.Auto())
                 {
-                    frustum = renderingSet.modelOptions.typeOptions.GetFrustum(camera, frustumCamera);
+                    frustum = renderingSet.modelOptions.typeOptions.GetFrustum(
+                        camera,
+                        frustumCamera
+                    );
                 }
 
                 ResetExternalParameterCollectionsBeforeExecution(renderingSet);
 
-                handle = OnUpdate_Execute_Jobs(renderingSet, referencePoints, frustum.planes, executionOptions);
+                handle = OnUpdate_Execute_Jobs(
+                    renderingSet,
+                    referencePoints,
+                    frustum.planes,
+                    executionOptions
+                );
 
                 return true;
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs));
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_Prepare = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".Prepare");
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_CopySettings = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".CopySettings");
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleTransfer = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleTransfer");
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleEnabled = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleEnabled");
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleDisabled = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleDisabled");
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleCounts = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleCounts");
-        
         private JobHandle OnUpdate_Execute_Jobs(
             PrefabRenderingSet renderingSet,
             NativeList<float3> referencePoints,
@@ -689,9 +834,11 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                         return default;
                     }
 
-                    _element.matrices_noGameObject_SHARED = _element.gpuInstancerRuntimeData_NoGO.instanceDataArray;
+                    _element.matrices_noGameObject_SHARED =
+                        _element.gpuInstancerRuntimeData_NoGO.instanceDataArray;
 
-                    if (_element.instances.Length != _element.gpuInstancerRuntimeData_NoGO.instanceCount)
+                    if (_element.instances.Length !=
+                        _element.gpuInstancerRuntimeData_NoGO.instanceCount)
                     {
                         throw new NotSupportedException("Instance count does not match!");
                     }
@@ -699,7 +846,9 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                 using (_PRF_OnUpdate_Execute_Jobs_CopySettings.Auto())
                 {
-                    _element.assetRangeSettings.CopyFromNBC(renderingSet.modelOptions.rangeSettings);
+                    _element.assetRangeSettings.CopyFromNBC(
+                        renderingSet.modelOptions.rangeSettings
+                    );
                 }
 
                 JobHandle handle = default;
@@ -713,7 +862,11 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                             matrices_current = _element.matrices_current,
                             matrices_original = _element.matrices_original,
                             matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
 
                         _transferOriginalToCurrent = false;
                     }
@@ -729,7 +882,11 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                             instancesExcludedFromFrame = _element.instancesExcludedFromFrame,
                             instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray(),
                             inFrustums = _element.inFrustums
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
 
                         handle = new UnifyTransformArraysJob
                         {
@@ -738,7 +895,11 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                             previousPositions = _element.previousPositions,
                             rotations = _element.rotations,
                             scales = _element.scales
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
 
                         handle = new CalculateDistanceJob
                         {
@@ -747,33 +908,52 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                             secondaryDistances = _element.secondaryDistances,
                             positions = _element.positions.AsDeferredJobArray(),
                             referencePoints = referencePoints,
-                            maximumDistance = renderingSet.modelOptions.maximumStateChangeDistance * 1.1f,
-                            instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                            maximumDistance =
+                                renderingSet.modelOptions.maximumStateChangeDistance * 1.1f,
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            instancesStateCodes =
+                                _element.instancesStateCodes.AsDeferredJobArray()
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
 
                         handle = new CalculateFrustumInclusionJob
                         {
                             positions = _element.positions.AsDeferredJobArray(),
                             scales = _element.scales.AsDeferredJobArray(),
-                            instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
                             frustum = frustumPlanes,
                             objectBounds = new BoundsBurst(renderingSet.bounds),
                             inFrustums = _element.inFrustums.AsDeferredJobArray(),
-                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                            instancesStateCodes =
+                                _element.instancesStateCodes.AsDeferredJobArray()
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
 
                         handle = new UpdatePendingStateJob
                         {
                             currentStates = _element.currentStates,
-                            instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
                             assetRangeSettings = element.assetRangeSettings,
                             pendingStates = _element.nextStates,
                             primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
-                            secondaryDistances = _element.secondaryDistances.AsDeferredJobArray(),
+                            secondaryDistances =
+                                _element.secondaryDistances.AsDeferredJobArray(),
                             inFrustums = _element.inFrustums.AsDeferredJobArray(),
                             stateChanging = StateChanging
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
                     }
                 }
                 else if (_currentState == RuntimeStateCode.Enabled)
@@ -782,35 +962,52 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     {
                         handle = new DisableAllJob
                         {
-                            instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray(),
-                            matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            instancesStateCodes =
+                                _element.instancesStateCodes.AsDeferredJobArray(),
+                            matrices_noGameObject_OWNED =
+                                _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
                             pendingStates = _element.nextStates
-                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                        }.Schedule(
+                            _element.instances.Length,
+                            executionOptions.updateJobSize,
+                            handle
+                        );
                     }
                 }
 
                 using (_PRF_OnUpdate_Execute_Jobs_HandleCounts.Auto())
                 {
-                    handle = new CountStatesJob {currentStates = _element.currentStates, counts = _element._stateCounts}.Schedule(handle);
+                    handle = new CountStatesJob
+                    {
+                        currentStates = _element.currentStates, counts = _element._stateCounts
+                    }.Schedule(handle);
                 }
 
                 return handle;
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Initialize));
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize_InitializeNative = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Initialize) + ".InitializeNative");
-        public void OnLateUpdate_Initialize(PrefabRenderingSet renderingSet, GPUInstancerPrefabManager gpui)
+        public void OnLateUpdate_Initialize(
+            PrefabRenderingSet renderingSet,
+            GPUInstancerPrefabManager gpui)
         {
             using (_PRF_OnLateUpdate_Initialize.Auto())
             {
                 using (_PRF_OnLateUpdate_Initialize_InitializeNative.Auto())
                 {
-                    GPUInstancerAPI.InitializeWithNativeList(gpui, renderingSet.prototypeMetadata.prototype, _element.matrices_noGameObject_SHARED);
+                    GPUInstancerAPI.InitializeWithNativeList(
+                        gpui,
+                        renderingSet.prototypeMetadata.prototype,
+                        _element.matrices_noGameObject_SHARED
+                    );
                 }
 
-                _element.gpuInstancerRuntimeData_NoGO = gpui.GetRuntimeData(renderingSet.prototypeMetadata.prototype, true);
+                _element.gpuInstancerRuntimeData_NoGO = gpui.GetRuntimeData(
+                    renderingSet.prototypeMetadata.prototype,
+                    true
+                );
 
 #if UNITY_EDITOR
                 if (!renderingSet.useLocations && renderingSet.modelOptions.burialOptions.buryMesh)
@@ -825,15 +1022,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute));
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckDisabled = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckDisabled");
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_Processing = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".Processing");
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GPUMatrixPush = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GPUMatrixPush");
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GetInstanceAndState = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GetInstanceAndState");
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_FinalErrorCheck = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".FinalErrorCheck");
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckErrors = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckErrors");
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_SetCounts = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".SetCounts");
         public bool OnLateUpdate_Execute(
             PrefabRenderingSet renderingSet,
             GlobalRenderingOptions globalOptions,
@@ -843,12 +1031,15 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             {
                 using (_PRF_OnLateUpdate_Execute_CheckDisabled.Auto())
                 {
-                    if (!_element.populated || (_element.instances == null) || (_element.instances.Length == 0))
+                    if (!_element.populated ||
+                        (_element.instances == null) ||
+                        (_element.instances.Length == 0))
                     {
                         return true;
                     }
 
-                    var staleDisabled = (_previousState == RuntimeStateCode.Disabled) && (_currentState == RuntimeStateCode.Disabled);
+                    var staleDisabled = (_previousState == RuntimeStateCode.Disabled) &&
+                                        (_currentState == RuntimeStateCode.Disabled);
 
                     if (staleDisabled && (_realActiveInstances == 0))
                     {
@@ -857,8 +1048,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     }
                 }
 
-                int errorCount = 0;
-                
+                var errorCount = 0;
+
                 using (_PRF_OnLateUpdate_Execute_Processing.Auto())
                 {
                     gpuMatrixPushPending = StateChanged || StateChanging;
@@ -879,7 +1070,10 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                             var currentStates = _element.currentStates[i];
                             var nextStates = _element.nextStates[i];
 
-                            if (!instance.delayed && !StateChanging && !StateChanged && (currentStates == nextStates))
+                            if (!instance.delayed &&
+                                !StateChanging &&
+                                !StateChanged &&
+                                (currentStates == nextStates))
                             {
                                 if (_element.instancesExcludedFromFrame[i] && !instance.alive)
                                 {
@@ -946,15 +1140,22 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     {
                         var handle1 = new TransferJob_Matrix4x4_NA_Matrix4x4_NA
                         {
-                            input = element.matrices_noGameObject_OWNED, 
+                            input = element.matrices_noGameObject_OWNED,
                             output = element.matrices_noGameObject_SHARED
                         }.Schedule(element.Count, executionOptions.updateJobSize);
 
-                        var handle2 = new CountStatesJob {currentStates = _element.currentStates, counts = _element._stateCounts}.Schedule();
+                        var handle2 = new CountStatesJob
+                        {
+                            currentStates = _element.currentStates,
+                            counts = _element._stateCounts
+                        }.Schedule();
 
                         var joinedHandle = JobHandle.CombineDependencies(handle1, handle2);
 
-                        JobTracker.Track(PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES, joinedHandle);
+                        JobTracker.Track(
+                            PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES,
+                            joinedHandle
+                        );
                     }
                 }
                 else
@@ -962,7 +1163,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     using (_PRF_OnLateUpdate_Execute_SetCounts.Auto())
                     {
                         var counts = element.stateCounts.rendering;
-                        _realActiveInstances = counts.gpuInstancingCount + counts.meshRenderingCount;
+                        _realActiveInstances =
+                            counts.gpuInstancingCount + counts.meshRenderingCount;
                     }
                 }
 
@@ -970,29 +1172,27 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_PushAllGPUMatrices = new ProfilerMarker(_PRF_PFX + nameof(PushAllGPUMatrices));
         public void PushAllGPUMatrices()
         {
             using (_PRF_PushAllGPUMatrices.Auto())
-            {                
+            {
                 gpuMatrixPushPending = false;
 
                 var counts = element.stateCounts.rendering;
                 _realActiveInstances = counts.gpuInstancingCount + counts.meshRenderingCount;
 
-                element.gpuInstancerRuntimeData_NoGO.activeCount = element.stateCounts.rendering.gpuInstancingCount;
+                element.gpuInstancerRuntimeData_NoGO.activeCount =
+                    element.stateCounts.rendering.gpuInstancingCount;
 
-                
                 element.gpuInstancerRuntimeData_NoGO.transformationMatrixVisibilityBuffer.SetData(
                     element.gpuInstancerRuntimeData_NoGO.instanceDataArray.AsArray()
                 );
-                
             }
         }
 
-        private static readonly ProfilerMarker _PRF_TearDownInstances = new ProfilerMarker(_PRF_PFX + nameof(TearDownInstances));
-        private static readonly ProfilerMarker _PRF_TearDownInstances_UpdateInstancesAndPush = new ProfilerMarker(_PRF_PFX + nameof(TearDownInstances) + ".UpdateInstancesAndPush");
-        public void TearDownInstances(GPUInstancerPrefabManager gpui, GPUInstancerPrototypeMetadata prototypeMetadata)
+        public void TearDownInstances(
+            GPUInstancerPrefabManager gpui,
+            GPUInstancerPrototypeMetadata prototypeMetadata)
         {
             using (_PRF_TearDownInstances.Auto())
             {
@@ -1005,11 +1205,13 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     gpui.RemovePrefabInstances(nogoProto);
                 }
 
-                if ((_element == null) || !_element.populated || (_element.instances == null) || (_element.gpuInstancerRuntimeData_NoGO == null))
+                if ((_element == null) ||
+                    !_element.populated ||
+                    (_element.instances == null) ||
+                    (_element.gpuInstancerRuntimeData_NoGO == null))
                 {
                     return;
                 }
-
 
                 using (_PRF_TearDownInstances_UpdateInstancesAndPush.Auto())
                 {
@@ -1017,7 +1219,9 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     {
                         var pushGPUI = false;
 
-                        for (var instanceIndex = 0; instanceIndex < _element.instances.Length; instanceIndex++)
+                        for (var instanceIndex = 0;
+                            instanceIndex < _element.instances.Length;
+                            instanceIndex++)
                         {
                             var instance = _element.instances[instanceIndex];
 
@@ -1037,9 +1241,11 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                         if (pushGPUI && !element.gpuInstancerRuntimeData_NoGO.IsDisposed)
                         {
-                            element.gpuInstancerRuntimeData_NoGO.transformationMatrixVisibilityBuffer.SetData(
-                                element.gpuInstancerRuntimeData_NoGO.instanceDataArray.AsArray()
-                            );
+                            element.gpuInstancerRuntimeData_NoGO
+                                   .transformationMatrixVisibilityBuffer.SetData(
+                                        element.gpuInstancerRuntimeData_NoGO.instanceDataArray
+                                               .AsArray()
+                                    );
                         }
                     }
                 }

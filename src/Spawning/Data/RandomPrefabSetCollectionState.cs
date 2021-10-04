@@ -11,7 +11,8 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Spawning.Data
 {
-    [Serializable, SmartLabel]
+    [Serializable]
+    [SmartLabel]
     public class RandomPrefabSetCollectionState
     {
         [HideInInspector] public Transform parent;
@@ -19,11 +20,13 @@ namespace Appalachia.Prefabs.Spawning.Data
 
         [InlineEditor] public RandomPrefabSetCollection collection;
 
-        private SpawnDataIndex _spawnData;
-
         [HideInInspector] public float lastSpawnTime;
 
-        public RandomPrefabSetCollectionState(Transform parent, RandomPrefabSetCollection collection)
+        private SpawnDataIndex _spawnData;
+
+        public RandomPrefabSetCollectionState(
+            Transform parent,
+            RandomPrefabSetCollection collection)
         {
             this.collection = collection;
 
@@ -55,7 +58,9 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        public PrefabSpawnPointCollection GetActive(out PrefabSpawnStateData spawnStateData, out int limit)
+        public PrefabSpawnPointCollection GetActive(
+            out PrefabSpawnStateData spawnStateData,
+            out int limit)
         {
             if (collection == null)
             {
@@ -177,13 +182,21 @@ namespace Appalachia.Prefabs.Spawning.Data
 
                     if (!_spawnData.ContainsKeys(setElement.set, key))
                     {
-                        _spawnData.AddOrUpdate(setElement.set, key, new PrefabSpawnStateData(spawner, setElement));
+                        _spawnData.AddOrUpdate(
+                            setElement.set,
+                            key,
+                            new PrefabSpawnStateData(spawner, setElement)
+                        );
                     }
                 }
             }
         }
 
-        public void SpawnMany(PrefabSpawnSettings settings, PrefabSpawnerRigidbodyManager rigidbodyManager, int count, ref Bounds bounds)
+        public void SpawnMany(
+            PrefabSpawnSettings settings,
+            PrefabSpawnerRigidbodyManager rigidbodyManager,
+            int count,
+            ref Bounds bounds)
         {
             var pointCollection = GetActive(out var spawnerData, out var limit);
 
@@ -208,7 +221,14 @@ namespace Appalachia.Prefabs.Spawning.Data
 
                 var remaining = count - spawned;
 
-                spawned += pointCollection.SpawnMany(limit, spawnerData.setElement.set, settings, ref bounds, rigidbodyManager, remaining);
+                spawned += pointCollection.SpawnMany(
+                    limit,
+                    spawnerData.setElement.set,
+                    settings,
+                    ref bounds,
+                    rigidbodyManager,
+                    remaining
+                );
             }
         }
     }

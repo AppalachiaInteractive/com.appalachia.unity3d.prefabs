@@ -10,13 +10,15 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Rendering
 {
-    [Serializable, HideReferenceObjectPicker]
+    [Serializable]
+    [HideReferenceObjectPicker]
     public class PrefabRenderingSetToggle
     {
-        private Color _normalColor = Color.red;
-
-        [HideInInspector, SerializeField]
+        [HideInInspector]
+        [SerializeField]
         public PrefabRenderingSet set;
+
+        private Color _normalColor = Color.red;
 
         public PrefabRenderingSetToggle(PrefabRenderingSet set)
         {
@@ -30,7 +32,12 @@ namespace Appalachia.Prefabs.Rendering
         [SmartInlineButton(nameof(SelectType), bold: true, color: nameof(_normalColor))]
         [SmartInlineButton(nameof(Mute),       bold: true, color: nameof(_muteColor))]
         [SmartInlineButton(nameof(Solo),       bold: true, color: nameof(_soloColor))]
-        [SmartInlineButton(nameof(Enable),     bold: true, color: nameof(_stateColor), label: "$" + nameof(_label))]
+        [SmartInlineButton(
+            nameof(Enable),
+            bold: true,
+            color: nameof(_stateColor),
+            label: "$" + nameof(_label)
+        )]
         [ShowInInspector]
         public GameObject prefab
         {

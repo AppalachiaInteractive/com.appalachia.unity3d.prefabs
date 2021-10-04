@@ -9,17 +9,16 @@ using Appalachia.Prefabs.Core;
 namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable]
-public sealed class AppaList_PrefabContentType : AppaList<PrefabContentType>
+    public sealed class AppaList_PrefabContentType : AppaList<PrefabContentType>
     {
         public AppaList_PrefabContentType()
         {
         }
 
-        public AppaList_PrefabContentType(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
-        )
+        public AppaList_PrefabContentType(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
         {
         }
 

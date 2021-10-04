@@ -10,6 +10,7 @@ using GPUInstancer;
 using Unity.Profiling;
 using UnityEditor;
 using UnityEngine;
+
 #if UNITY_EDITOR
 
 #endif
@@ -19,10 +20,17 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.GPUI
 {
     [Serializable]
-    public class GPUInstancerPrototypeMetadata : SelfSavingAndIdentifyingScriptableObject<GPUInstancerPrototypeMetadata>
+    public class GPUInstancerPrototypeMetadata : SelfSavingAndIdentifyingScriptableObject<
+        GPUInstancerPrototypeMetadata>
     {
         private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadata) + ".";
-        
+
+        private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary =
+            new(_PRF_PFX + nameof(CreatePrototypeIfNecessary));
+
+        private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary_PrototypeLookup =
+            new(_PRF_PFX + nameof(CreatePrototypeIfNecessary) + ".PrototypeLookup");
+
         [SerializeField] private GameObject _originalPrefab;
 
         [SerializeField] private GameObject _updatedPrefab;
@@ -38,9 +46,6 @@ namespace Appalachia.Prefabs.Rendering.GPUI
         public GameObject originalPrefab => _originalPrefab;
         public GameObject updatedPrefab => _updatedPrefab;
 
-        private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary = new ProfilerMarker(_PRF_PFX + nameof(CreatePrototypeIfNecessary));
-
-        private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary_PrototypeLookup = new ProfilerMarker(_PRF_PFX + nameof(CreatePrototypeIfNecessary) + ".PrototypeLookup");
         public void CreatePrototypeIfNecessary(
             GameObject ogPF,
             GPUInstancerPrefabManager gpui,
@@ -69,11 +74,19 @@ namespace Appalachia.Prefabs.Rendering.GPUI
                 {
                     _updatedPrefab = CreateNOGOPrefab();
 
-                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(_originalPrefab, out _prefabHashForNoGoGeneration, out long _);
+                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(
+                        _originalPrefab,
+                        out _prefabHashForNoGoGeneration,
+                        out long _
+                    );
                 }
                 else
                 {
-                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(_originalPrefab, out var guid, out long _);
+                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(
+                        _originalPrefab,
+                        out var guid,
+                        out long _
+                    );
 
                     if (guid != _prefabHashForNoGoGeneration)
                     {
@@ -134,7 +147,9 @@ namespace Appalachia.Prefabs.Rendering.GPUI
 
 #if UNITY_EDITOR
 
-        private static readonly ProfilerMarker _PRF_CreateNOGOPrefab = new ProfilerMarker(_PRF_PFX + nameof(CreateNOGOPrefab));
+        private static readonly ProfilerMarker _PRF_CreateNOGOPrefab =
+            new(_PRF_PFX + nameof(CreateNOGOPrefab));
+
         private GameObject CreateNOGOPrefab()
         {
             using (_PRF_CreateNOGOPrefab.Auto())
@@ -152,7 +167,10 @@ namespace Appalachia.Prefabs.Rendering.GPUI
                 {
                     var component = components[i];
 
-                    if (component is Renderer || component is MeshFilter || component is Transform || component is LODGroup)
+                    if (component is Renderer ||
+                        component is MeshFilter ||
+                        component is Transform ||
+                        component is LODGroup)
                     {
                     }
                     else

@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.ModelType.Rendering
 {
     [Serializable]
-public class AssetCullingSettings : IEquatable<AssetCullingSettings>
+    public class AssetCullingSettings : IEquatable<AssetCullingSettings>
     {
         [SerializeField]
         [HorizontalGroup("0", .4f)]
@@ -51,13 +51,13 @@ public class AssetCullingSettings : IEquatable<AssetCullingSettings>
         [PropertyRange(0.0f, 100f)]
         [EnableIf(nameof(isCulling))]
         public float minCullingDistance;
-        
+
         [SerializeField]
         [HorizontalGroup("3", .5f)]
         [SmartLabel]
         [ToggleLeft]
         public bool updateCullingEveryIteration;
-        
+
         [SerializeField]
         [HorizontalGroup("3", .5f)]
         [SmartLabel]
@@ -85,21 +85,23 @@ public class AssetCullingSettings : IEquatable<AssetCullingSettings>
 
         public static AssetCullingSettings NotCulled()
         {
-            return new AssetCullingSettings();
+            return new();
         }
 
-        public static AssetCullingSettings OcclusionCulled(float occlusionOffset = 0.0f, int occlusionAccuracy = 1, float minCullingDistance = 0f)
+        public static AssetCullingSettings OcclusionCulled(
+            float occlusionOffset = 0.0f,
+            int occlusionAccuracy = 1,
+            float minCullingDistance = 0f)
         {
-            return new AssetCullingSettings(
-                occlusionOffset: occlusionOffset,
-                occlusionAccuracy: occlusionAccuracy,
-                minCullingDistance: minCullingDistance
-            );
+            return new(occlusionOffset: occlusionOffset, occlusionAccuracy: occlusionAccuracy,
+                minCullingDistance: minCullingDistance);
         }
 
-        public static AssetCullingSettings FrustumCulled(float frustumOffset = .2f, float minCullingDistance = 0f)
+        public static AssetCullingSettings FrustumCulled(
+            float frustumOffset = .2f,
+            float minCullingDistance = 0f)
         {
-            return new AssetCullingSettings(frustumOffset: frustumOffset, minCullingDistance: minCullingDistance);
+            return new(frustumOffset: frustumOffset, minCullingDistance: minCullingDistance);
         }
 
         public static AssetCullingSettings CompletelyCulled(
@@ -108,12 +110,8 @@ public class AssetCullingSettings : IEquatable<AssetCullingSettings>
             int occlusionAccuracy = 1,
             float minCullingDistance = 0f)
         {
-            return new AssetCullingSettings(
-                frustumOffset: frustumOffset,
-                occlusionOffset: occlusionOffset,
-                occlusionAccuracy: occlusionAccuracy,
-                minCullingDistance: minCullingDistance
-            );
+            return new(frustumOffset: frustumOffset, occlusionOffset: occlusionOffset,
+                occlusionAccuracy: occlusionAccuracy, minCullingDistance: minCullingDistance);
         }
 
 #region IEquatable

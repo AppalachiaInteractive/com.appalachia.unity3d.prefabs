@@ -37,7 +37,9 @@ namespace Appalachia.Prefabs.Rendering.Jobs
             var insideFrustum = frustum.Inside(tempBounds);
 
             inFrustums[index] = insideFrustum;
-            instancesStateCodes[index] = insideFrustum ? InstanceStateCode.Normal : InstanceStateCode.OutsideOfFrustum;
+            instancesStateCodes[index] = insideFrustum
+                ? InstanceStateCode.Normal
+                : InstanceStateCode.OutsideOfFrustum;
         }
     }
 }

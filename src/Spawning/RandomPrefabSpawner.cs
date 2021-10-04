@@ -21,79 +21,44 @@ namespace Appalachia.Prefabs.Spawning
     public class RandomPrefabSpawner : InternalMonoBehaviour
     {
         private const string _PRF_PFX = nameof(RandomPrefabSpawner) + ".";
-        
-        [InlineProperty, InlineEditor, HideLabel]
+
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+
+        private static readonly ProfilerMarker _PRF_EnableSpawning =
+            new(_PRF_PFX + nameof(EnableSpawning));
+
+        private static readonly ProfilerMarker _PRF_DisableSpawning =
+            new(_PRF_PFX + nameof(DisableSpawning));
+
+        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
+
+        private static readonly ProfilerMarker _PRF_OnDrawGizmos =
+            new(_PRF_PFX + nameof(OnDrawGizmos));
+
+        private static readonly ProfilerMarker _PRF_CreateNewSettings =
+            new(_PRF_PFX + nameof(CreateNewSettings));
+
+        [InlineProperty]
+        [InlineEditor]
+        [HideLabel]
         public PrefabSpawnSettings settings;
 
-        [InlineProperty, HideLabel]
+        [InlineProperty]
+        [HideLabel]
         public RandomPrefabSetCollectionState state;
 
         public PrefabSpawnerRigidbodyManager rigidbodyManager;
 
         [NonSerialized] private bool _spawning;
-
-        private Bounds previousBounds;
         private Bounds bounds;
 
+        private Bounds previousBounds;
+
         [BoxGroup("Spawning")]
-        [ShowInInspector, ReadOnly]
+        [ShowInInspector]
+        [ReadOnly]
         public bool spawning => _spawning;
 
-        private static readonly ProfilerMarker _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
-        private void OnEnable()
-        {
-            using (_PRF_OnEnable.Auto())
-            {
-#if UNITY_EDITOR
-                PrefabSpawnSettings.UpdateAllIDs();
-                RandomPrefabSetCollection.UpdateAllIDs();
-                RandomPrefabSet.UpdateAllIDs();
-#endif
-                if (rigidbodyManager == null)
-                {
-                    rigidbodyManager = new PrefabSpawnerRigidbodyManager();
-                }
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_EnableSpawning = new ProfilerMarker(_PRF_PFX + nameof(EnableSpawning));
-        [Button, ButtonGroup("Spawning/B"), DisableIf(nameof(spawning))]
-        public void EnableSpawning()
-        {
-            using (_PRF_EnableSpawning.Auto())
-            {
-                state.lastSpawnTime = 0.0f;
-
-                _spawning = true;
-
-#if UNITY_EDITOR
-                if (!PhysicsSimulator.IsSimulationActive)
-                {
-                    PhysicsSimulator.SetEnabled(true);
-                }
-#endif
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_DisableSpawning = new ProfilerMarker(_PRF_PFX + nameof(DisableSpawning));
-
-        [Button, ButtonGroup("Spawning/B"), EnableIf(nameof(spawning))]
-        public void DisableSpawning()
-        {
-            using (_PRF_DisableSpawning.Auto())
-            {
-                _spawning = false;
-
-#if UNITY_EDITOR
-                if (PhysicsSimulator.IsSimulationActive)
-                {
-                    PhysicsSimulator.SetEnabled(false);
-                }
-#endif
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_Update = new ProfilerMarker(_PRF_PFX + nameof(Update));
         private void Update()
         {
             using (_PRF_Update.Auto())
@@ -151,7 +116,22 @@ namespace Appalachia.Prefabs.Spawning
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new ProfilerMarker(_PRF_PFX + nameof(OnDrawGizmos));
+        private void OnEnable()
+        {
+            using (_PRF_OnEnable.Auto())
+            {
+#if UNITY_EDITOR
+                PrefabSpawnSettings.UpdateAllIDs();
+                RandomPrefabSetCollection.UpdateAllIDs();
+                RandomPrefabSet.UpdateAllIDs();
+#endif
+                if (rigidbodyManager == null)
+                {
+                    rigidbodyManager = new PrefabSpawnerRigidbodyManager();
+                }
+            }
+        }
+
         private void OnDrawGizmos()
         {
             using (_PRF_OnDrawGizmos.Auto())
@@ -160,15 +140,52 @@ namespace Appalachia.Prefabs.Spawning
                 {
                     return;
                 }
-                
+
                 SmartHandles.DrawWireCube(previousBounds,          Color.green);
                 SmartHandles.DrawWireCube(rigidbodyManager.bounds, Color.cyan);
             }
         }
 
-        private static readonly ProfilerMarker _PRF_CreateNewSettings = new ProfilerMarker(_PRF_PFX + nameof(CreateNewSettings));
+        [Button]
+        [ButtonGroup("Spawning/B")]
+        [DisableIf(nameof(spawning))]
+        public void EnableSpawning()
+        {
+            using (_PRF_EnableSpawning.Auto())
+            {
+                state.lastSpawnTime = 0.0f;
+
+                _spawning = true;
+
 #if UNITY_EDITOR
-        [Button, ButtonGroup("A")]
+                if (!PhysicsSimulator.IsSimulationActive)
+                {
+                    PhysicsSimulator.SetEnabled(true);
+                }
+#endif
+            }
+        }
+
+        [Button]
+        [ButtonGroup("Spawning/B")]
+        [EnableIf(nameof(spawning))]
+        public void DisableSpawning()
+        {
+            using (_PRF_DisableSpawning.Auto())
+            {
+                _spawning = false;
+
+#if UNITY_EDITOR
+                if (PhysicsSimulator.IsSimulationActive)
+                {
+                    PhysicsSimulator.SetEnabled(false);
+                }
+#endif
+            }
+        }
+#if UNITY_EDITOR
+        [Button]
+        [ButtonGroup("A")]
         public void CreateNewSettings()
         {
             using (_PRF_CreateNewSettings.Auto())
@@ -178,8 +195,11 @@ namespace Appalachia.Prefabs.Spawning
             }
         }
 
-        private static readonly ProfilerMarker _PRF_CreateNewState = new ProfilerMarker(_PRF_PFX + nameof(CreateNewState));
-        [Button, ButtonGroup("A")]
+        private static readonly ProfilerMarker _PRF_CreateNewState =
+            new(_PRF_PFX + nameof(CreateNewState));
+
+        [Button]
+        [ButtonGroup("A")]
         public void CreateNewState()
         {
             using (_PRF_CreateNewState.Auto())

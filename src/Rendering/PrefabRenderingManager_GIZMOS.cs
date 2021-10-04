@@ -17,19 +17,21 @@ namespace Appalachia.Prefabs.Rendering
 
     public partial class PrefabRenderingManager
     {
-
 #if UNITY_EDITOR
 
         private const string G_ = "Prefab Rendering/Gizmos";
         private static PREF<float> gizmoRayShowTime;
-        
+
         private Vector3[] points;
         private int[] indexPairs;
 
         private GameViewSelectionManager _selectionManager;
 
         private const string _PRF_PFX = nameof(PrefabRenderingManager) + ".";
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new ProfilerMarker(_PRF_PFX + nameof(OnDrawGizmos));
+
+        private static readonly ProfilerMarker _PRF_OnDrawGizmos =
+            new(_PRF_PFX + nameof(OnDrawGizmos));
+
         private void OnDrawGizmos()
         {
             using (_PRF_OnDrawGizmos.Auto())
@@ -38,22 +40,24 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     return;
                 }
-                
+
                 var options = RenderingOptions;
 
                 if (options.gizmos.burialGizmosEnabled)
                 {
                     var b = MeshBurialExecutionManager.bounds;
-                    SmartHandles.DrawWireCube(b.center, b.size, ColorPrefs.Instance.MeshBurialBounds.v);
+                    SmartHandles.DrawWireCube(
+                        b.center,
+                        b.size,
+                        ColorPrefs.Instance.MeshBurialBounds.v
+                    );
                 }
-
 
                 if (gizmoRayShowTime == null)
                 {
                     gizmoRayShowTime = PREFS.REG(G_, "Max Size", 1f, .1f, 10f);
                 }
 
-                
                 if (!options.gizmos.gizmosEnabled)
                 {
                     return;
@@ -68,16 +72,24 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     return;
                 }
-                
-                if (_selectionManager == null) _selectionManager = new GameViewSelectionManager();
 
-                if (_selectionManager.TryGameViewSelection(gpui.cameraData.mainCamera, renderingOptions.global.layerMask, out var hit))
+                if (_selectionManager == null)
+                {
+                    _selectionManager = new GameViewSelectionManager();
+                }
+
+                if (_selectionManager.TryGameViewSelection(
+                    gpui.cameraData.mainCamera,
+                    renderingOptions.global.layerMask,
+                    out var hit
+                ))
                 {
                     var parent = hit.transform.parent;
 
                     if (parent != null)
                     {
-                        var comp = parent.GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
+                        var comp =
+                            parent.GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
 
                         if (comp == null)
                         {
@@ -85,7 +97,8 @@ namespace Appalachia.Prefabs.Rendering
 
                             if (parent != null)
                             {
-                                comp = parent.GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
+                                comp = parent
+                                   .GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
                             }
                         }
 
@@ -97,7 +110,7 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
-        
+
 #endif
     }
 }

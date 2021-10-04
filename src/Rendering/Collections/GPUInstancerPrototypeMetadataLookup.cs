@@ -12,16 +12,24 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]
-    public class GPUInstancerPrototypeMetadataLookup : AppaLookup<string, GPUInstancerPrototypeMetadata, AppaList_string,
-        AppaList_GPUInstancerPrototypeMetadata>
+    [ListDrawerSettings(
+        Expanded = true,
+        DraggableItems = false,
+        HideAddButton = true,
+        HideRemoveButton = true,
+        NumberOfItemsPerPage = 5
+    )]
+    public class GPUInstancerPrototypeMetadataLookup : AppaLookup<string,
+        GPUInstancerPrototypeMetadata, AppaList_string, AppaList_GPUInstancerPrototypeMetadata>
     {
         protected override string GetDisplayTitle(string key, GPUInstancerPrototypeMetadata value)
         {
             return value.name;
         }
 
-        protected override string GetDisplaySubtitle(string key, GPUInstancerPrototypeMetadata value)
+        protected override string GetDisplaySubtitle(
+            string key,
+            GPUInstancerPrototypeMetadata value)
         {
             return key;
         }

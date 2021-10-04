@@ -11,26 +11,34 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Rendering.Base
 {
-    [Serializable, HideReferenceObjectPicker]
-
-public abstract class PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+    [Serializable]
+    [HideReferenceObjectPicker]
+    public abstract class PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
+                                                  IL_TW, IL_TT>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
+        new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
     {
-        private Color _normalColor = Color.white;
-
-        [HideInInspector, SerializeField]
+        [HideInInspector]
+        [SerializeField]
         public TW options;
+
+        private Color _normalColor = Color.white;
 
         protected PrefabTypeOptionsToggle()
         {
@@ -48,7 +56,12 @@ public abstract class PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, 
         [SmartInlineButton(nameof(SelectType), bold: true, color: nameof(_normalColor))]
         [SmartInlineButton(nameof(Mute),       bold: true, color: nameof(_muteColor))]
         [SmartInlineButton(nameof(Solo),       bold: true, color: nameof(_soloColor))]
-        [SmartInlineButton(nameof(Enable),     bold: true, color: nameof(_stateColor), label: "$" + nameof(_label))]
+        [SmartInlineButton(
+            nameof(Enable),
+            bold: true,
+            color: nameof(_stateColor),
+            label: "$" + nameof(_label)
+        )]
         [ShowInInspector]
         public TE type
         {

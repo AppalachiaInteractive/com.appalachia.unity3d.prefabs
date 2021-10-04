@@ -23,41 +23,40 @@ namespace Appalachia.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
-        [HideInInspector]public bool hideHeader;
-        [HideInInspector]public bool hideTabs;
-        [HideInInspector]public bool hideButtons;
-        
-        private static RenderingStateReasonCodeLookup _reasonCodes = new RenderingStateReasonCodeLookup();
+        private static RenderingStateReasonCodeLookup _reasonCodes = new();
 
+        private static readonly ProfilerMarker _PRF_IsEditorSimulating =
+            new(_PRF_PFX + nameof(IsEditorSimulating));
+
+        private static readonly ProfilerMarker _PRF_ConfirmExecutionState =
+            new(_PRF_PFX + nameof(ConfirmExecutionState));
+
+        private static readonly ProfilerMarker _PRF_ExecuteNecessaryStateChanges =
+            new(_PRF_PFX + nameof(ExecuteNecessaryStateChanges));
+
+        private static readonly ProfilerMarker _PRF_ChangeRuntimeRenderingState =
+            new(_PRF_PFX + nameof(ChangeRuntimeRenderingState));
+
+        [HideInInspector] public bool hideHeader;
+        [HideInInspector] public bool hideTabs;
+        [HideInInspector] public bool hideButtons;
 
         [HideInInspector] public RenderingState currentState;
 
         [HideIf(nameof(hideHeader))]
-        [PropertyOrder(-100)]
-        [SmartLabel(Text = "State")]
-        [SmartTitleGroup("$" + nameof(_title), "$" + nameof(_stateReason), TitleAlignments.Split, color: nameof(_stateColor))]
-        //[HorizontalGroup("$"+nameof(_title)+"/A", .7f)]
-        [NonSerialized, ShowInInspector, EnableIf(nameof(_canChangeState))]
-        [SmartInlineButton(nameof(FixState),  bold: false, color: nameof(_fixColor), DisableIf = nameof(_disableFix))]
-        [SmartInlineButton(nameof(UnsoloAll), bold: false, color: nameof(_unsoloAllColor), DisableIf = nameof(_disableUnsoloAll))]
-        [SmartInlineButton(nameof(UnmuteAll), bold: false, color: nameof(_unmuteAllColor), DisableIf = nameof(_disableUnmuteAll))]
-        [SmartInlineButton(nameof(Stop),      bold: false, color: nameof(_stopColor), DisableIf = nameof(_disableStop))]
-        [SmartInlineButton(nameof(Start),     bold: false, color: nameof(_startColor), DisableIf = nameof(_disableStart))]
-        [SmartTitle("$" + nameof(_cycleTitle), "$" + nameof(_cycleSubtitle), TitleAlignments.Split, color: nameof(_cycleColor), below: true)]
-        public RenderingState nextState;
-
-        private RenderingStateReasonCode _stateReasonCode;
-
-        private Color _updateCodeColors => ColorPrefs.Instance.BackgroundInfo.v;
-        
-        [HideIf(nameof(hideHeader))]
         [PropertyOrder(-99)]
-        [HorizontalGroup("Z", .49f), SmartLabel, ReadOnly, GUIColor(nameof(_updateCodeColors))]
+        [HorizontalGroup("Z", .49f)]
+        [SmartLabel]
+        [ReadOnly]
+        [GUIColor(nameof(_updateCodeColors))]
         public RenderLoopBreakCode updateBreak;
 
         [HideIf(nameof(hideHeader))]
         [PropertyOrder(-99)]
-        [HorizontalGroup("Z", .49f), SmartLabel, ReadOnly, GUIColor(nameof(_updateCodeColors))]
+        [HorizontalGroup("Z", .49f)]
+        [SmartLabel]
+        [ReadOnly]
+        [GUIColor(nameof(_updateCodeColors))]
         public RenderLoopBreakCode lateUpdateBreak;
 
         /*private UnityObjectTracker _renderingSetsTracker;
@@ -66,9 +65,70 @@ namespace Appalachia.Prefabs.Rendering
         //private int _trackingCache = 1500;
 
         private int _editorCheckFrame;
-        private int _frameCacheLength = 15;
+        private readonly int _frameCacheLength = 15;
         private bool _simulationCache;
-        private Color _stateColor => currentState == RenderingState.Rendering ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.DisabledImportant.v;
+
+        private RenderingStateReasonCode _stateReasonCode;
+
+        [HideIf(nameof(hideHeader))]
+        [PropertyOrder(-100)]
+        [SmartLabel(Text = "State")]
+        [SmartTitleGroup(
+            "$" + nameof(_title),
+            "$" + nameof(_stateReason),
+            TitleAlignments.Split,
+            color: nameof(_stateColor)
+        )]
+
+        //[HorizontalGroup("$"+nameof(_title)+"/A", .7f)]
+        [NonSerialized]
+        [ShowInInspector]
+        [EnableIf(nameof(_canChangeState))]
+        [SmartInlineButton(
+            nameof(FixState),
+            bold: false,
+            color: nameof(_fixColor),
+            DisableIf = nameof(_disableFix)
+        )]
+        [SmartInlineButton(
+            nameof(UnsoloAll),
+            bold: false,
+            color: nameof(_unsoloAllColor),
+            DisableIf = nameof(_disableUnsoloAll)
+        )]
+        [SmartInlineButton(
+            nameof(UnmuteAll),
+            bold: false,
+            color: nameof(_unmuteAllColor),
+            DisableIf = nameof(_disableUnmuteAll)
+        )]
+        [SmartInlineButton(
+            nameof(Stop),
+            bold: false,
+            color: nameof(_stopColor),
+            DisableIf = nameof(_disableStop)
+        )]
+        [SmartInlineButton(
+            nameof(Start),
+            bold: false,
+            color: nameof(_startColor),
+            DisableIf = nameof(_disableStart)
+        )]
+        [SmartTitle(
+            "$" + nameof(_cycleTitle),
+            "$" + nameof(_cycleSubtitle),
+            TitleAlignments.Split,
+            color: nameof(_cycleColor),
+            below: true
+        )]
+        public RenderingState nextState;
+
+        private Color _updateCodeColors => ColorPrefs.Instance.BackgroundInfo.v;
+
+        private Color _stateColor =>
+            currentState == RenderingState.Rendering
+                ? ColorPrefs.Instance.Enabled.v
+                : ColorPrefs.Instance.DisabledImportant.v;
 
         private string _title => currentState.ToString().SeperateWords();
 
@@ -129,13 +189,23 @@ namespace Appalachia.Prefabs.Rendering
 
         private string _startText => "Start";
         private string _stopText => "Stop";
-        private Color _startColor => currentState != RenderingState.Rendering ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.EnabledSubdued.v;
+
+        private Color _startColor =>
+            currentState != RenderingState.Rendering
+                ? ColorPrefs.Instance.Enabled.v
+                : ColorPrefs.Instance.EnabledSubdued.v;
 
         private Color _stopColor =>
-            currentState == RenderingState.Rendering ? ColorPrefs.Instance.DisabledImportant.v : ColorPrefs.Instance.DisabledImportantDisabled.v;
+            currentState == RenderingState.Rendering
+                ? ColorPrefs.Instance.DisabledImportant.v
+                : ColorPrefs.Instance.DisabledImportantDisabled.v;
 
-        private Color _fixColor => _canFix ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.Disabled.v;
-        private Color _cycleColor => ColorPrefs.Instance.Quality_BadToGood.v.Evaluate(1.0f - (float) _cycleQuality01);
+        private Color _fixColor =>
+            _canFix ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.Disabled.v;
+
+        private Color _cycleColor =>
+            ColorPrefs.Instance.Quality_BadToGood.v.Evaluate(1.0f - (float) _cycleQuality01);
+
         private bool _canFix => _stateReasonCode != RenderingStateReasonCode.NONE;
         private bool _disableFix => !_canFix;
 
@@ -149,10 +219,17 @@ namespace Appalachia.Prefabs.Rendering
         private bool _disableUnmuteAll => !_enableUnmuteAll;
         private bool _disableStop => currentState != RenderingState.Rendering;
         private bool _disableStart => currentState == RenderingState.Rendering;
-        private Color _unsoloAllColor => _enableUnsoloAll ? ColorPrefs.Instance.SoloEnabled.v : ColorPrefs.Instance.SoloDisabled.v;
-        private Color _unmuteAllColor => _enableUnmuteAll ? ColorPrefs.Instance.MuteEnabled.v : ColorPrefs.Instance.MuteDisabled.v;
 
-        private static readonly ProfilerMarker _PRF_IsEditorSimulating = new ProfilerMarker(_PRF_PFX + nameof(IsEditorSimulating));
+        private Color _unsoloAllColor =>
+            _enableUnsoloAll
+                ? ColorPrefs.Instance.SoloEnabled.v
+                : ColorPrefs.Instance.SoloDisabled.v;
+
+        private Color _unmuteAllColor =>
+            _enableUnmuteAll
+                ? ColorPrefs.Instance.MuteEnabled.v
+                : ColorPrefs.Instance.MuteDisabled.v;
+
         private bool IsEditorSimulating
         {
             get
@@ -186,6 +263,11 @@ namespace Appalachia.Prefabs.Rendering
 #endif
                 }
             }
+        }
+
+        private void Start()
+        {
+            nextState = RenderingState.Rendering;
         }
 
         private void FixState()
@@ -277,17 +359,11 @@ namespace Appalachia.Prefabs.Rendering
             AssetModelTypeLookup.SetDirty();
         }
 
-        private void Start()
-        {
-            nextState = RenderingState.Rendering;
-        }
-
         private void Stop()
         {
             nextState = RenderingState.NotRendering;
         }
-        
-        private static readonly ProfilerMarker _PRF_ConfirmExecutionState = new ProfilerMarker(_PRF_PFX + nameof(ConfirmExecutionState));
+
         private void ConfirmExecutionState()
         {
             using (_PRF_ConfirmExecutionState.Auto())
@@ -405,7 +481,9 @@ namespace Appalachia.Prefabs.Rendering
                     return;
                 }
 
-                if (!Application.isPlaying && (currentState == RenderingState.Rendering) && !IsEditorSimulating)
+                if (!Application.isPlaying &&
+                    (currentState == RenderingState.Rendering) &&
+                    !IsEditorSimulating)
                 {
                     nextState = RenderingState.NotRendering;
                     _stateReasonCode = RenderingStateReasonCode.NOT_SIMULATING;
@@ -423,7 +501,9 @@ namespace Appalachia.Prefabs.Rendering
                         nextState = RenderingState.UnchangedState;
                     }
 
-                    _stateReasonCode = stoppedDueToErrors ? RenderingStateReasonCode.PREVENT_ERROR : RenderingStateReasonCode.PREVENT_OPTIONS;
+                    _stateReasonCode = stoppedDueToErrors
+                        ? RenderingStateReasonCode.PREVENT_ERROR
+                        : RenderingStateReasonCode.PREVENT_OPTIONS;
                     return;
                 }
 
@@ -433,8 +513,6 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
-
-        private static readonly ProfilerMarker _PRF_ExecuteNecessaryStateChanges = new ProfilerMarker(_PRF_PFX + nameof(ExecuteNecessaryStateChanges));
 
         private void ExecuteNecessaryStateChanges()
         {
@@ -528,7 +606,6 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ChangeRuntimeRenderingState = new ProfilerMarker(_PRF_PFX + nameof(ChangeRuntimeRenderingState));
         private void ChangeRuntimeRenderingState(bool enable)
         {
             using (_PRF_ChangeRuntimeRenderingState.Auto())
@@ -569,7 +646,9 @@ namespace Appalachia.Prefabs.Rendering
         }
 
 #if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_ChangeEditorSimulationState = new ProfilerMarker(_PRF_PFX + nameof(ChangeEditorSimulationState));
+        private static readonly ProfilerMarker _PRF_ChangeEditorSimulationState =
+            new(_PRF_PFX + nameof(ChangeEditorSimulationState));
+
         private void ChangeEditorSimulationState(bool enable)
         {
             using (_PRF_ChangeEditorSimulationState.Auto())
@@ -647,7 +726,9 @@ namespace Appalachia.Prefabs.Rendering
         [MenuItem(_M_RUNTIME_, priority = _P)]
         public static void _M_RUNTIME()
         {
-            instance.nextState = instance.currentState == RenderingState.Rendering ? RenderingState.NotRendering : RenderingState.Rendering;
+            instance.nextState = instance.currentState == RenderingState.Rendering
+                ? RenderingState.NotRendering
+                : RenderingState.Rendering;
         }
 
         [MenuItem(_M_SIMULATE_, true)]
@@ -660,7 +741,9 @@ namespace Appalachia.Prefabs.Rendering
         [MenuItem(_M_SIMULATE_, priority = _P)]
         public static void _M_SIMULATE()
         {
-            instance.nextState = instance.IsEditorSimulating ? RenderingState.NotRendering : RenderingState.Rendering;
+            instance.nextState = instance.IsEditorSimulating
+                ? RenderingState.NotRendering
+                : RenderingState.Rendering;
         }
 
         [MenuItem(_M_UPDATES_, true)]
@@ -673,7 +756,8 @@ namespace Appalachia.Prefabs.Rendering
         [MenuItem(_M_UPDATES_, priority = _P)]
         public static void _M_UPDATES()
         {
-            instance.RenderingOptions.execution.allowUpdates = !instance.RenderingOptions.execution.allowUpdates;
+            instance.RenderingOptions.execution.allowUpdates =
+                !instance.RenderingOptions.execution.allowUpdates;
         }
 
         [MenuItem(_M_BOUNCE_, true)]
@@ -688,10 +772,13 @@ namespace Appalachia.Prefabs.Rendering
             instance.nextState = RenderingState.BounceState;
         }
 
-        private static readonly ProfilerMarker _PRF_ReBuryMeshes = new ProfilerMarker(_PRF_PFX + nameof(ReBuryMeshes));
+        private static readonly ProfilerMarker _PRF_ReBuryMeshes =
+            new(_PRF_PFX + nameof(ReBuryMeshes));
 
         [HideIf(nameof(hideButtons))]
-        [Button, ButtonGroup("Bottom"), EnableIf(nameof(IsEditorSimulating))]
+        [Button]
+        [ButtonGroup("Bottom")]
+        [EnableIf(nameof(IsEditorSimulating))]
         private void ReBuryMeshes()
         {
             using (_PRF_ReBuryMeshes.Auto())
@@ -699,10 +786,13 @@ namespace Appalachia.Prefabs.Rendering
                 //MeshBurialManagementProcessor.RefreshPrefabRenderingSets();
             }
         }
-        
+
         [HideIf(nameof(hideButtons))]
-        private static readonly ProfilerMarker _PRF_RunOnce = new ProfilerMarker(_PRF_PFX + nameof(RunOnce));
-        [Button, ButtonGroup("Bottom"), EnableIf(nameof(enabled))]
+        private static readonly ProfilerMarker _PRF_RunOnce = new(_PRF_PFX + nameof(RunOnce));
+
+        [Button]
+        [ButtonGroup("Bottom")]
+        [EnableIf(nameof(enabled))]
         private void RunOnce()
         {
             using (_PRF_RunOnce.Auto())

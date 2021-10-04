@@ -30,53 +30,84 @@ namespace Appalachia.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerInitializer
     {
-        private static readonly PassType[] _ptEnum = Enum.GetValues(typeof(PassType)).Cast<PassType>().ToArray();
+        private static readonly PassType[] _ptEnum =
+            Enum.GetValues(typeof(PassType)).Cast<PassType>().ToArray();
 
-#region ProfilerMarkers
+        private static readonly ProfilerMarker _PRF_OnAwake = new(_PRF_PFX + nameof(OnAwake));
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
 
-        private const string _PRF_PFX = nameof(PrefabRenderingManagerInitializer) + ".";
-        private static readonly ProfilerMarker _PRF_OnAwake = new ProfilerMarker(_PRF_PFX + nameof(OnAwake));
-        private static readonly ProfilerMarker _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
-        private static readonly ProfilerMarker _PRF_Update = new ProfilerMarker(_PRF_PFX + nameof(Update));
-        private static readonly ProfilerMarker _PRF_ExecuteInitialization = new ProfilerMarker(_PRF_PFX + nameof(ExecuteInitialization));
-        private static readonly ProfilerMarker _PRF_CheckNulls = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls));
+        private static readonly ProfilerMarker _PRF_ExecuteInitialization =
+            new(_PRF_PFX + nameof(ExecuteInitialization));
 
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateMetadata = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateMetadata");
+        private static readonly ProfilerMarker _PRF_CheckNulls = new(_PRF_PFX + nameof(CheckNulls));
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateMetadata =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateMetadata");
 
         private static readonly ProfilerMarker _PRF_CheckNulls_UpdateReferencePoints =
-            new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateReferencePoints");
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateReferencePoints");
 
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePrefabSource = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdatePrefabSource");
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateVSP = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateVSP");
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateGPUI = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateGPUI");
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePrefabSource =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdatePrefabSource");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateVSP =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateVSP");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateGPUI =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateGPUI");
 
         private static readonly ProfilerMarker _PRF_CheckNulls_UpdateShaderVariants =
-            new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateShaderVariants");
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateShaderVariants");
 
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateFrustum = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateFrustum");
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePathfinder = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdatePathfinder");
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateSimulator = new ProfilerMarker(_PRF_PFX + nameof(CheckNulls) + ".UpdateSimulator");
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateFrustum =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateFrustum");
 
-        private static readonly ProfilerMarker _PRF_InitializeTransform = new ProfilerMarker(_PRF_PFX + nameof(InitializeTransform));
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePathfinder =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdatePathfinder");
 
-        private static readonly ProfilerMarker _PRF_InitializeStructure = new ProfilerMarker(_PRF_PFX + nameof(InitializeStructure));
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateSimulator =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateSimulator");
 
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds = new ProfilerMarker(_PRF_PFX + nameof(RecalculateRenderingBounds));
+        private static readonly ProfilerMarker _PRF_InitializeTransform =
+            new(_PRF_PFX + nameof(InitializeTransform));
+
+        private static readonly ProfilerMarker _PRF_InitializeStructure =
+            new(_PRF_PFX + nameof(InitializeStructure));
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds));
 
         private static readonly ProfilerMarker _PRF_InitializeGPUIInitializationTracking =
-            new ProfilerMarker(_PRF_PFX + nameof(InitializeGPUIInitializationTracking));
+            new(_PRF_PFX + nameof(InitializeGPUIInitializationTracking));
 
-        private static readonly ProfilerMarker _PRF_WarmUpShaders = new ProfilerMarker(_PRF_PFX + nameof(WarmUpShaders));
+        private static readonly ProfilerMarker _PRF_WarmUpShaders =
+            new(_PRF_PFX + nameof(WarmUpShaders));
 
-        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets = new ProfilerMarker(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets));
+        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets =
+            new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets));
 
-        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes =
-            new ProfilerMarker(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets) + ".UpdatePrototypes");
+        private static readonly ProfilerMarker
+            _PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes = new(_PRF_PFX +
+                nameof(InitializeAllPrefabRenderingSets) +
+                ".UpdatePrototypes");
 
-        private static readonly ProfilerMarker _PRF_InitializeOptions = new ProfilerMarker(_PRF_PFX + nameof(InitializeOptions));
-        
+        private static readonly ProfilerMarker _PRF_InitializeOptions =
+            new(_PRF_PFX + nameof(InitializeOptions));
 
-#endregion
+        [NonSerialized] private static bool graphAssigned;
+
+        private static Terrain[] _terrains;
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_Terrains =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".Terrains");
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_GetTerrainBounds =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".GetTerrainBounds");
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_EncapsulateBounds =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".EncapsulateBounds");
+
         public static void OnAwake()
         {
             using (_PRF_OnAwake.Auto())
@@ -258,8 +289,8 @@ namespace Appalachia.Prefabs.Rendering
                     else if (!graphAssigned)
                     {
                         graphAssigned = true;
-                        RecastGraph.OnCollectSceneMeshes -= RecastGraphOnOnCollectSceneMeshes;    
-                        RecastGraph.OnCollectSceneMeshes += RecastGraphOnOnCollectSceneMeshes;    
+                        RecastGraph.OnCollectSceneMeshes -= RecastGraphOnOnCollectSceneMeshes;
+                        RecastGraph.OnCollectSceneMeshes += RecastGraphOnOnCollectSceneMeshes;
                     }
                 }
 
@@ -270,7 +301,11 @@ namespace Appalachia.Prefabs.Rendering
 
                     if (simulator == null)
                     {
-                        manager.gpui.gpuiSimulator = new GPUInstancerEditorSimulator(manager.gpui, "MainCamera", true);
+                        manager.gpui.gpuiSimulator = new GPUInstancerEditorSimulator(
+                            manager.gpui,
+                            "MainCamera",
+                            true
+                        );
                     }
                     else
                     {
@@ -280,13 +315,19 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
-        
-        [NonSerialized] 
-        private static bool graphAssigned;
 
-        private static void RecastGraphOnOnCollectSceneMeshes(List<RasterizationMesh> meshes, LayerMask mask, List<string> tags, Bounds pathBounds)
+        private static void RecastGraphOnOnCollectSceneMeshes(
+            List<RasterizationMesh> meshes,
+            LayerMask mask,
+            List<string> tags,
+            Bounds pathBounds)
         {
-            PrefabRenderingManager.instance.RecastGraphOnOnCollectSceneMeshes(meshes, mask, tags, pathBounds);
+            PrefabRenderingManager.instance.RecastGraphOnOnCollectSceneMeshes(
+                meshes,
+                mask,
+                tags,
+                pathBounds
+            );
         }
 
         private static void InitializeTransform()
@@ -316,10 +357,6 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static Terrain[] _terrains;
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_Terrains = new ProfilerMarker(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".Terrains");
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_GetTerrainBounds = new ProfilerMarker(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".GetTerrainBounds");
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_EncapsulateBounds = new ProfilerMarker(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".EncapsulateBounds");
         private static void RecalculateRenderingBounds()
         {
             using (_PRF_RecalculateRenderingBounds.Auto())
@@ -335,7 +372,7 @@ namespace Appalachia.Prefabs.Rendering
                 }
 
                 var length = _terrains.Length;
-                
+
                 for (var terrainIndex = 0; terrainIndex < length; terrainIndex++)
                 {
                     var terrain = _terrains[terrainIndex];
@@ -409,13 +446,15 @@ namespace Appalachia.Prefabs.Rendering
 
                             if (sharedRendererMaterial == null)
                             {
-                                Debug.LogWarning($"Missing a material for renderer {renderer.name}!", renderer);
+                                Debug.LogWarning(
+                                    $"Missing a material for renderer {renderer.name}!",
+                                    renderer
+                                );
                             }
                             else
                             {
-                                materialHash.Add(sharedRendererMaterial);                                
+                                materialHash.Add(sharedRendererMaterial);
                             }
-                            
                         }
                     }
                 }
@@ -429,7 +468,10 @@ namespace Appalachia.Prefabs.Rendering
 
                     foreach (var passType in _ptEnum)
                     {
-                        var variant = new ShaderVariantCollection.ShaderVariant {passType = passType, keywords = keywords, shader = shader};
+                        var variant = new ShaderVariantCollection.ShaderVariant
+                        {
+                            passType = passType, keywords = keywords, shader = shader
+                        };
 
                         if (!manager.shaderVariants.Contains(variant))
                         {
@@ -482,16 +524,22 @@ namespace Appalachia.Prefabs.Rendering
                     }
                 }
 
-                var externalParameters = manager.prefabSource.GetRenderingParameters(existingParameters);
+                var externalParameters =
+                    manager.prefabSource.GetRenderingParameters(existingParameters);
 
-                using (var bar = new EditorOnlyProgressBar("Initializing Prefab Rendering Parameters", externalParameters.Count, false))
+                using (var bar = new EditorOnlyProgressBar(
+                    "Initializing Prefab Rendering Parameters",
+                    externalParameters.Count,
+                    false
+                ))
                 {
                     manager.gpui.prototypeList.Clear();
 
                     PrefabModelTypeOptionsLookup.instance.Initialize();
                     PrefabContentTypeOptionsLookup.instance.Initialize();
 
-                    var prototypeLookup = new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
+                    var prototypeLookup =
+                        new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
 
                     for (var rpi = externalParameters.Count - 1; rpi >= 0; rpi--)
                     {
@@ -515,9 +563,13 @@ namespace Appalachia.Prefabs.Rendering
 
                             if (manager.renderingSets.Sets.ContainsKey(renderingParameter.prefab))
                             {
-                                renderingSet = manager.renderingSets.Sets[renderingParameter.prefab];
+                                renderingSet =
+                                    manager.renderingSets.Sets[renderingParameter.prefab];
 
-                                renderingSet.ExternalParameters.AddOrUpdate(renderingParameter.identifyingKey, renderingParameter);
+                                renderingSet.ExternalParameters.AddOrUpdate(
+                                    renderingParameter.identifyingKey,
+                                    renderingParameter
+                                );
 
 #if UNITY_EDITOR
                                 if (renderingSet.prototypeMetadata == null)
@@ -531,38 +583,66 @@ namespace Appalachia.Prefabs.Rendering
                                 else
                                 {
 #endif
-                                    manager.metadatas.ConfirmPrototype(renderingSet.prototypeMetadata);
+                                    manager.metadatas.ConfirmPrototype(
+                                        renderingSet.prototypeMetadata
+                                    );
 #if UNITY_EDITOR
                                 }
 #endif
 
-                                renderingSet.prototypeMetadata.CreatePrototypeIfNecessary(renderingParameter.prefab, manager.gpui, prototypeLookup);
+                                renderingSet.prototypeMetadata.CreatePrototypeIfNecessary(
+                                    renderingParameter.prefab,
+                                    manager.gpui,
+                                    prototypeLookup
+                                );
                             }
 #if UNITY_EDITOR
                             else
                             {
-                                renderingSet = PrefabRenderingSet.LoadOrCreateNew($"{renderingParameter.prefab.name}", true, true, false);
+                                renderingSet = PrefabRenderingSet.LoadOrCreateNew(
+                                    $"{renderingParameter.prefab.name}",
+                                    true,
+                                    true,
+                                    false
+                                );
 
-                                renderingSet.ExternalParameters.AddOrUpdate(renderingParameter.identifyingKey, renderingParameter);
+                                renderingSet.ExternalParameters.AddOrUpdate(
+                                    renderingParameter.identifyingKey,
+                                    renderingParameter
+                                );
 
                                 renderingSet.Initialize(
                                     renderingParameter.prefab,
-                                    manager.metadatas.FindOrCreate(renderingParameter.prefab, manager.gpui, prototypeLookup)
+                                    manager.metadatas.FindOrCreate(
+                                        renderingParameter.prefab,
+                                        manager.gpui,
+                                        prototypeLookup
+                                    )
                                 );
 
-                                manager.renderingSets.Sets.AddOrUpdate(renderingSet.prefab, renderingSet);
+                                manager.renderingSets.Sets.AddOrUpdate(
+                                    renderingSet.prefab,
+                                    renderingSet
+                                );
                             }
 #endif
 
                             if (renderingSet == null)
                             {
-                                DebugHelper.LogWarning($"No render set for [{renderingParameter.prefab}].", manager);
+                                DebugHelper.LogWarning(
+                                    $"No render set for [{renderingParameter.prefab}].",
+                                    manager
+                                );
                             }
                         }
                     }
                 }
 
-                using (var bar = new EditorOnlyProgressBar("Updating Prefab Render Sets", manager.renderingSets.Sets.Count, false))
+                using (var bar = new EditorOnlyProgressBar(
+                    "Updating Prefab Render Sets",
+                    manager.renderingSets.Sets.Count,
+                    false
+                ))
                 {
                     for (var setIndex = 0; setIndex < manager.renderingSets.Sets.Count; setIndex++)
                     {
@@ -579,7 +659,10 @@ namespace Appalachia.Prefabs.Rendering
 
                         if (renderingSet.modelType == PrefabModelType.None)
                         {
-                            Debug.LogWarning($"Could not assign a prefab type for object [{renderingSet.prefab.name}].", renderingSet.prefab);
+                            Debug.LogWarning(
+                                $"Could not assign a prefab type for object [{renderingSet.prefab.name}].",
+                                renderingSet.prefab
+                            );
                         }
 
                         renderingSet.UpdatePrototypeSettings();
@@ -629,9 +712,16 @@ namespace Appalachia.Prefabs.Rendering
 
                 if (manager.RenderingOptions.global.shadowSettings.proxyVolume == null)
                 {
-                    manager.RenderingOptions.global.shadowSettings.proxyVolume = manager.RenderingOptions.global.defaultSettings.proxyVolume;
+                    manager.RenderingOptions.global.shadowSettings.proxyVolume =
+                        manager.RenderingOptions.global.defaultSettings.proxyVolume;
                 }
             }
         }
+
+#region ProfilerMarkers
+
+        private const string _PRF_PFX = nameof(PrefabRenderingManagerInitializer) + ".";
+
+#endregion
     }
 }

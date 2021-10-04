@@ -27,9 +27,9 @@ namespace Appalachia.Prefabs.Core
 
         Tree = 600,
         Leaves = 610,
-        
+
         Roots = 700,
-        
+
         Hillside = 800,
         Ridge = 810,
         Cliff = 820

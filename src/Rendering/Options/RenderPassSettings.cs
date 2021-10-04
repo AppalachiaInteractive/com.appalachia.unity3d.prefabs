@@ -18,36 +18,60 @@ namespace Appalachia.Prefabs.Rendering.Options
     public class RenderPassSettings : InternalBase<RenderPassSettings>
     {
         private const string _PRF_PFX = nameof(RenderPassSettings) + ".";
-        
-        [HideLabel, LabelWidth(0), HorizontalGroup("1", .05f), SerializeField]
+
+        private static readonly ProfilerMarker _PRF_CopyTo = new(_PRF_PFX + nameof(CopyTo));
+
+        private static readonly ProfilerMarker _PRF_GetOverrideLightingSettings =
+            new(_PRF_PFX + nameof(GetOverrideLightingSettings));
+
+        [HideLabel]
+        [LabelWidth(0)]
+        [HorizontalGroup("1", .05f)]
+        [SerializeField]
         public bool overrideShadowCasting;
 
-        [ToggleLeft, HorizontalGroup("1", .95f), SerializeField]
+        [ToggleLeft]
+        [HorizontalGroup("1", .95f)]
+        [SerializeField]
         [EnableIf(nameof(overrideShadowCasting))]
         public bool isShadowCasting;
 
-        [HideLabel, LabelWidth(0), HorizontalGroup("4", .05f), SerializeField]
+        [HideLabel]
+        [LabelWidth(0)]
+        [HorizontalGroup("4", .05f)]
+        [SerializeField]
         public bool overrideReceiveShadows;
 
-        [ToggleLeft, HorizontalGroup("4", .95f), SerializeField]
+        [ToggleLeft]
+        [HorizontalGroup("4", .95f)]
+        [SerializeField]
         [EnableIf(nameof(overrideReceiveShadows))]
         public bool receiveShadows;
 
-        [HideLabel, LabelWidth(0), HorizontalGroup("2", .05f), SerializeField]
+        [HideLabel]
+        [LabelWidth(0)]
+        [HorizontalGroup("2", .05f)]
+        [SerializeField]
         public bool overrideLightProbeUsage;
 
-        [SmartLabel, HorizontalGroup("2", .95f), SerializeField]
+        [SmartLabel]
+        [HorizontalGroup("2", .95f)]
+        [SerializeField]
         [EnableIf(nameof(overrideLightProbeUsage))]
         public LightProbeUsage lightProbeUsage = LightProbeUsage.Off;
 
-        [HideLabel, LabelWidth(0), HorizontalGroup("3", .05f), SerializeField]
+        [HideLabel]
+        [LabelWidth(0)]
+        [HorizontalGroup("3", .05f)]
+        [SerializeField]
         public bool overrideLightProxyVolume;
 
-        [SmartLabel, HorizontalGroup("3", .95f), SerializeField]
+        [SmartLabel]
+        [HorizontalGroup("3", .95f)]
+        [SerializeField]
         [EnableIf(nameof(overrideLightProxyVolume))]
         public LightProbeProxyVolume proxyVolume;
 
-        private static readonly ProfilerMarker _PRF_CopyTo = new ProfilerMarker(_PRF_PFX + nameof(CopyTo));
         public void CopyTo(GPUIRenderPassSettings settings)
         {
             using (_PRF_CopyTo.Auto())
@@ -63,7 +87,6 @@ namespace Appalachia.Prefabs.Rendering.Options
             }
         }
 
-        private static readonly ProfilerMarker _PRF_GetOverrideLightingSettings = new ProfilerMarker(_PRF_PFX + nameof(GetOverrideLightingSettings));
         public void GetOverrideLightingSettings(
             AssetLightingSettings instanceSettings,
             ShadowCastingMode rendererShadowCasting,
@@ -82,8 +105,12 @@ namespace Appalachia.Prefabs.Rendering.Options
                         ? rendererShadowCasting
                         : ShadowCastingMode.Off;
 
-                shadowReceiver = overrideReceiveShadows ? receiveShadows : instanceSettings.isShadowReceiving;
-                usage = overrideLightProbeUsage ? lightProbeUsage : instanceSettings.lightProbeUsage;
+                shadowReceiver = overrideReceiveShadows
+                    ? receiveShadows
+                    : instanceSettings.isShadowReceiving;
+                usage = overrideLightProbeUsage
+                    ? lightProbeUsage
+                    : instanceSettings.lightProbeUsage;
 
                 volume = proxyVolume;
 

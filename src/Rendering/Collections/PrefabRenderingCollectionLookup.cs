@@ -15,9 +15,15 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]
-    public class PrefabRenderingCollectionLookup : AppaLookup<PrefabModelType, List<GameObject>, AppaList_PrefabModelType,
-        AppaList_ListOfGameObject>
+    [ListDrawerSettings(
+        Expanded = true,
+        DraggableItems = false,
+        HideAddButton = true,
+        HideRemoveButton = true,
+        NumberOfItemsPerPage = 5
+    )]
+    public class PrefabRenderingCollectionLookup : AppaLookup<PrefabModelType, List<GameObject>,
+        AppaList_PrefabModelType, AppaList_ListOfGameObject>
     {
         protected override string GetDisplayTitle(PrefabModelType key, List<GameObject> value)
         {
@@ -31,7 +37,7 @@ namespace Appalachia.Prefabs.Rendering.Collections
 
         protected override Color GetDisplayColor(PrefabModelType key, List<GameObject> value)
         {
-            return value != null && value.Count > 0 ? Color.white : Color.gray;
+            return (value != null) && (value.Count > 0) ? Color.white : Color.gray;
         }
     }
 }

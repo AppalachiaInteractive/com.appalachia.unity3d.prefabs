@@ -8,9 +8,14 @@ using Unity.Burst;
 
 namespace Appalachia.Prefabs.Core.States
 {
-    [BurstCompile, Serializable]
+    [BurstCompile]
+    [Serializable]
     public struct InstancePhysicsCounts
     {
+        public ushort notSetCount;
+        public ushort disabledCount;
+        public ushort enabledCount;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public InstancePhysicsCounts(InstancePhysicsState state)
         {
@@ -36,13 +41,10 @@ namespace Appalachia.Prefabs.Core.States
             }
         }
 
-        public ushort notSetCount;
-        public ushort disabledCount;
-        public ushort enabledCount;
-
         public ushort total => (ushort) (notSetCount + disabledCount + enabledCount);
 
-        [BurstCompile, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddFrom(InstancePhysicsCounts b)
         {
             notSetCount += b.notSetCount;
@@ -50,7 +52,8 @@ namespace Appalachia.Prefabs.Core.States
             enabledCount += b.enabledCount;
         }
 
-        [BurstDiscard, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [BurstDiscard]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return $"Phys {enabledCount} / {total}";

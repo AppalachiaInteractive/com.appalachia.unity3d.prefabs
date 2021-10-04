@@ -8,11 +8,12 @@ using Appalachia.Prefabs.Spawning.Data;
 
 namespace Appalachia.Prefabs.Spawning.Sets
 {
-    public class RandomPrefabSetCollection : SelfNamingSavingAndIdentifyingScriptableObject<RandomPrefabSetCollection>
+    public class RandomPrefabSetCollection : SelfNamingSavingAndIdentifyingScriptableObject<
+        RandomPrefabSetCollection>
     {
-        public List<RandomPrefabSetElement> prefabSets = new List<RandomPrefabSetElement>();
+        public List<RandomPrefabSetElement> prefabSets = new();
 
-        public List<RandomPrefabSpawnSource> spawners = new List<RandomPrefabSpawnSource>();
+        public List<RandomPrefabSpawnSource> spawners = new();
         protected override bool ShowIDProperties => false;
     }
 }

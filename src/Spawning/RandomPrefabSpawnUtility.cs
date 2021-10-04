@@ -12,7 +12,9 @@ namespace Appalachia.Prefabs.Spawning
     {
         //private static Dictionary<GameObject, GameObject> _prefabInstanceLookup;
 
-        public static RandomPrefabInstanceData GetPrefabInstance(Transform parent, GameObject prefab)
+        public static RandomPrefabInstanceData GetPrefabInstance(
+            Transform parent,
+            GameObject prefab)
         {
 #if UNITY_EDITOR
             var realInstance = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;

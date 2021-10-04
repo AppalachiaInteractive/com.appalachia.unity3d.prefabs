@@ -8,6 +8,7 @@ using Appalachia.Utility.Reflection.Delegated;
 using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Profiling;
+using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -18,7 +19,25 @@ namespace Appalachia.Prefabs.Rendering.Burstable
     public class FrustumPlanesWrapper
     {
         private const string _PRF_PFX = nameof(FrustumPlanesWrapper) + ".";
-        
+
+        private static readonly ProfilerMarker _PRF_FrustumPlanesWrapper =
+            new(_PRF_PFX + nameof(FrustumPlanesWrapper));
+
+        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
+
+        private static Camera _frustumCamera;
+        private static Function<Camera, float, Vector2> GetFrustumPlaneSizeAt;
+        private static Function<Camera, Vector3> GetLocalSpaceAim;
+        private static StaticRoutine<GeometryUtility, Plane[], Matrix4x4> Internal_ExtractPlanes;
+
+        private static readonly ProfilerMarker _PRF_CalculateFrustumPlanes =
+            new(_PRF_PFX + nameof(CalculateFrustumPlanes));
+
+        private static readonly ProfilerMarker _PRF_GetFrustumCornersAt =
+            new(_PRF_PFX + nameof(GetFrustumCornersAt));
+
+        private static readonly ProfilerMarker _PRF_DrawFrustumGizmo =
+            new(_PRF_PFX + nameof(DrawFrustumGizmo));
 
         [SerializeField] public float fieldOfView;
 
@@ -28,10 +47,6 @@ namespace Appalachia.Prefabs.Rendering.Burstable
 
         [SerializeField] public float farClipPlane;
 
-        [SerializeField] public FrustumPlanesBurst planes;
-
-        [SerializeField] public Plane[] planesArray;
-
         [SerializeField] public float3[] cornersNear;
 
         [SerializeField] public float3[] cornersFar;
@@ -40,10 +55,17 @@ namespace Appalachia.Prefabs.Rendering.Burstable
 
         [SerializeField] public float3 centerFar;
 
-        private static readonly ProfilerMarker _PRF_FrustumPlanesWrapper = new ProfilerMarker(_PRF_PFX + nameof(FrustumPlanesWrapper));
+        [SerializeField] public FrustumPlanesBurst planes;
+
+        [SerializeField] public Plane[] planesArray;
+
         // Returns near- and far-corners in this order: leftBottom, leftTop, rightTop, rightBottom
         // Assumes input arrays are of length 4 (if allocated)
-        public FrustumPlanesWrapper(Camera camera, Camera frustumCamera, FrustumSettings settings, float maxDistance)
+        public FrustumPlanesWrapper(
+            Camera camera,
+            Camera frustumCamera,
+            FrustumSettings settings,
+            float maxDistance)
         {
             using (_PRF_FrustumPlanesWrapper.Auto())
             {
@@ -51,8 +73,11 @@ namespace Appalachia.Prefabs.Rendering.Burstable
             }
         }
 
-        private static readonly ProfilerMarker _PRF_Update = new ProfilerMarker(_PRF_PFX + nameof(Update));
-        public void Update(Camera camera, Camera frustumCamera, FrustumSettings settings, float maxDistance)
+        public void Update(
+            Camera camera,
+            Camera frustumCamera,
+            FrustumSettings settings,
+            float maxDistance)
         {
             using (_PRF_Update.Auto())
             {
@@ -95,19 +120,27 @@ namespace Appalachia.Prefabs.Rendering.Burstable
                 CalculateFrustumPlanes(projectionMatrix, worldToCameraMatrix, planesArray);
 
                 planes = new FrustumPlanesBurst(planesArray);
-                               
-                if (GetFrustumPlaneSizeAt == null || GetLocalSpaceAim == null || _frustumCamera == null)
+
+                if ((GetFrustumPlaneSizeAt == null) ||
+                    (GetLocalSpaceAim == null) ||
+                    (_frustumCamera == null))
                 {
-                    GetFrustumPlaneSizeAt = new Function<Camera, float, Vector2>(frustumCamera, nameof(GetFrustumPlaneSizeAt));            
-                    GetLocalSpaceAim = new Function<Camera, Vector3>(frustumCamera, nameof(GetLocalSpaceAim));        
+                    GetFrustumPlaneSizeAt = new Function<Camera, float, Vector2>(
+                        frustumCamera,
+                        nameof(GetFrustumPlaneSizeAt)
+                    );
+                    GetLocalSpaceAim = new Function<Camera, Vector3>(
+                        frustumCamera,
+                        nameof(GetLocalSpaceAim)
+                    );
                     _frustumCamera = frustumCamera;
                 }
 
-                var nearFrustumPlaneSize = GetFrustumPlaneSizeAt.Invoke(nearClipPlane);                
+                var nearFrustumPlaneSize = GetFrustumPlaneSizeAt.Invoke(nearClipPlane);
                 var farFrustumPlaneSize = GetFrustumPlaneSizeAt.Invoke(farClipPlane);
-                                
+
                 var localSpaceAim = GetLocalSpaceAim.Invoke();
-                
+
                 if ((cornersNear == null) || (cornersNear.Length != 4))
                 {
                     cornersNear = new float3[4];
@@ -118,21 +151,35 @@ namespace Appalachia.Prefabs.Rendering.Burstable
                     cornersFar = new float3[4];
                 }
 
-                GetFrustumCornersAt(nearClipPlane, nearFrustumPlaneSize, localSpaceAim, right, up, cameraToWorldMatrix, cornersNear);
-                GetFrustumCornersAt(farClipPlane,  farFrustumPlaneSize,  localSpaceAim, right, up, cameraToWorldMatrix, cornersFar);
+                GetFrustumCornersAt(
+                    nearClipPlane,
+                    nearFrustumPlaneSize,
+                    localSpaceAim,
+                    right,
+                    up,
+                    cameraToWorldMatrix,
+                    cornersNear
+                );
+                GetFrustumCornersAt(
+                    farClipPlane,
+                    farFrustumPlaneSize,
+                    localSpaceAim,
+                    right,
+                    up,
+                    cameraToWorldMatrix,
+                    cornersFar
+                );
 
-                centerNear = (cornersNear[0] + cornersNear[1] + cornersNear[2] + cornersNear[3]) / 4.0f;
+                centerNear = (cornersNear[0] + cornersNear[1] + cornersNear[2] + cornersNear[3]) /
+                             4.0f;
                 centerFar = (cornersFar[0] + cornersFar[1] + cornersFar[2] + cornersFar[3]) / 4.0f;
             }
         }
 
-        private static Camera _frustumCamera;
-        private static Function<Camera, float, Vector2> GetFrustumPlaneSizeAt;
-        private static Function<Camera,  Vector3> GetLocalSpaceAim;
-        private static StaticRoutine<GeometryUtility, Plane[], Matrix4x4> Internal_ExtractPlanes;
-
-        private static readonly ProfilerMarker _PRF_CalculateFrustumPlanes = new ProfilerMarker(_PRF_PFX + nameof(CalculateFrustumPlanes));
-        private static void CalculateFrustumPlanes(Matrix4x4 projectionMatrix, Matrix4x4 worldToCameraMatrix, Plane[] p)
+        private static void CalculateFrustumPlanes(
+            Matrix4x4 projectionMatrix,
+            Matrix4x4 worldToCameraMatrix,
+            Plane[] p)
         {
             using (_PRF_CalculateFrustumPlanes.Auto())
             {
@@ -148,17 +195,18 @@ namespace Appalachia.Prefabs.Rendering.Burstable
                     throw new ArgumentException("Planes array must be of length 6.", nameof(p));
                 }
 
-
                 if (Internal_ExtractPlanes == null)
                 {
-                    Internal_ExtractPlanes = new StaticRoutine<GeometryUtility, Plane[], Matrix4x4>("Internal_ExtractPlanes");
+                    Internal_ExtractPlanes =
+                        new StaticRoutine<GeometryUtility, Plane[], Matrix4x4>(
+                            "Internal_ExtractPlanes"
+                        );
                 }
 
                 Internal_ExtractPlanes.Invoke(p, matrix);
             }
         }
 
-        private static readonly ProfilerMarker _PRF_GetFrustumCornersAt = new ProfilerMarker(_PRF_PFX + nameof(GetFrustumCornersAt));
         private static void GetFrustumCornersAt(
             float distance,
             float2 frustumPlaneSize,
@@ -185,21 +233,20 @@ namespace Appalachia.Prefabs.Rendering.Burstable
             }
         }
 
-        private static readonly ProfilerMarker _PRF_DrawFrustumGizmo = new ProfilerMarker(_PRF_PFX + nameof(DrawFrustumGizmo));
         public void DrawFrustumGizmo(Color c)
         {
             using (_PRF_DrawFrustumGizmo.Auto())
             {
-                var orgColor = UnityEditor.Handles.color;
-                UnityEditor.Handles.color = c;
+                var orgColor = Handles.color;
+                Handles.color = c;
                 for (var i = 0; i < 4; ++i)
                 {
-                    UnityEditor.Handles.DrawLine(cornersNear[i], cornersNear[(i + 1) % 4]);
-                    UnityEditor.Handles.DrawLine(cornersFar[i],  cornersFar[(i + 1) % 4]);
-                    UnityEditor.Handles.DrawLine(cornersNear[i], cornersFar[i]);
+                    Handles.DrawLine(cornersNear[i], cornersNear[(i + 1) % 4]);
+                    Handles.DrawLine(cornersFar[i],  cornersFar[(i + 1) % 4]);
+                    Handles.DrawLine(cornersNear[i], cornersFar[i]);
                 }
 
-                UnityEditor.Handles.color = orgColor;
+                Handles.color = orgColor;
             }
         }
 
@@ -212,7 +259,8 @@ namespace Appalachia.Prefabs.Rendering.Burstable
             var rangeMag = math.length(range);
             var dir = math.normalize(range);
 
-            return $"From {Format(centerNear)} | Direction {Format(dir)} | Range {rangeMag:F1}m | FOV {fieldOfView:F1}";
+            return
+                $"From {Format(centerNear)} | Direction {Format(dir)} | Range {rangeMag:F1}m | FOV {fieldOfView:F1}";
         }
 
         private string Format(float3 f)

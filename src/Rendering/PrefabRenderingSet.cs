@@ -36,11 +36,14 @@ using UnityEngine.Serialization;
 namespace Appalachia.Prefabs.Rendering
 {
     [Serializable]
-    [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
-    [HideLabel, LabelWidth(0)]
+    [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+    [InlineProperty]
+    [HideLabel]
+    [LabelWidth(0)]
     public class PrefabRenderingSet : SelfSavingAndIdentifyingScriptableObject<PrefabRenderingSet>
     {
         private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
+
         public override string ToString()
         {
             return $"{prefab.name} - Prefab Render Set";
@@ -96,13 +99,19 @@ namespace Appalachia.Prefabs.Rendering
                     : _instanceManager?.currentState.ToString().SeperateWords() ?? string.Empty
                 : _instanceManager?.currentState.ToString().SeperateWords() ?? string.Empty;
 
-        private string _substateLabel => _instanceManager?.currentSupplementalStateCode.ToString().SeperateWords() ?? string.Empty;
-
+        private string _substateLabel =>
+            _instanceManager?.currentSupplementalStateCode.ToString().SeperateWords() ??
+            string.Empty;
 
 #endregion
 
         [VerticalGroup(_MAIN)]
-        [SmartTitle("$" + nameof(_stateLabel), "$" + nameof(_substateLabel), Color = nameof(_stateColor), Alignment = TitleAlignments.Split)]
+        [SmartTitle(
+            "$" + nameof(_stateLabel),
+            "$" + nameof(_substateLabel),
+            Color = nameof(_stateColor),
+            Alignment = TitleAlignments.Split
+        )]
         [ToggleLeft]
         [SmartLabel]
 #if UNITY_EDITOR
@@ -234,7 +243,8 @@ namespace Appalachia.Prefabs.Rendering
             set => _soloed = value;
         }
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
+        [HideInInspector]
         private bool _soloed;
 
         public bool Muted
@@ -243,24 +253,34 @@ namespace Appalachia.Prefabs.Rendering
             set => _muted = value;
         }
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
+        [HideInInspector]
         private bool _muted;
 
-        [HorizontalGroup(_MAIN_COLS), LabelWidth(0), HideLabel]
+        [HorizontalGroup(_MAIN_COLS)]
+        [LabelWidth(0)]
+        [HideLabel]
         [VerticalGroup(_MAIN_COLS_1)]
-        [TabGroup(_TABS, _RUN), Embed, SmartLabel, SerializeField]
+        [TabGroup(_TABS, _RUN)]
+        [Embed]
+        [SmartLabel]
+        [SerializeField]
         private PrefabRenderingInstanceManager _instanceManager;
 
         public PrefabRenderingInstanceManager instanceManager => _instanceManager;
 
         public bool gpuMatrixPushPending => _instanceManager.gpuMatrixPushPending;
 
-        [TabGroup(_TABS, _META), SmartLabel]
-        [SerializeField, InlineProperty] 
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        [InlineProperty]
         private PrefabContentType_OVERRIDE _contentType;
-        
-        [TabGroup(_TABS, _META), SmartLabel]
-        [SerializeField, InlineProperty] 
+
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        [InlineProperty]
         private PrefabModelType_OVERRIDE _modelType;
 
         public PrefabContentType contentType
@@ -271,7 +291,7 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     _contentType = new PrefabContentType_OVERRIDE();
                 }
-                
+
                 return _contentType.value;
             }
             set
@@ -280,7 +300,7 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     _contentType = new PrefabContentType_OVERRIDE();
                 }
-                
+
                 if (!_contentType.overrideEnabled)
                 {
                     _contentType.value = value;
@@ -296,7 +316,7 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     _modelType = new PrefabModelType_OVERRIDE();
                 }
-                
+
                 return _modelType.value;
             }
             set
@@ -305,7 +325,7 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     _modelType = new PrefabModelType_OVERRIDE();
                 }
-                
+
                 if (!_modelType.overrideEnabled)
                 {
                     _modelType.value = value;
@@ -313,21 +333,29 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [SerializeField]
         public GPUInstancerPrototypeMetadata prototypeMetadata;
 
-        private bool _canUseLocations => (locations != null) && (locations.locations != null) && (locations.locations.Length > 0);
+        private bool _canUseLocations =>
+            (locations != null) &&
+            (locations.locations != null) &&
+            (locations.locations.Length > 0);
 
-        [TabGroup(_TABS, _META), SmartLabel]
-        [SerializeField, EnableIf(nameof(_canUseLocations))]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        [EnableIf(nameof(_canUseLocations))]
         public bool useLocations;
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [SerializeField]
         public PrefabRenderingSetLocations locations;
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         private void SetRenderingLocations()
         {
             if (locations == null)
@@ -338,28 +366,32 @@ namespace Appalachia.Prefabs.Rendering
             locations.SetFromInstance(this);
         }
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [Button]
         private void BuryMeshes()
         {
             //MeshBurialManagementProcessor.EnqueuePrefabRenderingSet(this);
         }
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [Button]
         private void ResetBurials()
         {
             //MeshBurialAdjustmentCollection.instance.GetByPrefab(prefab).Reset();
         }
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [Button]
         private void ResetInstances()
         {
             TearDown(PrefabRenderingManager.instance.gpui);
         }
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [Button]
         private void DefaultPositions()
         {
@@ -367,11 +399,19 @@ namespace Appalachia.Prefabs.Rendering
             ResetInstances();
         }
 
-        [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 6)]
-        [SerializeField, DisableIf(nameof(useLocations))]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 6
+        )]
+        [SerializeField]
+        [DisableIf(nameof(useLocations))]
         private ExternalRenderingParametersLookup _externalParameters;
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [SerializeField]
         public PrefabRenderingSetLocationModificationLookup modifications;
 
@@ -381,7 +421,8 @@ namespace Appalachia.Prefabs.Rendering
         public bool replacementEligible => replacement != null;
 
         [ToggleLeft]
-        [TabGroup(_TABS, _REPLACE), SmartLabel]
+        [TabGroup(_TABS, _REPLACE)]
+        [SmartLabel]
         [EnableIf(nameof(replacementEligible))]
         [SerializeField]
         public bool useReplacement;
@@ -391,7 +432,8 @@ namespace Appalachia.Prefabs.Rendering
         [SerializeField]
         public GameObject replacement;
 
-        public IAppaLookup<string, ExternalRenderingParameters, AppaList_ExternalRenderingParameters> ExternalParameters
+        public IAppaLookup<string, ExternalRenderingParameters,
+            AppaList_ExternalRenderingParameters> ExternalParameters
         {
             get
             {
@@ -436,7 +478,9 @@ namespace Appalachia.Prefabs.Rendering
         public RendererLightData[] originalRendererLighting;
 
         private string _setName;
-        private string _suffix => $"{_modelType.value.ToString()} / {_contentType.value.ToString()}";
+
+        private string _suffix =>
+            $"{_modelType.value.ToString()} / {_contentType.value.ToString()}";
 
         public string setName
         {
@@ -447,7 +491,9 @@ namespace Appalachia.Prefabs.Rendering
                     return _setName;
                 }
 
-                _setName = prefab == null ? $"MISSING PREFAB [{_suffix}]" : $"{prefab.name} [{_suffix}]";
+                _setName = prefab == null
+                    ? $"MISSING PREFAB [{_suffix}]"
+                    : $"{prefab.name} [{_suffix}]";
 
                 return _setName;
             }
@@ -455,7 +501,8 @@ namespace Appalachia.Prefabs.Rendering
 
         [FormerlySerializedAs("_options")]
         [TabGroup(_TABS, _OPTS)]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
         [SerializeField]
@@ -475,7 +522,8 @@ namespace Appalachia.Prefabs.Rendering
         }
 
         [TabGroup(_TABS, _OPTS)]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
         [SerializeField]
@@ -494,7 +542,9 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        [HorizontalGroup(_MAIN_COLS, 100f), LabelWidth(0), HideLabel]
+        [HorizontalGroup(_MAIN_COLS, 100f)]
+        [LabelWidth(0)]
+        [HideLabel]
         [VerticalGroup(_MAIN_COLS_2)]
         [PreviewField(ObjectFieldAlignment.Right, Height = 96f)]
         [SerializeField]
@@ -509,7 +559,8 @@ namespace Appalachia.Prefabs.Rendering
 
 #region Metadata Methods
 
-        private static readonly ProfilerMarker _PRF_Initialize = new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+
         public void Initialize(GameObject pf, GPUInstancerPrototypeMetadata pp)
         {
             using (_PRF_Initialize.Auto())
@@ -536,7 +587,8 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_Refresh = new ProfilerMarker(_PRF_PFX + nameof(Refresh));
+        private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
+
         public void Refresh()
         {
             using (_PRF_Refresh.Auto())
@@ -581,31 +633,47 @@ namespace Appalachia.Prefabs.Rendering
                         renderer.lightProbeProxyVolumeOverride
                     );
 
-                    if (i == renderers.Length - 1)
+                    if (i == (renderers.Length - 1))
                     {
-                        
-                        if (cheapestMeshFilter == null) cheapestMeshFilter = renderer.GetComponent<MeshFilter>();
-                        if (cheapestMesh == null) cheapestMesh = cheapestMeshFilter.sharedMesh;
+                        if (cheapestMeshFilter == null)
+                        {
+                            cheapestMeshFilter = renderer.GetComponent<MeshFilter>();
+                        }
+
+                        if (cheapestMesh == null)
+                        {
+                            cheapestMesh = cheapestMeshFilter.sharedMesh;
+                        }
 
                         if (!cheapestMesh.isReadable)
                         {
                             if (Application.isPlaying)
                             {
-                                throw new NotSupportedException($"Mesh [{cheapestMesh.name}] must be readable!");
+                                throw new NotSupportedException(
+                                    $"Mesh [{cheapestMesh.name}] must be readable!"
+                                );
                             }
-                            
-                            var meshImporter = UnityEditor.AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(cheapestMesh)) as UnityEditor.ModelImporter;
+
+                            var meshImporter =
+                                AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(cheapestMesh)) as
+                                    ModelImporter;
 
                             meshImporter.isReadable = true;
-                            
+
                             meshImporter.SaveAndReimport();
 
                             cheapestMesh = cheapestMeshFilter.sharedMesh;
-                        } 
-                        
-                        if (cheapestMeshVerts == null) cheapestMeshVerts = cheapestMesh.vertices;
-                        if (cheapestMeshTris == null) cheapestMeshTris = cheapestMesh.triangles;
+                        }
 
+                        if (cheapestMeshVerts == null)
+                        {
+                            cheapestMeshVerts = cheapestMesh.vertices;
+                        }
+
+                        if (cheapestMeshTris == null)
+                        {
+                            cheapestMeshTris = cheapestMesh.triangles;
+                        }
                     }
                 }
 
@@ -618,7 +686,8 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        [TabGroup(_TABS, _META), SmartLabel]
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
         [Button]
         public void AssignPrefabTypes()
         {
@@ -628,7 +697,7 @@ namespace Appalachia.Prefabs.Rendering
             }
 
             modelOptions.type = modelType;
-                
+
             if (!_contentType.overrideEnabled || (contentType == PrefabContentType.None))
             {
                 contentType = PrefabContentTypeOptionsLookup.instance.GetPrefabType(labels);
@@ -637,7 +706,9 @@ namespace Appalachia.Prefabs.Rendering
             contentOptions.type = contentType;
         }
 
-        private static readonly ProfilerMarker _PRF_UpdatePrototypeSettings = new ProfilerMarker(_PRF_PFX + nameof(UpdatePrototypeSettings));
+        private static readonly ProfilerMarker _PRF_UpdatePrototypeSettings =
+            new(_PRF_PFX + nameof(UpdatePrototypeSettings));
+
         public void UpdatePrototypeSettings()
         {
             using (_PRF_UpdatePrototypeSettings.Auto())
@@ -652,18 +723,20 @@ namespace Appalachia.Prefabs.Rendering
                 {
                     return;
                 }
-                
-                if (!_modelOptions.instancedLighting.additionalShadowPass && runtimeData.hasShadowCasterBuffer)
+
+                if (!_modelOptions.instancedLighting.additionalShadowPass &&
+                    runtimeData.hasShadowCasterBuffer)
                 {
                     runtimeData.hasShadowCasterBuffer = false;
                 }
-                else if (modelOptions.instancedLighting.additionalShadowPass && !runtimeData.hasShadowCasterBuffer)
+                else if (modelOptions.instancedLighting.additionalShadowPass &&
+                         !runtimeData.hasShadowCasterBuffer)
                 {
                     runtimeData.hasShadowCasterBuffer = true;
                 }
 
                 runtimeData.autoResetBufferState = true;
-                
+
                 if (modelOptions.cullingSettings.updateCullingEveryIteration)
                 {
                     runtimeData.canUpdateBuffers = true;
@@ -671,13 +744,15 @@ namespace Appalachia.Prefabs.Rendering
                 else
                 {
                     runtimeData.canUpdateBuffers = false;
-                    runtimeData.resetBuffersEveryXFrames = modelOptions.cullingSettings.updateCullingEveryXFrames;
+                    runtimeData.resetBuffersEveryXFrames =
+                        modelOptions.cullingSettings.updateCullingEveryXFrames;
                 }
-                
             }
         }
 
-        private static readonly ProfilerMarker _PRF_UpdatePrototypeShadowMap = new ProfilerMarker(_PRF_PFX + nameof(UpdatePrototypeShadowMap));
+        private static readonly ProfilerMarker _PRF_UpdatePrototypeShadowMap =
+            new(_PRF_PFX + nameof(UpdatePrototypeShadowMap));
+
         private static void UpdatePrototypeShadowMap(GPUInstancerPrefabPrototype prototype)
         {
             using (_PRF_UpdatePrototypeShadowMap.Auto())
@@ -705,7 +780,8 @@ namespace Appalachia.Prefabs.Rendering
                         var meshFilter = renderer.GetComponent<MeshFilter>();
                         var mesh = meshFilter.sharedMesh;
 
-                        if ((mesh.vertexCount >= vertexMinimum) && (mesh.vertexCount < minVertexCount))
+                        if ((mesh.vertexCount >= vertexMinimum) &&
+                            (mesh.vertexCount < minVertexCount))
                         {
                             minVertexCount = mesh.vertexCount;
                             minIndex = index;
@@ -728,7 +804,9 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_SyncExternalParameters = new ProfilerMarker(_PRF_PFX + nameof(SyncExternalParameters));
+        private static readonly ProfilerMarker _PRF_SyncExternalParameters =
+            new(_PRF_PFX + nameof(SyncExternalParameters));
+
         public void SyncExternalParameters(PrefabLocationSource prefabSource)
         {
             using (_PRF_SyncExternalParameters.Auto())
@@ -739,7 +817,12 @@ namespace Appalachia.Prefabs.Rendering
 
                     if (external.veggie == null)
                     {
-                        prefabSource.UpdateRuntimeRenderingParameters(external, out _, out _, out external.veggie);
+                        prefabSource.UpdateRuntimeRenderingParameters(
+                            external,
+                            out _,
+                            out _,
+                            out external.veggie
+                        );
                     }
                 }
             }
@@ -749,7 +832,8 @@ namespace Appalachia.Prefabs.Rendering
 
 #region Runtime Methods
 
-        private static readonly ProfilerMarker _PRF_OnUpdate = new ProfilerMarker(_PRF_PFX + nameof(OnUpdate));
+        private static readonly ProfilerMarker _PRF_OnUpdate = new(_PRF_PFX + nameof(OnUpdate));
+
         public bool OnUpdate(
             GPUInstancerPrefabManager gpui,
             PrefabLocationSource prefabSource,
@@ -773,7 +857,13 @@ namespace Appalachia.Prefabs.Rendering
 
                 if (!instanceManager.initializationStarted)
                 {
-                    handle = instanceManager.OnUpdate_Initialize(this, gpui, prefabSource, referencePoints, globalRenderingOptions);
+                    handle = instanceManager.OnUpdate_Initialize(
+                        this,
+                        gpui,
+                        prefabSource,
+                        referencePoints,
+                        globalRenderingOptions
+                    );
                     return true;
                 }
 
@@ -791,8 +881,12 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnLateUpdate = new ProfilerMarker(_PRF_PFX + nameof(OnLateUpdate));
-        public bool OnLateUpdate(GPUInstancerPrefabManager gpui, RuntimeRenderingOptions globalRenderingOptions)
+        private static readonly ProfilerMarker _PRF_OnLateUpdate =
+            new(_PRF_PFX + nameof(OnLateUpdate));
+
+        public bool OnLateUpdate(
+            GPUInstancerPrefabManager gpui,
+            RuntimeRenderingOptions globalRenderingOptions)
         {
             using (_PRF_OnLateUpdate.Auto())
             {
@@ -801,15 +895,22 @@ namespace Appalachia.Prefabs.Rendering
                     return true;
                 }
 
-                if (instanceManager.initializationStarted && !instanceManager.initializationCompleted)
+                if (instanceManager.initializationStarted &&
+                    !instanceManager.initializationCompleted)
                 {
                     instanceManager.OnLateUpdate_Initialize(this, gpui);
                 }
                 else if (instanceManager.initializationCompleted)
                 {
-                    if (!instanceManager.OnLateUpdate_Execute(this, globalRenderingOptions.global, globalRenderingOptions.execution))
+                    if (!instanceManager.OnLateUpdate_Execute(
+                        this,
+                        globalRenderingOptions.global,
+                        globalRenderingOptions.execution
+                    ))
                     {
-                        Debug.LogError($"Instance validation for [{prefab.name}] producing continued errors.");
+                        Debug.LogError(
+                            $"Instance validation for [{prefab.name}] producing continued errors."
+                        );
                         return false;
                     }
                 }
@@ -818,7 +919,9 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_PushAllGPUMatrices = new ProfilerMarker(_PRF_PFX + nameof(PushAllGPUMatrices));
+        private static readonly ProfilerMarker _PRF_PushAllGPUMatrices =
+            new(_PRF_PFX + nameof(PushAllGPUMatrices));
+
         public void PushAllGPUMatrices()
         {
             using (_PRF_PushAllGPUMatrices.Auto())
@@ -827,7 +930,8 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_TearDown = new ProfilerMarker(_PRF_PFX + nameof(TearDown));
+        private static readonly ProfilerMarker _PRF_TearDown = new(_PRF_PFX + nameof(TearDown));
+
         public void TearDown(GPUInstancerPrefabManager gpui)
         {
             using (_PRF_TearDown.Auto())

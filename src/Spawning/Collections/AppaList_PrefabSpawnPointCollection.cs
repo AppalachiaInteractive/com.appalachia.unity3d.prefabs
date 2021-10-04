@@ -15,19 +15,21 @@ namespace Appalachia.Prefabs.Spawning.Collections
         {
         }
 
-        public AppaList_PrefabSpawnPointCollection(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
+        public AppaList_PrefabSpawnPointCollection(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
+        {
+        }
+
+        public AppaList_PrefabSpawnPointCollection(AppaList<PrefabSpawnPointCollection> list) :
+            base(list)
+        {
+        }
+
+        public AppaList_PrefabSpawnPointCollection(PrefabSpawnPointCollection[] values) : base(
+            values
         )
-        {
-        }
-
-        public AppaList_PrefabSpawnPointCollection(AppaList<PrefabSpawnPointCollection> list) : base(list)
-        {
-        }
-
-        public AppaList_PrefabSpawnPointCollection(PrefabSpawnPointCollection[] values) : base(values)
         {
         }
     }

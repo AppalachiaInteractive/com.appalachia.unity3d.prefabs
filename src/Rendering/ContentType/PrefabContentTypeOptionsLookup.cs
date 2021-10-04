@@ -10,10 +10,13 @@ using Appalachia.Utility.Enums;
 
 namespace Appalachia.Prefabs.Rendering.ContentType
 {
-    [Serializable, AlwaysInitializeOnLoad]
-public class PrefabContentTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabContentType, PrefabContentTypeOptions,
-        PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData, PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
-        Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle, Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
+    [Serializable]
+    [AlwaysInitializeOnLoad]
+    public class PrefabContentTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabContentType,
+        PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
+        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
+        Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle,
+        Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {
         private const string _PRF_PFX = nameof(PrefabContentTypeOptionsLookup) + ".";
@@ -29,14 +32,17 @@ public class PrefabContentTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabCont
 
         protected override void InitializeState()
         {
-            for(var i = 0; i < _types.Length; i++)
+            for (var i = 0; i < _types.Length; i++)
             {
                 var value = _types.Values[i];
-                
-                if (!_state.ContainsKey(value) || (_state[value] == null) || _state[value].type == PrefabContentType.None || (_state[value].options == default))
+
+                if (!_state.ContainsKey(value) ||
+                    (_state[value] == null) ||
+                    (_state[value].type == PrefabContentType.None) ||
+                    (_state[value].options == default))
                 {
                     var options = PrefabContentTypeOptionsWrapper.LoadOrCreateNew(value.ToString());
-                    
+
                     options.type = value;
 
                     switch (value)

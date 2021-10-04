@@ -8,9 +8,14 @@ using Unity.Burst;
 
 namespace Appalachia.Prefabs.Core.States
 {
-    [BurstCompile, Serializable]
+    [BurstCompile]
+    [Serializable]
     public struct InstanceInteractionCounts
     {
+        public ushort notSetCount;
+        public ushort disabledCount;
+        public ushort enabledCount;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public InstanceInteractionCounts(InstanceInteractionState state)
         {
@@ -19,14 +24,10 @@ namespace Appalachia.Prefabs.Core.States
             enabledCount = GetEnabledCountFromState(state);
         }
 
-        public ushort notSetCount;
-        public ushort disabledCount;
-        public ushort enabledCount;
-
         public ushort total => (ushort) (notSetCount + disabledCount + enabledCount);
 
-        
-        [BurstCompile, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddFrom(InstanceInteractionCounts b)
         {
             notSetCount += b.notSetCount;
@@ -34,13 +35,15 @@ namespace Appalachia.Prefabs.Core.States
             enabledCount += b.enabledCount;
         }
 
-        [BurstDiscard, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [BurstDiscard]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return $"Interact {enabledCount} / {total}";
         }
-        
-        [BurstCompile, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort GetNotSetCountFromState(InstanceInteractionState state)
         {
             return state switch
@@ -51,8 +54,9 @@ namespace Appalachia.Prefabs.Core.States
                 _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
             };
         }
-        
-        [BurstCompile, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort GetDisabledCountFromState(InstanceInteractionState state)
         {
             return state switch
@@ -63,8 +67,9 @@ namespace Appalachia.Prefabs.Core.States
                 _ => throw new ArgumentOutOfRangeException(nameof(state), state, null)
             };
         }
-        
-        [BurstCompile, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static ushort GetEnabledCountFromState(InstanceInteractionState state)
         {
             return state switch

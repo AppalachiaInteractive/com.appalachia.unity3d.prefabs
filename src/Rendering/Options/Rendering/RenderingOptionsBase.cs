@@ -9,10 +9,11 @@ namespace Appalachia.Prefabs.Rendering.Options.Rendering
         where T : InternalBase<T>
     {
         private const string _PRF_PFX = nameof(RenderingOptionsBase<T>) + ".";
-        
-        protected bool _applied = false;
-        
-        private static readonly ProfilerMarker _PRF_MarkDirty = new ProfilerMarker(_PRF_PFX + nameof(MarkDirty));
+
+        private static readonly ProfilerMarker _PRF_MarkDirty = new(_PRF_PFX + nameof(MarkDirty));
+
+        protected bool _applied;
+
         protected void MarkDirty()
         {
             using (_PRF_MarkDirty.Auto())
@@ -20,6 +21,5 @@ namespace Appalachia.Prefabs.Rendering.Options.Rendering
                 _applied = false;
             }
         }
-        
     }
 }

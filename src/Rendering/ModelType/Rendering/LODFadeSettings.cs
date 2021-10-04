@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.ModelType.Rendering
 {
     [Serializable]
-public class LODFadeSettings : IEquatable<LODFadeSettings>
+    public class LODFadeSettings : IEquatable<LODFadeSettings>
     {
         [SerializeField]
         [SmartLabel]
@@ -54,22 +54,22 @@ public class LODFadeSettings : IEquatable<LODFadeSettings>
 
         public static LODFadeSettings NoFade()
         {
-            return new LODFadeSettings();
+            return new();
         }
 
         public static LODFadeSettings FadeWide()
         {
-            return new LODFadeSettings(1.0f, true, false, 0.3f);
+            return new(1.0f, true, false, 0.3f);
         }
 
         public static LODFadeSettings FadeNormal()
         {
-            return new LODFadeSettings(1.0f, true, false, 0.2f);
+            return new(1.0f, true, false, 0.2f);
         }
 
         public static LODFadeSettings FadeNarrow()
         {
-            return new LODFadeSettings(1.0f, true);
+            return new(1.0f, true);
         }
 
 #region IEquatable

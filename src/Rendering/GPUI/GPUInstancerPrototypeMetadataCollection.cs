@@ -13,13 +13,20 @@ using UnityEngine.Serialization;
 
 namespace Appalachia.Prefabs.Rendering.GPUI
 {
-    public class GPUInstancerPrototypeMetadataCollection : SelfSavingSingletonScriptableObject<GPUInstancerPrototypeMetadataCollection>
+    public class GPUInstancerPrototypeMetadataCollection : SelfSavingSingletonScriptableObject<
+        GPUInstancerPrototypeMetadataCollection>
     {
         private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadataCollection) + ".";
-        
+
         [FormerlySerializedAs("_metadatas")]
         [SerializeField]
-        [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 3)]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 3
+        )]
         private GPUInstancerPrototypeMetadataLookup _state;
 
         protected override void WhenEnabled()
@@ -39,7 +46,9 @@ namespace Appalachia.Prefabs.Rendering.GPUI
         }
 
 #if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_FindOrCreate = new ProfilerMarker(_PRF_PFX + nameof(FindOrCreate));
+        private static readonly ProfilerMarker _PRF_FindOrCreate =
+            new(_PRF_PFX + nameof(FindOrCreate));
+
         public GPUInstancerPrototypeMetadata FindOrCreate(
             GameObject gameObject,
             GPUInstancerPrefabManager gpui,
@@ -55,7 +64,12 @@ namespace Appalachia.Prefabs.Rendering.GPUI
                     return metadata;
                 }
 
-                var newPrototypePair = GPUInstancerPrototypeMetadata.LoadOrCreateNew(gameObject.name, true, true, false);
+                var newPrototypePair = GPUInstancerPrototypeMetadata.LoadOrCreateNew(
+                    gameObject.name,
+                    true,
+                    true,
+                    false
+                );
 
                 newPrototypePair.CreatePrototypeIfNecessary(gameObject, gpui, prototypeLookup);
 

@@ -26,13 +26,7 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
         [InlineEditor(InlineEditorObjectFieldModes.Boxed)]
         public VegetationPrefabCollisionRemovalMetadata metadata;
 
-        private Dictionary<string, VegetationItemInfoPro> lookup = new Dictionary<string, VegetationItemInfoPro>();
-
         public Bounds itemBounds;
-
-        private BoundsOctree<string> octree;
-
-        public List<VegetationRemovalInfo> removals = new List<VegetationRemovalInfo>(256);
 
         public bool drawRemovals;
 
@@ -42,7 +36,61 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
         [PropertyRange(0, nameof(targetRemovalMax))]
         public int targetRemoval;
 
+        private Dictionary<string, VegetationItemInfoPro> lookup = new();
+
+        private BoundsOctree<string> octree;
+
+        public List<VegetationRemovalInfo> removals = new(256);
+
         private int targetRemovalMax => metadata.collisionInfos.Count - 1;
+
+#if UNITY_EDITOR
+        private void OnDrawGizmosSelected()
+        {
+            if (!drawRemovals)
+            {
+                return;
+            }
+
+            if (!GizmoCameraChecker.ShouldRenderGizmos())
+            {
+                return;
+            }
+
+            var terrainPosition = Terrain.activeTerrain.GetPosition();
+            var cameraPosition = Camera.current.transform.position;
+
+            var target = metadata.collisionInfos[targetRemoval];
+
+            foreach (var removalList in removals)
+            {
+                var targeted = removalList.info.VegetationItemID == target.vegetationItemID;
+
+                for (var i = 0; i < removalList.removals.Count; i++)
+                {
+                    var removal = removalList.removals[i];
+
+                    var item = removalList.info.VegetationItemList[removal];
+
+                    var position = item.Position + terrainPosition;
+
+                    if (targeted)
+                    {
+                        SmartHandles.DrawWireSphere(position, item.Scale.magnitude, Color.yellow);
+                    }
+                    else
+                    {
+                        var distance = (position - cameraPosition).magnitude;
+
+                        if (distance < removalDrawRadius)
+                        {
+                            SmartHandles.DrawWireSphere(position, item.Scale.magnitude, Color.red);
+                        }
+                    }
+                }
+            }
+        }
+#endif
 
 #if UNITY_EDITOR
         [Button]
@@ -108,7 +156,8 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                                 footprint20m = new Bounds()
                             };
 
-                            var renderers = collisionInfo.prefab.GetComponentsInChildren<MeshRenderer>();
+                            var renderers = collisionInfo.prefab
+                                                         .GetComponentsInChildren<MeshRenderer>();
 
                             foreach (var renderer in renderers)
                             {
@@ -123,7 +172,10 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                                 var verts = sharedMesh.vertices;
                                 var tris = sharedMesh.triangles;
 
-                                bool TestVertexContained(Vector3 v0, float heightLow, float heightHigh)
+                                bool TestVertexContained(
+                                    Vector3 v0,
+                                    float heightLow,
+                                    float heightHigh)
                                 {
                                     return (v0.y > heightLow) && (v0.y < heightHigh);
                                 }
@@ -133,7 +185,12 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                                     return v0.y > height;
                                 }
 
-                                bool TestTriangle(Vector3 v0, Vector3 v1, Vector3 v2, float heightLow, float heightHigh)
+                                bool TestTriangle(
+                                    Vector3 v0,
+                                    Vector3 v1,
+                                    Vector3 v2,
+                                    float heightLow,
+                                    float heightHigh)
                                 {
                                     if (TestVertexContained(v0, heightLow, heightHigh) ||
                                         TestVertexContained(v1, heightLow, heightHigh) ||
@@ -162,79 +219,162 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
 
                                 for (var i = 0; i < tris.Length; i += 3)
                                 {
-                                    var v0 = verts[tris[i + 0]] * ((collisionInfo.scale.x + collisionInfo.scale.y) / 2f);
-                                    var v1 = verts[tris[i + 1]] * ((collisionInfo.scale.x + collisionInfo.scale.y) / 2f);
-                                    var v2 = verts[tris[i + 2]] * ((collisionInfo.scale.x + collisionInfo.scale.y) / 2f);
+                                    var v0 = verts[tris[i + 0]] *
+                                             ((collisionInfo.scale.x + collisionInfo.scale.y) / 2f);
+                                    var v1 = verts[tris[i + 1]] *
+                                             ((collisionInfo.scale.x + collisionInfo.scale.y) / 2f);
+                                    var v2 = verts[tris[i + 2]] *
+                                             ((collisionInfo.scale.x + collisionInfo.scale.y) / 2f);
 
                                     var testSize = 00;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint00m.Encapsulate(point);
                                     }
 
                                     testSize = 01;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint01m.Encapsulate(point);
                                     }
 
                                     testSize = 02;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint02m.Encapsulate(point);
                                     }
 
                                     testSize = 04;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint04m.Encapsulate(point);
                                     }
 
                                     testSize = 06;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint06m.Encapsulate(point);
                                     }
 
                                     testSize = 10;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint10m.Encapsulate(point);
                                     }
 
                                     testSize = 15;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint15m.Encapsulate(point);
                                     }
 
                                     testSize = 20;
-                                    if (TestTriangle(v0, v1, v2, testSize - range, testSize + range))
+                                    if (TestTriangle(
+                                        v0,
+                                        v1,
+                                        v2,
+                                        testSize - range,
+                                        testSize + range
+                                    ))
                                     {
                                         var point = (v0 + v1 + v2) / 3f;
 
-                                        point.y = Mathf.Clamp(point.y, testSize - range, testSize + range);
+                                        point.y = Mathf.Clamp(
+                                            point.y,
+                                            testSize - range,
+                                            testSize + range
+                                        );
                                         collisionInfo.footprint20m.Encapsulate(point);
                                     }
                                 }
@@ -256,7 +396,11 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
         {
             var vtOrder = new[]
             {
-                VegetationType.LargeObjects, VegetationType.Tree, VegetationType.Objects, VegetationType.Plant, VegetationType.Grass
+                VegetationType.LargeObjects,
+                VegetationType.Tree,
+                VegetationType.Objects,
+                VegetationType.Plant,
+                VegetationType.Grass
             };
 
             metadata.collisionInfos.Sort(
@@ -283,7 +427,10 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                         return cii.CompareTo(ocii);
                     }
 
-                    return -1 * (ci.bounds.size.magnitude * ci.scaleAverage).CompareTo(oci.bounds.size.magnitude * oci.scaleAverage);
+                    return -1 *
+                           (ci.bounds.size.magnitude * ci.scaleAverage).CompareTo(
+                               oci.bounds.size.magnitude * oci.scaleAverage
+                           );
                 }
             );
         }
@@ -292,7 +439,11 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
         public void OrderListByBounds()
         {
             metadata.collisionInfos.Sort(
-                (ci, oci) => -1 * (ci.bounds.size.magnitude * ci.scaleAverage).CompareTo(oci.bounds.size.magnitude * oci.scaleAverage)
+                (ci, oci) =>
+                    -1 *
+                    (ci.bounds.size.magnitude * ci.scaleAverage).CompareTo(
+                        oci.bounds.size.magnitude * oci.scaleAverage
+                    )
             );
         }
 
@@ -347,7 +498,11 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                         {
                             var b = new Bounds(item.Position, pro.Bounds.size);
 
-                            b.size = new Vector3(b.size.x * item.Scale.x, b.size.y * item.Scale.y, b.size.z * item.Scale.z);
+                            b.size = new Vector3(
+                                b.size.x * item.Scale.x,
+                                b.size.y * item.Scale.y,
+                                b.size.z * item.Scale.z
+                            );
 
                             var c = b.center;
                             c.y += b.min.y;
@@ -393,7 +548,10 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                     {
                         foreach (var persistent in cell.PersistentVegetationInfoList)
                         {
-                            var removal = new VegetationRemovalInfo {info = persistent, removals = new AppaList_int(2048)};
+                            var removal = new VegetationRemovalInfo
+                            {
+                                info = persistent, removals = new AppaList_int(2048)
+                            };
 
                             removals.Add(removal);
 
@@ -440,56 +598,64 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                                 scaled15.center += item.Position;
                                 scaled20.center += item.Position;
 
-                                if ((scaled00.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled00))
+                                if ((scaled00.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled00))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled01.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled01))
+                                if ((scaled01.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled01))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled02.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled02))
+                                if ((scaled02.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled02))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled04.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled04))
+                                if ((scaled04.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled04))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled06.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled06))
+                                if ((scaled06.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled06))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled10.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled10))
+                                if ((scaled10.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled10))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled15.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled15))
+                                if ((scaled15.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled15))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
                                     continue;
                                 }
 
-                                if ((scaled20.size.magnitude > .001f) && octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled20))
+                                if ((scaled20.size.magnitude > .001f) &&
+                                    octree.HasAny(OctreeQueryMode.InsideOrIntersecting, scaled20))
                                 {
                                     collisionInfo.removals += 1;
                                     removal.removals.Add(i);
@@ -547,54 +713,6 @@ namespace Appalachia.Prefabs.Rendering.Vegetation
                 Debug.LogError(ex);
             }
         }
-
-#if UNITY_EDITOR
-        private void OnDrawGizmosSelected()
-                 {
-            if (!drawRemovals)
-            {
-                return;
-            }
-            
-            if (!GizmoCameraChecker.ShouldRenderGizmos())
-            {
-                return;
-            }
-
-            var terrainPosition = Terrain.activeTerrain.GetPosition();
-            var cameraPosition = Camera.current.transform.position;
-
-            var target = metadata.collisionInfos[targetRemoval];
-
-            foreach (var removalList in removals)
-            {
-                var targeted = removalList.info.VegetationItemID == target.vegetationItemID;
-
-                for (var i = 0; i < removalList.removals.Count; i++)
-                {
-                    var removal = removalList.removals[i];
-
-                    var item = removalList.info.VegetationItemList[removal];
-
-                    var position = item.Position + terrainPosition;
-
-                    if (targeted)
-                    {
-                        SmartHandles.DrawWireSphere(position, item.Scale.magnitude, Color.yellow);
-                    }
-                    else
-                    {
-                        var distance = (position - cameraPosition).magnitude;
-
-                        if (distance < removalDrawRadius)
-                        {
-                            SmartHandles.DrawWireSphere(position, item.Scale.magnitude, Color.red);
-                        }
-                    }
-                }
-            }
-        }
-#endif
 
         [Button]
         public void ExecuteRemovals()

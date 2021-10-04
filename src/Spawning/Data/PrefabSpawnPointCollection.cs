@@ -20,9 +20,55 @@ namespace Appalachia.Prefabs.Spawning.Data
     public class PrefabSpawnPointCollection : InternalBase<PrefabSpawnPointCollection>
     {
         private const string _PRF_PFX = nameof(PrefabSpawnPointCollection) + ".";
-            
+
+        private static readonly ProfilerMarker _PRF_FullCheck = new(_PRF_PFX + nameof(FullCheck));
+
+        private static readonly ProfilerMarker _PRF_CheckForSpawnOrphans =
+            new(_PRF_PFX + nameof(CheckForSpawnOrphans));
+
+        private static readonly ProfilerMarker _PRF_RemoveNulls =
+            new(_PRF_PFX + nameof(RemoveNulls));
+
+        private static readonly ProfilerMarker _PRF_DestroyInstances =
+            new(_PRF_PFX + nameof(DestroyInstances));
+
+        private static readonly ProfilerMarker _PRF_AddSpawnPoint =
+            new(_PRF_PFX + nameof(AddSpawnPoint));
+
+        private static readonly ProfilerMarker _PRF_GetSpawnPointTransform =
+            new(_PRF_PFX + nameof(GetSpawnPointTransform));
+
+        private static readonly ProfilerMarker _PRF_UpdateSpawnPoints =
+            new(_PRF_PFX + nameof(UpdateSpawnPoints));
+
+        private static readonly ProfilerMarker _PRF_EligibleForActivation =
+            new(_PRF_PFX + nameof(EligibleForActivation));
+
+        private static readonly ProfilerMarker _PRF_TryGetActiveSpawnPoint =
+            new(_PRF_PFX + nameof(TryGetActiveSpawnPoint));
+
+        private static readonly ProfilerMarker _PRF_SpawnMany = new(_PRF_PFX + nameof(SpawnMany));
+
+        private static readonly ProfilerMarker _PRF_CanFinalize =
+            new(_PRF_PFX + nameof(CanFinalize));
+
+        private static readonly ProfilerMarker _PRF_ExecutePreFinalization =
+            new(_PRF_PFX + nameof(ExecutePreFinalization));
+
+        private static readonly ProfilerMarker _PRF_ReadyToFinalize =
+            new(_PRF_PFX + nameof(ReadyToFinalize));
+
+        private static readonly ProfilerMarker _PRF_FinalizeSpawning =
+            new(_PRF_PFX + nameof(FinalizeSpawning));
+
         [SerializeField]
-        [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 10)]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 10
+        )]
         private PrefabSpawnPointStateLookup _state;
 
         public bool finalized;
@@ -43,7 +89,6 @@ namespace Appalachia.Prefabs.Spawning.Data
 
         public int Length => _state.SumCounts(v => v.Count);
 
-        private static readonly ProfilerMarker _PRF_FullCheck = new ProfilerMarker(_PRF_PFX + nameof(FullCheck));
         public void FullCheck()
         {
             using (_PRF_FullCheck.Auto())
@@ -64,7 +109,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_CheckForSpawnOrphans = new ProfilerMarker(_PRF_PFX + nameof(CheckForSpawnOrphans));
         private void CheckForSpawnOrphans()
         {
             using (_PRF_CheckForSpawnOrphans.Auto())
@@ -84,7 +128,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_RemoveNulls = new ProfilerMarker(_PRF_PFX + nameof(RemoveNulls));
         public void RemoveNulls()
         {
             using (_PRF_RemoveNulls.Auto())
@@ -97,7 +140,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_DestroyInstances = new ProfilerMarker(_PRF_PFX + nameof(DestroyInstances));
         public void DestroyInstances()
         {
             using (_PRF_DestroyInstances.Auto())
@@ -112,7 +154,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_AddSpawnPoint = new ProfilerMarker(_PRF_PFX + nameof(AddSpawnPoint));
         public void AddSpawnPoint(Vector3 point)
         {
             using (_PRF_AddSpawnPoint.Auto())
@@ -128,7 +169,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_GetSpawnPointTransform = new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPointTransform));
         private Transform GetSpawnPointTransform(Vector3 point)
         {
             using (_PRF_GetSpawnPointTransform.Auto())
@@ -149,7 +189,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_UpdateSpawnPoints = new ProfilerMarker(_PRF_PFX + nameof(UpdateSpawnPoints));
         public void UpdateSpawnPoints(RandomPrefabSpawnSource spawnSource)
         {
             using (_PRF_UpdateSpawnPoints.Auto())
@@ -172,7 +211,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        
         public void UpdateSpawnPoints(Vector3[] points)
         {
             using (_PRF_UpdateSpawnPoints.Auto())
@@ -196,7 +234,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_EligibleForActivation = new ProfilerMarker(_PRF_PFX + nameof(EligibleForActivation));
         public bool EligibleForActivation(int limit)
         {
             using (_PRF_EligibleForActivation.Auto())
@@ -226,7 +263,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_TryGetActiveSpawnPoint = new ProfilerMarker(_PRF_PFX + nameof(TryGetActiveSpawnPoint));
         private bool TryGetActiveSpawnPoint(int limit, out PrefabSpawnPointState spawnPoint)
         {
             using (_PRF_TryGetActiveSpawnPoint.Auto())
@@ -273,7 +309,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_SpawnMany = new ProfilerMarker(_PRF_PFX + nameof(SpawnMany));
         public int SpawnMany(
             int limit,
             RandomPrefabSet set,
@@ -327,7 +362,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_CanFinalize = new ProfilerMarker(_PRF_PFX + nameof(CanFinalize));
         public bool CanFinalize(PrefabSpawnerRigidbodyManager rigidbodyManager, int limit)
         {
             using (_PRF_CanFinalize.Auto())
@@ -351,7 +385,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ExecutePreFinalization = new ProfilerMarker(_PRF_PFX + nameof(ExecutePreFinalization));
         public void ExecutePreFinalization(RandomPrefabSet set)
         {
             using (_PRF_ExecutePreFinalization.Auto())
@@ -369,7 +402,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ReadyToFinalize = new ProfilerMarker(_PRF_PFX + nameof(ReadyToFinalize));
         public bool ReadyToFinalize()
         {
             using (_PRF_ReadyToFinalize.Auto())
@@ -396,7 +428,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_FinalizeSpawning = new ProfilerMarker(_PRF_PFX + nameof(FinalizeSpawning));
         public Matrix4x4[] FinalizeSpawning(bool destroy)
         {
             using (_PRF_FinalizeSpawning.Auto())

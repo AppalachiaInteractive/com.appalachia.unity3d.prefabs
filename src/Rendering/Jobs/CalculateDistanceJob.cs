@@ -39,7 +39,10 @@ namespace Appalachia.Prefabs.Rendering.Jobs
             {
                 for (var i = 1; i < references; i++)
                 {
-                    secondaryDistance = math.min(math.distance(position, referencePoints[i]), secondaryDistance);
+                    secondaryDistance = math.min(
+                        math.distance(position, referencePoints[i]),
+                        secondaryDistance
+                    );
                 }
             }
 
@@ -51,10 +54,13 @@ namespace Appalachia.Prefabs.Rendering.Jobs
                              ((currentState.rendering == InstanceRenderingState.GPUInstancing) ||
                               (currentState.rendering == InstanceRenderingState.Disabled));
 
-            var excludeFromFrame = canExclude && (math.min(primaryDistance, secondaryDistance) > maximumDistance);
+            var excludeFromFrame = canExclude &&
+                                   (math.min(primaryDistance, secondaryDistance) > maximumDistance);
 
             instancesExcludedFromFrame[index] = excludeFromFrame;
-            instancesStateCodes[index] = excludeFromFrame ? InstanceStateCode.OutsideOfMaximumChangeRadius : InstanceStateCode.Normal;
+            instancesStateCodes[index] = excludeFromFrame
+                ? InstanceStateCode.OutsideOfMaximumChangeRadius
+                : InstanceStateCode.Normal;
         }
     }
 }

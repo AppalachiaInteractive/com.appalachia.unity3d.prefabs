@@ -15,43 +15,59 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
-public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : SelfSavingScriptableObject<TW>
+    public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
+                                                   IL_TW, IL_TT> : SelfSavingScriptableObject<TW>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
+        new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
     {
-        private const string _PRF_PFX = nameof(PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) + ".";
+        private const string _PRF_PFX =
+            nameof(PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+                IL_TT>) +
+            ".";
 
-        private static readonly ProfilerMarker _PRF_ConfirmValidity = new ProfilerMarker(_PRF_PFX + nameof(ConfirmValidity));
+        private static readonly ProfilerMarker _PRF_ConfirmValidity =
+            new(_PRF_PFX + nameof(ConfirmValidity));
 
-        private static readonly ProfilerMarker _PRF_Initialize = new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
-        private static readonly ProfilerMarker _PRF_Refresh = new ProfilerMarker(_PRF_PFX + nameof(Refresh));
+        private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
 
         //[HideInInspector]
-        [SerializeField]
-        public TE type;
+        [SerializeField] public TE type;
 
-        [InlineProperty, HideLabel, LabelWidth(0)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         [OnInspectorGUI(nameof(ConfirmValidity))]
         [SerializeField]
         protected TO _options;
 
-        [FoldoutGroup("$" + nameof(LabelHeader)), PropertyOrder(1000)]
-        [InlineProperty, HideLabel, LabelWidth(0)]
+        [FoldoutGroup("$" + nameof(LabelHeader))]
+        [PropertyOrder(1000)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         [SerializeField]
-        public LabelSearchSet labels = new LabelSearchSet();
+        public LabelSearchSet labels = new();
 
-        [SerializeField, HideInInspector]
+        [SerializeField]
+        [HideInInspector]
         protected bool _baseEnabledState;
 
         public TO options
@@ -78,7 +94,8 @@ public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT,
         public bool Muted => options.Muted;
 #if UNITY_EDITOR
         [HideInInlineEditors]
-        [Button, PropertyOrder(-100)]
+        [Button]
+        [PropertyOrder(-100)]
         public void SelectPrefabRenderingManager()
         {
             Selection.objects = new Object[] {PrefabRenderingManager.instance};

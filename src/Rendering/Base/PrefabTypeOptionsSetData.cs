@@ -12,23 +12,33 @@ using UnityEngine.Serialization;
 namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
-public abstract class
-        PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : SelfSavingAndIdentifyingScriptableObject<TSD>
+    public abstract class PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
+                                                   IL_TW, IL_TT> :
+        SelfSavingAndIdentifyingScriptableObject<TSD>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
+        new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
 
     {
-        private const string _PRF_PFX = nameof(PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) + ".";
+        private const string _PRF_PFX =
+            nameof(PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+                IL_TT>) +
+            ".";
 
         [FormerlySerializedAs("modelType")]
         [FormerlySerializedAs("prefabType")]
@@ -55,7 +65,9 @@ public abstract class
             {
                 if (_typeOptions == null)
                 {
-                    _typeOptions = PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>.instance.GetTypeOptions(type);
+                    _typeOptions =
+                        PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW
+                            , IL_TT>.instance.GetTypeOptions(type);
                 }
 
                 return _typeOptions;

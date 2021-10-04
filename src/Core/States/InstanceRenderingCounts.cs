@@ -8,9 +8,15 @@ using Unity.Burst;
 
 namespace Appalachia.Prefabs.Core.States
 {
-    [BurstCompile, Serializable]
+    [BurstCompile]
+    [Serializable]
     public struct InstanceRenderingCounts
     {
+        public ushort notSetCount;
+        public ushort disabledCount;
+        public ushort meshRenderingCount;
+        public ushort gpuInstancingCount;
+
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public InstanceRenderingCounts(InstanceRenderingState state)
         {
@@ -45,14 +51,11 @@ namespace Appalachia.Prefabs.Core.States
             }
         }
 
-        public ushort notSetCount;
-        public ushort disabledCount;
-        public ushort meshRenderingCount;
-        public ushort gpuInstancingCount;
+        public ushort total =>
+            (ushort) (notSetCount + disabledCount + meshRenderingCount + gpuInstancingCount);
 
-        public ushort total => (ushort) (notSetCount + disabledCount + meshRenderingCount + gpuInstancingCount);
-        
-        [BurstCompile, MethodImpl(MethodImplOptions.AggressiveInlining)]
+        [BurstCompile]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public void AddFrom(InstanceRenderingCounts b)
         {
             notSetCount += b.notSetCount;
@@ -60,8 +63,9 @@ namespace Appalachia.Prefabs.Core.States
             meshRenderingCount += b.meshRenderingCount;
             gpuInstancingCount += b.gpuInstancingCount;
         }
-        
-        [BurstDiscard, MethodImpl(MethodImplOptions.AggressiveInlining)]
+
+        [BurstDiscard]
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public override string ToString()
         {
             return $"Render {meshRenderingCount}m + {gpuInstancingCount}i / {total}";

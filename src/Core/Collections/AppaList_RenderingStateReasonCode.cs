@@ -15,15 +15,16 @@ namespace Appalachia.Prefabs.Core.Collections
         {
         }
 
-        public AppaList_RenderingStateReasonCode(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
-        )
+        public AppaList_RenderingStateReasonCode(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
         {
         }
 
-        public AppaList_RenderingStateReasonCode(AppaList<RenderingStateReasonCode> list) : base(list)
+        public AppaList_RenderingStateReasonCode(AppaList<RenderingStateReasonCode> list) : base(
+            list
+        )
         {
         }
 

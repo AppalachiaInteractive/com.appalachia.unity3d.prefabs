@@ -12,9 +12,15 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Spawning.Collections
 {
     [Serializable]
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]
-    public class PrefabSpawnPointCollectionLookup : AppaLookup<string, PrefabSpawnPointCollection, AppaList_string,
-        AppaList_PrefabSpawnPointCollection>
+    [ListDrawerSettings(
+        Expanded = true,
+        DraggableItems = false,
+        HideAddButton = true,
+        HideRemoveButton = true,
+        NumberOfItemsPerPage = 5
+    )]
+    public class PrefabSpawnPointCollectionLookup : AppaLookup<string, PrefabSpawnPointCollection,
+        AppaList_string, AppaList_PrefabSpawnPointCollection>
     {
         protected override string GetDisplayTitle(string key, PrefabSpawnPointCollection value)
         {

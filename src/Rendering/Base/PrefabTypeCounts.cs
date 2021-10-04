@@ -10,13 +10,13 @@ using Unity.Profiling;
 
 namespace Appalachia.Prefabs.Rendering.Base
 {
-    [Serializable] 
+    [Serializable]
     public abstract class PrefabTypeCounts<TE>
         where TE : Enum
     {
         private const string _PRF_PFX = nameof(PrefabTypeCounts<TE>) + ".";
 
-        protected static readonly EnumValuesCollection<TE> _enumValues = new EnumValuesCollection<TE>(false);
+        protected static readonly EnumValuesCollection<TE> _enumValues = new(false);
 
         protected Dictionary<TE, int> _typeCounts;
         protected Dictionary<TE, InstanceStateCounts> _typeInstanceCounts;
@@ -151,18 +151,23 @@ namespace Appalachia.Prefabs.Rendering.Base
 
 #region ProfilerMarkers
 
-        private static readonly ProfilerMarker _PRF_InitializeCollectionsIfNull = new ProfilerMarker(_PRF_PFX + nameof(InitializeCollectionsIfNull));
+        private static readonly ProfilerMarker _PRF_InitializeCollectionsIfNull =
+            new(_PRF_PFX + nameof(InitializeCollectionsIfNull));
 
         private static readonly ProfilerMarker _PRF_ResetRuntimeCountCollections =
-            new ProfilerMarker(_PRF_PFX + nameof(ResetRuntimeCountCollections));
+            new(_PRF_PFX + nameof(ResetRuntimeCountCollections));
 
-        private static readonly ProfilerMarker _PRF_PrefabTypeCounts = new ProfilerMarker(_PRF_PFX + nameof(UpdatePrefabTypeCounts));
+        private static readonly ProfilerMarker _PRF_PrefabTypeCounts =
+            new(_PRF_PFX + nameof(UpdatePrefabTypeCounts));
 
-        private static readonly ProfilerMarker _PRF_GetPrefabTypeCount = new ProfilerMarker(_PRF_PFX + nameof(GetPrefabTypeCount));
+        private static readonly ProfilerMarker _PRF_GetPrefabTypeCount =
+            new(_PRF_PFX + nameof(GetPrefabTypeCount));
 
-        private static readonly ProfilerMarker _PRF_GetInstanceCount = new ProfilerMarker(_PRF_PFX + nameof(GetInstanceCount));
+        private static readonly ProfilerMarker _PRF_GetInstanceCount =
+            new(_PRF_PFX + nameof(GetInstanceCount));
 
-        private static readonly ProfilerMarker _PRF_RefreshRuntimeCounts = new ProfilerMarker(_PRF_PFX + nameof(RefreshRuntimeCounts));
+        private static readonly ProfilerMarker _PRF_RefreshRuntimeCounts =
+            new(_PRF_PFX + nameof(RefreshRuntimeCounts));
 
 #endregion
     }

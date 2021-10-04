@@ -18,7 +18,8 @@ namespace Appalachia.Prefabs.Rendering.Jobs
         public void Execute(int index)
         {
             pendingStates[index] = InstanceState.Disabled;
-            matrices_noGameObject_OWNED[index] = float4x4.zero; // need to figure out how to separate usage of this array
+            matrices_noGameObject_OWNED[index] =
+                float4x4.zero; // need to figure out how to separate usage of this array
             instancesExcludedFromFrame[index] = false;
             instancesStateCodes[index] = InstanceStateCode.ForceDisabled;
         }

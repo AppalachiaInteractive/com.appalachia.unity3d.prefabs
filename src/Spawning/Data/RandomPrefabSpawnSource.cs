@@ -21,51 +21,68 @@ namespace Appalachia.Prefabs.Spawning.Data
     public class RandomPrefabSpawnSource
     {
         [ToggleLeft]
-        [HorizontalGroup("A", .05f), SmartLabel, LabelText(" Enabled")]
+        [HorizontalGroup("A", .05f)]
+        [SmartLabel]
+        [LabelText(" Enabled")]
         public bool enabled = true;
 
-        [HorizontalGroup("A", .4f), SmartLabel, LabelText(" Type")]
+        [HorizontalGroup("A", .4f)]
+        [SmartLabel]
+        [LabelText(" Type")]
         public RandomPrefabSpawnerType spawnerType;
 
         [PropertyRange(0f, 15f)]
-        [HorizontalGroup("A", .55f), SmartLabel, LabelText(" Density")]
+        [HorizontalGroup("A", .55f)]
+        [SmartLabel]
+        [LabelText(" Density")]
         [EnableIf(nameof(enabled))]
         public float instanceDensity = 1.0f;
 
-        [AssetsOnly, ShowIf(nameof(_showPrefab)), SmartLabel]
+        [AssetsOnly]
+        [ShowIf(nameof(_showPrefab))]
+        [SmartLabel]
         public GameObject prefab;
 
-        [SceneObjectsOnly, ShowIf(nameof(_showSceneObject)), SmartLabel]
+        [SceneObjectsOnly]
+        [ShowIf(nameof(_showSceneObject))]
+        [SmartLabel]
         public GameObject sceneObject;
 
-        private ValueDropdownList<string> _vegetationItemList;
-
         [FormerlySerializedAs("package")]
-        [ShowIf(nameof(_showVegetationpackageSelection)), SmartLabel]
+        [ShowIf(nameof(_showVegetationpackageSelection))]
+        [SmartLabel]
         public VegetationPackagePro vegetationPackage;
 
-        [ValueDropdown(nameof(GetVegetationItems)), ShowIf(nameof(_showVegetationItem)), SmartLabel]
+        [ValueDropdown(nameof(GetVegetationItems))]
+        [ShowIf(nameof(_showVegetationItem))]
+        [SmartLabel]
         public string vegetationItemID;
 
-        [ShowIf(nameof(_showPrefabRenderingSet)), SmartLabel]
+        [ShowIf(nameof(_showPrefabRenderingSet))]
+        [SmartLabel]
         public PrefabRenderingSet prefabRenderingSet;
 
         private bool _pendingReset;
 
         private PrefabRenderingManager _prefabRenderingManager;
 
+        private ValueDropdownList<string> _vegetationItemList;
+
         private VegetationSystemPro _vegetationSystem;
         private bool _showPrefab => spawnerType == RandomPrefabSpawnerType.Prefab;
 
         private bool _showSceneObject => spawnerType == RandomPrefabSpawnerType.SceneObject;
 
-        private bool _showVegetationPackage => spawnerType == RandomPrefabSpawnerType.VegetationPackage;
+        private bool _showVegetationPackage =>
+            spawnerType == RandomPrefabSpawnerType.VegetationPackage;
 
         private bool _showVegetationItem => spawnerType == RandomPrefabSpawnerType.VegetationItem;
 
-        private bool _showVegetationpackageSelection => _showVegetationPackage || _showVegetationItem;
+        private bool _showVegetationpackageSelection =>
+            _showVegetationPackage || _showVegetationItem;
 
-        private bool _showPrefabRenderingSet => spawnerType == RandomPrefabSpawnerType.PrefabRenderingSet;
+        private bool _showPrefabRenderingSet =>
+            spawnerType == RandomPrefabSpawnerType.PrefabRenderingSet;
 
         public bool PendingReset
         {
@@ -248,7 +265,8 @@ namespace Appalachia.Prefabs.Spawning.Data
 
                             for (var j = 0; j < vegetationPackage.VegetationInfoList.Count; j++)
                             {
-                                if (vegetationItemID == vegetationPackage.VegetationInfoList[j].VegetationItemID)
+                                if (vegetationItemID ==
+                                    vegetationPackage.VegetationInfoList[j].VegetationItemID)
                                 {
                                     veggieIndex = j;
                                     break;
@@ -372,7 +390,8 @@ namespace Appalachia.Prefabs.Spawning.Data
 
                             for (var j = 0; j < vegetationPackage.VegetationInfoList.Count; j++)
                             {
-                                if (vegetationItemID == vegetationPackage.VegetationInfoList[j].VegetationItemID)
+                                if (vegetationItemID ==
+                                    vegetationPackage.VegetationInfoList[j].VegetationItemID)
                                 {
                                     veggieIndex = j;
                                     break;
@@ -400,7 +419,9 @@ namespace Appalachia.Prefabs.Spawning.Data
                     break;
                 case RandomPrefabSpawnerType.PrefabRenderingSet:
                 {
-                    for (var i = 0; i < prefabRenderingSet.instanceManager.element.positions.Length; i++)
+                    for (var i = 0;
+                        i < prefabRenderingSet.instanceManager.element.positions.Length;
+                        i++)
                     {
                         yield return prefabRenderingSet.instanceManager.element.positions[i];
                     }
@@ -415,7 +436,8 @@ namespace Appalachia.Prefabs.Spawning.Data
         {
             if (_prefabRenderingManager != null)
             {
-                if (!_prefabRenderingManager.enabled || !_prefabRenderingManager.gameObject.activeInHierarchy)
+                if (!_prefabRenderingManager.enabled ||
+                    !_prefabRenderingManager.gameObject.activeInHierarchy)
                 {
                     return null;
                 }
@@ -425,7 +447,8 @@ namespace Appalachia.Prefabs.Spawning.Data
 
             _prefabRenderingManager = PrefabRenderingManager.instance;
 
-            if (!_prefabRenderingManager.enabled || !_prefabRenderingManager.gameObject.activeInHierarchy)
+            if (!_prefabRenderingManager.enabled ||
+                !_prefabRenderingManager.gameObject.activeInHierarchy)
             {
                 return null;
             }
@@ -485,7 +508,9 @@ namespace Appalachia.Prefabs.Spawning.Data
             return sum;
         }
 
-        private IEnumerable<Vector3> GetPrefabInstancesRecursive(GameObject root, string assetSearch)
+        private IEnumerable<Vector3> GetPrefabInstancesRecursive(
+            GameObject root,
+            string assetSearch)
         {
             if (PrefabUtility.IsAnyPrefabInstanceRoot(root))
             {

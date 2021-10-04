@@ -19,10 +19,12 @@ namespace Appalachia.Prefabs.Spawning.Settings
 
         public PrefabSpawnStyle prefabSpawnStyle;
 
-        [ShowIf(nameof(showTimerSettings)), PropertyRange(0.1f, nameof(spawnLimitMax))]
+        [ShowIf(nameof(showTimerSettings))]
+        [PropertyRange(0.1f, nameof(spawnLimitMax))]
         public float spawnsPerSecond = 1.0f;
 
-        [ShowIf(nameof(showTimerSettings)), PropertyRange(0, 300)]
+        [ShowIf(nameof(showTimerSettings))]
+        [PropertyRange(0, 300)]
         public int frameDelay = 60;
 
         private bool showTimerSettings => prefabSpawnStyle == PrefabSpawnStyle.Timed;

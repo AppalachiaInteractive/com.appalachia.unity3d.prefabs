@@ -15,11 +15,10 @@ namespace Appalachia.Prefabs.Spawning.Collections
         {
         }
 
-        public AppaList_PrefabSpawnPointState(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
-        )
+        public AppaList_PrefabSpawnPointState(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
         {
         }
 

@@ -10,23 +10,30 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable]
-public class Index_PrefabContentTypeOptionsToggle : AppaLookup<PrefabContentType, PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
-    AppaList_PrefabContentTypeOptionsToggle>
+    public class Index_PrefabContentTypeOptionsToggle : AppaLookup<PrefabContentType,
+        PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
+        AppaList_PrefabContentTypeOptionsToggle>
     {
         protected override bool ShouldDisplayTitle => false;
         protected override bool NoTracking => true;
 
-        protected override string GetDisplayTitle(PrefabContentType key, PrefabContentTypeOptionsToggle value)
+        protected override string GetDisplayTitle(
+            PrefabContentType key,
+            PrefabContentTypeOptionsToggle value)
         {
             return string.Empty;
         }
 
-        protected override string GetDisplaySubtitle(PrefabContentType key, PrefabContentTypeOptionsToggle value)
+        protected override string GetDisplaySubtitle(
+            PrefabContentType key,
+            PrefabContentTypeOptionsToggle value)
         {
             return string.Empty;
         }
 
-        protected override Color GetDisplayColor(PrefabContentType key, PrefabContentTypeOptionsToggle value)
+        protected override Color GetDisplayColor(
+            PrefabContentType key,
+            PrefabContentTypeOptionsToggle value)
         {
             return Color.white;
         }

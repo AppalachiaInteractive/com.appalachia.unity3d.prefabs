@@ -16,24 +16,35 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Rendering.Base
 {
-    [Serializable, AlwaysInitializeOnLoad]
-    public abstract class
-        PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : SelfSavingSingletonScriptableObject<TL>
+    [Serializable]
+    [AlwaysInitializeOnLoad]
+    public abstract class PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
+                                                  IL_TW, IL_TT> :
+        SelfSavingSingletonScriptableObject<TL>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
+        new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
 
     {
-        private const string _PRF_PFX = nameof(PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) + ".";
+        private const string _PRF_PFX =
+            nameof(PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+                IL_TT>) +
+            ".";
 
         protected const string _TAB = "TAB";
         protected const string _QUICK = "Quick";
@@ -43,14 +54,19 @@ namespace Appalachia.Prefabs.Rendering.Base
 
         [NonSerialized] protected static EnumValuesCollection<TE> _types;
 
-        private static readonly ProfilerMarker _PRF_Initialize = new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
-        private static readonly ProfilerMarker _PRF_GetPrefabType = new ProfilerMarker(_PRF_PFX + nameof(GetPrefabType));
+        private static readonly ProfilerMarker _PRF_GetPrefabType =
+            new(_PRF_PFX + nameof(GetPrefabType));
 
-        private static readonly ProfilerMarker _PRF_GetTypeOptions = new ProfilerMarker(_PRF_PFX + nameof(GetTypeOptions));
+        private static readonly ProfilerMarker _PRF_GetTypeOptions =
+            new(_PRF_PFX + nameof(GetTypeOptions));
 
         [TabGroup(_TAB, _QUICK)]
-        [SerializeField, ShowInInspector, HideLabel, LabelWidth(0)]
+        [SerializeField]
+        [ShowInInspector]
+        [HideLabel]
+        [LabelWidth(0)]
         [ListDrawerSettings(
             Expanded = true,
             DraggableItems = false,
@@ -62,9 +78,19 @@ namespace Appalachia.Prefabs.Rendering.Base
         protected TOGI _toggles;
 
         [TabGroup(_TAB, _FULL)]
-        [SerializeField, InlineProperty, HideLabel, LabelWidth(0)]
-        [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 2)]
+        [SerializeField]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 2
+        )]
         protected TI _state;
+
         protected bool _anyDisabled
         {
             get { return _state.Any(s => !s.Enabled); }
@@ -78,10 +104,19 @@ namespace Appalachia.Prefabs.Rendering.Base
         protected abstract bool _anySoloed { get; }
         protected abstract bool _anyMuted { get; }
 
-        protected Color _enabledColor => _anyDisabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.EnabledDisabled.v;
-        protected Color _disabledColor => _anyEnabled ? ColorPrefs.Instance.DisabledImportant.v : ColorPrefs.Instance.DisabledImportantDisabled.v;
-        protected Color _soloedColor => _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : ColorPrefs.Instance.SoloDisabled.v;
-        protected Color _mutedColor => _anyMuted ? ColorPrefs.Instance.MuteEnabled.v : ColorPrefs.Instance.MuteDisabled.v;
+        protected Color _enabledColor =>
+            _anyDisabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.EnabledDisabled.v;
+
+        protected Color _disabledColor =>
+            _anyEnabled
+                ? ColorPrefs.Instance.DisabledImportant.v
+                : ColorPrefs.Instance.DisabledImportantDisabled.v;
+
+        protected Color _soloedColor =>
+            _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : ColorPrefs.Instance.SoloDisabled.v;
+
+        protected Color _mutedColor =>
+            _anyMuted ? ColorPrefs.Instance.MuteEnabled.v : ColorPrefs.Instance.MuteDisabled.v;
 
         public IAppaLookup<TE, TW, IL_TW> State
         {
@@ -105,7 +140,10 @@ namespace Appalachia.Prefabs.Rendering.Base
         }
 
         [TabGroup(_TAB, _QUICK)]
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anyDisabled)), GUIColor(nameof(_enabledColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyDisabled))]
+        [GUIColor(nameof(_enabledColor))]
+        [PropertyOrder(-10)]
         public void EnableAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -117,7 +155,10 @@ namespace Appalachia.Prefabs.Rendering.Base
             SetDirty();
         }
 
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anyEnabled)), GUIColor(nameof(_disabledColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyEnabled))]
+        [GUIColor(nameof(_disabledColor))]
+        [PropertyOrder(-10)]
         public void DisableAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -129,7 +170,10 @@ namespace Appalachia.Prefabs.Rendering.Base
             SetDirty();
         }
 
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anySoloed)), GUIColor(nameof(_soloedColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anySoloed))]
+        [GUIColor(nameof(_soloedColor))]
+        [PropertyOrder(-10)]
         public void UnsoloAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -141,7 +185,10 @@ namespace Appalachia.Prefabs.Rendering.Base
             SetDirty();
         }
 
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anyMuted)), GUIColor(nameof(_mutedColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyMuted))]
+        [GUIColor(nameof(_mutedColor))]
+        [PropertyOrder(-10)]
         public void UnmuteAll()
         {
             for (var i = 0; i < _state.Count; i++)

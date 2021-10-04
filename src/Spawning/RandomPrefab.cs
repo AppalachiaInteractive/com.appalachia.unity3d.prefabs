@@ -15,22 +15,29 @@ namespace Appalachia.Prefabs.Spawning
     public class RandomPrefab : IProbabilityProvider
     {
         [ToggleLeft]
-        [HorizontalGroup("A", .05f), SmartLabel, LabelText(" Enabled")]
+        [HorizontalGroup("A", .05f)]
+        [SmartLabel]
+        [LabelText(" Enabled")]
         public bool enabled = true;
 
-        [HorizontalGroup("A", .65f), SmartLabel]
+        [HorizontalGroup("A", .65f)]
+        [SmartLabel]
         [EnableIf(nameof(enabled))]
         [AssetsOnly]
         public GameObject prefab;
 
-        [HorizontalGroup("A", .3f), SmartLabel]
+        [HorizontalGroup("A", .3f)]
+        [SmartLabel]
         [EnableIf(nameof(enabled))]
         [PropertyRange(0.01f, 3.0f)]
         public double probability = 1.0f;
 
-        [ToggleLeft, SmartLabel] public bool overridePositioning;
+        [ToggleLeft]
+        [SmartLabel]
+        public bool overridePositioning;
 
-        [ShowIf(nameof(overridePositioning)), HideLabel]
+        [ShowIf(nameof(overridePositioning))]
+        [HideLabel]
         public RandomTransformData transformOverrideData;
 
         public RandomPrefab()

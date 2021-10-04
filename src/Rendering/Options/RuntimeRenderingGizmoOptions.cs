@@ -16,19 +16,19 @@ namespace Appalachia.Prefabs.Rendering.Options
 
         [ToggleLeft] public bool gizmosLimitedToSelected;
 
-        private bool _gizmoSelectionEnabled => gizmosEnabled && gizmosLimitedToSelected;
-        
-        private ValueDropdownList<int> _gizmoSelectionIDs;
-
         [ValueDropdown(nameof(gizmoSelections), AppendNextDrawer = false)]
         [EnableIf(nameof(_gizmoSelectionEnabled))]
         public int gizmoSelectionID;
+
+        private ValueDropdownList<int> _gizmoSelectionIDs;
+
+        private bool _gizmoSelectionEnabled => gizmosEnabled && gizmosLimitedToSelected;
 
         private ValueDropdownList<int> gizmoSelections
         {
             get
             {
-                if (_gizmoSelectionIDs == null || _gizmoSelectionIDs.Count == 0)
+                if ((_gizmoSelectionIDs == null) || (_gizmoSelectionIDs.Count == 0))
                 {
                     var renderingSets = PrefabRenderingManager.instance.renderingSets;
 
@@ -37,7 +37,7 @@ namespace Appalachia.Prefabs.Rendering.Options
                         _gizmoSelectionIDs = new ValueDropdownList<int>();
                     }
 
-                    if (renderingSets == null || renderingSets.Sets.Count == 0)
+                    if ((renderingSets == null) || (renderingSets.Sets.Count == 0))
                     {
                         return _gizmoSelectionIDs;
                     }

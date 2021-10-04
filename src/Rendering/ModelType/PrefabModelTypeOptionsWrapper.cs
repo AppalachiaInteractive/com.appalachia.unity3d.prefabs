@@ -14,42 +14,51 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Rendering.ModelType
 {
-    [Serializable, InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Foldout), InlineProperty]
-public class PrefabModelTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,
-        PrefabModelTypeOptionsSetData, PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
-        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType, AppaList_PrefabModelTypeOptionsWrapper,
-        AppaList_PrefabModelTypeOptionsToggle>
+    [Serializable]
+    [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Foldout)]
+    [InlineProperty]
+    public class PrefabModelTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabModelType,
+        PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
+        PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
+        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
+        AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
         private const string _PRF_PFX = nameof(PrefabModelTypeOptionsWrapper) + ".";
 
-        private static readonly ProfilerMarker _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
 
-        private static readonly ProfilerMarker _PRF_GetFrustum = new ProfilerMarker(_PRF_PFX + nameof(GetFrustum));
-        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache = new ProfilerMarker(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache");
+        private static readonly ProfilerMarker _PRF_GetFrustum = new(_PRF_PFX + nameof(GetFrustum));
+
+        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache =
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache");
 
         private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_GetCameras =
-            new ProfilerMarker(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.GetCameras");
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.GetCameras");
 
         private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_AssignProperties =
-            new ProfilerMarker(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.AssignProperties");
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.AssignProperties");
 
         private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_CreatePlanes =
-            new ProfilerMarker(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.CreatePlanes");
-
-        private FrustumPlanesWrapper _frustum;
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.CreatePlanes");
 
         private Camera _cam;
+
+        private FrustumPlanesWrapper _frustum;
         private Camera _frustumCam;
 
         private int prefabCount =>
             PrefabRenderingManager.instance.renderingSets == null
                 ? 0
-                : PrefabRenderingManager.instance.renderingSets.ModelTypeCounts.GetPrefabTypeCount(type);
+                : PrefabRenderingManager.instance.renderingSets.ModelTypeCounts.GetPrefabTypeCount(
+                    type
+                );
 
         private InstanceStateCounts instanceCounts =>
             PrefabRenderingManager.instance.renderingSets == null
                 ? default
-                : PrefabRenderingManager.instance.renderingSets.ModelTypeCounts.GetInstanceCount(type);
+                : PrefabRenderingManager.instance.renderingSets.ModelTypeCounts.GetInstanceCount(
+                    type
+                );
 
         public override string Title => type.ToString().SeperateWords();
 

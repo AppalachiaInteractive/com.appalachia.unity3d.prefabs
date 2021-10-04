@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.ModelType.Instancing
 {
     [Serializable]
-public class FrustumSettings : IEquatable<FrustumSettings>
+    public class FrustumSettings : IEquatable<FrustumSettings>
     {
         [SerializeField]
         [HorizontalGroup("A", .33f)]
@@ -52,7 +52,7 @@ public class FrustumSettings : IEquatable<FrustumSettings>
 
         public static FrustumSettings MatchCamera()
         {
-            return new FrustumSettings
+            return new()
             {
                 fovOffset = 0.0f,
                 aspectOffset = 1.0f,
@@ -63,7 +63,7 @@ public class FrustumSettings : IEquatable<FrustumSettings>
 
         public static FrustumSettings SetBack()
         {
-            return new FrustumSettings
+            return new()
             {
                 fovOffset = 0.0f,
                 aspectOffset = 1.0f,
@@ -74,7 +74,7 @@ public class FrustumSettings : IEquatable<FrustumSettings>
 
         public static FrustumSettings Narrow()
         {
-            return new FrustumSettings
+            return new()
             {
                 fovOffset = -3.0f,
                 aspectOffset = 1.0f,
@@ -85,7 +85,7 @@ public class FrustumSettings : IEquatable<FrustumSettings>
 
         public static FrustumSettings Wide()
         {
-            return new FrustumSettings
+            return new()
             {
                 fovOffset = 5.0f,
                 aspectOffset = 1.0f,

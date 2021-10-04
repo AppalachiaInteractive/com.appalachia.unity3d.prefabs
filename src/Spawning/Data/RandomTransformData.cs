@@ -14,7 +14,8 @@ namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     [InlineProperty]
-    [HideLabel, LabelWidth(0)]
+    [HideLabel]
+    [LabelWidth(0)]
     public class RandomTransformData
     {
         private const float MinScaleComponent = .8f;
@@ -29,68 +30,123 @@ namespace Appalachia.Prefabs.Spawning.Data
         [ShowIfGroup("Type/" + nameof(_showDrop))]
         [ShowIfGroup("Type/" + nameof(_showExact))]
         [ShowIfGroup("Type/" + nameof(_showGrounded))]
-        [HorizontalGroup("Type/" + nameof(_showDrop) + "/Drop"), InfoBox("Drop Offset", InfoMessageType.None), LabelWidth(0), HideLabel]
-        public Vector3 dropOffset = new Vector3(0f, 10f, 0f);
+        [HorizontalGroup("Type/" + nameof(_showDrop) + "/Drop")]
+        [InfoBox("Drop Offset", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        public Vector3 dropOffset = new(0f, 10f, 0f);
 
-        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown"), InfoBox("Throw Offset", InfoMessageType.None), LabelWidth(0), HideLabel]
-        public Vector3 throwOffset = new Vector3(0f, 5f, 0f);
+        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown")]
+        [InfoBox("Throw Offset", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        public Vector3 throwOffset = new(0f, 5f, 0f);
 
-        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown"), InfoBox("Throw Force", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown")]
+        [InfoBox("Throw Force", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         [MinMaxSlider(1.0f, 100f, true)]
-        public Vector2 throwForce = new Vector2(1.0f, 5.0f);
+        public Vector2 throwForce = new(1.0f, 5.0f);
 
-        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown"), InfoBox("Random Throw", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown")]
+        [InfoBox("Random Throw", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         public bool randomThrowDirection = true;
 
-        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown"), InfoBox("Throw Direction", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Type/" + nameof(_showThrow) + "/Thrown")]
+        [InfoBox("Throw Direction", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         [DisableIf(nameof(randomThrowDirection))]
-        public Vector3 throwDirection = new Vector3(0f, 1f, 0f);
+        public Vector3 throwDirection = new(0f, 1f, 0f);
 
-        [HorizontalGroup("Type/" + nameof(_showExact) + "/Exact"), InfoBox("Spawn Offset", InfoMessageType.None), LabelWidth(0), HideLabel]
-        public Vector3 spawnOffset = new Vector3(0f, 0f, 0f);
+        [HorizontalGroup("Type/" + nameof(_showExact) + "/Exact")]
+        [InfoBox("Spawn Offset", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        public Vector3 spawnOffset = new(0f, 0f, 0f);
 
-        [HorizontalGroup("Type/" + nameof(_showGrounded) + "/Grounded"), InfoBox("Enable Burying)", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Type/" + nameof(_showGrounded) + "/Grounded")]
+        [InfoBox("Enable Burying)", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         public bool enableBurying;
 
         [BoxGroup("Position")]
-        [HorizontalGroup("Position/A"), InfoBox("Random Offset (XZ)", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Position/A")]
+        [InfoBox("Random Offset (XZ)", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         [PropertyRange(0.0f, 50.0f)]
         public float randomXZOffset = 5.0f;
 
-        [HorizontalGroup("Position/A"), InfoBox("Circular Offset", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Position/A")]
+        [InfoBox("Circular Offset", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         public bool circularOffset = true;
 
         [BoxGroup("Rotation")]
-        [HorizontalGroup("Rotation/A"), InfoBox("Rotation Type", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Rotation/A")]
+        [InfoBox("Rotation Type", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         public RandomPrefabRotationType rotationType = RandomPrefabRotationType.RotateXYZ;
 
-        [HorizontalGroup("Rotation/A"), InfoBox("Rotation Limit (X)", InfoMessageType.None), LabelWidth(0), HideLabel]
-        [ShowIf(nameof(_showXYZLimit)), MinMaxSlider(-180f, 180f, true)]
-        public Vector2 xRotationLimit = new Vector2(-180f, 180f);
+        [HorizontalGroup("Rotation/A")]
+        [InfoBox("Rotation Limit (X)", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        [ShowIf(nameof(_showXYZLimit))]
+        [MinMaxSlider(-180f, 180f, true)]
+        public Vector2 xRotationLimit = new(-180f, 180f);
 
-        [HorizontalGroup("Rotation/A"), InfoBox("Rotation Limit (Y)", InfoMessageType.None), LabelWidth(0), HideLabel]
-        [ShowIf(nameof(_showYLimit)), MinMaxSlider(-180f, 180f, true)]
-        public Vector2 yRotationLimit = new Vector2(-180f, 180f);
+        [HorizontalGroup("Rotation/A")]
+        [InfoBox("Rotation Limit (Y)", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        [ShowIf(nameof(_showYLimit))]
+        [MinMaxSlider(-180f, 180f, true)]
+        public Vector2 yRotationLimit = new(-180f, 180f);
 
-        [HorizontalGroup("Rotation/A"), InfoBox("Rotation Limit (Z)", InfoMessageType.None), LabelWidth(0), HideLabel]
-        [ShowIf(nameof(_showXYZLimit)), MinMaxSlider(-180f, 180f, true)]
-        public Vector2 zRotationLimit = new Vector2(-180f, 180f);
+        [HorizontalGroup("Rotation/A")]
+        [InfoBox("Rotation Limit (Z)", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        [ShowIf(nameof(_showXYZLimit))]
+        [MinMaxSlider(-180f, 180f, true)]
+        public Vector2 zRotationLimit = new(-180f, 180f);
 
         [BoxGroup("Scale")]
-        [HorizontalGroup("Scale/A"), InfoBox("Use Uniform Scale", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Scale/A")]
+        [InfoBox("Use Uniform Scale", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         public bool useUniformScale = true;
 
-        [HorizontalGroup("Scale/A"), InfoBox("Scale Limit", InfoMessageType.None), LabelWidth(0), HideLabel]
-        [ShowIf(nameof(useUniformScale)), MinMaxSlider(.1f, 10f, true)]
-        public Vector2 scaleLimit = new Vector2(.8f, 1.2f);
+        [HorizontalGroup("Scale/A")]
+        [InfoBox("Scale Limit", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
+        [ShowIf(nameof(useUniformScale))]
+        [MinMaxSlider(.1f, 10f, true)]
+        public Vector2 scaleLimit = new(.8f, 1.2f);
 
-        [HorizontalGroup("Scale/A"), InfoBox("Min Scale", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Scale/A")]
+        [InfoBox("Min Scale", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         [HideIf(nameof(useUniformScale))]
-        public Vector3 minScale = new Vector3(MinScaleComponent, MinScaleComponent, MinScaleComponent);
+        public Vector3 minScale = new(MinScaleComponent, MinScaleComponent, MinScaleComponent);
 
-        [HorizontalGroup("Scale/A"), InfoBox("Max Scale", InfoMessageType.None), LabelWidth(0), HideLabel]
+        [HorizontalGroup("Scale/A")]
+        [InfoBox("Max Scale", InfoMessageType.None)]
+        [LabelWidth(0)]
+        [HideLabel]
         [HideIf(nameof(useUniformScale))]
-        public Vector3 maxScale = new Vector3(MaxScaleComponent, MaxScaleComponent, MaxScaleComponent);
+        public Vector3 maxScale = new(MaxScaleComponent, MaxScaleComponent, MaxScaleComponent);
 
         private bool _showDrop => type == RandomPrefabSpawnerInitialization.Dropped;
         private bool _showThrow => type == RandomPrefabSpawnerInitialization.Thrown;
@@ -100,9 +156,15 @@ namespace Appalachia.Prefabs.Spawning.Data
         private bool _showXYZLimit => rotationType == RandomPrefabRotationType.RotateXYZ;
 
         private bool _showYLimit =>
-            _showXYZLimit || (rotationType == RandomPrefabRotationType.RotateY) || (rotationType == RandomPrefabRotationType.GroundedRotated);
+            _showXYZLimit ||
+            (rotationType == RandomPrefabRotationType.RotateY) ||
+            (rotationType == RandomPrefabRotationType.GroundedRotated);
 
-        public Matrix4x4 GetSpawnMatrix(Vector3 root, out bool addRigidbody, out float force, out Vector3 direction)
+        public Matrix4x4 GetSpawnMatrix(
+            Vector3 root,
+            out bool addRigidbody,
+            out float force,
+            out Vector3 direction)
         {
             TerrainMetadataManager.Initialize();
 
@@ -114,7 +176,8 @@ namespace Appalachia.Prefabs.Spawning.Data
 
             GetThrowForce(out force, out direction);
 
-            addRigidbody = (type == RandomPrefabSpawnerInitialization.Dropped) || (type == RandomPrefabSpawnerInitialization.Thrown);
+            addRigidbody = (type == RandomPrefabSpawnerInitialization.Dropped) ||
+                           (type == RandomPrefabSpawnerInitialization.Thrown);
 
             return Matrix4x4.TRS(position, rotation, scale);
         }
@@ -181,7 +244,11 @@ namespace Appalachia.Prefabs.Spawning.Data
                 }
                 case RandomPrefabRotationType.RotateY:
                 {
-                    return Quaternion.Euler(0.0f, Random.Range(yRotationLimit.x, yRotationLimit.y), 0.0f);
+                    return Quaternion.Euler(
+                        0.0f,
+                        Random.Range(yRotationLimit.x, yRotationLimit.y),
+                        0.0f
+                    );
                 }
                 case RandomPrefabRotationType.RotateXYZ:
                 {
@@ -206,7 +273,11 @@ namespace Appalachia.Prefabs.Spawning.Data
 
                     if (rotationType == RandomPrefabRotationType.GroundedRotated)
                     {
-                        rot *= Quaternion.Euler(0, Random.Range(yRotationLimit.x, yRotationLimit.y), 0);
+                        rot *= Quaternion.Euler(
+                            0,
+                            Random.Range(yRotationLimit.x, yRotationLimit.y),
+                            0
+                        );
                     }
 
                     return rot;
@@ -223,7 +294,11 @@ namespace Appalachia.Prefabs.Spawning.Data
                 return Vector3.one * Random.Range(scaleLimit.x, scaleLimit.y);
             }
 
-            return new Vector3(Random.Range(minScale.x, maxScale.x), Random.Range(minScale.y, maxScale.y), Random.Range(minScale.z, maxScale.z));
+            return new Vector3(
+                Random.Range(minScale.x, maxScale.x),
+                Random.Range(minScale.y, maxScale.y),
+                Random.Range(minScale.z, maxScale.z)
+            );
         }
 
         private void GetThrowForce(out float force, out Vector3 direction)
@@ -237,7 +312,11 @@ namespace Appalachia.Prefabs.Spawning.Data
 
             if (randomThrowDirection)
             {
-                direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+                direction = new Vector3(
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f),
+                    Random.Range(-1f, 1f)
+                );
                 direction = direction.normalized;
             }
             else

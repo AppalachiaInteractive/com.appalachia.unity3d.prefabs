@@ -35,22 +35,26 @@ namespace Appalachia.Prefabs.Rendering.Options
 
         [SmartLabel]
         [PropertyRange(1, 500)]
-        [SerializeField, EnableIf(nameof(useExplicitFrameCounts))]
+        [SerializeField]
+        [EnableIf(nameof(useExplicitFrameCounts))]
         public int setUpdatesPerFrame = 1;
 
         [SmartLabel]
         [PropertyRange(1, 25)]
-        [SerializeField, DisableIf(nameof(useExplicitFrameCounts))]
+        [SerializeField]
+        [DisableIf(nameof(useExplicitFrameCounts))]
         public int setUpdateMillisecondsPerFrame = 3;
 
         [SmartLabel]
         [PropertyRange(500, 10000)]
-        [SerializeField, DisableIf(nameof(useExplicitFrameCounts))]
+        [SerializeField]
+        [DisableIf(nameof(useExplicitFrameCounts))]
         public double fastestAllowedSetCycleMilliseconds = 3000;
 
         [SmartLabel]
         [PropertyRange(0.01, 5.0)]
-        [SerializeField, DisableIf(nameof(useExplicitFrameCounts))]
+        [SerializeField]
+        [DisableIf(nameof(useExplicitFrameCounts))]
         public double idealCycleTimeMilliseconds = 1.0;
 
         [SmartLabel]

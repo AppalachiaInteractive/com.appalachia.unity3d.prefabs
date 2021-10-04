@@ -12,15 +12,6 @@ namespace Appalachia.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerModifier
     {
-    
-#region ProfilerMarker
-
-        private const string _PRF_PFX = nameof(PrefabRenderingManagerModifier) + ".";
-        private static readonly ProfilerMarker _PRF_UpdateVegetationItemsRendering = new ProfilerMarker(_PRF_PFX + nameof(UpdateVegetationItemsRendering));
-        private static readonly ProfilerMarker _PRF_UpdateVegetationItemRendering = new ProfilerMarker(_PRF_PFX + nameof(UpdateVegetationItemRendering));
-        
-#endregion
-        
         public static void UpdateVegetationItemsRendering(IEnumerable<string> vegetationItemIDs)
         {
             using (_PRF_UpdateVegetationItemsRendering.Auto())
@@ -42,7 +33,9 @@ namespace Appalachia.Prefabs.Rendering
 
                     var updateSet = false;
 
-                    for (var parameterIndex = 0; parameterIndex < parameters.Count; parameterIndex++)
+                    for (var parameterIndex = 0;
+                        parameterIndex < parameters.Count;
+                        parameterIndex++)
                     {
                         var parameter = parameters.at[parameterIndex];
 
@@ -73,7 +66,9 @@ namespace Appalachia.Prefabs.Rendering
                     return;
                 }
 
-                UpdateVegetationItemsRendering(package.VegetationInfoList.Select(vi => vi.VegetationItemID));
+                UpdateVegetationItemsRendering(
+                    package.VegetationInfoList.Select(vi => vi.VegetationItemID)
+                );
             }
         }
 
@@ -94,7 +89,9 @@ namespace Appalachia.Prefabs.Rendering
 
                     var targetSet = false;
 
-                    for (var parameterIndex = 0; parameterIndex < parameters.Count; parameterIndex++)
+                    for (var parameterIndex = 0;
+                        parameterIndex < parameters.Count;
+                        parameterIndex++)
                     {
                         var parameter = parameters.at[parameterIndex];
 
@@ -114,5 +111,17 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
+
+#region ProfilerMarker
+
+        private const string _PRF_PFX = nameof(PrefabRenderingManagerModifier) + ".";
+
+        private static readonly ProfilerMarker _PRF_UpdateVegetationItemsRendering =
+            new(_PRF_PFX + nameof(UpdateVegetationItemsRendering));
+
+        private static readonly ProfilerMarker _PRF_UpdateVegetationItemRendering =
+            new(_PRF_PFX + nameof(UpdateVegetationItemRendering));
+
+#endregion
     }
 }

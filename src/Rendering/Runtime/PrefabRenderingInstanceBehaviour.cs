@@ -23,7 +23,7 @@ namespace Appalachia.Prefabs.Rendering.Runtime
     public class PrefabRenderingInstanceBehaviour : InternalMonoBehaviour
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstanceBehaviour) + ".";
-        
+
         private const string G_ = "Prefab Rendering/Gizmos/Instance";
         private static PREF<float> gizmoRadius;
         private static PREF<float> gizmoIncrement;
@@ -31,55 +31,67 @@ namespace Appalachia.Prefabs.Rendering.Runtime
         private static PREF<bool> drawHandleLabels;
         private static PREF<float> handleRadius;
         private static int _cachedFrame;
+
         private static int _drawCount;
+
         //private static int _lastDrawCount;
         //private static int _additiveRadius;
         //private static bool _brokeEarly;
         private static Vector3 _cameraPosition;
 
+        private static int _cachedFrameLocal;
+
         [TabGroup("Data")]
-        [InlineProperty, HideLabel, LabelWidth(0)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         public PrefabRenderingInstance instance;
 
         [TabGroup("Set")] public PrefabRenderingSet set;
 
         [FormerlySerializedAs("type")]
         [TabGroup("Model Options")]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
-        [HideLabel, LabelWidth(0)]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         public PrefabModelTypeOptionsWrapper modelType;
 
         [FormerlySerializedAs("overrides")]
         [TabGroup("Model Overrides")]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
-        [HideLabel, LabelWidth(0)]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         public PrefabModelTypeOptionsSetData modelOverrides;
 
         [FormerlySerializedAs("type")]
         [TabGroup("Content Options")]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
-        [HideLabel, LabelWidth(0)]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         public PrefabContentTypeOptionsWrapper contentType;
 
         [TabGroup("Content Overrides")]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]
-        [HideLabel, LabelWidth(0)]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
         public PrefabContentTypeOptionsSetData contentOverrides;
 
         private Bounds _bounds;
-        private Vector3[] _points;
-        private Matrix4x4 _stored;
-        private float _increment = .5f;
-        private float _radius = .5f;
-        private int _pointCount = 4;
-
-        private static int _cachedFrameLocal;
         private int _drawGizmoAt;
-        private Transform t;
+        private float _increment = .5f;
+        private readonly int _pointCount = 4;
+        private Vector3[] _points;
+        private float _radius = .5f;
+        private Matrix4x4 _stored;
         private Matrix4x4 ltw;
         private Vector3 p;
         private Quaternion r;
         private Vector3 s;
+        private Transform t;
 
         /*private void OnDrawGizmos()
         {
@@ -94,17 +106,16 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
         public void Awaken()
         {
-            
         }
 
         public void Sleep()
         {
-
         }
 #if UNITY_EDITOR
 
-        
-        private static readonly ProfilerMarker _PRF_OnDrawGizmosSelected = new ProfilerMarker(_PRF_PFX + nameof(OnDrawGizmosSelected));
+        private static readonly ProfilerMarker _PRF_OnDrawGizmosSelected =
+            new(_PRF_PFX + nameof(OnDrawGizmosSelected));
+
         private void OnDrawGizmosSelected()
         {
             using (_PRF_OnDrawGizmosSelected.Auto())
@@ -113,44 +124,43 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 {
                     return;
                 }
-                
+
                 var selections = Selection.gameObjects;
 
                 var gizmoOptions = PrefabRenderingManager.instance.RenderingOptions.gizmos;
-                
+
                 if (!gizmoOptions.gizmosEnabled)
                 {
                     return;
                 }
 
-                
                 if (gizmoOptions.gizmosLimitedToSelected)
                 {
-                    if (selections == null || selections.Length == 0 || selections.Length > 1)
+                    if ((selections == null) || (selections.Length == 0) || (selections.Length > 1))
                     {
                         var id = gizmoOptions.gizmoSelectionID;
 
                         if (set.id != id)
                         {
-                            return;                        
+                            return;
                         }
                     }
 
                     var selected = selections[0];
 
-                    if (selected != this.gameObject && selected.transform != transform.parent)
+                    if ((selected != gameObject) && (selected.transform != transform.parent))
                     {
                         var id = gizmoOptions.gizmoSelectionID;
 
                         if (set.id != id)
                         {
-                            return;                        
+                            return;
                         }
                     }
                 }
 
                 var frame = Time.frameCount;
-                
+
                 if (frame > _cachedFrame)
                 {
                     if (gizmoRadius == null)
@@ -191,24 +201,26 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     var ct = cam.transform;
                     _cameraPosition = ct.position;
 
-                    UnityEditor.Handles.PositionHandle(_cameraPosition, ct.rotation);
-                    UnityEditor.Handles.Label(_cameraPosition, "Camera");
+                    Handles.PositionHandle(_cameraPosition, ct.rotation);
+                    Handles.Label(_cameraPosition, "Camera");
 
-                    var frustum = options.GetFrustum(gpui.cameraData.mainCamera, PrefabRenderingManager.instance.frustumCamera);
+                    var frustum = options.GetFrustum(
+                        gpui.cameraData.mainCamera,
+                        PrefabRenderingManager.instance.frustumCamera
+                    );
 
                     frustum.DrawFrustumGizmo(ColorPrefs.Instance.PRIIC_Gizmos.v);
                 }
 
-                
-                if (_drawGizmoAt != frame) 
+                if (_drawGizmoAt != frame)
                 {
-                    if (_cachedFrameLocal == frame) 
+                    if (_cachedFrameLocal == frame)
                     {
                         return;
                     }
-                    
+
                     _cachedFrameLocal = frame;
-                    
+
                     if (!instance.inFrustum)
                     {
                         return;
@@ -227,16 +239,16 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                     var distance = math.distance(_cameraPosition, p);
 
-                    if (distance > (handleRadius.v ))
+                    if (distance > handleRadius.v)
                     {
                         return;
                     }
-                    
+
                     _drawGizmoAt = frame;
                     _drawCount += 1;
                 }
 
-                UnityEditor.Handles.PositionHandle(p, r);
+                Handles.PositionHandle(p, r);
 
                 if ((ltw != _stored) || (_increment != gizmoIncrement.v))
                 {
@@ -315,10 +327,42 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                 sz = math.clamp(sz, .05f, gizmoRadius.v);
 
                 var lastPoint = ltw.MultiplyPoint3x4(Vector3.up * (_increment * _points.Length));
-                SmartHandles.DrawHandleLine(_points[0], _points[1], HandleCapType.Sphere, Vector3.up, Vector3.forward, sz, physxColor.v);
-                SmartHandles.DrawHandleLine(_points[1], _points[2], HandleCapType.Sphere, Vector3.up, Vector3.forward, sz, interColor.v);
-                SmartHandles.DrawHandleLine(_points[2], _points[3], HandleCapType.Sphere, Vector3.up, Vector3.forward, sz, rendColor.v);
-                SmartHandles.DrawHandleLine(_points[3], lastPoint,  HandleCapType.Sphere, Vector3.up, Vector3.forward, sz, iscColor.v);
+                SmartHandles.DrawHandleLine(
+                    _points[0],
+                    _points[1],
+                    HandleCapType.Sphere,
+                    Vector3.up,
+                    Vector3.forward,
+                    sz,
+                    physxColor.v
+                );
+                SmartHandles.DrawHandleLine(
+                    _points[1],
+                    _points[2],
+                    HandleCapType.Sphere,
+                    Vector3.up,
+                    Vector3.forward,
+                    sz,
+                    interColor.v
+                );
+                SmartHandles.DrawHandleLine(
+                    _points[2],
+                    _points[3],
+                    HandleCapType.Sphere,
+                    Vector3.up,
+                    Vector3.forward,
+                    sz,
+                    rendColor.v
+                );
+                SmartHandles.DrawHandleLine(
+                    _points[3],
+                    lastPoint,
+                    HandleCapType.Sphere,
+                    Vector3.up,
+                    Vector3.forward,
+                    sz,
+                    iscColor.v
+                );
 
                 if (drawHandleLabels.v)
                 {
@@ -326,10 +370,10 @@ namespace Appalachia.Prefabs.Rendering.Runtime
                     var labelOffset = offsetDirection * 0.2f;
                     labelOffset.y -= .2f;
 
-                    UnityEditor.Handles.Label(_points[1] + labelOffset, $"Physx: {physx}");
-                    UnityEditor.Handles.Label(_points[2] + labelOffset, $"Inter: {inter}");
-                    UnityEditor.Handles.Label(_points[3] + labelOffset, $"Rendr: {rend}");
-                    UnityEditor.Handles.Label(lastPoint + labelOffset,  $"State: {isc}");
+                    Handles.Label(_points[1] + labelOffset, $"Physx: {physx}");
+                    Handles.Label(_points[2] + labelOffset, $"Inter: {inter}");
+                    Handles.Label(_points[3] + labelOffset, $"Rendr: {rend}");
+                    Handles.Label(lastPoint + labelOffset,  $"State: {isc}");
                 }
             }
         }

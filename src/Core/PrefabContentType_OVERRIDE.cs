@@ -7,14 +7,19 @@ using Appalachia.Core.Overrides;
 
 namespace Appalachia.Prefabs.Core
 {
-    [Serializable] 
-public class PrefabContentType_OVERRIDE : Overridable<PrefabContentType, PrefabContentType_OVERRIDE>
+    [Serializable]
+    public class
+        PrefabContentType_OVERRIDE : Overridable<PrefabContentType, PrefabContentType_OVERRIDE>
     {
-        public PrefabContentType_OVERRIDE(bool overrideEnabled, PrefabContentType value) : base(overrideEnabled, value)
+        public PrefabContentType_OVERRIDE(bool overrideEnabled, PrefabContentType value) : base(
+            overrideEnabled,
+            value
+        )
         {
         }
 
-        public PrefabContentType_OVERRIDE(Overridable<PrefabContentType, PrefabContentType_OVERRIDE> value) : base(value)
+        public PrefabContentType_OVERRIDE(
+            Overridable<PrefabContentType, PrefabContentType_OVERRIDE> value) : base(value)
         {
         }
 

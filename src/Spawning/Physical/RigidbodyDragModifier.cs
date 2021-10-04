@@ -11,7 +11,15 @@ namespace Appalachia.Prefabs.Spawning.Physical
     public class RigidbodyDragModifier : InternalMonoBehaviour
     {
         private const string _PRF_PFX = nameof(RigidbodyDragModifier) + ".";
-        private Rigidbody _rigidbody;
+
+        private static readonly ProfilerMarker _PRF_FixedUpdate =
+            new(_PRF_PFX + nameof(FixedUpdate));
+
+        private static readonly ProfilerMarker _PRF_CheckRigidbody =
+            new(_PRF_PFX + nameof(CheckRigidbody));
+
+        private static readonly ProfilerMarker _PRF_OnCollisionEnter =
+            new(_PRF_PFX + nameof(OnCollisionEnter));
 
         public bool removeOnSleep;
 
@@ -20,8 +28,8 @@ namespace Appalachia.Prefabs.Spawning.Physical
         public float angularDragModification = .95f;
 
         public float massModification = 1.05f;
+        private Rigidbody _rigidbody;
 
-        private static readonly ProfilerMarker _PRF_FixedUpdate = new ProfilerMarker(_PRF_PFX + nameof(FixedUpdate));
         private void FixedUpdate()
         {
             using (_PRF_FixedUpdate.Auto())
@@ -39,7 +47,21 @@ namespace Appalachia.Prefabs.Spawning.Physical
             }
         }
 
-        private static readonly ProfilerMarker _PRF_CheckRigidbody = new ProfilerMarker(_PRF_PFX + nameof(CheckRigidbody));
+        private void OnCollisionEnter(Collision other)
+        {
+            using (_PRF_OnCollisionEnter.Auto())
+            {
+                if (CheckRigidbody())
+                {
+                    return;
+                }
+
+                _rigidbody.drag *= dragModification;
+                _rigidbody.angularDrag *= angularDragModification;
+                _rigidbody.mass *= massModification;
+            }
+        }
+
         private bool CheckRigidbody()
         {
             using (_PRF_CheckRigidbody.Auto())
@@ -60,22 +82,6 @@ namespace Appalachia.Prefabs.Spawning.Physical
                 }
 
                 return false;
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_OnCollisionEnter = new ProfilerMarker(_PRF_PFX + nameof(OnCollisionEnter));
-        private void OnCollisionEnter(Collision other)
-        {
-            using (_PRF_OnCollisionEnter.Auto())
-            {
-                if (CheckRigidbody())
-                {
-                    return;
-                }
-
-                _rigidbody.drag *= dragModification;
-                _rigidbody.angularDrag *= angularDragModification;
-                _rigidbody.mass *= massModification;
             }
         }
     }

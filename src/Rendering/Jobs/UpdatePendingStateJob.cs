@@ -75,7 +75,8 @@ namespace Appalachia.Prefabs.Rendering.Jobs
                     primaryPendingState.interaction = InstanceInteractionState.Enabled;
                 }
 
-                if ((primaryPendingState.physics != InstancePhysicsState.Enabled) && (secondaryPendingState.physics == InstancePhysicsState.Enabled))
+                if ((primaryPendingState.physics != InstancePhysicsState.Enabled) &&
+                    (secondaryPendingState.physics == InstancePhysicsState.Enabled))
                 {
                     primaryPendingState.physics = InstancePhysicsState.Enabled;
                 }

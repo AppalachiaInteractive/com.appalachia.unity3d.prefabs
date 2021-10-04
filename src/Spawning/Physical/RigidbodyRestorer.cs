@@ -10,15 +10,20 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Spawning.Physical
 {
-    public class RigidbodyRestorer: InternalMonoBehaviour
+    public class RigidbodyRestorer : InternalMonoBehaviour
     {
         private const string _PRF_PFX = nameof(RigidbodyRestorer) + ".";
+
+        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
+
+        private static readonly ProfilerMarker _PRF_RestoreRigidbody =
+            new(_PRF_PFX + nameof(RestoreRigidbody));
+
         public bool destroyOnRestore;
 
         public Rigidbody rb;
         public RigidbodyData originalData;
 
-        private static readonly ProfilerMarker _PRF_Awake = new ProfilerMarker(_PRF_PFX + nameof(Awake));
         public void Awake()
         {
             using (_PRF_Awake.Auto())
@@ -39,7 +44,6 @@ namespace Appalachia.Prefabs.Spawning.Physical
             }
         }
 
-        private static readonly ProfilerMarker _PRF_RestoreRigidbody = new ProfilerMarker(_PRF_PFX + nameof(RestoreRigidbody));
         public void RestoreRigidbody(bool forceDestroy)
         {
             using (_PRF_RestoreRigidbody.Auto())

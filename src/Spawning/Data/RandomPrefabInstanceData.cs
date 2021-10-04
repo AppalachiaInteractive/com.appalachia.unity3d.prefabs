@@ -15,7 +15,18 @@ namespace Appalachia.Prefabs.Spawning.Data
     public class RandomPrefabInstanceData : InternalBase<RandomPrefabInstanceData>
     {
         private const string _PRF_PFX = nameof(RandomPrefabInstanceData) + ".";
-        
+
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+
+        private static readonly ProfilerMarker _PRF_SetUpInstanceProperties =
+            new(_PRF_PFX + nameof(SetUpInstanceProperties));
+
+        private static readonly ProfilerMarker _PRF_InitializeRigidbodyProperties =
+            new(_PRF_PFX + nameof(InitializeRigidbodyProperties));
+
+        private static readonly ProfilerMarker _PRF_ResetOriginalRigidbodyProperties =
+            new(_PRF_PFX + nameof(ResetOriginalRigidbodyProperties));
+
         public GameObject instance;
         public Transform transform;
         public RigidbodyCreationType rigidbodyCreation;
@@ -36,7 +47,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             Initialize(i);
         }
 
-        private static readonly ProfilerMarker _PRF_Initialize = new ProfilerMarker(_PRF_PFX + nameof(Initialize));
         public void Initialize(GameObject i)
         {
             using (_PRF_Initialize.Auto())
@@ -57,7 +67,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_SetUpInstanceProperties = new ProfilerMarker(_PRF_PFX + nameof(SetUpInstanceProperties));
         public void SetUpInstanceProperties(PrefabSpawnSettings settings, bool addRigidbody)
         {
             using (_PRF_SetUpInstanceProperties.Auto())
@@ -77,13 +86,15 @@ namespace Appalachia.Prefabs.Spawning.Data
                         {
                             if (rigidbodyRestorer == null)
                             {
-                                rigidbodyRestorer = instance.gameObject.AddComponent<RigidbodyRestorer>();
+                                rigidbodyRestorer =
+                                    instance.gameObject.AddComponent<RigidbodyRestorer>();
                             }
 
                             rigidbodyCreation = RigidbodyCreationType.Original;
                         }
 
-                        if ((rigidbodyCreation == RigidbodyCreationType.Added) || settings.physics.modifyExistingRigidbodies)
+                        if ((rigidbodyCreation == RigidbodyCreationType.Added) ||
+                            settings.physics.modifyExistingRigidbodies)
                         {
                             InitializeRigidbodyProperties(settings.physics);
                         }
@@ -92,12 +103,13 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_InitializeRigidbodyProperties = new ProfilerMarker(_PRF_PFX + nameof(InitializeRigidbodyProperties));
         private void InitializeRigidbodyProperties(PrefabSpawnPhysicsSettings settings)
         {
             using (_PRF_InitializeRigidbodyProperties.Auto())
             {
-                if (settings.addRigidbodies && (settings.modifyExistingRigidbodies || (rigidbodyCreation == RigidbodyCreationType.Added)))
+                if (settings.addRigidbodies &&
+                    (settings.modifyExistingRigidbodies ||
+                     (rigidbodyCreation == RigidbodyCreationType.Added)))
                 {
                     rigidbody.drag = settings.drag;
                     rigidbody.angularDrag = settings.angularDrag;
@@ -112,7 +124,6 @@ namespace Appalachia.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ResetOriginalRigidbodyProperties = new ProfilerMarker(_PRF_PFX + nameof(ResetOriginalRigidbodyProperties));
         public void ResetOriginalRigidbodyProperties()
         {
             using (_PRF_ResetOriginalRigidbodyProperties.Auto())

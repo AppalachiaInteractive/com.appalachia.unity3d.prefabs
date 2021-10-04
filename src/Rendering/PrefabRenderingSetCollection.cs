@@ -16,7 +16,9 @@ using UnityEngine;
 
 namespace Appalachia.Prefabs.Rendering
 {
-    public class PrefabRenderingSetCollection : SelfSavingSingletonScriptableObject<PrefabRenderingSetCollection>
+    public class
+        PrefabRenderingSetCollection : SelfSavingSingletonScriptableObject<
+            PrefabRenderingSetCollection>
     {
         private const string _TAB = "TAB";
         private const string _QUICK = "Quick";
@@ -24,25 +26,11 @@ namespace Appalachia.Prefabs.Rendering
         private const string _QUICK_A = _QUICK_ + "/A";
         private const string _FULL = "Detailed";
 
-        #region ProfilerMarkers
-
-        private const string _PRF_PFX = nameof(PrefabRenderingSetCollection) + ".";
-        private static readonly ProfilerMarker _PRF_Sets = new ProfilerMarker(_PRF_PFX + nameof(Sets));
-        private static readonly ProfilerMarker _PRF_WhenEnabled = new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
-        private static readonly ProfilerMarker _PRF_RemoveInvalid = new ProfilerMarker(_PRF_PFX + nameof(RemoveInvalid));
-
-        private static readonly ProfilerMarker _PRF_RebuildToggleList = new ProfilerMarker(_PRF_PFX + nameof(RebuildToggleList));
-
-        private static readonly ProfilerMarker _PRF_DoForAll = new ProfilerMarker(_PRF_PFX + nameof(DoForAll));
-
-        private static readonly ProfilerMarker _PRF_DoForAllIf = new ProfilerMarker(_PRF_PFX + nameof(DoForAllIf));
-
-        private static readonly ProfilerMarker _PRF_TearDown = new ProfilerMarker(_PRF_PFX + nameof(TearDown));
-
-#endregion
-
         [TabGroup(_TAB, _QUICK)]
-        [SerializeField, ShowInInspector, HideLabel, LabelWidth(0)]
+        [SerializeField]
+        [ShowInInspector]
+        [HideLabel]
+        [LabelWidth(0)]
         [ListDrawerSettings(
             Expanded = true,
             DraggableItems = false,
@@ -54,9 +42,23 @@ namespace Appalachia.Prefabs.Rendering
         private PrefabRenderingSetToggleLookup _toggles;
 
         [TabGroup(_TAB, _FULL)]
-        [SerializeField, InlineProperty, HideLabel, LabelWidth(0)]
-        [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 2)]
+        [SerializeField]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 2
+        )]
         private PrefabRenderingSetLookup _state;
+
+        private Color _baseColor = Color.white;
+
+        private PrefabContentTypeCounts _contentTypeCounts;
+        private PrefabModelTypeCounts _modelTypeCounts;
 
         /*[Button]
         public void Reset()
@@ -81,11 +83,15 @@ namespace Appalachia.Prefabs.Rendering
         private bool _anyMuted => PrefabRenderingSet.AnyMute;
 
         private Color _enabledColor => _anyDisabled ? ColorPrefs.Instance.Enabled.v : Color.white;
-        private Color _disabledColor => _anyEnabled ? ColorPrefs.Instance.DisabledImportant.v : Color.white;
+
+        private Color _disabledColor =>
+            _anyEnabled ? ColorPrefs.Instance.DisabledImportant.v : Color.white;
+
         private Color _soloedColor => _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : Color.white;
         private Color _mutedColor => _anyMuted ? ColorPrefs.Instance.MuteEnabled.v : Color.white;
 
-        public IAppaLookupSafeUpdates<GameObject, PrefabRenderingSet, AppaList_PrefabRenderingSet> Sets
+        public IAppaLookupSafeUpdates<GameObject, PrefabRenderingSet, AppaList_PrefabRenderingSet>
+            Sets
         {
             get
             {
@@ -103,9 +109,6 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
-        
-        private PrefabContentTypeCounts _contentTypeCounts;
-        private PrefabModelTypeCounts _modelTypeCounts;
 
         public PrefabContentTypeCounts ContentTypeCounts
         {
@@ -134,18 +137,28 @@ namespace Appalachia.Prefabs.Rendering
                 return _modelTypeCounts;
             }
         }
-        
+
         public void RefreshRuntimeCounts()
         {
-            if (_contentTypeCounts == null) _contentTypeCounts = new PrefabContentTypeCounts();
-            if (_modelTypeCounts == null) _modelTypeCounts = new PrefabModelTypeCounts();
-            
+            if (_contentTypeCounts == null)
+            {
+                _contentTypeCounts = new PrefabContentTypeCounts();
+            }
+
+            if (_modelTypeCounts == null)
+            {
+                _modelTypeCounts = new PrefabModelTypeCounts();
+            }
+
             _contentTypeCounts.RefreshRuntimeCounts();
             _modelTypeCounts.RefreshRuntimeCounts();
         }
 
         [TabGroup(_TAB, _QUICK)]
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anyDisabled)), GUIColor(nameof(_enabledColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyDisabled))]
+        [GUIColor(nameof(_enabledColor))]
+        [PropertyOrder(-10)]
         public void EnableAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -155,7 +168,10 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anyEnabled)), GUIColor(nameof(_disabledColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyEnabled))]
+        [GUIColor(nameof(_disabledColor))]
+        [PropertyOrder(-10)]
         public void DisableAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -165,7 +181,10 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anySoloed)), GUIColor(nameof(_soloedColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anySoloed))]
+        [GUIColor(nameof(_soloedColor))]
+        [PropertyOrder(-10)]
         public void UnsoloAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -175,7 +194,10 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        [ResponsiveButtonGroup(_QUICK_A), EnableIf(nameof(_anyMuted)), GUIColor(nameof(_mutedColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyMuted))]
+        [GUIColor(nameof(_mutedColor))]
+        [PropertyOrder(-10)]
         public void UnmuteAll()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -185,9 +207,9 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        private Color _baseColor = Color.white;
-        
-        [ResponsiveButtonGroup(_QUICK_A), GUIColor(nameof(_baseColor)), PropertyOrder(-10)]
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [GUIColor(nameof(_baseColor))]
+        [PropertyOrder(-10)]
         public void Types()
         {
             for (var i = 0; i < _state.Count; i++)
@@ -220,7 +242,6 @@ namespace Appalachia.Prefabs.Rendering
                 _toggles.SetDirtyAction(SetDirty);
             }
         }
-
 
         public void RemoveInvalid()
         {
@@ -271,7 +292,9 @@ namespace Appalachia.Prefabs.Rendering
             }
         }
 
-        public void DoForAllIf(Predicate<PrefabRenderingSet> doIf, Action<PrefabRenderingSet> action)
+        public void DoForAllIf(
+            Predicate<PrefabRenderingSet> doIf,
+            Action<PrefabRenderingSet> action)
         {
             using (_PRF_DoForAllIf.Auto())
             {
@@ -313,5 +336,27 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
+
+#region ProfilerMarkers
+
+        private const string _PRF_PFX = nameof(PrefabRenderingSetCollection) + ".";
+        private static readonly ProfilerMarker _PRF_Sets = new(_PRF_PFX + nameof(Sets));
+
+        private static readonly ProfilerMarker _PRF_WhenEnabled =
+            new(_PRF_PFX + nameof(WhenEnabled));
+
+        private static readonly ProfilerMarker _PRF_RemoveInvalid =
+            new(_PRF_PFX + nameof(RemoveInvalid));
+
+        private static readonly ProfilerMarker _PRF_RebuildToggleList =
+            new(_PRF_PFX + nameof(RebuildToggleList));
+
+        private static readonly ProfilerMarker _PRF_DoForAll = new(_PRF_PFX + nameof(DoForAll));
+
+        private static readonly ProfilerMarker _PRF_DoForAllIf = new(_PRF_PFX + nameof(DoForAllIf));
+
+        private static readonly ProfilerMarker _PRF_TearDown = new(_PRF_PFX + nameof(TearDown));
+
+#endregion
     }
 }

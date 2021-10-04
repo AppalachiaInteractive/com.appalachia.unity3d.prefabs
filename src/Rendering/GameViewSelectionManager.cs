@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Appalachia.Core.Extensions;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Editing.Preferences;
-using Appalachia.Utility;
 using Appalachia.Utility.Colors;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -29,9 +28,12 @@ namespace Appalachia.Prefabs.Rendering
         }
 
         private const string _PRF_PFX = nameof(GameViewSelectionManager) + ".";
-        private static readonly ProfilerMarker _PRF_TryGameViewSelection = new ProfilerMarker(_PRF_PFX + nameof(TryGameViewSelection));
-        private static readonly ProfilerMarker _PRF_TrySelect = new ProfilerMarker(_PRF_PFX + nameof(TrySelect));
-        private static readonly ProfilerMarker _PRF_Initialize = new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+
+        private static readonly ProfilerMarker _PRF_TryGameViewSelection =
+            new(_PRF_PFX + nameof(TryGameViewSelection));
+
+        private static readonly ProfilerMarker _PRF_TrySelect = new(_PRF_PFX + nameof(TrySelect));
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
         private const string _G = "Gizmos/Game View";
         private static PREF<float> rayDuration;
@@ -41,14 +43,13 @@ namespace Appalachia.Prefabs.Rendering
         private readonly int _hitDepth;
         private readonly int _minFrameInterval;
 
-        
         [NonSerialized] private RaycastHit[] _rayHits;
 
         [NonSerialized] private Dictionary<Camera, int> _cameraFrames;
         [NonSerialized] private Ray _lastRay;
         [NonSerialized] private int _lastHitIndex;
         [NonSerialized] private float _lastRayAge;
-        
+
         [NonSerialized] private Vector2 _mouseClickPosition = Vector2.zero;
         [NonSerialized] private Vector2 _lastMouseClickPosition = Vector2.zero;
         [NonSerialized] private int _debugStep;
@@ -74,7 +75,13 @@ namespace Appalachia.Prefabs.Rendering
 
                 if (rayIndexResetDistance == null)
                 {
-                    rayIndexResetDistance = PREFS.REG(_G, nameof(rayIndexResetDistance), 25f, 5f, 250f);
+                    rayIndexResetDistance = PREFS.REG(
+                        _G,
+                        nameof(rayIndexResetDistance),
+                        25f,
+                        5f,
+                        250f
+                    );
                 }
             }
         }
@@ -98,7 +105,7 @@ namespace Appalachia.Prefabs.Rendering
             {
                 _cameraFrames = new Dictionary<Camera, int>();
             }
-            
+
             if (!_cameraFrames.ContainsKey(c))
             {
                 _cameraFrames.Add(c, 0);
@@ -106,7 +113,7 @@ namespace Appalachia.Prefabs.Rendering
 
             var lastFrame = _cameraFrames[c];
 
-            return lastFrame + _minFrameInterval <= frame;
+            return (lastFrame + _minFrameInterval) <= frame;
         }
 
         public bool TryGameViewSelection(
@@ -127,10 +134,18 @@ namespace Appalachia.Prefabs.Rendering
                     return false;
                 }
 
-                return TrySelect(camera, null, false, layerMask, maxDistance, queryTriggerInteraction, out c);
+                return TrySelect(
+                    camera,
+                    null,
+                    false,
+                    layerMask,
+                    maxDistance,
+                    queryTriggerInteraction,
+                    out c
+                );
             }
         }
-        
+
         public bool TryGameViewSelection(
             Camera camera,
             IEnumerable<Collider> explicitColliders,
@@ -148,8 +163,16 @@ namespace Appalachia.Prefabs.Rendering
                     c = null;
                     return false;
                 }
-                
-                return TrySelect(camera, explicitColliders, true, 0, maxDistance, queryTriggerInteraction, out c);
+
+                return TrySelect(
+                    camera,
+                    explicitColliders,
+                    true,
+                    0,
+                    maxDistance,
+                    queryTriggerInteraction,
+                    out c
+                );
             }
         }
 
@@ -200,12 +223,12 @@ namespace Appalachia.Prefabs.Rendering
                     }
 
                     _cameraFrames.AddOrUpdate(camera, Time.frameCount);
-                    
+
                     _lastRay = camera.ScreenPointToRay(_mouseClickPosition);
                     _lastRayAge = 0f;
 
-                    int hitCount = 0;
-                    
+                    var hitCount = 0;
+
                     if (useExplicitColliders)
                     {
                         foreach (var collider in explicitColliders)
@@ -214,8 +237,9 @@ namespace Appalachia.Prefabs.Rendering
                             {
                                 break;
                             }
-                            
-                            if (collider != null && collider.Raycast(_lastRay, out var hit, maxDistance))
+
+                            if ((collider != null) &&
+                                collider.Raycast(_lastRay, out var hit, maxDistance))
                             {
                                 _rayHits[hitCount] = hit;
                                 hitCount += 1;
@@ -224,7 +248,13 @@ namespace Appalachia.Prefabs.Rendering
                     }
                     else
                     {
-                        hitCount = Physics.RaycastNonAlloc(_lastRay, _rayHits, maxDistance, layerMask, queryTriggerInteraction);
+                        hitCount = Physics.RaycastNonAlloc(
+                            _lastRay,
+                            _rayHits,
+                            maxDistance,
+                            layerMask,
+                            queryTriggerInteraction
+                        );
                     }
 
                     if (hitCount == 0)
@@ -240,7 +270,7 @@ namespace Appalachia.Prefabs.Rendering
                     }
 
                     _lastHitIndex += 1;
-                    
+
                     if (_lastHitIndex >= hitCount)
                     {
                         _lastHitIndex = 0;
@@ -248,7 +278,6 @@ namespace Appalachia.Prefabs.Rendering
 
                     c = _rayHits[_lastHitIndex].collider;
                     return true;
-                    
                 }
             }
 

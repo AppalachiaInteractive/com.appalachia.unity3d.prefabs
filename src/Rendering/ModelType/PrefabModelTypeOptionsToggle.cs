@@ -9,12 +9,13 @@ using Sirenix.OdinInspector;
 
 namespace Appalachia.Prefabs.Rendering.ModelType
 {
-    [Serializable, HideReferenceObjectPicker]
-
-public class PrefabModelTypeOptionsToggle : PrefabTypeOptionsToggle<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,
-        PrefabModelTypeOptionsSetData, PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
-        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType, AppaList_PrefabModelTypeOptionsWrapper,
-        AppaList_PrefabModelTypeOptionsToggle>
+    [Serializable]
+    [HideReferenceObjectPicker]
+    public class PrefabModelTypeOptionsToggle : PrefabTypeOptionsToggle<PrefabModelType,
+        PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
+        PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
+        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
+        AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
         public PrefabModelTypeOptionsToggle()
         {

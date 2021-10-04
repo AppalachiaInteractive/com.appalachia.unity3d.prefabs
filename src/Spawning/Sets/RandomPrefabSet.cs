@@ -15,22 +15,26 @@ namespace Appalachia.Prefabs.Spawning.Sets
 {
     public class RandomPrefabSet : SelfNamingSavingAndIdentifyingScriptableObject<RandomPrefabSet>
     {
-        [ListDrawerSettings(Expanded = true), PropertyOrder(11)]
-        public List<RandomPrefab> spawnablePrefabs = new List<RandomPrefab>();
+        [ListDrawerSettings(Expanded = true)]
+        [PropertyOrder(11)]
+        public List<RandomPrefab> spawnablePrefabs = new();
 
         public RandomTransformData transformData;
 
-        [FoldoutGroup("Add Prefabs", Expanded = false), PropertyOrder(10)]
-        public List<GameObject> addPrefabs = new List<GameObject>();
+        [FoldoutGroup("Add Prefabs", Expanded = false)]
+        [PropertyOrder(10)]
+        public List<GameObject> addPrefabs = new();
 
-        [HideInInspector] public ProbabilitySet probabilities = new ProbabilitySet();
+        [HideInInspector] public ProbabilitySet probabilities = new();
 
         protected override bool ShowIDProperties => false;
 
         private bool _canAdd => (addPrefabs?.Count ?? 0) > 0;
 
         [FoldoutGroup("Add Prefabs", Expanded = false)]
-        [Button, EnableIf(nameof(_canAdd)), PropertyOrder(9)]
+        [Button]
+        [EnableIf(nameof(_canAdd))]
+        [PropertyOrder(9)]
         public void ProcessAdd()
         {
             if (addPrefabs == null)
@@ -78,7 +82,9 @@ namespace Appalachia.Prefabs.Spawning.Sets
             var nextIndex = probabilities.GetNextIndex();
             var prefab = spawnablePrefabs[nextIndex];
 
-            useTransformData = prefab.overridePositioning ? prefab.transformOverrideData : transformData;
+            useTransformData = prefab.overridePositioning
+                ? prefab.transformOverrideData
+                : transformData;
 
             return prefab.prefab;
         }

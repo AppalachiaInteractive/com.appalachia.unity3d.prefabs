@@ -12,22 +12,31 @@ using UnityEngine.Serialization;
 namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
-public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+    public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+                                            IL_TT>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
+        new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+            IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
 
     {
-        private const string _PRF_PFX = nameof(PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) + ".";
+        private const string _PRF_PFX =
+            nameof(PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
+            ".";
 
         [HideInInspector]
         [SerializeField]
@@ -62,10 +71,12 @@ public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, 
         public abstract bool UpdateForValidity();
 
 #if UNITY_EDITOR
-        
+
         private static void ReloadSoloAndMute()
         {
-            var sets = PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>.instance.State;
+            var sets =
+                PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+                   .instance.State;
 
             AnySolo = false;
             AnyMute = false;
@@ -86,7 +97,8 @@ public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, 
             }
         }
 
-        public Color _stateColor => isEnabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.DisabledImportant.v;
+        public Color _stateColor =>
+            isEnabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.DisabledImportant.v;
 
         public Color _soloColor =>
             _soloed
@@ -101,7 +113,6 @@ public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, 
                 : AnyMute
                     ? ColorPrefs.Instance.MuteAny.v
                     : ColorPrefs.Instance.MuteDisabled.v;
-
 
         protected void Enable()
         {

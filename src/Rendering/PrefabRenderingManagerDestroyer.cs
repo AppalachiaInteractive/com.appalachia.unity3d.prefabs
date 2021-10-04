@@ -9,19 +9,6 @@ namespace Appalachia.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerDestroyer
     {
-#region ProfilerMarkers
-
-        private const string _PRF_PFX = nameof(PrefabRenderingManagerDestroyer) + ".";
-        private static readonly ProfilerMarker _PRF_ExecuteDataSetTeardown = new ProfilerMarker(_PRF_PFX + nameof(ExecuteDataSetTeardown));
-
-        private static readonly ProfilerMarker _PRF_ResetExistingRuntimeStateInstances =
-            new ProfilerMarker(_PRF_PFX + nameof(ResetExistingRuntimeStateInstances));
-
-        private static readonly ProfilerMarker _PRF_Dispose = new ProfilerMarker(_PRF_PFX + nameof(Dispose));
-        
-
-#endregion
-        
         public static void ExecuteDataSetTeardown(PrefabRenderingSet set)
         {
             using (_PRF_ExecuteDataSetTeardown.Auto())
@@ -38,9 +25,16 @@ namespace Appalachia.Prefabs.Rendering
             using (_PRF_ResetExistingRuntimeStateInstances.Auto())
             {
                 var manager = PrefabRenderingManager.instance;
-                using (var bar = new EditorOnlyProgressBar("Tearing Down Runtime Prefab Rendering Data", manager.renderingSets.Sets.Count, false))
+                using (var bar = new EditorOnlyProgressBar(
+                    "Tearing Down Runtime Prefab Rendering Data",
+                    manager.renderingSets.Sets.Count,
+                    false
+                ))
                 {
-                    manager.renderingSets.TearDown(manager.gpui, value => bar.Increment1AndShowProgress(value));
+                    manager.renderingSets.TearDown(
+                        manager.gpui,
+                        value => bar.Increment1AndShowProgress(value)
+                    );
                 }
             }
         }
@@ -59,5 +53,19 @@ namespace Appalachia.Prefabs.Rendering
                 }
             }
         }
+
+#region ProfilerMarkers
+
+        private const string _PRF_PFX = nameof(PrefabRenderingManagerDestroyer) + ".";
+
+        private static readonly ProfilerMarker _PRF_ExecuteDataSetTeardown =
+            new(_PRF_PFX + nameof(ExecuteDataSetTeardown));
+
+        private static readonly ProfilerMarker _PRF_ResetExistingRuntimeStateInstances =
+            new(_PRF_PFX + nameof(ResetExistingRuntimeStateInstances));
+
+        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
+
+#endregion
     }
 }

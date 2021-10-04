@@ -18,51 +18,59 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Prefabs.Rendering.Runtime
 {
-    public class RuntimePrefabRenderingElement : InternalBase<RuntimePrefabRenderingElement>, IDisposable
+    public class RuntimePrefabRenderingElement : InternalBase<RuntimePrefabRenderingElement>,
+                                                 IDisposable
     {
         private const string _PRF_PFX = nameof(RuntimePrefabRenderingElement) + ".";
-        
+
         public const int _INITIAL_INSTANCE_CAPACITY = 128;
         public const int _INITIAL_ACTIVE_CAPACITY = 128;
 
-        public bool populated;
+        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
 
-        public NativeList<float4x4> matrices_original;
-        public NativeList<float4x4> matrices_current;
-        public NativeList<Matrix4x4> matrices_noGameObject_OWNED;  // shared with GPUI
-        public NativeList<Matrix4x4> matrices_noGameObject_SHARED; // shared with GPUI
-        public NativeList<float3> positions;
-        public NativeList<quaternion> rotations;
-        public NativeList<float3> scales;
-        public NativeList<bool> inFrustums;
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
-        public NativeList<float3> previousPositions;
-        public NativeList<float> primaryDistances;
-        public NativeList<float> secondaryDistances;
+        private static readonly ProfilerMarker _PRF_ResizeUninitialized =
+            new(_PRF_PFX + nameof(ResizeUninitialized));
+
+        public NativeArray<InstanceStateCounts> _stateCounts;
+
+        public NativeList<AssetRangeSettings> assetRangeSettings;
 
         public NativeList<InstanceState> currentStates;
-        public NativeList<InstanceState> nextStates;
+
+        public GPUInstancerRuntimeData gpuInstancerRuntimeData_NoGO;
 
         public NativeList<bool> hasChangedPositions;
-
-        public NativeList<int> parameterIndices;
+        public NativeList<bool> inFrustums;
+        public PrefabRenderingInstance[] instances;
 
         public NativeList<bool> instancesExcludedFromFrame;
         public NativeList<InstanceStateCode> instancesStateCodes;
+        public NativeList<float4x4> matrices_current;
+        public NativeList<Matrix4x4> matrices_noGameObject_OWNED;  // shared with GPUI
+        public NativeList<Matrix4x4> matrices_noGameObject_SHARED; // shared with GPUI
 
-        public NativeList<AssetRangeSettings> assetRangeSettings;
-        public NativeArray<InstanceStateCounts> _stateCounts;
+        public NativeList<float4x4> matrices_original;
+        public NativeList<InstanceState> nextStates;
 
-        public GPUInstancerRuntimeData gpuInstancerRuntimeData_NoGO;
-        public PrefabRenderingInstance[] instances;
+        public NativeList<int> parameterIndices;
+
+        public bool populated;
+        public NativeList<float3> positions;
+        public ObjectPool<GameObject> prefabPool;
+
+        public NativeList<float3> previousPositions;
+        public NativeList<float> primaryDistances;
 
         public GameObject prototypeTemplate;
-        public ObjectPool<GameObject> prefabPool;
+        public NativeList<quaternion> rotations;
+        public NativeList<float3> scales;
+        public NativeList<float> secondaryDistances;
         public InstanceStateCounts stateCounts => _stateCounts.IsSafe() ? _stateCounts[0] : default;
 
         public int Count => instances?.Length ?? 0;
 
-        private static readonly ProfilerMarker _PRF_Dispose = new ProfilerMarker(_PRF_PFX + nameof(Dispose));
         public void Dispose()
         {
             using (_PRF_Dispose.Auto())
@@ -116,7 +124,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_Initialize = new ProfilerMarker(_PRF_PFX + nameof(Initialize));
         public void Initialize(int size, int parameterSize, bool force, GameObject root)
         {
             using (_PRF_Initialize.Auto())
@@ -147,12 +154,14 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                 if (matrices_noGameObject_OWNED.ShouldAllocate())
                 {
-                    matrices_noGameObject_OWNED = new NativeList<Matrix4x4>(size, Allocator.Persistent);
+                    matrices_noGameObject_OWNED =
+                        new NativeList<Matrix4x4>(size, Allocator.Persistent);
                 }
 
                 if (matrices_noGameObject_SHARED.ShouldAllocate())
                 {
-                    matrices_noGameObject_SHARED = new NativeList<Matrix4x4>(size, Allocator.Persistent);
+                    matrices_noGameObject_SHARED =
+                        new NativeList<Matrix4x4>(size, Allocator.Persistent);
                 }
 
                 if (positions.ShouldAllocate())
@@ -217,7 +226,8 @@ namespace Appalachia.Prefabs.Rendering.Runtime
 
                 if (instancesStateCodes.ShouldAllocate())
                 {
-                    instancesStateCodes = new NativeList<InstanceStateCode>(size, Allocator.Persistent);
+                    instancesStateCodes =
+                        new NativeList<InstanceStateCode>(size, Allocator.Persistent);
                 }
 
                 if (_stateCounts.ShouldAllocate())
@@ -227,7 +237,6 @@ namespace Appalachia.Prefabs.Rendering.Runtime
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ResizeUninitialized = new ProfilerMarker(_PRF_PFX + nameof(ResizeUninitialized));
         public void ResizeUninitialized(int length)
         {
             using (_PRF_ResizeUninitialized.Auto())

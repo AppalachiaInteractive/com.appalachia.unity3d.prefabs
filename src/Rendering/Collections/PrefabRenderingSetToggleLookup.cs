@@ -10,8 +10,8 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
-    public class PrefabRenderingSetToggleLookup : AppaLookup<GameObject, PrefabRenderingSetToggle, AppaList_GameObject,
-        AppaList_PrefabRenderingSetToggle>
+    public class PrefabRenderingSetToggleLookup : AppaLookup<GameObject, PrefabRenderingSetToggle,
+        AppaList_GameObject, AppaList_PrefabRenderingSetToggle>
     {
         protected override bool ShouldDisplayTitle => false;
 

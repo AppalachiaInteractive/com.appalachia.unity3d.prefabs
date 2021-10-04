@@ -20,25 +20,31 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
-public class PrefabModelTypeOptions :
+    public class PrefabModelTypeOptions :
 
         // PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-        PrefabTypeOptions<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
-            PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions, PrefabModelTypeOptionsToggle,
-            Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType, AppaList_PrefabModelTypeOptionsWrapper,
-            AppaList_PrefabModelTypeOptionsToggle>,
+        PrefabTypeOptions<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,
+            PrefabModelTypeOptionsSetData, PrefabModelTypeOptionsWrapper,
+            PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions, PrefabModelTypeOptionsToggle
+            , Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
+            AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>,
         IEquatable<PrefabModelTypeOptions>
     {
         private const string _PRF_PFX = nameof(PrefabModelTypeOptions) + ".";
 
         private const float MAX_RENDER = 4096f;
 
-        private static readonly ProfilerMarker _PRF_UpdateForValidity = new ProfilerMarker(_PRF_PFX + nameof(UpdateForValidity));
+        private static readonly ProfilerMarker _PRF_UpdateForValidity =
+            new(_PRF_PFX + nameof(UpdateForValidity));
 
-        private static readonly ProfilerMarker _PRF_HandleUpdate = new ProfilerMarker(_PRF_PFX + nameof(HandleUpdate));
-        private static readonly ProfilerMarker _PRF_HandleUpdate_MarkDirty = new ProfilerMarker(_PRF_PFX + nameof(HandleUpdate) + ".MarkDirty");
+        private static readonly ProfilerMarker _PRF_HandleUpdate =
+            new(_PRF_PFX + nameof(HandleUpdate));
 
-        private static readonly ProfilerMarker _PRF_CreateFrustumPlanes = new ProfilerMarker(_PRF_PFX + nameof(CreateFrustumPlanes));
+        private static readonly ProfilerMarker _PRF_HandleUpdate_MarkDirty =
+            new(_PRF_PFX + nameof(HandleUpdate) + ".MarkDirty");
+
+        private static readonly ProfilerMarker _PRF_CreateFrustumPlanes =
+            new(_PRF_PFX + nameof(CreateFrustumPlanes));
 
         [SerializeField]
         [HideInInspector]
@@ -66,7 +72,11 @@ public class PrefabModelTypeOptions :
         [SerializeField]
         [InlineProperty]
         [LabelWidth(0)]
-        [ListDrawerSettings(HideAddButton = false, HideRemoveButton = false, DraggableItems = false)]
+        [ListDrawerSettings(
+            HideAddButton = false,
+            HideRemoveButton = false,
+            DraggableItems = false
+        )]
         [OnInspectorGUI(nameof(HandleUpdate))]
         public AssetRangeSettings[] rangeSettings;
 
@@ -134,7 +144,7 @@ public class PrefabModelTypeOptions :
 #endif
         private Vector2 renderingDistance
         {
-            get => new Vector2(minimumRenderingDistance, maximumRenderingDistance);
+            get => new(minimumRenderingDistance, maximumRenderingDistance);
             set
             {
                 minimumRenderingDistance = value.x;
@@ -209,9 +219,14 @@ public class PrefabModelTypeOptions :
                     changed = true;
                 }
 
-                if ((minimumRenderingDistance > maximumRenderingDistance) || (minimumRenderingDistance < 0F))
+                if ((minimumRenderingDistance > maximumRenderingDistance) ||
+                    (minimumRenderingDistance < 0F))
                 {
-                    minimumRenderingDistance = math.clamp(minimumRenderingDistance, 0f, maximumRenderingDistance);
+                    minimumRenderingDistance = math.clamp(
+                        minimumRenderingDistance,
+                        0f,
+                        maximumRenderingDistance
+                    );
                     changed = true;
                 }
 
@@ -232,7 +247,8 @@ public class PrefabModelTypeOptions :
                     if (rangeSettings[i].outOfFrustumRangeLimit == 0f)
                     {
                         rangeSettings[i].frustumOverridesRange = true;
-                        rangeSettings[i].outOfFrustumRangeLimit = rangeSettings[i].rangeLimit * .25f;
+                        rangeSettings[i].outOfFrustumRangeLimit =
+                            rangeSettings[i].rangeLimit * .25f;
                     }
 
                     if (i == (rangeSettings.Length - 1))
@@ -276,15 +292,23 @@ public class PrefabModelTypeOptions :
             }
         }
 
-        public void CreateFrustumPlanes(Camera camera, Camera frustumCamera, ref FrustumPlanesWrapper planes)
+        public void CreateFrustumPlanes(
+            Camera camera,
+            Camera frustumCamera,
+            ref FrustumPlanesWrapper planes)
         {
             using (_PRF_CreateFrustumPlanes.Auto())
             {
-                var farRange = rangeSettings.Length == 1 ? rangeSettings[0] : rangeSettings[rangeSettings.Length - 2];
+                var farRange = rangeSettings.Length == 1
+                    ? rangeSettings[0]
+                    : rangeSettings[rangeSettings.Length - 2];
 
                 frustum.Confirm();
 
-                var limit = math.min(PrefabRenderingManager.instance.RenderingOptions.global.maximumFrustrangeRange, farRange.rangeLimit + 5.0f);
+                var limit = math.min(
+                    PrefabRenderingManager.instance.RenderingOptions.global.maximumFrustrangeRange,
+                    farRange.rangeLimit + 5.0f
+                );
 
                 if (planes == null)
                 {
@@ -308,7 +332,7 @@ public class PrefabModelTypeOptions :
             bool physics = false,
             bool interactions = false)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -333,7 +357,7 @@ public class PrefabModelTypeOptions :
             LODFadeSettings lodFadeSettings,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -358,7 +382,7 @@ public class PrefabModelTypeOptions :
             LODFadeSettings lodFadeSettings,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -382,7 +406,7 @@ public class PrefabModelTypeOptions :
             LODFadeSettings lodFadeSettings,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -407,7 +431,7 @@ public class PrefabModelTypeOptions :
             AssetBurialOptions assetBurialOptions,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -433,7 +457,7 @@ public class PrefabModelTypeOptions :
             AssetBurialOptions assetBurialOptions,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -460,7 +484,7 @@ public class PrefabModelTypeOptions :
             AssetBurialOptions assetBurialOptions,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new PrefabModelTypeOptions
+            return new()
             {
                 frustum = frustum,
                 minimumRenderingDistance = min,
@@ -530,12 +554,20 @@ public class PrefabModelTypeOptions :
                 hashCode = (hashCode * 397) ^ maximumRenderingDistance.GetHashCode();
                 hashCode = (hashCode * 397) ^ layer.GetHashCode();
                 hashCode = (hashCode * 397) ^ (frustum != null ? frustum.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (rangeSettings != null ? rangeSettings.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (normalLighting != null ? normalLighting.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (instancedLighting != null ? instancedLighting.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (cullingSettings != null ? cullingSettings.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (distanceFalloffSettings != null ? distanceFalloffSettings.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (lodFadeSettings != null ? lodFadeSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (rangeSettings != null ? rangeSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (normalLighting != null ? normalLighting.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (instancedLighting != null ? instancedLighting.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (cullingSettings != null ? cullingSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^
+                           (distanceFalloffSettings != null
+                               ? distanceFalloffSettings.GetHashCode()
+                               : 0);
+                hashCode = (hashCode * 397) ^
+                           (lodFadeSettings != null ? lodFadeSettings.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ burialOptions.GetHashCode();
                 return hashCode;
             }

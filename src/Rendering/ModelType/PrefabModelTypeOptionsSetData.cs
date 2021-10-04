@@ -16,45 +16,48 @@ using Unity.Profiling;
 namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
-public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,
-        PrefabModelTypeOptionsSetData, PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
-        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType, AppaList_PrefabModelTypeOptionsWrapper,
-        AppaList_PrefabModelTypeOptionsToggle>
+    public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabModelType,
+        PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
+        PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
+        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
+        AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
         private const string _PRF_PFX = nameof(PrefabModelTypeOptionsSetData) + ".";
 
-        private static readonly ProfilerMarker _PRF_SyncOverrides = new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides));
+        private static readonly ProfilerMarker _PRF_SyncOverrides =
+            new(_PRF_PFX + nameof(SyncOverrides));
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_InitializeSync =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".InitializeSync");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".InitializeSync");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_DistanceSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".DistanceSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".DistanceSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_RangeSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".RangeSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".RangeSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_LightingSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".LightingSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".LightingSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_CullingSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".CullingSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".CullingSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_FalloffSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".FalloffSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".FalloffSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_FadeSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".FadeSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".FadeSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_BurialSettings =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".BurialSettings");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".BurialSettings");
 
         private static readonly ProfilerMarker _PRF_SyncOverrides_UpdateRangeLimits =
-            new ProfilerMarker(_PRF_PFX + nameof(SyncOverrides) + ".UpdateRangeLimits");
+            new(_PRF_PFX + nameof(SyncOverrides) + ".UpdateRangeLimits");
 
-        private static readonly ProfilerMarker _PRF_SyncOverridesFull = new ProfilerMarker(_PRF_PFX + nameof(SyncOverridesFull));
+        private static readonly ProfilerMarker _PRF_SyncOverridesFull =
+            new(_PRF_PFX + nameof(SyncOverridesFull));
 
-        private static readonly ProfilerMarker _PRF_ApplyTo = new ProfilerMarker(_PRF_PFX + nameof(ApplyTo));
+        private static readonly ProfilerMarker _PRF_ApplyTo = new(_PRF_PFX + nameof(ApplyTo));
 
         private float _maximumStateChangeDistance;
 
@@ -70,21 +73,32 @@ public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabMode
                 ? _setOverrides.maximumRenderingDistance.value
                 : typeOptions.options.maximumRenderingDistance;
 
-        public LayerSelection layer => _setOverrides.layer.overrideEnabled ? _setOverrides.layer.value : typeOptions.options.layer;
+        public LayerSelection layer =>
+            _setOverrides.layer.overrideEnabled
+                ? _setOverrides.layer.value
+                : typeOptions.options.layer;
 
         public FrustumSettings frustum => typeOptions.options.frustum;
 
         public AssetRangeSettings[] rangeSettings =>
-            _setOverrides.rangeSettings.overrideEnabled ? _setOverrides.rangeSettings.value : typeOptions.options.rangeSettings;
+            _setOverrides.rangeSettings.overrideEnabled
+                ? _setOverrides.rangeSettings.value
+                : typeOptions.options.rangeSettings;
 
         public AssetLightingSettings normalLighting =>
-            _setOverrides.normalLighting.overrideEnabled ? _setOverrides.normalLighting.value : typeOptions.options.normalLighting;
+            _setOverrides.normalLighting.overrideEnabled
+                ? _setOverrides.normalLighting.value
+                : typeOptions.options.normalLighting;
 
         public AssetLightingSettings instancedLighting =>
-            _setOverrides.instancedLighting.overrideEnabled ? _setOverrides.instancedLighting.value : typeOptions.options.instancedLighting;
+            _setOverrides.instancedLighting.overrideEnabled
+                ? _setOverrides.instancedLighting.value
+                : typeOptions.options.instancedLighting;
 
         public AssetCullingSettings cullingSettings =>
-            _setOverrides.cullingSettings.overrideEnabled ? _setOverrides.cullingSettings.value : typeOptions.options.cullingSettings;
+            _setOverrides.cullingSettings.overrideEnabled
+                ? _setOverrides.cullingSettings.value
+                : typeOptions.options.cullingSettings;
 
         public DistanceFalloffSettings distanceFalloffSettings =>
             _setOverrides.distanceFalloffSettings.overrideEnabled
@@ -92,10 +106,14 @@ public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabMode
                 : typeOptions.options.distanceFalloffSettings;
 
         public LODFadeSettings lodFadeSettings =>
-            _setOverrides.lodFadeSettings.overrideEnabled ? _setOverrides.lodFadeSettings.value : typeOptions.options.lodFadeSettings;
+            _setOverrides.lodFadeSettings.overrideEnabled
+                ? _setOverrides.lodFadeSettings.value
+                : typeOptions.options.lodFadeSettings;
 
         public AssetBurialOptions burialOptions =>
-            _setOverrides.burialOptions.overrideEnabled ? _setOverrides.burialOptions.value : typeOptions.options.burialOptions;
+            _setOverrides.burialOptions.overrideEnabled
+                ? _setOverrides.burialOptions.value
+                : typeOptions.options.burialOptions;
 
         public override void SyncOverrides()
         {
@@ -132,9 +150,10 @@ public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabMode
 
                         var length = rs.Length;
 
-                        if (ov == null || ov.Length != length)
+                        if ((ov == null) || (ov.Length != length))
                         {
-                            o.rangeSettings.value = options.rangeSettings.Clone() as AssetRangeSettings[];
+                            o.rangeSettings.value =
+                                options.rangeSettings.Clone() as AssetRangeSettings[];
                         }
                         else
                         {
@@ -225,16 +244,21 @@ public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabMode
                 o.Initialize(options);
 
                 if (hasInteractions &&
-                    ((!o.rangeSettings.overrideEnabled && (options.rangeSettings[0].interactions != InstanceInteractionState.Enabled)) ||
-                     (o.rangeSettings.overrideEnabled && (o.rangeSettings.value[0].interactions != InstanceInteractionState.Enabled))))
+                    ((!o.rangeSettings.overrideEnabled &&
+                      (options.rangeSettings[0].interactions !=
+                       InstanceInteractionState.Enabled)) ||
+                     (o.rangeSettings.overrideEnabled &&
+                      (o.rangeSettings.value[0].interactions != InstanceInteractionState.Enabled))))
                 {
                     o.rangeSettings.overrideEnabled = true;
                     o.rangeSettings.value[0].interactions = InstanceInteractionState.Enabled;
                 }
 
                 if (hasColliders &&
-                    ((!o.rangeSettings.overrideEnabled && (options.rangeSettings[0].physics != InstancePhysicsState.Enabled)) ||
-                     (o.rangeSettings.overrideEnabled && (o.rangeSettings.value[0].physics != InstancePhysicsState.Enabled))))
+                    ((!o.rangeSettings.overrideEnabled &&
+                      (options.rangeSettings[0].physics != InstancePhysicsState.Enabled)) ||
+                     (o.rangeSettings.overrideEnabled &&
+                      (o.rangeSettings.value[0].physics != InstancePhysicsState.Enabled))))
                 {
                     o.rangeSettings.overrideEnabled = true;
                     o.rangeSettings.value[0].physics = InstancePhysicsState.Enabled;

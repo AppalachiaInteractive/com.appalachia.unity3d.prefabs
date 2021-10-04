@@ -10,7 +10,7 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.ModelType.Rendering
 {
     [Serializable]
-public class DistanceFalloffSettings : IEquatable<DistanceFalloffSettings>
+    public class DistanceFalloffSettings : IEquatable<DistanceFalloffSettings>
     {
         [ToggleLeft]
         [HorizontalGroup("2", .2f)]
@@ -24,7 +24,9 @@ public class DistanceFalloffSettings : IEquatable<DistanceFalloffSettings>
         [SerializeField]
         public float distanceFalloffStartDistance;
 
-        public DistanceFalloffSettings(bool useDistanceFalloff = true, float distanceFalloffStartDistance = .5f)
+        public DistanceFalloffSettings(
+            bool useDistanceFalloff = true,
+            float distanceFalloffStartDistance = .5f)
         {
             this.useDistanceFalloff = useDistanceFalloff;
             this.distanceFalloffStartDistance = distanceFalloffStartDistance;
@@ -32,32 +34,32 @@ public class DistanceFalloffSettings : IEquatable<DistanceFalloffSettings>
 
         public static DistanceFalloffSettings Off()
         {
-            return new DistanceFalloffSettings(false);
+            return new(false);
         }
 
         public static DistanceFalloffSettings Immediate()
         {
-            return new DistanceFalloffSettings(true, 0.1f);
+            return new(true, 0.1f);
         }
 
         public static DistanceFalloffSettings Fast()
         {
-            return new DistanceFalloffSettings(true, 0.2f);
+            return new(true, 0.2f);
         }
 
         public static DistanceFalloffSettings Normal()
         {
-            return new DistanceFalloffSettings(true, 0.4f);
+            return new(true, 0.4f);
         }
 
         public static DistanceFalloffSettings Slow()
         {
-            return new DistanceFalloffSettings(true, 0.6f);
+            return new(true, 0.6f);
         }
 
         public static DistanceFalloffSettings VerySlow()
         {
-            return new DistanceFalloffSettings(true, 0.8f);
+            return new(true, 0.8f);
         }
 
 #region IEquatable
@@ -74,7 +76,8 @@ public class DistanceFalloffSettings : IEquatable<DistanceFalloffSettings>
                 return true;
             }
 
-            return (useDistanceFalloff == other.useDistanceFalloff) && distanceFalloffStartDistance.Equals(other.distanceFalloffStartDistance);
+            return (useDistanceFalloff == other.useDistanceFalloff) &&
+                   distanceFalloffStartDistance.Equals(other.distanceFalloffStartDistance);
         }
 
         public override bool Equals(object obj)
@@ -101,7 +104,8 @@ public class DistanceFalloffSettings : IEquatable<DistanceFalloffSettings>
         {
             unchecked
             {
-                return (useDistanceFalloff.GetHashCode() * 397) ^ distanceFalloffStartDistance.GetHashCode();
+                return (useDistanceFalloff.GetHashCode() * 397) ^
+                       distanceFalloffStartDistance.GetHashCode();
             }
         }
 

@@ -14,15 +14,16 @@ namespace Appalachia.Prefabs.Rendering.Collections
         {
         }
 
-        public AppaList_PrefabRenderingSetToggle(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
-        )
+        public AppaList_PrefabRenderingSetToggle(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
         {
         }
 
-        public AppaList_PrefabRenderingSetToggle(AppaList<PrefabRenderingSetToggle> list) : base(list)
+        public AppaList_PrefabRenderingSetToggle(AppaList<PrefabRenderingSetToggle> list) : base(
+            list
+        )
         {
         }
 

@@ -14,7 +14,9 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.Data
 {
     [Serializable]
-    public class PrefabRenderingSetLocationModificationLookup : AppaLookup<int, float4x4, AppaList_int, AppaList_float4x4>, IGameDataComponent
+    public class PrefabRenderingSetLocationModificationLookup :
+        AppaLookup<int, float4x4, AppaList_int, AppaList_float4x4>,
+        IGameDataComponent
     {
         protected override string GetDisplayTitle(int key, float4x4 value)
         {

@@ -25,31 +25,34 @@ namespace Appalachia.Prefabs.Rendering.External
     {
         private const string _PRF_PFX = nameof(PrefabLocationSource) + ".";
 
-        private static readonly ProfilerMarker _PRF_GetRenderingParameters = new ProfilerMarker(_PRF_PFX + nameof(GetRenderingParameters));
+        private static readonly ProfilerMarker _PRF_GetRenderingParameters =
+            new(_PRF_PFX + nameof(GetRenderingParameters));
 
         private static readonly ProfilerMarker _PRF_GetRenderingParametersFromVegetationStudio =
-            new ProfilerMarker(_PRF_PFX + nameof(GetRenderingParametersFromVegetationStudio));
+            new(_PRF_PFX + nameof(GetRenderingParametersFromVegetationStudio));
 
-        private static readonly ProfilerMarker _PRF_CreateParametersForPrefab = new ProfilerMarker(_PRF_PFX + nameof(CreateParametersForPrefab));
+        private static readonly ProfilerMarker _PRF_CreateParametersForPrefab =
+            new(_PRF_PFX + nameof(CreateParametersForPrefab));
 
         private static readonly ProfilerMarker _PRF_InitializeVegetationItemIndexLookup =
-            new ProfilerMarker(_PRF_PFX + nameof(InitializeVegetationItemIndexLookup));
+            new(_PRF_PFX + nameof(InitializeVegetationItemIndexLookup));
 
         private static readonly ProfilerMarker _PRF_UpdateRuntimeRenderingParameters =
-            new ProfilerMarker(_PRF_PFX + nameof(UpdateRuntimeRenderingParameters));
+            new(_PRF_PFX + nameof(UpdateRuntimeRenderingParameters));
 
         private static readonly ProfilerMarker _PRF_GetMatricesFromVegetationSystem =
-            new ProfilerMarker(_PRF_PFX + nameof(GetMatricesFromVegetationSystem));
+            new(_PRF_PFX + nameof(GetMatricesFromVegetationSystem));
 
-        private static readonly ProfilerMarker _PRF_GetTRSFromVegetationStorage = new ProfilerMarker(_PRF_PFX + nameof(GetTRSFromVegetationStorage));
+        private static readonly ProfilerMarker _PRF_GetTRSFromVegetationStorage =
+            new(_PRF_PFX + nameof(GetTRSFromVegetationStorage));
 
         public List<PersistentVegetationStoragePackage> storagePackages;
 
         public bool sourceFromActiveVegetationSystems = true;
+        [NonSerialized] private Dictionary<string, int> _itemIndices;
+        [NonSerialized] private Dictionary<string, int> _packageIndices;
 
         [NonSerialized] private VegetationSystemPro _veggieSystem;
-        [NonSerialized] private Dictionary<string, int> _packageIndices;
-        [NonSerialized] private Dictionary<string, int> _itemIndices;
 
         private VegetationSystemPro veggieSystem
         {
@@ -64,7 +67,8 @@ namespace Appalachia.Prefabs.Rendering.External
             }
         }
 
-        public List<ExternalRenderingParameters> GetRenderingParameters(Dictionary<string, ExternalRenderingParameters> existing)
+        public List<ExternalRenderingParameters> GetRenderingParameters(
+            Dictionary<string, ExternalRenderingParameters> existing)
         {
             using (_PRF_GetRenderingParameters.Auto())
             {
@@ -78,16 +82,21 @@ namespace Appalachia.Prefabs.Rendering.External
             }
         }
 
-        private void GetRenderingParametersFromVegetationStudio(Dictionary<string, ExternalRenderingParameters> prefabs)
+        private void GetRenderingParametersFromVegetationStudio(
+            Dictionary<string, ExternalRenderingParameters> prefabs)
         {
             using (_PRF_GetRenderingParametersFromVegetationStudio.Auto())
             {
                 if (sourceFromActiveVegetationSystems)
                 {
-                    for (var packageIndex = 0; packageIndex < veggieSystem.VegetationPackageProList.Count; packageIndex++)
+                    for (var packageIndex = 0;
+                        packageIndex < veggieSystem.VegetationPackageProList.Count;
+                        packageIndex++)
                     {
                         var package = veggieSystem.VegetationPackageProList[packageIndex];
-                        for (var infoIndex = 0; infoIndex < package.VegetationInfoList.Count; infoIndex++)
+                        for (var infoIndex = 0;
+                            infoIndex < package.VegetationInfoList.Count;
+                            infoIndex++)
                         {
                             var info = package.VegetationInfoList[infoIndex];
 
@@ -102,12 +111,18 @@ namespace Appalachia.Prefabs.Rendering.External
 
                             if (labels.Length == 0)
                             {
-                                Debug.LogWarning($"No labels for asset [{prefab.name}]. Setting it as a test prefab.");
+                                Debug.LogWarning(
+                                    $"No labels for asset [{prefab.name}]. Setting it as a test prefab."
+                                );
                                 info.TestOnly = true;
                                 continue;
                             }
 
-                            CreateParametersForPrefab(prefabs, $"{info.Name}_{info.VegetationItemID}", inst => inst.SetVegetationItemInfoPro(info));
+                            CreateParametersForPrefab(
+                                prefabs,
+                                $"{info.Name}_{info.VegetationItemID}",
+                                inst => inst.SetVegetationItemInfoPro(info)
+                            );
                         }
                     }
                 }
@@ -117,21 +132,31 @@ namespace Appalachia.Prefabs.Rendering.External
                     storagePackages = new List<PersistentVegetationStoragePackage>();
                 }
 
-                for (var storagePackageIndex = 0; storagePackageIndex < storagePackages.Count; storagePackageIndex++)
+                for (var storagePackageIndex = 0;
+                    storagePackageIndex < storagePackages.Count;
+                    storagePackageIndex++)
                 {
                     var storagePackage = storagePackages[storagePackageIndex];
-                    for (var storageCellIndex = 0; storageCellIndex < storagePackage.PersistentVegetationCellList.Count; storageCellIndex++)
+                    for (var storageCellIndex = 0;
+                        storageCellIndex < storagePackage.PersistentVegetationCellList.Count;
+                        storageCellIndex++)
                     {
                         var cell = storagePackage.PersistentVegetationCellList[storageCellIndex];
-                        for (var storageItemIndex = 0; storageItemIndex < cell.PersistentVegetationInfoList.Count; storageItemIndex++)
+                        for (var storageItemIndex = 0;
+                            storageItemIndex < cell.PersistentVegetationInfoList.Count;
+                            storageItemIndex++)
                         {
                             var storageItem = cell.PersistentVegetationInfoList[storageItemIndex];
 
-                            if (_packageIndices.TryGetValue(storageItem.VegetationItemID, out var packageIndex))
+                            if (_packageIndices.TryGetValue(
+                                storageItem.VegetationItemID,
+                                out var packageIndex
+                            ))
                             {
                                 var itemIndex = _itemIndices[storageItem.VegetationItemID];
 
-                                var info = _veggieSystem.VegetationPackageProList[packageIndex].VegetationInfoList[itemIndex];
+                                var info = _veggieSystem.VegetationPackageProList[packageIndex]
+                                                        .VegetationInfoList[itemIndex];
 
                                 if (info != null)
                                 {
@@ -164,7 +189,12 @@ namespace Appalachia.Prefabs.Rendering.External
 
                 if (!prefabs.ContainsKey(identifyingKey))
                 {
-                    instance = ExternalRenderingParameters.LoadOrCreateNew(identifyingKey, true, true, false);
+                    instance = ExternalRenderingParameters.LoadOrCreateNew(
+                        identifyingKey,
+                        true,
+                        true,
+                        false
+                    );
 
                     prefabs.Add(identifyingKey, instance);
                 }
@@ -230,7 +260,8 @@ namespace Appalachia.Prefabs.Rendering.External
                 {
                     itemIndex = _itemIndices[parameters.vegetationItemID];
 
-                    veggie = _veggieSystem.VegetationPackageProList[packageIndex].VegetationInfoList[itemIndex];
+                    veggie = _veggieSystem.VegetationPackageProList[packageIndex]
+                                          .VegetationInfoList[itemIndex];
 
                     if (veggie != null)
                     {
@@ -268,14 +299,20 @@ namespace Appalachia.Prefabs.Rendering.External
 
                 _veggieSystem.CompleteCellLoading();
 
-                for (var cellIndex = 0; cellIndex < _veggieSystem.VegetationCellList.Count; cellIndex++)
+                for (var cellIndex = 0;
+                    cellIndex < _veggieSystem.VegetationCellList.Count;
+                    cellIndex++)
                 {
                     var cell = _veggieSystem.VegetationCellList[cellIndex];
                     if (cell.Prepared)
                     {
-                        var vegetationInstanceList = cell.VegetationPackageInstancesList[packageIndex].VegetationItemMatrixList[itemIndex];
+                        var vegetationInstanceList = cell
+                                                    .VegetationPackageInstancesList[packageIndex]
+                                                    .VegetationItemMatrixList[itemIndex];
 
-                        for (var instanceIndex = 0; instanceIndex < vegetationInstanceList.Length; instanceIndex++)
+                        for (var instanceIndex = 0;
+                            instanceIndex < vegetationInstanceList.Length;
+                            instanceIndex++)
                         {
                             var instance = vegetationInstanceList[instanceIndex];
 
@@ -285,7 +322,9 @@ namespace Appalachia.Prefabs.Rendering.External
                         }
                     }
 
-                    _veggieSystem.VegetationPackageProList[packageIndex].VegetationInfoList[itemIndex].EnableRuntimeRendering = false;
+                    _veggieSystem.VegetationPackageProList[packageIndex]
+                                 .VegetationInfoList[itemIndex]
+                                 .EnableRuntimeRendering = false;
                 }
             }
         }
@@ -306,16 +345,22 @@ namespace Appalachia.Prefabs.Rendering.External
                     return;
                 }
 
-                for (var cellIndex = 0; cellIndex < storage.PersistentVegetationCellList.Count; cellIndex++)
+                for (var cellIndex = 0;
+                    cellIndex < storage.PersistentVegetationCellList.Count;
+                    cellIndex++)
                 {
                     var cell = storage.PersistentVegetationCellList[cellIndex];
-                    for (var infoIndex = 0; infoIndex < cell.PersistentVegetationInfoList.Count; infoIndex++)
+                    for (var infoIndex = 0;
+                        infoIndex < cell.PersistentVegetationInfoList.Count;
+                        infoIndex++)
                     {
                         var persistentInfo = cell.PersistentVegetationInfoList[infoIndex];
 
                         if (parameters.vegetationItemID == persistentInfo.VegetationItemID)
                         {
-                            for (var itemIndex = 0; itemIndex < persistentInfo.VegetationItemList.Count; itemIndex++)
+                            for (var itemIndex = 0;
+                                itemIndex < persistentInfo.VegetationItemList.Count;
+                                itemIndex++)
                             {
                                 var item = persistentInfo.VegetationItemList[itemIndex];
 

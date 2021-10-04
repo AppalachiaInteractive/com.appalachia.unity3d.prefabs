@@ -20,11 +20,20 @@ namespace Appalachia.Prefabs.Spawning
     public class PrefabSpawnerRigidbodyManager : InternalBase<PrefabSpawnerRigidbodyManager>
     {
         private const string _PRF_PFX = nameof(PrefabSpawnerRigidbodyManager) + ".";
-        
-        [ReadOnly, ShowInInspector]
-        private readonly Queue<Rigidbody> _rigidbodies;
+
+        private static readonly ProfilerMarker _PRF_Enqueue = new(_PRF_PFX + nameof(Enqueue));
+
+        private static readonly ProfilerMarker _PRF_HandleRigidbodyRemoval =
+            new(_PRF_PFX + nameof(HandleRigidbodyRemoval));
+
+        private static readonly ProfilerMarker _PRF_EligibleForActivation =
+            new(_PRF_PFX + nameof(EligibleForActivation));
 
         public Bounds bounds;
+
+        [ReadOnly]
+        [ShowInInspector]
+        private readonly Queue<Rigidbody> _rigidbodies;
 
         public PrefabSpawnerRigidbodyManager()
         {
@@ -33,7 +42,6 @@ namespace Appalachia.Prefabs.Spawning
 
         [ShowInInspector] public int ActiveCount => _rigidbodies.Count;
 
-        private static readonly ProfilerMarker _PRF_Enqueue = new ProfilerMarker(_PRF_PFX + nameof(Enqueue));
         public void Enqueue(Rigidbody rb)
         {
             using (_PRF_Enqueue.Auto())
@@ -53,7 +61,6 @@ namespace Appalachia.Prefabs.Spawning
             }
         }
 
-        private static readonly ProfilerMarker _PRF_HandleRigidbodyRemoval = new ProfilerMarker(_PRF_PFX + nameof(HandleRigidbodyRemoval));
         public void HandleRigidbodyRemoval(PrefabSpawnSettings settings)
         {
             using (_PRF_HandleRigidbodyRemoval.Auto())
@@ -66,7 +73,9 @@ namespace Appalachia.Prefabs.Spawning
                         {
                             var deq = _rigidbodies.Dequeue();
 
-                            PrefabRenderingManager.instance.RemoveDistanceReferenceObject(deq.gameObject);
+                            PrefabRenderingManager.instance.RemoveDistanceReferenceObject(
+                                deq.gameObject
+                            );
                             deq.DestroySafely();
                         }
                     }
@@ -88,22 +97,31 @@ namespace Appalachia.Prefabs.Spawning
 
                             var deqPosition = deq.transform.position;
 
-                            var terrainBounds = Terrain.activeTerrains.GetTerrainAtPosition(deqPosition)?.GetWorldTerrainBounds() ?? default;
+                            var terrainBounds =
+                                Terrain.activeTerrains.GetTerrainAtPosition(deqPosition)
+                                      ?.GetWorldTerrainBounds() ??
+                                default;
 
-                            if ((terrainBounds == default) || !terrainBounds.Contains(deq.transform.position))
+                            if ((terrainBounds == default) ||
+                                !terrainBounds.Contains(deq.transform.position))
                             {
                                 var rdm = deq.GetComponentInParent<RigidbodyDragModifier>();
 
-                                PrefabRenderingManager.instance.RemoveDistanceReferenceObject(rdm.gameObject);
+                                PrefabRenderingManager.instance.RemoveDistanceReferenceObject(
+                                    rdm.gameObject
+                                );
                                 rdm.gameObject.DestroySafely();
                             }
-                            else if (deq.velocity.magnitude > settings.physics.rigidbodyVelocityActiveThreshold)
+                            else if (deq.velocity.magnitude >
+                                     settings.physics.rigidbodyVelocityActiveThreshold)
                             {
                                 _rigidbodies.Enqueue(deq);
                             }
                             else
                             {
-                                PrefabRenderingManager.instance.RemoveDistanceReferenceObject(deq.gameObject);
+                                PrefabRenderingManager.instance.RemoveDistanceReferenceObject(
+                                    deq.gameObject
+                                );
                                 deq.DestroySafely();
                             }
                         }
@@ -116,7 +134,6 @@ namespace Appalachia.Prefabs.Spawning
             }
         }
 
-        private static readonly ProfilerMarker _PRF_EligibleForActivation = new ProfilerMarker(_PRF_PFX + nameof(EligibleForActivation));
         public bool EligibleForActivation(PrefabSpawnSettings settings, out int limit)
         {
             using (_PRF_EligibleForActivation.Auto())
@@ -130,7 +147,8 @@ namespace Appalachia.Prefabs.Spawning
                     HandleRigidbodyRemoval(settings);
                 }
 
-                delay = settings.physics.delaySpawningUntilRigidbodiesLimited && (_rigidbodies.Count >= settings.physics.rigidbodyLimit);
+                delay = settings.physics.delaySpawningUntilRigidbodiesLimited &&
+                        (_rigidbodies.Count >= settings.physics.rigidbodyLimit);
 
                 limit = settings.physics.rigidbodyLimit - _rigidbodies.Count;
 

@@ -11,6 +11,15 @@ namespace Appalachia.Prefabs.Core.States
     [Serializable]
     public struct InstanceState : IEquatable<InstanceState>
     {
+        public static readonly InstanceState NotSet = new();
+
+        public static readonly InstanceState Disabled = new()
+        {
+            interaction = InstanceInteractionState.Disabled,
+            physics = InstancePhysicsState.Disabled,
+            rendering = InstanceRenderingState.Disabled
+        };
+
         [SmartLabel] public InstanceInteractionState interaction;
 
         [SmartLabel(AlignWith = nameof(interaction))]
@@ -19,17 +28,10 @@ namespace Appalachia.Prefabs.Core.States
         [SmartLabel(AlignWith = nameof(interaction))]
         public InstanceRenderingState rendering;
 
-        public static readonly InstanceState NotSet = new InstanceState();
-
-        public static readonly InstanceState Disabled = new InstanceState
-        {
-            interaction = InstanceInteractionState.Disabled, physics = InstancePhysicsState.Disabled, rendering = InstanceRenderingState.Disabled
-        };
-
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public InstanceStateCounts Count()
         {
-            return new InstanceStateCounts(this);
+            return new(this);
         }
 
         public override string ToString()
@@ -42,7 +44,9 @@ namespace Appalachia.Prefabs.Core.States
 
         public bool Equals(InstanceState other)
         {
-            return (interaction == other.interaction) && (physics == other.physics) && (rendering == other.rendering);
+            return (interaction == other.interaction) &&
+                   (physics == other.physics) &&
+                   (rendering == other.rendering);
         }
 
         public override bool Equals(object obj)

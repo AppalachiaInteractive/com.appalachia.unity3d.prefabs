@@ -9,16 +9,23 @@ using Appalachia.Prefabs.Rendering.ModelType.Rendering;
 namespace Appalachia.Prefabs.Rendering.Overrides
 {
     [Serializable]
-    public sealed class AssetLightingSettings_OVERRIDE : Overridable<AssetLightingSettings, AssetLightingSettings_OVERRIDE>
-    { public AssetLightingSettings_OVERRIDE() : base(false, default){}
-        public AssetLightingSettings_OVERRIDE(bool isOverridingAllowed, bool overrideEnabled, AssetLightingSettings value) : base(
-            overrideEnabled,
-            value
-        )
+    public sealed class
+        AssetLightingSettings_OVERRIDE : Overridable<AssetLightingSettings,
+            AssetLightingSettings_OVERRIDE>
+    {
+        public AssetLightingSettings_OVERRIDE() : base(false, default)
         {
         }
 
-        public AssetLightingSettings_OVERRIDE(Overridable<AssetLightingSettings, AssetLightingSettings_OVERRIDE> value) : base(value)
+        public AssetLightingSettings_OVERRIDE(
+            bool isOverridingAllowed,
+            bool overrideEnabled,
+            AssetLightingSettings value) : base(overrideEnabled, value)
+        {
+        }
+
+        public AssetLightingSettings_OVERRIDE(
+            Overridable<AssetLightingSettings, AssetLightingSettings_OVERRIDE> value) : base(value)
         {
         }
     }

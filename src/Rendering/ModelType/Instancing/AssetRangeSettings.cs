@@ -13,49 +13,6 @@ namespace Appalachia.Prefabs.Rendering.ModelType.Instancing
     [Serializable]
     public struct AssetRangeSettings : IEquatable<AssetRangeSettings>
     {
-#region IEquatable
-
-        public bool Equals(AssetRangeSettings other)
-        {
-            return (enabled == other.enabled) &&
-                   (showRangeLimit == other.showRangeLimit) &&
-                   rangeLimit.Equals(other.rangeLimit) &&
-                   (rendering == other.rendering) &&
-                   (physics == other.physics) &&
-                   (interactions == other.interactions);
-        }
-
-        public override bool Equals(object obj)
-        {
-            return obj is AssetRangeSettings other && Equals(other);
-        }
-
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                var hashCode = enabled.GetHashCode();
-                hashCode = (hashCode * 397) ^ showRangeLimit.GetHashCode();
-                hashCode = (hashCode * 397) ^ rangeLimit.GetHashCode();
-                hashCode = (hashCode * 397) ^ (int) rendering;
-                hashCode = (hashCode * 397) ^ (int) physics;
-                hashCode = (hashCode * 397) ^ (int) interactions;
-                return hashCode;
-            }
-        }
-
-        public static bool operator ==(AssetRangeSettings left, AssetRangeSettings right)
-        {
-            return left.Equals(right);
-        }
-
-        public static bool operator !=(AssetRangeSettings left, AssetRangeSettings right)
-        {
-            return !left.Equals(right);
-        }
-
-#endregion
-
         [SerializeField]
         [ToggleLeft]
         [HorizontalGroup("A", .1f)]
@@ -103,39 +60,54 @@ namespace Appalachia.Prefabs.Rendering.ModelType.Instancing
         [SmartLabel]
         public InstanceInteractionState interactions;
 
-        public static AssetRangeSettings MeshRendered(float distanceLimit, bool physics, bool interactions)
+        public static AssetRangeSettings MeshRendered(
+            float distanceLimit,
+            bool physics,
+            bool interactions)
         {
-            return new AssetRangeSettings
+            return new()
             {
                 enabled = true,
                 rangeLimit = distanceLimit,
                 rendering = InstanceRenderingState.MeshRenderers,
-                physics = physics ? InstancePhysicsState.Enabled : InstancePhysicsState.Disabled,
-                interactions = interactions ? InstanceInteractionState.Enabled : InstanceInteractionState.Disabled
+                physics =
+                    physics ? InstancePhysicsState.Enabled : InstancePhysicsState.Disabled,
+                interactions = interactions
+                    ? InstanceInteractionState.Enabled
+                    : InstanceInteractionState.Disabled
             };
         }
 
         public static AssetRangeSettings GPUInstanced(bool physics, bool interactions)
         {
-            return new AssetRangeSettings
+            return new()
             {
                 enabled = true,
                 rangeLimit = float.MaxValue,
                 rendering = InstanceRenderingState.GPUInstancing,
-                physics = physics ? InstancePhysicsState.Enabled : InstancePhysicsState.Disabled,
-                interactions = interactions ? InstanceInteractionState.Enabled : InstanceInteractionState.Disabled
+                physics =
+                    physics ? InstancePhysicsState.Enabled : InstancePhysicsState.Disabled,
+                interactions = interactions
+                    ? InstanceInteractionState.Enabled
+                    : InstanceInteractionState.Disabled
             };
         }
 
-        public static AssetRangeSettings GPUInstanced(float distanceLimit, bool physics, bool interactions)
+        public static AssetRangeSettings GPUInstanced(
+            float distanceLimit,
+            bool physics,
+            bool interactions)
         {
-            return new AssetRangeSettings
+            return new()
             {
                 enabled = true,
                 rangeLimit = distanceLimit,
                 rendering = InstanceRenderingState.GPUInstancing,
-                physics = physics ? InstancePhysicsState.Enabled : InstancePhysicsState.Disabled,
-                interactions = interactions ? InstanceInteractionState.Enabled : InstanceInteractionState.Disabled
+                physics =
+                    physics ? InstancePhysicsState.Enabled : InstancePhysicsState.Disabled,
+                interactions = interactions
+                    ? InstanceInteractionState.Enabled
+                    : InstanceInteractionState.Disabled
             };
         }
 
@@ -150,5 +122,48 @@ namespace Appalachia.Prefabs.Rendering.ModelType.Instancing
             other.physics = physics;
             other.interactions = interactions;
         }
+
+#region IEquatable
+
+        public bool Equals(AssetRangeSettings other)
+        {
+            return (enabled == other.enabled) &&
+                   (showRangeLimit == other.showRangeLimit) &&
+                   rangeLimit.Equals(other.rangeLimit) &&
+                   (rendering == other.rendering) &&
+                   (physics == other.physics) &&
+                   (interactions == other.interactions);
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is AssetRangeSettings other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var hashCode = enabled.GetHashCode();
+                hashCode = (hashCode * 397) ^ showRangeLimit.GetHashCode();
+                hashCode = (hashCode * 397) ^ rangeLimit.GetHashCode();
+                hashCode = (hashCode * 397) ^ (int) rendering;
+                hashCode = (hashCode * 397) ^ (int) physics;
+                hashCode = (hashCode * 397) ^ (int) interactions;
+                return hashCode;
+            }
+        }
+
+        public static bool operator ==(AssetRangeSettings left, AssetRangeSettings right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(AssetRangeSettings left, AssetRangeSettings right)
+        {
+            return !left.Equals(right);
+        }
+
+#endregion
     }
 }

@@ -8,8 +8,8 @@ using Appalachia.Prefabs.Rendering.Base;
 
 namespace Appalachia.Prefabs.Rendering.ContentType
 {
-    [Serializable] 
-public class PrefabContentTypeCounts : PrefabTypeCounts<PrefabContentType>
+    [Serializable]
+    public class PrefabContentTypeCounts : PrefabTypeCounts<PrefabContentType>
     {
         protected override PrefabContentType FromPrefabSet(PrefabRenderingSet set)
         {

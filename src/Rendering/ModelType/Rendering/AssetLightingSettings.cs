@@ -12,15 +12,13 @@ using UnityEngine.Serialization;
 namespace Appalachia.Prefabs.Rendering.ModelType.Rendering
 {
     [Serializable]
-public class AssetLightingSettings : IEquatable<AssetLightingSettings>
+    public class AssetLightingSettings : IEquatable<AssetLightingSettings>
     {
         [HorizontalGroup("0", .5f)]
         [SerializeField]
         [SmartLabel]
         public LightProbeUsage lightProbeUsage;
 
-        private bool _enable_forceAdditionalShadowPass => instancedShader;
-        
         [ToggleLeft]
         [SmartLabel]
         [HorizontalGroup("0", .5f)]
@@ -29,15 +27,6 @@ public class AssetLightingSettings : IEquatable<AssetLightingSettings>
         [ShowInInspector]
         public bool forceAdditionalShadowPass;
 
-        [ToggleLeft]
-        [SmartLabel]
-
-        //[HorizontalGroup("0.5", .5f)]
-        [ReadOnly]
-        [ShowInInspector]
-        public bool additionalShadowPass =>
-            instancedShader && forceAdditionalShadowPass || (isShadowCasting && (useCustomShadowDistance || !cullShadows));
-        
         [HorizontalGroup("1", .5f)]
         [SerializeField]
         [ToggleLeft]
@@ -62,7 +51,7 @@ public class AssetLightingSettings : IEquatable<AssetLightingSettings>
         [EnableIf(nameof(_enabled_useOriginalShaderForShadow))]
         [SerializeField]
         public bool useOriginalShaderForShadow;
-        
+
         [ToggleLeft]
         [SmartLabel]
         [HorizontalGroup("3", .5f)]
@@ -77,16 +66,33 @@ public class AssetLightingSettings : IEquatable<AssetLightingSettings>
         [SerializeField]
         public float shadowRenderingDistance;
 
+        [FormerlySerializedAs("canCullShadows")]
+        [HideInInspector]
+        public bool instancedShader;
+
+        private bool _enable_forceAdditionalShadowPass => instancedShader;
+
+        [ToggleLeft]
+        [SmartLabel]
+
+        //[HorizontalGroup("0.5", .5f)]
+        [ReadOnly]
+        [ShowInInspector]
+        public bool additionalShadowPass =>
+            (instancedShader && forceAdditionalShadowPass) ||
+            (isShadowCasting && (useCustomShadowDistance || !cullShadows));
+
         private bool _enabled_cullShadows => isShadowCasting && instancedShader;
         private bool _enabled_useCustomShadowDistance => isShadowCasting && instancedShader;
-        private bool _enabled_shadowRenderingDistance => isShadowCasting && instancedShader && useCustomShadowDistance;
+
+        private bool _enabled_shadowRenderingDistance =>
+            isShadowCasting && instancedShader && useCustomShadowDistance;
+
         private bool _enabled_useOriginalShaderForShadow => additionalShadowPass;
 
-        [FormerlySerializedAs("canCullShadows")] [HideInInspector] public bool instancedShader;
-        
         public static AssetLightingSettings Unlit()
         {
-            return new AssetLightingSettings
+            return new()
             {
                 cullShadows = false,
                 isShadowCasting = false,
@@ -99,9 +105,10 @@ public class AssetLightingSettings : IEquatable<AssetLightingSettings>
             };
         }
 
-        public static AssetLightingSettings Lit(LightProbeUsage lighting = LightProbeUsage.BlendProbes)
+        public static AssetLightingSettings Lit(
+            LightProbeUsage lighting = LightProbeUsage.BlendProbes)
         {
-            return new AssetLightingSettings
+            return new()
             {
                 cullShadows = false,
                 isShadowCasting = false,
@@ -116,7 +123,7 @@ public class AssetLightingSettings : IEquatable<AssetLightingSettings>
 
         public static AssetLightingSettings Shadowed(float distance = 0)
         {
-            return new AssetLightingSettings
+            return new()
             {
                 cullShadows = true,
                 isShadowCasting = true,
@@ -129,9 +136,11 @@ public class AssetLightingSettings : IEquatable<AssetLightingSettings>
             };
         }
 
-        public static AssetLightingSettings LitAndShadowed(LightProbeUsage lighting = LightProbeUsage.BlendProbes, float distance = 0)
+        public static AssetLightingSettings LitAndShadowed(
+            LightProbeUsage lighting = LightProbeUsage.BlendProbes,
+            float distance = 0)
         {
-            return new AssetLightingSettings
+            return new()
             {
                 cullShadows = true,
                 isShadowCasting = true,

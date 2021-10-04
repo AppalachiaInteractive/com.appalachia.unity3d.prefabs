@@ -53,6 +53,7 @@ namespace Appalachia.Prefabs.Spawning.Settings
         [ShowIf(nameof(showDelaySpawningRigidbodies))]
         public bool delaySpawningUntilRigidbodiesLimited = true;
 
-        private bool showDelaySpawningRigidbodies => dontDeleteActiveRigidbodies && removeRigidbodiesAtLimit;
+        private bool showDelaySpawningRigidbodies =>
+            dontDeleteActiveRigidbodies && removeRigidbodiesAtLimit;
     }
 }

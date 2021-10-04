@@ -10,7 +10,9 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering
 {
     [Serializable]
-    public class ExternalRenderingParameters : SelfSavingAndIdentifyingScriptableObject<ExternalRenderingParameters>
+    public class
+        ExternalRenderingParameters : SelfSavingAndIdentifyingScriptableObject<
+            ExternalRenderingParameters>
     {
         [HideInInspector] public string identifyingKey;
 

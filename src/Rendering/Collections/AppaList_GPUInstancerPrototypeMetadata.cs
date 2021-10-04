@@ -9,26 +9,27 @@ using Appalachia.Prefabs.Rendering.GPUI;
 namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
-    public sealed class 
+    public sealed class
         AppaList_GPUInstancerPrototypeMetadata : AppaList<GPUInstancerPrototypeMetadata>
     {
         public AppaList_GPUInstancerPrototypeMetadata()
         {
         }
 
-        public AppaList_GPUInstancerPrototypeMetadata(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
-        )
+        public AppaList_GPUInstancerPrototypeMetadata(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
         {
         }
 
-        public AppaList_GPUInstancerPrototypeMetadata(AppaList<GPUInstancerPrototypeMetadata> list) : base(list)
+        public AppaList_GPUInstancerPrototypeMetadata(
+            AppaList<GPUInstancerPrototypeMetadata> list) : base(list)
         {
         }
 
-        public AppaList_GPUInstancerPrototypeMetadata(GPUInstancerPrototypeMetadata[] values) : base(values)
+        public AppaList_GPUInstancerPrototypeMetadata(GPUInstancerPrototypeMetadata[] values) :
+            base(values)
         {
         }
     }

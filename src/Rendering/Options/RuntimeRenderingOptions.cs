@@ -11,26 +11,43 @@ using Unity.Profiling;
 namespace Appalachia.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class RuntimeRenderingOptions : SelfSavingSingletonScriptableObject<RuntimeRenderingOptions>
+    public class
+        RuntimeRenderingOptions : SelfSavingSingletonScriptableObject<RuntimeRenderingOptions>
     {
         private const string _PRF_PFX = nameof(RuntimeRenderingOptions) + ".";
-        
-        [FoldoutGroup("Global"), HideLabel, LabelWidth(0), InlineProperty]
-        public GlobalRenderingOptions global = new GlobalRenderingOptions();
 
-        [FoldoutGroup("Execution"), HideLabel, LabelWidth(0), InlineProperty]
-        public RuntimeRenderingExecutionOptions execution = new RuntimeRenderingExecutionOptions();
+        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
 
-        [FoldoutGroup("Profiling"), HideLabel, LabelWidth(0), InlineProperty]
-        public RuntimeRenderingProfilerOptions profiling = new RuntimeRenderingProfilerOptions();
+        [FoldoutGroup("Global")]
+        [HideLabel]
+        [LabelWidth(0)]
+        [InlineProperty]
+        public GlobalRenderingOptions global = new();
 
-        [FoldoutGroup("Gizmos"), InlineProperty, HideLabel, LabelWidth(0)]
-        public RuntimeRenderingGizmoOptions gizmos = new RuntimeRenderingGizmoOptions();
+        [FoldoutGroup("Execution")]
+        [HideLabel]
+        [LabelWidth(0)]
+        [InlineProperty]
+        public RuntimeRenderingExecutionOptions execution = new();
 
-        [FoldoutGroup("Editor"), InlineProperty, HideLabel, LabelWidth(0)]
-        public EditorRenderingOptions editor = new EditorRenderingOptions();
+        [FoldoutGroup("Profiling")]
+        [HideLabel]
+        [LabelWidth(0)]
+        [InlineProperty]
+        public RuntimeRenderingProfilerOptions profiling = new();
 
-        private static readonly ProfilerMarker _PRF_Awake = new ProfilerMarker(_PRF_PFX + nameof(Awake));
+        [FoldoutGroup("Gizmos")]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        public RuntimeRenderingGizmoOptions gizmos = new();
+
+        [FoldoutGroup("Editor")]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        public EditorRenderingOptions editor = new();
+
         private void Awake()
         {
             using (_PRF_Awake.Auto())

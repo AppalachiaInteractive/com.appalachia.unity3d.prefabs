@@ -15,13 +15,15 @@ namespace Appalachia.Prefabs.Rendering.Options.Rendering
     [Serializable]
     public class EditorRenderingOptions : RenderingOptionsBase<EditorRenderingOptions>
     {
-        private const string _PRF_PFX = nameof(EditorRenderingOptions) + ".";
-        
         public enum EditorRenderCamera
         {
             SceneView = 0,
             MainCamera = 10
         }
+
+        private const string _PRF_PFX = nameof(EditorRenderingOptions) + ".";
+
+        private static readonly ProfilerMarker _PRF_ApplyTo = new(_PRF_PFX + nameof(ApplyTo));
 
         [OnValueChanged(nameof(MarkDirty), true)]
         [SmartLabel]
@@ -31,7 +33,6 @@ namespace Appalachia.Prefabs.Rendering.Options.Rendering
         [SmartLabel]
         public bool renderOnlySelectedCamera;
 
-        private static readonly ProfilerMarker _PRF_ApplyTo = new ProfilerMarker(_PRF_PFX + nameof(ApplyTo));
         public void ApplyTo(GPUInstancerEditorSimulator simulator)
         {
             using (_PRF_ApplyTo.Auto())

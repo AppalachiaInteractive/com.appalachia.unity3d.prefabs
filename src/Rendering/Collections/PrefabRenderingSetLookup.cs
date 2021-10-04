@@ -12,8 +12,15 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
-    [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]
-    public class PrefabRenderingSetLookup : AppaLookup<GameObject, PrefabRenderingSet, AppaList_GameObject, AppaList_PrefabRenderingSet>
+    [ListDrawerSettings(
+        Expanded = true,
+        DraggableItems = false,
+        HideAddButton = true,
+        HideRemoveButton = true,
+        NumberOfItemsPerPage = 5
+    )]
+    public class PrefabRenderingSetLookup : AppaLookup<GameObject, PrefabRenderingSet,
+        AppaList_GameObject, AppaList_PrefabRenderingSet>
     {
         protected override string GetDisplayTitle(GameObject key, PrefabRenderingSet value)
         {

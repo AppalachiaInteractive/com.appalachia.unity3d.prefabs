@@ -14,11 +14,13 @@ using UnityEngine.Rendering;
 
 namespace Appalachia.Prefabs.Rendering.ModelType
 {
-    [Serializable, AlwaysInitializeOnLoad]
-public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,
-        PrefabModelTypeOptionsSetData, PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
-        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType, AppaList_PrefabModelTypeOptionsWrapper,
-        AppaList_PrefabModelTypeOptionsToggle>
+    [Serializable]
+    [AlwaysInitializeOnLoad]
+    public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelType,
+        PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
+        PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
+        PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
+        AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
         private const string _PRF_PFX = nameof(PrefabModelTypeOptionsLookup) + ".";
 
@@ -33,7 +35,7 @@ public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelT
 
         protected override void InitializeState()
         {
-            for(var i = 0; i < _types.Length; i++)
+            for (var i = 0; i < _types.Length; i++)
             {
                 var value = _types.Values[i];
                 if (!_state.ContainsKey(value) ||
@@ -116,7 +118,7 @@ public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelT
                                 )
                             );
                             break;
-                        
+
                         case PrefabModelType.Scatter:
                             options = options.Initialize(
                                 value,
@@ -156,7 +158,9 @@ public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelT
                                 PrefabModelTypeOptions.Tree(
                                     256f,
                                     FrustumSettings.Wide(),
-                                    AssetLightingSettings.LitAndShadowed(LightProbeUsage.UseProxyVolume),
+                                    AssetLightingSettings.LitAndShadowed(
+                                        LightProbeUsage.UseProxyVolume
+                                    ),
                                     AssetLightingSettings.LitAndShadowed(),
                                     AssetCullingSettings.CompletelyCulled(),
                                     DistanceFalloffSettings.Slow(),
@@ -173,7 +177,9 @@ public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelT
                                 PrefabModelTypeOptions.Tree(
                                     512f,
                                     FrustumSettings.Wide(),
-                                    AssetLightingSettings.LitAndShadowed(LightProbeUsage.UseProxyVolume),
+                                    AssetLightingSettings.LitAndShadowed(
+                                        LightProbeUsage.UseProxyVolume
+                                    ),
                                     AssetLightingSettings.LitAndShadowed(),
                                     AssetCullingSettings.CompletelyCulled(),
                                     DistanceFalloffSettings.VerySlow(),

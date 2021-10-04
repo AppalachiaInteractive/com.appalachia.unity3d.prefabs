@@ -9,17 +9,16 @@ using Appalachia.Prefabs.Core;
 namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
-public sealed class AppaList_PrefabModelType : AppaList<PrefabModelType>
+    public sealed class AppaList_PrefabModelType : AppaList<PrefabModelType>
     {
         public AppaList_PrefabModelType()
         {
         }
 
-        public AppaList_PrefabModelType(int capacity, float capacityIncreaseMultiplier = 2, bool noTracking = false) : base(
-            capacity,
-            capacityIncreaseMultiplier,
-            noTracking
-        )
+        public AppaList_PrefabModelType(
+            int capacity,
+            float capacityIncreaseMultiplier = 2,
+            bool noTracking = false) : base(capacity, capacityIncreaseMultiplier, noTracking)
         {
         }
 

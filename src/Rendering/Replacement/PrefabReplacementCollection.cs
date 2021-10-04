@@ -13,10 +13,18 @@ using UnityEngine;
 namespace Appalachia.Prefabs.Rendering.Replacement
 {
     [Critical]
-    public class PrefabReplacementCollection : SelfSavingSingletonScriptableObject<PrefabReplacementCollection>
+    public class
+        PrefabReplacementCollection : SelfSavingSingletonScriptableObject<
+            PrefabReplacementCollection>
     {
         [SerializeField]
-        [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 5
+        )]
         private GameObjectReplacementLookup _state;
 
         public IAppaLookup<GameObject, GameObject, AppaList_GameObject> State
