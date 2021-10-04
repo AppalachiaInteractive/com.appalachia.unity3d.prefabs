@@ -1,13 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ContentType;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
-using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Collections.Implementations.Lookups;
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Collections.Interfaces;
-using Appalachia.Core.Editing.Coloring;
-using Appalachia.Core.Scriptables;
+using Appalachia.Editing.Preferences.Globals;
+using Appalachia.Prefabs.Rendering.Collections;
+using Appalachia.Prefabs.Rendering.ContentType;
+using Appalachia.Prefabs.Rendering.ModelType;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -15,7 +14,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Metadata
+namespace Appalachia.Prefabs.Rendering
 {
     public class PrefabRenderingSetCollection : SelfSavingSingletonScriptableObject<PrefabRenderingSetCollection>
     {

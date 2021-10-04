@@ -1,18 +1,18 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
-using Appalachia.Core.Burstable;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Rendering;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.Base;
+using Appalachia.Prefabs.Rendering.Burstable;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable, InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Foldout), InlineProperty]
 public class PrefabModelTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,

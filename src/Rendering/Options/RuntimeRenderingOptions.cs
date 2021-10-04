@@ -1,14 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.Options.Rendering;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
+using Appalachia.Prefabs.Rendering.Options.Rendering;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options
+namespace Appalachia.Prefabs.Rendering.Options
 {
     [Serializable]
     public class RuntimeRenderingOptions : SelfSavingSingletonScriptableObject<RuntimeRenderingOptions>

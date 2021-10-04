@@ -1,14 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Metadata
+namespace Appalachia.Prefabs.Rendering
 {
     [Serializable, HideReferenceObjectPicker]
     public class PrefabRenderingSetToggle

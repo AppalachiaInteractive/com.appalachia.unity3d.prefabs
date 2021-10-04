@@ -5,7 +5,7 @@ using Appalachia.Core.Collections;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
 public sealed class AppaList_PrefabModelTypeOptionsToggle : AppaList<PrefabModelTypeOptionsToggle>

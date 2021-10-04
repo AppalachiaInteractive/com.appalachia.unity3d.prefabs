@@ -1,20 +1,19 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Rendering;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Helpers;
-using Appalachia.Core.Labeling;
+using Appalachia.Core.Extensions.Helpers;
+using Appalachia.Core.Filtering;
+using Appalachia.Core.Labels;
 using Appalachia.Core.Layers;
-using Appalachia.Core.Pooling.Objects;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.Metadata.GPUI;
-using Appalachia.Core.Rendering.Options.Rendering;
-using Appalachia.Core.Rendering.States;
-using Appalachia.Filtering;
+using Appalachia.Core.Layers.Extensions;
+using Appalachia.Editing.Attributes;
+using Appalachia.Pooling.Objects;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.GPUI;
+using Appalachia.Prefabs.Rendering.ModelType.Rendering;
+using Appalachia.Prefabs.Rendering.Options.Rendering;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -24,7 +23,7 @@ using Object = UnityEngine.Object;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
 
     [Serializable]

@@ -1,15 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.States;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
+using Appalachia.Prefabs.Core.States;
 using Unity.Mathematics;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Data
+namespace Appalachia.Prefabs.Rendering.Data
 {
     public class PrefabRenderingSetLocations : SelfSavingScriptableObject<PrefabRenderingSetLocations>
     {

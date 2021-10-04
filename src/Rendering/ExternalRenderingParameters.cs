@@ -1,13 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
 using AwesomeTechnologies.VegetationSystem;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Metadata
+namespace Appalachia.Prefabs.Rendering
 {
     [Serializable]
     public class ExternalRenderingParameters : SelfSavingAndIdentifyingScriptableObject<ExternalRenderingParameters>

@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Settings
+namespace Appalachia.Prefabs.Spawning.Settings
 {
     [Serializable]
     public class PrefabSpawnTimingSettings

@@ -1,8 +1,8 @@
 #region
 
 using System.Collections.Generic;
-using Appalachia.Core.Collections.Implementations.Lookups;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
+using Appalachia.Prefabs.Rendering.Collections;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Metadata.GPUI
+namespace Appalachia.Prefabs.Rendering.GPUI
 {
     public class GPUInstancerPrototypeMetadataCollection : SelfSavingSingletonScriptableObject<GPUInstancerPrototypeMetadataCollection>
     {

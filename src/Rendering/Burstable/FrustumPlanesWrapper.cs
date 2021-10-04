@@ -1,8 +1,9 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
 using Appalachia.Core.Extensions;
+using Appalachia.Jobs.Burstable;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Utility.Reflection.Delegated;
 using Unity.Burst;
 using Unity.Mathematics;
@@ -11,7 +12,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Burstable
+namespace Appalachia.Prefabs.Rendering.Burstable
 {
     [Serializable]
     public class FrustumPlanesWrapper

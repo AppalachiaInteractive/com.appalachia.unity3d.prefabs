@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Rendering.Metadata
+namespace Appalachia.Prefabs.Core
 {
     public interface IInteractionMarker
     {

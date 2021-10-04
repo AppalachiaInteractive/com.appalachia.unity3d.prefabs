@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.States
+namespace Appalachia.Prefabs.Core.States
 {
     [Serializable]
     public enum InstanceRenderingState : byte

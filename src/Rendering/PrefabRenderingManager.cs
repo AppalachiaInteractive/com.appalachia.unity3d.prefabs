@@ -4,25 +4,24 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Aspects.Profiling;
-using Appalachia.Core.AssetMetadata.Options.ContentType;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
 using Appalachia.Core.Attributes;
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Collections.NonSerialized;
-using Appalachia.Core.Concurrency;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Core.Execution.RateLimiting;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Helpers;
-using Appalachia.Core.RateLimiting;
-using Appalachia.Core.Rendering.External;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.Metadata.GPUI;
-using Appalachia.Core.Rendering.Options;
-using Appalachia.Core.Rendering.Runtime;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Core.Extensions.Helpers;
+using Appalachia.Editing.Attributes;
+using Appalachia.Jobs.Concurrency;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.ContentType;
+using Appalachia.Prefabs.Rendering.External;
+using Appalachia.Prefabs.Rendering.GPUI;
+using Appalachia.Prefabs.Rendering.ModelType;
+using Appalachia.Prefabs.Rendering.Options;
+using Appalachia.Prefabs.Rendering.Runtime;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding.Voxels;
@@ -31,19 +30,18 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEngine;
-using UnityEngine.Serialization;
-using ReadOnly = Sirenix.OdinInspector.ReadOnlyAttribute;
-#if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEditorInternal;
+using UnityEngine;
+using UnityEngine.Serialization;
+#if UNITY_EDITOR
 
 #endif
 
 #endregion
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]

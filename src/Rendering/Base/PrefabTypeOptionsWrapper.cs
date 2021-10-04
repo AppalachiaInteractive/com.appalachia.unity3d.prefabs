@@ -1,10 +1,9 @@
 #region
 
 using System;
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Collections;
-using Appalachia.Core.Labeling;
-using Appalachia.Core.Rendering;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Labels;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEditor;
@@ -13,7 +12,7 @@ using Object = UnityEngine.Object;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
 public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : SelfSavingScriptableObject<TW>

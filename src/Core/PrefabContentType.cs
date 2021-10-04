@@ -1,4 +1,4 @@
-namespace Appalachia.Core.AssetMetadata.Options
+namespace Appalachia.Prefabs.Core
 {
     public enum PrefabContentType : short
     {

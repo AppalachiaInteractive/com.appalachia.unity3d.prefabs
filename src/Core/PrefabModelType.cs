@@ -2,7 +2,7 @@
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options
+namespace Appalachia.Prefabs.Core
 {
     public enum PrefabModelType : short
     {

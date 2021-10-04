@@ -1,13 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
 using Appalachia.Core.Attributes;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.Base;
 using Appalachia.Utility.Enums;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ContentType
+namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable, AlwaysInitializeOnLoad]
 public class PrefabContentTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabContentType, PrefabContentTypeOptions,

@@ -1,7 +1,8 @@
 using System;
-using Appalachia.Core.Rendering.Vegetation;
+using Appalachia.Core.Collections;
+using Appalachia.Prefabs.Rendering.Vegetation;
 
-namespace Appalachia.Core.Collections.Implementations.Lists
+namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
     public sealed class AppaList_VegetationPrefabCollisionRemovalInfo : AppaList<VegetationPrefabCollisionRemovalInfo>

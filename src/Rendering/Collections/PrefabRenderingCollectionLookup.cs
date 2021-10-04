@@ -2,16 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.AssetMetadata.Options;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
+using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Extensions;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.ModelType;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lookups
+namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
     [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]

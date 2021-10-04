@@ -3,17 +3,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.AssetMetadata.Options;
-using Appalachia.Core.AssetMetadata.Options.ContentType;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Globals.Shading;
-using Appalachia.Core.Helpers;
-using Appalachia.Core.Rendering.External;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.Metadata.GPUI;
-using Appalachia.Core.Rendering.Runtime;
-using Appalachia.Core.Terrains.Utilities;
+using Appalachia.Core.Extensions.Helpers;
+using Appalachia.Editing.Scene;
+using Appalachia.Globals.Shading;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.ContentType;
+using Appalachia.Prefabs.Rendering.External;
+using Appalachia.Prefabs.Rendering.GPUI;
+using Appalachia.Prefabs.Rendering.ModelType;
+using Appalachia.Prefabs.Rendering.Runtime;
+using Appalachia.Spatial.Terrains.Utilities;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding;
@@ -27,7 +26,7 @@ using Object = UnityEngine.Object;
 
 #endregion
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerInitializer
     {

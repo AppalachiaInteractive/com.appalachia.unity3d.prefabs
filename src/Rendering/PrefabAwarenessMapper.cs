@@ -1,7 +1,6 @@
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Utilities;
+using Appalachia.Base.Behaviours;
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     public class PrefabAwarenessMapper : SingletonMonoBehaviour<PrefabAwarenessMapper>
     {

@@ -1,12 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Pooling.Objects;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Pooling.Objects;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
 using GPUInstancer;
 using Unity.Collections;
 using Unity.Mathematics;
@@ -16,7 +16,7 @@ using Object = UnityEngine.Object;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
     public class RuntimePrefabRenderingElement : InternalBase<RuntimePrefabRenderingElement>, IDisposable
     {

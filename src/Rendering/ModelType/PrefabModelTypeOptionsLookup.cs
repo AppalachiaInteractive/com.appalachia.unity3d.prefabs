@@ -1,17 +1,18 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Positioning;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Rendering;
 using Appalachia.Core.Attributes;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.Base;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
+using Appalachia.Prefabs.Rendering.ModelType.Positioning;
+using Appalachia.Prefabs.Rendering.ModelType.Rendering;
 using Appalachia.Utility.Enums;
 using UnityEngine.Rendering;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable, AlwaysInitializeOnLoad]
 public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,

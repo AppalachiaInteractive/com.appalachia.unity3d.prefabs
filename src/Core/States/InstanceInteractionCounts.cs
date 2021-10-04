@@ -6,7 +6,7 @@ using Unity.Burst;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.States
+namespace Appalachia.Prefabs.Core.States
 {
     [BurstCompile, Serializable]
     public struct InstanceInteractionCounts

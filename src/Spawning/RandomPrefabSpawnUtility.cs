@@ -1,12 +1,12 @@
 #region
 
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Prefabs.Spawning.Data;
 using UnityEditor;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning
+namespace Appalachia.Prefabs.Spawning
 {
     public static class RandomPrefabSpawnUtility
     {

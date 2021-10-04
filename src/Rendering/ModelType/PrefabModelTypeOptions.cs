@@ -1,17 +1,15 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Positioning;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Rendering;
-using Appalachia.Core.Burstable;
 using Appalachia.Core.Collections.Special;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Rendering;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Spatial.MeshBurial.Processing;
+using Appalachia.Core.Layers;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.Base;
+using Appalachia.Prefabs.Rendering.Burstable;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
+using Appalachia.Prefabs.Rendering.ModelType.Positioning;
+using Appalachia.Prefabs.Rendering.ModelType.Rendering;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -19,7 +17,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
 public class PrefabModelTypeOptions :

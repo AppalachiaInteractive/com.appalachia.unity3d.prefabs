@@ -1,11 +1,11 @@
 #region
 
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
 using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Settings
+namespace Appalachia.Prefabs.Spawning.Settings
 {
     public class PrefabSpawnSettings : SelfSavingAndIdentifyingScriptableObject<PrefabSpawnSettings>
     {

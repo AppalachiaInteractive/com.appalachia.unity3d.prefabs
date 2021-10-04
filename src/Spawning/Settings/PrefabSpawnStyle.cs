@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Spawning.Settings
+namespace Appalachia.Prefabs.Spawning.Settings
 {
     public enum PrefabSpawnStyle
     {

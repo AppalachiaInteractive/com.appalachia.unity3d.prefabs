@@ -1,11 +1,11 @@
 #region
 
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Sets
+namespace Appalachia.Prefabs.Spawning.Sets
 {
     public class RandomPrefabMasterCollection : SelfSavingSingletonScriptableObject<RandomPrefabMasterCollection>
     {

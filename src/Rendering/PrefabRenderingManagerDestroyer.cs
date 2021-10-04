@@ -1,12 +1,11 @@
 #region
 
-using Appalachia.Core.Editing;
-using Appalachia.Core.Rendering.Metadata;
+using Appalachia.Editing.Scene;
 using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerDestroyer
     {

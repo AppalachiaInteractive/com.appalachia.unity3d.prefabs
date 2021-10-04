@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Core.Collections;
+using Appalachia.Prefabs.Core.States;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lists
+namespace Appalachia.Prefabs.Core.Collections
 {
     [Serializable]
     public sealed class AppaList_RenderingStateReasonCode : AppaList<RenderingStateReasonCode>

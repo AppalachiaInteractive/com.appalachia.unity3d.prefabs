@@ -1,16 +1,16 @@
 #region
 
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Interfaces;
-using Appalachia.Core.Scriptables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Replacement
+namespace Appalachia.Prefabs.Rendering.Replacement
 {
     [Critical]
     public class PrefabReplacementCollection : SelfSavingSingletonScriptableObject<PrefabReplacementCollection>

@@ -1,12 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.Base;
 using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ContentType
+namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable, HideReferenceObjectPicker]
 

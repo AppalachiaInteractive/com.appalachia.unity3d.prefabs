@@ -2,11 +2,11 @@
 
 using System;
 using System.Runtime.CompilerServices;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.States
+namespace Appalachia.Prefabs.Core.States
 {
     [Serializable]
     public struct InstanceState : IEquatable<InstanceState>

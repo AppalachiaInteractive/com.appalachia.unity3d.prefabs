@@ -1,10 +1,10 @@
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
 using Unity.Burst;
 using Unity.Collections;
 using Unity.Jobs;
 
-namespace Appalachia.Core.Rendering.Jobs
+namespace Appalachia.Prefabs.Rendering.Jobs
 {
     [BurstCompile]
     public struct UpdatePendingStateJob : IJobParallelFor

@@ -1,15 +1,15 @@
 #region
 
 using System;
+using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Rendering.Metadata;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lookups
+namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
     [ListDrawerSettings(Expanded = true, DraggableItems = false, HideAddButton = true, HideRemoveButton = true, NumberOfItemsPerPage = 5)]

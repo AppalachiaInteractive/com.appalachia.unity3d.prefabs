@@ -5,7 +5,7 @@ using Appalachia.Core.Collections;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
 public abstract class PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>

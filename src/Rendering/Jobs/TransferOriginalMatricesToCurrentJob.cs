@@ -4,7 +4,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-namespace Appalachia.Core.Rendering.Jobs
+namespace Appalachia.Prefabs.Rendering.Jobs
 {
     [BurstCompile]
     public struct TransferOriginalMatricesToCurrentJob : IJobParallelFor

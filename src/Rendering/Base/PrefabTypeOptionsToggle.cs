@@ -2,14 +2,14 @@
 
 using System;
 using Appalachia.Core.Collections;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable, HideReferenceObjectPicker]
 

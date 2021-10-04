@@ -1,9 +1,9 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Rendering;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Base.Behaviours;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Rendering.ModelType.Rendering;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -12,7 +12,7 @@ using UnityEngine.Rendering;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options
+namespace Appalachia.Prefabs.Rendering.Options
 {
     [Serializable]
     public class RenderPassSettings : InternalBase<RenderPassSettings>

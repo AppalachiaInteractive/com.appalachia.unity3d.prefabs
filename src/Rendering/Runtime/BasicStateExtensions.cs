@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
     internal static class BasicStateExtensions
     {

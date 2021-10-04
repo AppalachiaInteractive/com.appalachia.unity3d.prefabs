@@ -2,10 +2,11 @@
 
 using System;
 using Appalachia.Core.Collections;
+using Appalachia.Prefabs.Core;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
 public sealed class AppaList_PrefabModelType : AppaList<PrefabModelType>

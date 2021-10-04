@@ -1,24 +1,23 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ContentType;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Burstable;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Collections.Native;
-using Appalachia.Core.Concurrency;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Jobs.InitializeJob;
-using Appalachia.Core.Jobs.Transfers;
-using Appalachia.Core.Rendering.External;
-using Appalachia.Core.Rendering.Jobs;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.Metadata.GPUI;
-using Appalachia.Core.Rendering.Options;
-using Appalachia.Core.Rendering.Options.Rendering;
-using Appalachia.Core.Rendering.States; 
-using Appalachia.Spatial.MeshBurial.Processing;
+using Appalachia.Editing.Attributes;
+using Appalachia.Jobs.Burstable;
+using Appalachia.Jobs.Concurrency;
+using Appalachia.Jobs.InitializeJob;
+using Appalachia.Jobs.Transfers;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.Burstable;
+using Appalachia.Prefabs.Rendering.ContentType;
+using Appalachia.Prefabs.Rendering.External;
+using Appalachia.Prefabs.Rendering.GPUI;
+using Appalachia.Prefabs.Rendering.Jobs;
+using Appalachia.Prefabs.Rendering.ModelType;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
+using Appalachia.Prefabs.Rendering.Options;
+using Appalachia.Prefabs.Rendering.Options.Rendering;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -30,7 +29,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
 
     [Serializable]

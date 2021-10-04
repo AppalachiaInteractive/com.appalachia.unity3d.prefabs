@@ -1,8 +1,8 @@
-using Appalachia.Core.AssetMetadata.Options;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Labeling;
+using Appalachia.Core.Labels;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Core;
 
-namespace Appalachia.Prefabs.Rendering.src.Metadata
+namespace Appalachia.Prefabs.Rendering
 {
     [EditorOnlyInitializeOnLoad]
     public static class PrefabLabelInitializer

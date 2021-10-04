@@ -6,7 +6,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
     [Serializable]
     public class PrefabRenderingRuntimeStructure

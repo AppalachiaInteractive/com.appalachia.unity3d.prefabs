@@ -5,7 +5,7 @@ using Appalachia.Core.Collections;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ContentType
+namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable]
 public sealed class AppaList_PrefabContentTypeOptionsWrapper : AppaList<PrefabContentTypeOptionsWrapper>

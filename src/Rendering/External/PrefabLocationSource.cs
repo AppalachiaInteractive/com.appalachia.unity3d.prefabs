@@ -3,8 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Collections;
@@ -19,7 +18,7 @@ using UnityEngine;
 
 #endif
 
-namespace Appalachia.Core.Rendering.External
+namespace Appalachia.Prefabs.Rendering.External
 {
     [Serializable]
     public class PrefabLocationSource : SelfSavingSingletonScriptableObject<PrefabLocationSource>

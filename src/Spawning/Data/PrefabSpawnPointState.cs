@@ -2,17 +2,17 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Spawning.Sets;
-using Appalachia.Core.Spawning.Settings;
+using Appalachia.Prefabs.Spawning.Sets;
+using Appalachia.Prefabs.Spawning.Settings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     public class PrefabSpawnPointState : InternalBase<PrefabSpawnPointState>

@@ -1,16 +1,16 @@
 #region
 
-using Appalachia.Core.Editing;
-using Appalachia.Core.Editing.Coloring;
-using Appalachia.Core.Editing.Handle;
-using Appalachia.Core.Editing.Preferences;
-using Appalachia.Core.Rendering.Runtime;
+using Appalachia.Editing.Debugging;
+using Appalachia.Editing.Debugging.Handle;
+using Appalachia.Editing.Preferences;
+using Appalachia.Editing.Preferences.Globals;
+using Appalachia.Prefabs.Rendering.Runtime;
 using Appalachia.Spatial.MeshBurial.Processing;
 using Unity.Profiling;
 using UnityEditor;
 using UnityEngine;
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
 
 #endregion

@@ -1,15 +1,18 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Overridding.Implementations;
+using Appalachia.Core.Layers.Overrides;
+using Appalachia.Core.Overrides.Implementations;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.Base;
+using Appalachia.Prefabs.Rendering.Overrides;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
 public class PrefabModelTypeOptionsOverride : PrefabTypeOptionsOverride<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,

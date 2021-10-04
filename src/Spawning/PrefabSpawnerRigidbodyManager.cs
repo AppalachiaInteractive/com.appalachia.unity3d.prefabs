@@ -2,19 +2,19 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Rendering;
-using Appalachia.Core.Spawning.Physical;
-using Appalachia.Core.Spawning.Settings;
-using Appalachia.Core.Terrains.Utilities;
+using Appalachia.Prefabs.Rendering;
+using Appalachia.Prefabs.Spawning.Physical;
+using Appalachia.Prefabs.Spawning.Settings;
+using Appalachia.Spatial.Terrains.Utilities;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning
+namespace Appalachia.Prefabs.Spawning
 {
     [Serializable]
     public class PrefabSpawnerRigidbodyManager : InternalBase<PrefabSpawnerRigidbodyManager>

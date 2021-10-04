@@ -3,11 +3,12 @@
 using System;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
+using Appalachia.Prefabs.Core.States;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.States
+namespace Appalachia.Prefabs.Core.Collections
 {
     public class RenderingStateReasonCodeLookup : AppaLookup<RenderingStateReasonCode, string, AppaList_RenderingStateReasonCode,
         AppaList_string>

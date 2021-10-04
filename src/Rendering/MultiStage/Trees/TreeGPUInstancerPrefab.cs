@@ -1,11 +1,11 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.Runtime;
+using Appalachia.Prefabs.Rendering.Runtime;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.MultiStage.Trees
+namespace Appalachia.Prefabs.Rendering.MultiStage.Trees
 {
     public class TreeGPUInstancerPrefab : MultiStageGPUInstancerPrefab<TreeStageType>
     {

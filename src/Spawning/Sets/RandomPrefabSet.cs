@@ -2,16 +2,16 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Collections.Extensions;
-using Appalachia.Core.Probability;
-using Appalachia.Core.Scriptables;
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Base.Scriptables;
+using Appalachia.Core.Extensions;
+using Appalachia.Core.Math.Probability;
+using Appalachia.Prefabs.Spawning.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Sets
+namespace Appalachia.Prefabs.Spawning.Sets
 {
     public class RandomPrefabSet : SelfNamingSavingAndIdentifyingScriptableObject<RandomPrefabSet>
     {

@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Rendering;
 
-namespace Appalachia.Core.Rendering.States
+namespace Appalachia.Prefabs.Core.States
 {
     public struct RendererLightData
     {

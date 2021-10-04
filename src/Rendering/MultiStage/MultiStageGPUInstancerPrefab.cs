@@ -1,12 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.Runtime;
+using Appalachia.Prefabs.Rendering.Runtime;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.MultiStage
+namespace Appalachia.Prefabs.Rendering.MultiStage
 {
     public abstract class MultiStageGPUInstancerPrefab<T> : MonoBehaviour
         where T : Enum

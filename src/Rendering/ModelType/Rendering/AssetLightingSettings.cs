@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -9,7 +9,7 @@ using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType.Rendering
+namespace Appalachia.Prefabs.Rendering.ModelType.Rendering
 {
     [Serializable]
 public class AssetLightingSettings : IEquatable<AssetLightingSettings>

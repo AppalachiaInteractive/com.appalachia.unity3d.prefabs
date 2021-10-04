@@ -1,15 +1,15 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Probability;
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Core.Math.Probability;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Spawning.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning
+namespace Appalachia.Prefabs.Spawning
 {
     [Serializable]
     public class RandomPrefab : IProbabilityProvider

@@ -1,15 +1,15 @@
 #region
 
 using System;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Spawning.Physical;
-using Appalachia.Core.Spawning.Settings;
+using Appalachia.Base.Behaviours;
+using Appalachia.Prefabs.Spawning.Physical;
+using Appalachia.Prefabs.Spawning.Settings;
 using Unity.Profiling;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     public class RandomPrefabInstanceData : InternalBase<RandomPrefabInstanceData>

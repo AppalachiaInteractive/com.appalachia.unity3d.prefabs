@@ -1,12 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.Editing;
+using Appalachia.Core.Layers;
 using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Settings
+namespace Appalachia.Prefabs.Spawning.Settings
 {
     [Serializable]
     public class PrefabSpawnInstanceSettings

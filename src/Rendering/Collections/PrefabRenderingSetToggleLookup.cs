@@ -1,13 +1,13 @@
 #region
 
 using System;
+using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Rendering.Metadata;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lookups
+namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
     public class PrefabRenderingSetToggleLookup : AppaLookup<GameObject, PrefabRenderingSetToggle, AppaList_GameObject,

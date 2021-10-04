@@ -3,13 +3,13 @@
 using System;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Special;
-using Appalachia.Core.Editing.Coloring;
+using Appalachia.Editing.Preferences.Globals;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
 public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>

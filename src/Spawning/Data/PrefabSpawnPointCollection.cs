@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Collections.Implementations.Lookups;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Constants;
-using Appalachia.Core.Spawning.Sets;
-using Appalachia.Core.Spawning.Settings;
+using Appalachia.Prefabs.Spawning.Collections;
+using Appalachia.Prefabs.Spawning.Sets;
+using Appalachia.Prefabs.Spawning.Settings;
 using Appalachia.Spatial.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     public class PrefabSpawnPointCollection : InternalBase<PrefabSpawnPointCollection>

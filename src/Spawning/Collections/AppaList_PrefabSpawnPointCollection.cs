@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Core.Collections;
+using Appalachia.Prefabs.Spawning.Data;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lists
+namespace Appalachia.Prefabs.Spawning.Collections
 {
     [Serializable]
     public sealed class AppaList_PrefabSpawnPointCollection : AppaList<PrefabSpawnPointCollection>

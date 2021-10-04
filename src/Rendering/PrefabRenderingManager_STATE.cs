@@ -1,15 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
 using Appalachia.Core.Constants;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Editing.Coloring;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Helpers;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.States;
-using Appalachia.Spatial.MeshBurial.Processing;
+using Appalachia.Core.Extensions.Helpers;
+using Appalachia.Editing.Attributes;
+using Appalachia.Editing.Preferences.Globals;
+using Appalachia.Prefabs.Core.Collections;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.ModelType;
 using Appalachia.Utility.Constants;
 using GPUInstancer;
 using Sirenix.OdinInspector;
@@ -20,7 +19,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {

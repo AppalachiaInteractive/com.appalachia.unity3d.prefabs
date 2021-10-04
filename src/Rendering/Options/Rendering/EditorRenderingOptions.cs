@@ -1,14 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options.Rendering
+namespace Appalachia.Prefabs.Rendering.Options.Rendering
 {
 #if UNITY_EDITOR
 

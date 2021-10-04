@@ -1,13 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Editing.AssetDB;
-using Appalachia.Core.Editing.Handle;
-using Appalachia.Core.Spawning.Data;
-using Appalachia.Core.Spawning.Sets;
-using Appalachia.Core.Spawning.Settings;
+using Appalachia.Base.Behaviours;
+using Appalachia.Editing.Assets;
+using Appalachia.Editing.Debugging;
+using Appalachia.Editing.Debugging.Handle;
+using Appalachia.Prefabs.Spawning.Data;
+using Appalachia.Prefabs.Spawning.Sets;
+using Appalachia.Prefabs.Spawning.Settings;
 using Appalachia.Simulation.Core;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -15,7 +15,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning
+namespace Appalachia.Prefabs.Spawning
 {
     [ExecuteAlways]
     public class RandomPrefabSpawner : InternalMonoBehaviour

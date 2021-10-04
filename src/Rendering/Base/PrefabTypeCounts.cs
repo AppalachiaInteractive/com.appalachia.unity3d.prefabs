@@ -2,14 +2,13 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Prefabs.Core.States;
 using Appalachia.Utility.Enums;
 using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable] 
     public abstract class PrefabTypeCounts<TE>

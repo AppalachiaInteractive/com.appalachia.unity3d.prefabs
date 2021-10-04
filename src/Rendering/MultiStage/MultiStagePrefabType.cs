@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Rendering.MultiStage
+namespace Appalachia.Prefabs.Rendering.MultiStage
 {
     public enum MultiStagePrefabType
     {

@@ -1,14 +1,14 @@
 #region
 
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Simulation.Core;
 using Unity.Profiling;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Physical
+namespace Appalachia.Prefabs.Spawning.Physical
 {
     public class RigidbodyRestorer: InternalMonoBehaviour
     {

@@ -4,7 +4,7 @@ using System;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.MultiStage.Trees
+namespace Appalachia.Prefabs.Rendering.MultiStage.Trees
 {
     [Flags]
     public enum TreeStageType

@@ -1,14 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Spawning.Sets;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Spawning.Sets;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     public class RandomPrefabSetElement

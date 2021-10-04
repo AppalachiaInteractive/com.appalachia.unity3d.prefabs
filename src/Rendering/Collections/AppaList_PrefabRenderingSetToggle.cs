@@ -1,11 +1,11 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.Metadata;
+using Appalachia.Core.Collections;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lists
+namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
     public sealed class AppaList_PrefabRenderingSetToggle : AppaList<PrefabRenderingSetToggle>

@@ -1,12 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options
+namespace Appalachia.Prefabs.Rendering.Options
 {
     [Serializable]
     public class RuntimeRenderingProfilerOptions

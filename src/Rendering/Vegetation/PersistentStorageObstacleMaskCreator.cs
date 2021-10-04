@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Editing.Handle;
+using Appalachia.Editing.Debugging;
+using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Spatial.Octree;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationStudio;
@@ -17,7 +17,7 @@ using UnityEngine.Rendering;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Vegetation
+namespace Appalachia.Prefabs.Rendering.Vegetation
 {
     public class PersistentStorageObstacleMaskCreator : InternalMonoBehaviour
     {

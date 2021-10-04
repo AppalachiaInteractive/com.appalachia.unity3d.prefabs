@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Rendering.Base;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ContentType
+namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable]
 public class PrefabContentTypeOptionsOverride : PrefabTypeOptionsOverride<PrefabContentType, PrefabContentTypeOptions,

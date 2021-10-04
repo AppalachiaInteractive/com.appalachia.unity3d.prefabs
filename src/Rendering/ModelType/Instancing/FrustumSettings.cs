@@ -1,13 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType.Instancing
+namespace Appalachia.Prefabs.Rendering.ModelType.Instancing
 {
     [Serializable]
 public class FrustumSettings : IEquatable<FrustumSettings>

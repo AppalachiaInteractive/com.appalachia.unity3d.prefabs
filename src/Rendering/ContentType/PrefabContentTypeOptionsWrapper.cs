@@ -1,15 +1,15 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Rendering;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.Base;
 using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ContentType
+namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable, InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Foldout), InlineProperty]
 public class PrefabContentTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabContentType, PrefabContentTypeOptions,

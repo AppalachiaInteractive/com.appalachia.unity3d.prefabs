@@ -5,12 +5,13 @@ using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Mathematics.List;
 using Appalachia.Core.Extensions;
+using Appalachia.Core.Types;
 using Unity.Mathematics;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Data
+namespace Appalachia.Prefabs.Rendering.Data
 {
     [Serializable]
     public class PrefabRenderingSetLocationModificationLookup : AppaLookup<int, float4x4, AppaList_int, AppaList_float4x4>, IGameDataComponent

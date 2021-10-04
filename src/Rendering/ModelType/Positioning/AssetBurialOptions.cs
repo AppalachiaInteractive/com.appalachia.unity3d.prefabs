@@ -1,13 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType.Positioning
+namespace Appalachia.Prefabs.Rendering.ModelType.Positioning
 {
     [Serializable]
     public struct AssetBurialOptions : IEquatable<AssetBurialOptions>, ISerializationCallbackReceiver

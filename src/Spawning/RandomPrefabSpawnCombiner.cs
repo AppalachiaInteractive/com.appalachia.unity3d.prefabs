@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Spawning
+namespace Appalachia.Prefabs.Spawning
 {
     public static class RandomPrefabSpawnCombiner
     {

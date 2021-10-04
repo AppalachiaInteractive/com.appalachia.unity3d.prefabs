@@ -1,9 +1,9 @@
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Spawning.Sets;
+using Appalachia.Prefabs.Spawning.Sets;
 using UnityEngine;
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     public class SpawnDataIndex : AppaLookup2<RandomPrefabSet, string, PrefabSpawnStateData, AppaList_RandomPrefabSet, AppaList_string,
         AppaList_PrefabSpawnStateData, PrefabSpawnStateDataLookup, AppaList_PrefabSpawnStateDataIndex>

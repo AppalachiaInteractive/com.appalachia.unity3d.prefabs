@@ -1,16 +1,16 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Terrains;
-using Appalachia.Core.Terrains.Utilities;
+using Appalachia.Editing.Attributes;
+using Appalachia.Spatial.Terrains;
+using Appalachia.Spatial.Terrains.Utilities;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     [InlineProperty]

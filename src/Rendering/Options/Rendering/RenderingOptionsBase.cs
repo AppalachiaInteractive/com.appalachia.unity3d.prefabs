@@ -1,8 +1,8 @@
 using System;
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Unity.Profiling;
 
-namespace Appalachia.Core.Rendering.Options.Rendering
+namespace Appalachia.Prefabs.Rendering.Options.Rendering
 {
     [Serializable]
     public class RenderingOptionsBase<T> : InternalBase<T>

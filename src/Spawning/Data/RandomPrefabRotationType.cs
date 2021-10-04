@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     public enum RandomPrefabRotationType
     {

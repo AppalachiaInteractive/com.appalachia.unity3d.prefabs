@@ -1,15 +1,15 @@
 #region
 
 using System;
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Collections;
-using Appalachia.Core.Scriptables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable]
 public abstract class

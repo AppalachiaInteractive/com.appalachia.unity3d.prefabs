@@ -1,11 +1,11 @@
 #region
 
 using System;
-using Appalachia.Core.Overridding;
+using Appalachia.Core.Overrides;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options
+namespace Appalachia.Prefabs.Core
 {
     [Serializable] 
 public class PrefabContentType_OVERRIDE : Overridable<PrefabContentType, PrefabContentType_OVERRIDE>

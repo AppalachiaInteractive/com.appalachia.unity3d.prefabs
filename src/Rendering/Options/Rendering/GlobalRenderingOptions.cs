@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -9,7 +9,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options.Rendering
+namespace Appalachia.Prefabs.Rendering.Options.Rendering
 {
     [Serializable]
     public class GlobalRenderingOptions : RenderingOptionsBase<GlobalRenderingOptions>

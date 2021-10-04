@@ -1,12 +1,12 @@
 #region
 
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Base.Scriptables;
+using Appalachia.Prefabs.Spawning.Data;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Sets
+namespace Appalachia.Prefabs.Spawning.Sets
 {
     public class RandomPrefabSetCollection : SelfNamingSavingAndIdentifyingScriptableObject<RandomPrefabSetCollection>
     {

@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.Rendering.Metadata.GPUI;
+using Appalachia.Core.Collections;
+using Appalachia.Prefabs.Rendering.GPUI;
 
 #endregion
 
-namespace Appalachia.Core.Collections.Implementations.Lists
+namespace Appalachia.Prefabs.Rendering.Collections
 {
     [Serializable]
     public sealed class 

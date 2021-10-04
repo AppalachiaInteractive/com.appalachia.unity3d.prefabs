@@ -2,11 +2,12 @@
 
 using System;
 using Appalachia.Core.Collections;
+using Appalachia.Prefabs.Core;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
 public class Index_PrefabModelTypeOptionsToggle : AppaLookup<PrefabModelType, PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,

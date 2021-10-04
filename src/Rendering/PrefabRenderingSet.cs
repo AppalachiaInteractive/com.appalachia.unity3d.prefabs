@@ -1,25 +1,25 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options;
-using Appalachia.Core.AssetMetadata.Options.ContentType;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Collections.Extensions;
 using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Implementations.Sets;
 using Appalachia.Core.Collections.Interfaces;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Editing.Coloring;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Rendering.Data;
-using Appalachia.Core.Rendering.External;
-using Appalachia.Core.Rendering.Metadata.GPUI;
-using Appalachia.Core.Rendering.Options;
-using Appalachia.Core.Rendering.Replacement;
-using Appalachia.Core.Rendering.Runtime;
-using Appalachia.Core.Rendering.States;
-using Appalachia.Core.Scriptables;
+using Appalachia.Editing.Attributes;
+using Appalachia.Editing.Preferences.Globals;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.Collections;
+using Appalachia.Prefabs.Rendering.ContentType;
+using Appalachia.Prefabs.Rendering.Data;
+using Appalachia.Prefabs.Rendering.External;
+using Appalachia.Prefabs.Rendering.GPUI;
+using Appalachia.Prefabs.Rendering.ModelType;
+using Appalachia.Prefabs.Rendering.Options;
+using Appalachia.Prefabs.Rendering.Replacement;
+using Appalachia.Prefabs.Rendering.Runtime;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -33,7 +33,7 @@ using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Metadata
+namespace Appalachia.Prefabs.Rendering
 {
     [Serializable]
     [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden), InlineProperty]

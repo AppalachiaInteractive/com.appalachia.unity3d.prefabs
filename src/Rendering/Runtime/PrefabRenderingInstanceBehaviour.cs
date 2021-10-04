@@ -1,14 +1,13 @@
 #region
 
-using Appalachia.Core.AssetMetadata.Options.ContentType;
-using Appalachia.Core.AssetMetadata.Options.ModelType;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Editing.Coloring;
-using Appalachia.Core.Editing.Handle;
-using Appalachia.Core.Editing.Preferences;
-using Appalachia.Core.Rendering.Metadata;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Base.Behaviours;
+using Appalachia.Editing.Debugging;
+using Appalachia.Editing.Debugging.Handle;
+using Appalachia.Editing.Preferences;
+using Appalachia.Editing.Preferences.Globals;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.ContentType;
+using Appalachia.Prefabs.Rendering.ModelType;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -18,7 +17,7 @@ using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
     [ExecuteAlways]
     public class PrefabRenderingInstanceBehaviour : InternalMonoBehaviour

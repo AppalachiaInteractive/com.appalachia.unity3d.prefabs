@@ -1,13 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
+using Appalachia.Editing.Attributes;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType.Rendering
+namespace Appalachia.Prefabs.Rendering.ModelType.Rendering
 {
     [Serializable]
 public class LODFadeSettings : IEquatable<LODFadeSettings>

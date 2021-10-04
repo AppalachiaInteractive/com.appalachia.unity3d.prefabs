@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
+using Appalachia.Core.Overrides;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
 
 #endregion
 
-namespace Appalachia.Core.Overridding.Implementations
+namespace Appalachia.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class AssetRangeSettingsArray_OVERRIDE : Overridable<AssetRangeSettings[], AssetRangeSettingsArray_OVERRIDE>

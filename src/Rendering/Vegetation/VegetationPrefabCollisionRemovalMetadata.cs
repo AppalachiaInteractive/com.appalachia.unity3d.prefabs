@@ -1,12 +1,12 @@
 #region
 
-using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Scriptables;
+using Appalachia.Base.Scriptables;
+using Appalachia.Prefabs.Rendering.Collections;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Vegetation
+namespace Appalachia.Prefabs.Rendering.Vegetation
 {
     public class VegetationPrefabCollisionRemovalMetadata : SelfSavingScriptableObject<VegetationPrefabCollisionRemovalMetadata>
     {

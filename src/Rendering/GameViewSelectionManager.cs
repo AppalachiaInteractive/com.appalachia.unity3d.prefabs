@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Collections.Extensions;
-using Appalachia.Core.Editing.Handle;
-using Appalachia.Core.Editing.Preferences;
+using Appalachia.Core.Extensions;
+using Appalachia.Editing.Debugging.Handle;
+using Appalachia.Editing.Preferences;
+using Appalachia.Utility;
 using Appalachia.Utility.Colors;
-using log4net.Appender;
 using Unity.Mathematics;
 using Unity.Profiling;
 using UnityEditor;
@@ -15,7 +15,7 @@ using UnityEngine.InputSystem;
 
 #endregion
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     public class GameViewSelectionManager
     {

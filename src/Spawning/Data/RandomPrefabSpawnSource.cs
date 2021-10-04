@@ -2,10 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Editing.Attributes;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Rendering;
-using Appalachia.Core.Rendering.Metadata;
+using Appalachia.Editing.Attributes;
+using Appalachia.Prefabs.Rendering;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using Sirenix.OdinInspector;
@@ -16,7 +15,7 @@ using UnityEngine.Serialization;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     public class RandomPrefabSpawnSource

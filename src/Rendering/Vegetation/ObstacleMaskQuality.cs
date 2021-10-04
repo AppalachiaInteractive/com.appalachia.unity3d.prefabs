@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Rendering.Vegetation
+namespace Appalachia.Prefabs.Rendering.Vegetation
 {
     public enum ObstacleMaskQuality
     {

@@ -1,4 +1,4 @@
-namespace Appalachia.Core.Rendering.States
+namespace Appalachia.Prefabs.Core.States
 {
     public enum InstanceStateCode
     {

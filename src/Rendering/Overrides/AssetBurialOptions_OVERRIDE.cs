@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Positioning;
+using Appalachia.Core.Overrides;
+using Appalachia.Prefabs.Rendering.ModelType.Positioning;
 
 #endregion
 
-namespace Appalachia.Core.Overridding.Implementations
+namespace Appalachia.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class AssetBurialOptions_OVERRIDE : Overridable<AssetBurialOptions, AssetBurialOptions_OVERRIDE>

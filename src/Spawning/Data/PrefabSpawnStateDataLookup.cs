@@ -2,7 +2,7 @@ using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using UnityEngine;
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     public class PrefabSpawnStateDataLookup : AppaLookup<string, PrefabSpawnStateData, AppaList_string, AppaList_PrefabSpawnStateData>
     {

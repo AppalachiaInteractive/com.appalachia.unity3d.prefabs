@@ -2,11 +2,11 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Interfaces;
-using Appalachia.Core.Editing.Coloring;
-using Appalachia.Core.Scriptables;
+using Appalachia.Editing.Preferences.Globals;
 using Appalachia.Utility.Enums;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -14,7 +14,7 @@ using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.Base
+namespace Appalachia.Prefabs.Rendering.Base
 {
     [Serializable, AlwaysInitializeOnLoad]
     public abstract class

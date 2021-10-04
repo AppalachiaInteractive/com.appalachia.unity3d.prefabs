@@ -5,7 +5,7 @@ using Sirenix.OdinInspector;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options
+namespace Appalachia.Prefabs.Rendering.Options
 {
     [Serializable]
     public class RuntimeRenderingGizmoOptions

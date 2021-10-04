@@ -2,21 +2,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
+using Appalachia.Base.Scriptables;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Scriptables;
-using Appalachia.Core.Spawning.Data;
+using Appalachia.Simulation.Core;
 using GPUInstancer;
 using Unity.Profiling;
+using UnityEditor;
 using UnityEngine;
 #if UNITY_EDITOR
-using UnityEditor;
-using System.IO;
 
 #endif
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Metadata.GPUI
+namespace Appalachia.Prefabs.Rendering.GPUI
 {
     [Serializable]
     public class GPUInstancerPrototypeMetadata : SelfSavingAndIdentifyingScriptableObject<GPUInstancerPrototypeMetadata>

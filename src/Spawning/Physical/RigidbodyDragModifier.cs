@@ -1,12 +1,12 @@
 #region
 
-using Appalachia.Core.Behaviours;
+using Appalachia.Base.Behaviours;
 using Unity.Profiling;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Physical
+namespace Appalachia.Prefabs.Spawning.Physical
 {
     public class RigidbodyDragModifier : InternalMonoBehaviour
     {

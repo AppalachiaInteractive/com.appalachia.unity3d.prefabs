@@ -1,11 +1,12 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Rendering;
+using Appalachia.Core.Overrides;
+using Appalachia.Prefabs.Rendering.ModelType.Rendering;
 
 #endregion
 
-namespace Appalachia.Core.Overridding.Implementations
+namespace Appalachia.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class LODFadeSettings_OVERRIDE : Overridable<LODFadeSettings, LODFadeSettings_OVERRIDE>

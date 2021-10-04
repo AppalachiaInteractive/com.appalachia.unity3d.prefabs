@@ -2,13 +2,13 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Collections.Extensions;
+using Appalachia.Core.Extensions;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.Rendering
+namespace Appalachia.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerModifier
     {

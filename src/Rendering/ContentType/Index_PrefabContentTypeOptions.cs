@@ -2,12 +2,13 @@
 
 using System;
 using Appalachia.Core.Collections;
-using Appalachia.Core.Editing.Coloring;
+using Appalachia.Editing.Preferences.Globals;
+using Appalachia.Prefabs.Core;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ContentType
+namespace Appalachia.Prefabs.Rendering.ContentType
 {
     [Serializable]
 public class Index_PrefabContentTypeOptions : AppaLookup<PrefabContentType, PrefabContentTypeOptionsWrapper, AppaList_PrefabContentType,

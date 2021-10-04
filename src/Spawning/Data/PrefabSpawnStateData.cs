@@ -1,15 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Interfaces;
+using Appalachia.Prefabs.Spawning.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Spawning.Data
+namespace Appalachia.Prefabs.Spawning.Data
 {
     [Serializable]
     public class PrefabSpawnStateData

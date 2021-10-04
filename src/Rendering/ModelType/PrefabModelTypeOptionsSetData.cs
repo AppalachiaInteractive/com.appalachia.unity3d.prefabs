@@ -1,18 +1,19 @@
 #region
 
 using System;
-using Appalachia.Core.AssetMetadata.Options.Base;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Instancing;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Positioning;
-using Appalachia.Core.AssetMetadata.Options.ModelType.Rendering;
-using Appalachia.Core.Editing;
-using Appalachia.Core.Rendering.States;
+using Appalachia.Core.Layers;
+using Appalachia.Prefabs.Core;
+using Appalachia.Prefabs.Core.States;
+using Appalachia.Prefabs.Rendering.Base;
+using Appalachia.Prefabs.Rendering.ModelType.Instancing;
+using Appalachia.Prefabs.Rendering.ModelType.Positioning;
+using Appalachia.Prefabs.Rendering.ModelType.Rendering;
 using GPUInstancer;
 using Unity.Profiling;
 
 #endregion
 
-namespace Appalachia.Core.AssetMetadata.Options.ModelType
+namespace Appalachia.Prefabs.Rendering.ModelType
 {
     [Serializable]
 public class PrefabModelTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,

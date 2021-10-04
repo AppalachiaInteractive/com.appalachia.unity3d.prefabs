@@ -1,14 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Editing.Attributes;
-using Appalachia.Core.Jobs;
+using Appalachia.Editing.Attributes;
+using Appalachia.Jobs;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Options
+namespace Appalachia.Prefabs.Rendering.Options
 {
     [Serializable]
     public class RuntimeRenderingExecutionOptions

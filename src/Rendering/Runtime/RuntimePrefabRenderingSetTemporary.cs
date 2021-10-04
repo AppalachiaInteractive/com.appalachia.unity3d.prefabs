@@ -8,7 +8,7 @@ using Unity.Mathematics;
 
 #endregion
 
-namespace Appalachia.Core.Rendering.Runtime
+namespace Appalachia.Prefabs.Rendering.Runtime
 {
     public class RuntimePrefabRenderingSetTemporary : IDisposable
     {
