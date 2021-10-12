@@ -1,0 +1,23 @@
+{
+  "name": "Appalachia.Rendering.Lighting.Occlusion",
+  "rootNamespace": "",
+  "references": [
+    "GUID:4a600fa6fa2ca854b8f233a23710b315",
+    "GUID:195705ddaa6fe6c42a576177c5d36a5c",
+    "GUID:4c32fdd75da6bc94f9b79f03f11f5e30",
+    "GUID:53c314c6d5379534e87ce0066f9abb79",
+    "GUID:a4d999b198ed04a449148ce79f89f0f4",
+    "GUID:3f3a2990c4ac26b4cb19df5e8f108661",
+    "GUID:fb58d5396d4f85044a40c7548929c37d",
+    "GUID:e0cd26848372d4e5c891c569017e11f1"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

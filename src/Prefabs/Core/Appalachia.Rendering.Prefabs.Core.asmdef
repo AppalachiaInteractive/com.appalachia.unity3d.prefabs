@@ -1,0 +1,19 @@
+{
+  "name": "Appalachia.Rendering.Prefabs.Core",
+  "rootNamespace": "",
+  "references": [
+    "GUID:4a600fa6fa2ca854b8f233a23710b315",
+    "GUID:873f913f34eb2c34385d17b9a87f21b9",
+    "GUID:06d89ef463696534486384c7cc9fab96",
+    "GUID:2665a8d13d1b3f18800f46e256720795"
+  ],
+  "includePlatforms": [],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
