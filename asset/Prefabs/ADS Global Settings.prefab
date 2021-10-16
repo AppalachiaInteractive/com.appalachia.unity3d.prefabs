@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2752883296358601402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4253014769053731174}
+  - component: {fileID: 2514560007631589285}
+  m_Layer: 0
+  m_Name: ADS Global Settings
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4253014769053731174
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752883296358601402}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -48.844067, y: 18.996014, z: 5.2475924}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2514560007631589285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2752883296358601402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2a8ae0809616bc43b334f8a6587fb3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  category_Update: 0
+  realtimeUpdate: 0
+  category_Globals: 0
+  globalTexture: {fileID: 0}
+  globalSizeCenter: {x: 1, y: 1, z: 0, w: 0}
+  globalSettings: 0
+  category_Simple: 0
+  InteractiveGlobalsSimple: 1
+  globalTintIntensity: 8
+  globalTintColorOne: {r: 1, g: 1, b: 1, a: 1}
+  globalTintColorTwo: {r: 1, g: 1, b: 1, a: 1}
+  globalLeavesAmount: 1
+  globalLeavesVar: 0
+  globalSizeMin: 1
+  globalSizeMax: 1
+  category_Seasons: 0
+  InteractiveGlobalsSeasons: 0
+  season: 2
+  winterTintIntensity: 1
+  winterTintColorOne: {r: 1, g: 1, b: 1, a: 1}
+  winterTintColorTwo: {r: 1, g: 1, b: 1, a: 1}
+  winterLeavesAmount: 1
+  winterLeavesVar: 0
+  winterSizeMin: 1
+  winterSizeMax: 1
+  springTintIntensity: 1
+  springTintColorOne: {r: 1, g: 1, b: 1, a: 1}
+  springTintColorTwo: {r: 1, g: 1, b: 1, a: 1}
+  springLeavesAmount: 1
+  springLeavesVar: 0
+  springSizeMin: 1
+  springSizeMax: 1
+  summerTintIntensity: 1
+  summerTintColorOne: {r: 1, g: 1, b: 1, a: 1}
+  summerTintColorTwo: {r: 1, g: 1, b: 1, a: 1}
+  summerLeavesAmount: 1
+  summerLeavesVar: 0
+  summerSizeMin: 1
+  summerSizeMax: 1
+  autumnTintIntensity: 1
+  autumnTintColorOne: {r: 1, g: 1, b: 1, a: 1}
+  autumnTintColorTwo: {r: 1, g: 1, b: 1, a: 1}
+  autumnLeavesAmount: 1
+  autumnLeavesVar: 0
+  autumnSizeMin: 1
+  autumnSizeMax: 1

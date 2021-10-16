@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Triplanar Height Blend Array Material (Albedo NormSAO) (Microsplat)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17000\n0;-864;1536;843;883.0681;591.5689;1;True;False\nNode;AmplifyShaderEditor.FunctionNode;109;910.4643,-450.5393;Float;False;Triplanar
+    Heightmap NormSAO Sample (Microsplat);4;;725;5824effbdc1db8e4da2a3ff64becaa5b;10,147,0,84,1,26,1,49,1,51,1,47,1,48,1,52,1,40,1,29,1;6;79;SAMPLER2D;0;False;61;FLOAT;0;False;85;FLOAT2;0,0;False;98;FLOAT2;1,1;False;145;FLOAT;8;False;81;FLOAT3;-1,-1,-1;False;5;FLOAT3;105;FLOAT;108;FLOAT;106;FLOAT;107;FLOAT3;104\nNode;AmplifyShaderEditor.FunctionSwitch;112;-241.5583,-388.2394;Float;False;Enable
+    Heightmap Blending;True;1;2;-1;In 0;In 1;Object;-1;9;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;31;-90.71567,-147.0494;Float;False;Texture
+    Scale;2;5;False;1;0;FLOAT2;1,1;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;51;-111.8471,-246.684;Float;False;Texture
+    Offset;2;6;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;32;-54.08968,-584.119;Float;False;Height
+    Blend Contrast;1;7;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;110;-249.9538,-522.2638;Float;False;Triplanar
+    Contrast;1;8;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;33;-117.7073,-682.2866;Float;False;Base
+    Color Index;1;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;36;-117.7073,-778.2866;Float;False;Base
+    Color Array;9;0;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionNode;114;-540.0681,-390.5689;Float;False;const;-1;;788;5b64729fb717c5f49a1bc2dab81d5e1c;1,3,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;115;-582.0681,-247.5689;Float;False;const;-1;;789;5b64729fb717c5f49a1bc2dab81d5e1c;1,3,1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;35;591.3033,-211.7;Float;False;Normal
+    Array;9;2;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionNode;113;373.7619,-603.402;Float;False;Triplanar
+    Heightmap Sample (Microsplat);0;;764;2c6ec53f82ca77c47983b947e7bcd12b;3,136,1,122,1,124,1;8;7;SAMPLER2D;0;False;6;FLOAT;0;False;80;FLOAT2;0,0;False;82;FLOAT2;1,1;False;76;FLOAT;1;False;180;FLOAT;8;False;367;INT;1;False;152;FLOAT;3;False;2;FLOAT4;0;FLOAT3;363\nNode;AmplifyShaderEditor.FunctionInput;37;590.0165,-131.4624;Float;False;Normal
+    Scale;1;4;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;34;569.6862,-47.12765;Float;False;Normal
+    Index;1;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;97;1632,-224;Float;False;False;Roughness;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;96;1632,-304;Float;False;False;Smoothness;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;29;1632,-496;Float;False;False;Normal;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;0;925.1382,-644.5404;Float;False;True;Base
+    Color;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;95;1632,-400;Float;False;False;AO;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;109;79;35;0\nWireConnection;109;61;34;0\nWireConnection;109;85;51;0\nWireConnection;109;98;31;0\nWireConnection;109;145;110;0\nWireConnection;109;81;113;363\nWireConnection;112;0;114;0\nWireConnection;112;1;115;0\nWireConnection;113;7;36;0\nWireConnection;113;6;33;0\nWireConnection;113;80;51;0\nWireConnection;113;82;31;0\nWireConnection;113;76;110;0\nWireConnection;113;180;32;0\nWireConnection;113;367;112;0\nWireConnection;97;0;109;107\nWireConnection;96;0;109;106\nWireConnection;29;0;109;105\nWireConnection;0;0;113;0\nWireConnection;95;0;109;108\nASEEND*/\n//CHKSM=911972277356A1CE6E8A4C1EBF03E9AB120653BC"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

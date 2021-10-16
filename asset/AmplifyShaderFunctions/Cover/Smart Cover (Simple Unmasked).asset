@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Smart Cover (Simple Unmasked)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17000\n0;-864;1536;665;596.8444;1406.643;1.636393;False;False\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;241;1280,-896;Float;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;250;-321.7678,-1263.863;Float;False;Cover
+    Minimum Height (meters);1;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;123;244.2244,-555.63;Float;False;Coverage
+    Range;3;2;False;1;0;FLOAT3;1,0.5,1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;30;195.6459,-756.4497;Float;False;Normal;3;0;False;1;0;FLOAT3;0,0,1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;26;99.4458,-640.9496;Float;False;Coverage
+    Basis;3;1;False;1;0;FLOAT3;0,0.5,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionNode;225;582.0602,-723.2879;Float;False;World
+    Normal Texture Coverage;-1;;370;4b7152cbb8e3948488acc0b82a254fe1;0;4;1;FLOAT3;0,0,0;False;7;FLOAT3;0,0.5,0;False;8;FLOAT3;1,0.5,1;False;15;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;167;244.2244,-459.6301;Float;False;Cover
+    Fade Smoothness;1;3;False;1;0;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;239;-321.7678,-1071.863;Float;False;Cover
+    Fade Distance (meters);1;6;False;1;0;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;237;-321.7678,-1167.863;Float;False;Cover
+    Maximum Height (meters);1;5;False;1;0;FLOAT;10;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;310;46.23227,-1391.863;Float;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;227;1837.511,-718.831;Float;False;Final
+    Contrast;1;8;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleDivideOpNode;311;206.2322,-1391.863;Float;False;2;0;FLOAT;0;False;1;FLOAT;2;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SmoothstepOpNode;218;1865.8,-906.9999;Float;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WorldPosInputsNode;234;112.4469,-1568.319;Float;False;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.FunctionNode;309;472.6425,-1051.648;Float;False;Threshold
+    Range Fade Smoothstep;-1;;389;660130964062a0a4593db480d023110a;0;4;44;FLOAT;1;False;42;FLOAT;0;False;6;FLOAT;0;False;36;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SaturateNode;209;988.2809,-744.2668;Float;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SaturateNode;313;1004.083,-911.4543;Float;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;221;1330.411,-1152.031;Float;False;Final
+    Strength;1;7;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;222;1490.6,-915.8;Float;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SaturateNode;219;1651.8,-907;Float;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;229;2108.6,-900.4;Float;False;Value
+    Contrast;-1;;386;86281d53297b6244a8973a79bcae14e0;0;2;1;FLOAT;0;False;5;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;312;110.2323,-1279.863;Float;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;2384.8,-896.0001;Float;True;True;Alpha;0;True;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;241;0;313;0\nWireConnection;241;1;209;0\nWireConnection;225;1;30;0\nWireConnection;225;7;26;0\nWireConnection;225;8;123;0\nWireConnection;225;15;167;0\nWireConnection;310;0;250;0\nWireConnection;310;1;237;0\nWireConnection;311;0;310;0\nWireConnection;218;0;219;0\nWireConnection;309;44;234;2\nWireConnection;309;42;311;0\nWireConnection;309;6;312;0\nWireConnection;309;36;239;0\nWireConnection;209;0;225;0\nWireConnection;313;0;309;0\nWireConnection;222;0;221;0\nWireConnection;222;1;241;0\nWireConnection;219;0;222;0\nWireConnection;229;1;218;0\nWireConnection;229;5;227;0\nWireConnection;312;0;237;0\nWireConnection;312;1;250;0\nWireConnection;0;0;229;0\nASEEND*/\n//CHKSM=4911310ABBD9F806611EEC57EDA401E98E5B0797"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

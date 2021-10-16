@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Wind (Tree Simple) (Billboards) (Old)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-790.4;827;752;575.7902;3442.856;1.3;True;False\nNode;AmplifyShaderEditor.WireNode;911;-16,-3344;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;919;-16,-3424;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;925;-144,-3408;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;902;240,-3392;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;929;-208,-3280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;849;112,-3120;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;926;-144,-3296;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;924;-144,-3392;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;921;-144,-3424;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;904;240,-3344;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;893;112,-3296;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;899;112,-3424;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;898;112,-3408;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;903;240,-3360;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;897;112,-3392;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;927;-144,-3280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;894;112,-3280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;917;-1680,-3424;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;918;-16,-3408;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;1067;-256,-2720;Inherit;False;Wind
+    Bend Strength;1;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;1070;70.49274,-2660.028;Inherit;False;const;-1;;1934;5b64729fb717c5f49a1bc2dab81d5e1c;4,21,0,3,0,22,0,28,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;1071;64,-2576;Inherit;False;const;-1;;1935;5b64729fb717c5f49a1bc2dab81d5e1c;4,21,0,3,0,22,0,28,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;928;-208,-3296;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ClampOpNode;1069;170.0843,-3108.912;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;2;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;910;-16,-3296;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;920;-16,-3392;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;915;-1680,-3392;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;916;-1680,-3408;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;913;-1680,-3344;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;914;-1680,-3360;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;896;112,-3360;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ComponentMaskNode;1064;1140.495,-3438.346;Inherit;False;True;True;True;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;912;-16,-3360;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;900;240,-3424;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;597;927,-3451;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionNode;1050;-2704,-3616;Inherit;False;Wind
+    Data;-1;;1753;b731396df55b2f64f90cde6dcc71f449;0;0;31;FLOAT3;494;FLOAT3;510;FLOAT;544;FLOAT;543;FLOAT;545;FLOAT;501;FLOAT;495;FLOAT;496;FLOAT;519;FLOAT;497;FLOAT;548;FLOAT;549;FLOAT;567;FLOAT;576;FLOAT;552;FLOAT;553;FLOAT;569;FLOAT;498;FLOAT;565;FLOAT;564;FLOAT;500;FLOAT;562;FLOAT;563;FLOAT;571;FLOAT;577;FLOAT;560;FLOAT;561;FLOAT;573;FLOAT;527;FLOAT;526;FLOAT;579\nNode;AmplifyShaderEditor.WireNode;905;240,-3296;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;605;690.9912,-3596.493;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.TexturePropertyNode;701;-1897.356,-2733.665;Inherit;True;Global;_WIND_GUST_TEXTURE;_WIND_GUST_TEXTURE;4;0;Create;True;0;0;False;0;None;026dfc64f1bab7b4eae0975faef4dd55;False;white;Auto;Texture2D;-1;0;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.WireNode;906;240,-3280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;1062;401.3064,-3456.687;Inherit;False;Motion
+    Trunk (Simple);-1;;1919;228dad1257d17354d8415856433322bc;0;12;670;FLOAT3;0,0,0;False;613;FLOAT3;0,0,0;False;707;FLOAT;0;False;614;FLOAT;0;False;618;FLOAT;0;False;637;FLOAT;0;False;616;FLOAT;0;False;617;FLOAT;0;False;653;FLOAT;0;False;656;FLOAT3;0,0,0;False;663;FLOAT;0;False;689;FLOAT;0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.WireNode;901;240,-3408;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;1065;29.42569,-2939.45;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;1066;21.42569,-2832.25;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.PosVertexDataNode;1063;-309.7854,-2998.221;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.WireNode;895;112,-3344;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;1068;-256,-2816;Inherit;False;Wind
+    Roll Strength;1;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;908;-16,-3280;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;1046;-1536.131,-2995.851;Inherit;False;Wind
+    (Sample Gust);0;;1796;2f5ec105719e84f46921fb74faad4bf8;0;7;640;SAMPLER2D;;False;623;FLOAT2;0,0;False;620;FLOAT;0;False;621;FLOAT;0;False;653;FLOAT;0;False;624;FLOAT;0;False;625;FLOAT;0;False;5;FLOAT4;528;FLOAT;630;FLOAT;632;FLOAT;634;FLOAT;636\nNode;AmplifyShaderEditor.ClampOpNode;1072;223.5,-2960.9;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;1422,-3430;Inherit;False;True;-1;;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nWireConnection;911;0;913;0\nWireConnection;919;0;921;0\nWireConnection;925;0;916;0\nWireConnection;902;0;897;0\nWireConnection;929;0;1050;498\nWireConnection;849;0;1046;630\nWireConnection;926;0;929;0\nWireConnection;924;0;915;0\nWireConnection;921;0;917;0\nWireConnection;904;0;895;0\nWireConnection;893;0;910;0\nWireConnection;899;0;919;0\nWireConnection;898;0;918;0\nWireConnection;903;0;896;0\nWireConnection;897;0;920;0\nWireConnection;927;0;928;0\nWireConnection;894;0;908;0\nWireConnection;917;0;1050;494\nWireConnection;918;0;925;0\nWireConnection;928;0;1050;501\nWireConnection;1069;0;1065;0\nWireConnection;910;0;926;0\nWireConnection;920;0;924;0\nWireConnection;915;0;1050;497\nWireConnection;916;0;1050;510\nWireConnection;913;0;1050;519\nWireConnection;914;0;1050;495\nWireConnection;896;0;912;0\nWireConnection;1064;0;597;0\nWireConnection;912;0;914;0\nWireConnection;900;0;899;0\nWireConnection;597;0;605;0\nWireConnection;597;1;1062;0\nWireConnection;905;0;893;0\nWireConnection;605;0;1050;544\nWireConnection;906;0;894;0\nWireConnection;1062;670;900;0\nWireConnection;1062;613;901;0\nWireConnection;1062;707;902;0\nWireConnection;1062;614;903;0\nWireConnection;1062;618;904;0\nWireConnection;1062;637;849;0\nWireConnection;1062;616;905;0\nWireConnection;1062;617;906;0\nWireConnection;1062;653;1069;0\nWireConnection;1062;663;1072;0\nWireConnection;901;0;898;0\nWireConnection;1065;0;1063;2\nWireConnection;1065;1;1068;0\nWireConnection;1066;0;1063;2\nWireConnection;1066;1;1067;0\nWireConnection;895;0;911;0\nWireConnection;908;0;927;0\nWireConnection;1046;640;701;0\nWireConnection;1046;623;1050;510\nWireConnection;1046;620;1050;500\nWireConnection;1046;621;1050;565\nWireConnection;1046;653;1050;579\nWireConnection;1046;624;1050;526\nWireConnection;1046;625;1050;527\nWireConnection;1072;0;1066;0\nWireConnection;0;0;1064;0\nASEEND*/\n//CHKSM=1414F27E159A989F2D50102542B88C51A781A01E"
+  m_functionName: 
+  m_description: 'Complex 3-tier wind animation for trees
+
+
+'
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0

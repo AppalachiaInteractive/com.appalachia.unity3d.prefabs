@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: (Backup 20200314) Wind
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n78.66667;114.6667;1284;843;1589.505;4207.135;4.660703;True;False\nNode;AmplifyShaderEditor.VertexColorNode;501;-840.2581,-2868.761;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.FunctionInput;504;2368,-2304;Inherit;False;Leaf
+    Flutter Amplitude;1;8;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;505;2368,-2208;Inherit;False;Leaf
+    Flutter Speed;1;9;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;466;3255.564,-2298.741;Inherit;False;464;Motion_Trunk;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;489;2368,-2112;Inherit;False;Leaf
+    Flutter Scale;1;10;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;491;-384,-2224;Inherit;False;Trunk
+    Motion Speed;1;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;476;2368,-2032;Inherit;False;495;Packed_Leaf;1;0;OBJECT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;522;1328,-2048;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;519;1248,-1936;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;497;-536.258,-2584.761;Half;False;Packed_Variation;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;464;416,-2304;Half;False;Motion_Trunk;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;517;926,-1742;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;546;1408,-2304;Inherit;False;Motion
+    Generic;0;;2242;7f3f3082ffb2e434ea249efd43481b2f;8,416,1,414,1,415,1,252,1,278,1,292,1,330,1,326,1;8;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;218;FLOAT;0;False;287;FLOAT;0;False;136;FLOAT;0;False;279;FLOAT;0;False;342;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;508;3584,-2128;Inherit;False;Turbulence;1;12;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;495;-536.258,-2808.761;Half;False;Packed_Leaf;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;453;-768,-2144;Float;False;Constant;_MotionScale1;Trunk
+    Motion Scale;51;0;Create;False;0;0;False;0;0.2;1;0;100;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;446;2048,-2112;Float;False;Constant;_MotionScale4;Leaf
+    Flutter Scale;63;0;Create;False;0;0;False;0;100;3572;0;20000;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;496;-280.2582,-2712.761;Half;False;Packed_Trunk2;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;463;1664,-2304;Half;False;Motion_Branch;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;512;1024,-2064;Inherit;False;Branch
+    Motion Vertical;1;6;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;500;-536.258,-2712.761;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;541;704,-1984;Inherit;False;Branch
+    Motion Variation;1;7;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleAddOpNode;468;3584,-2304;Inherit;False;3;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;465;3040,-2080;Inherit;False;482;Motion_Leaf;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionNode;545;2688,-2304;Inherit;False;Motion
+    Flutter;-1;;2241;8ce3a643e43ac304ba254ae0ebe4d3c9;1,312,0;5;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;136;FLOAT;0;False;310;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;470;3808,-2304;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RangedFloatNode;442;2048,-2304;Float;False;Constant;_MotionAmplitude4;Leaf
+    Flutter Amplitude;61;0;Create;False;0;0;False;0;0.06;0.02;0;3;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;444;2048,-2208;Float;False;Constant;_MotionSpeed4;Leaf
+    Flutter Speed;62;0;Create;False;0;0;False;0;5.5;3;0;20;0;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;456;-128,-2048;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;494;-384,-1792;Inherit;False;Leaves
+    Amount;1;11;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;449;704,-1904;Inherit;False;497;Packed_Variation;1;0;OBJECT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;490;-384,-2304;Inherit;False;Trunk
+    Motion Amplitude;1;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;447;704,-1808;Inherit;False;498;Packed_Branch;1;0;OBJECT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;460;704,-2224;Float;False;Constant;_MotionSpeed3;Branch
+    Motion Speed;55;0;Create;False;0;0;False;0;2.5;1;0;10;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;459;-768,-2304;Float;False;Constant;_MotionAmplitude1;Trunk
+    Motion Amplitude;49;0;Create;False;0;0;False;0;0.6;1;0;3;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;455;704,-2144;Float;False;Constant;_MotionScale3;Branch
+    Motion Scale;56;0;Create;False;0;0;False;0;0.4;34.4;0;100;0;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;462;1024,-1984;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;498;-536.258,-2888.761;Half;False;Packed_Branch;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;509;1024,-2304;Inherit;False;Branch
+    Motion Amplitude;1;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;499;-536.258,-2968.761;Half;False;Packed_Trunk;-1;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionSwitch;542;3264,-2112;Inherit;False;Leaf
+    Wind;True;0;2;-1;In 0;In 1;Object;-1;9;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;457;1024,-1888;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;493;-768,-1792;Float;False;Constant;_MotionScale2;Leaves
+    Amount;51;0;Create;False;0;0;False;0;1;1;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;458;704,-2304;Float;False;Constant;_MotionAmplitude3;Branch
+    Motion Amplitude;54;0;Create;False;0;0;False;0;0.4;0.1;0;3;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;482;2944,-2304;Half;False;Motion_Leaf;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;467;3255.564,-2202.741;Inherit;False;463;Motion_Branch;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RangedFloatNode;461;704,-2064;Float;False;Constant;_MotionVertical3;Branch
+    Motion Vertical;58;0;Create;False;0;0;False;0;0.5;0.3;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;454;-768,-2224;Float;False;Constant;_MotionSpeed1;Trunk
+    Motion Speed;50;0;Create;False;0;0;False;0;1;1;0;3;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;492;-385,-2144;Inherit;False;Trunk
+    Motion Scale;1;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;510;1024,-2224;Inherit;False;Branch
+    Motion Speed;1;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;448;384,-1984;Float;False;Constant;_MotionVariation3;Branch
+    Motion Variation;57;0;Create;False;0;0;False;0;2;10.7;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;521;1232,-1984;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.GetLocalVarNode;452;-400,-2048;Inherit;False;496;Packed_Trunk2;1;0;OBJECT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;511;1024,-2144;Inherit;False;Branch
+    Motion Scale;1;5;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;547;128,-2304;Inherit;False;Motion
+    Generic;0;;2243;7f3f3082ffb2e434ea249efd43481b2f;8,416,0,414,0,415,0,252,0,278,0,292,0,330,0,326,0;8;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;218;FLOAT;0;False;287;FLOAT;0;False;136;FLOAT;0;False;279;FLOAT;0;False;342;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;0;3968,-2304;Inherit;False;True;-1;Motion;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CommentaryNode;473;-492.1534,-2442.741;Inherit;False;4521.515;102.2532;Tree
+    Motion;0;;0.03448272,1,0,1;0;0\nWireConnection;504;0;442;0\nWireConnection;505;0;444;0\nWireConnection;489;0;446;0\nWireConnection;491;0;454;0\nWireConnection;522;0;512;0\nWireConnection;519;0;457;0\nWireConnection;497;0;501;4\nWireConnection;464;0;547;0\nWireConnection;517;0;494;0\nWireConnection;546;220;509;0\nWireConnection;546;221;510;0\nWireConnection;546;222;511;0\nWireConnection;546;218;521;0\nWireConnection;546;136;519;0\nWireConnection;546;279;522;0\nWireConnection;495;0;501;3\nWireConnection;496;0;500;0\nWireConnection;463;0;546;0\nWireConnection;512;0;461;0\nWireConnection;500;0;501;1\nWireConnection;500;1;501;1\nWireConnection;541;0;448;0\nWireConnection;468;0;466;0\nWireConnection;468;1;467;0\nWireConnection;468;2;542;0\nWireConnection;545;220;504;0\nWireConnection;545;221;505;0\nWireConnection;545;222;489;0\nWireConnection;545;136;476;0\nWireConnection;470;0;468;0\nWireConnection;470;1;508;0\nWireConnection;456;0;452;0\nWireConnection;456;1;494;0\nWireConnection;494;0;493;0\nWireConnection;490;0;459;0\nWireConnection;462;0;541;0\nWireConnection;462;1;449;0\nWireConnection;498;0;501;2\nWireConnection;509;0;458;0\nWireConnection;499;0;501;1\nWireConnection;542;1;465;0\nWireConnection;457;0;447;0\nWireConnection;457;1;517;0\nWireConnection;482;0;545;0\nWireConnection;492;0;453;0\nWireConnection;510;0;460;0\nWireConnection;521;0;462;0\nWireConnection;511;0;455;0\nWireConnection;547;220;490;0\nWireConnection;547;221;491;0\nWireConnection;547;222;492;0\nWireConnection;547;136;456;0\nWireConnection;0;0;470;0\nASEEND*/\n//CHKSM=925E82051D9039E0E7D05B64BA2C25EE8876037E"
+  m_functionName: 
+  m_description: 'Global Vertex Animation Function with custom inputs.
+
+
+'
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0

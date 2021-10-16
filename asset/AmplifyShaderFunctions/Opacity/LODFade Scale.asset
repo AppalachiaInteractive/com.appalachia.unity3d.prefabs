@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: LODFade Scale
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-864;1536;843;1466.026;2699.415;1.630159;True;False\nNode;AmplifyShaderEditor.RangedFloatNode;42;-896,-2432;Half;False;Constant;_Float0;Float
+    0;1;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.NegateNode;56;-640,-2304;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.TFHCCompareWithRange;63;-694.8936,-2049.066;Inherit;False;5;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;57;-128,-2093.964;Inherit;False;3;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.PosVertexDataNode;55;-896,-2304;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.FunctionInput;41;-636.8,-2432;Inherit;False;Vertex
+    Offset;3;0;False;1;0;FLOAT3;1,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.OneMinusNode;52;-384,-2048;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;61;-901.4852,-1863.701;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LODFadeNode;58;-1174.242,-2041.253;Inherit;False;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.WireNode;64;-899.3229,-2124.51;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;65;-921.2564,-2052.905;Inherit;False;const;-1;;5943;5b64729fb717c5f49a1bc2dab81d5e1c;6,21,0,3,4,22,0,28,0,63,0,74,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;66;-931.7214,-1828.61;Inherit;False;const;-1;;5944;5b64729fb717c5f49a1bc2dab81d5e1c;6,21,0,3,1,22,0,28,0,63,0,74,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;67;-896.2724,-1966.767;Inherit;False;const;-1;;5945;5b64729fb717c5f49a1bc2dab81d5e1c;6,21,0,3,5,22,0,28,0,63,0,74,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;68;-257.0292,-1880.15;Inherit;False;False;-1;Fade;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;146.2021,-2092.212;Inherit;False;True;-1;Vertex
+    Offset;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nWireConnection;56;0;55;0\nWireConnection;63;0;64;0\nWireConnection;63;1;65;0\nWireConnection;63;2;67;0\nWireConnection;63;3;61;0\nWireConnection;63;4;66;0\nWireConnection;57;0;41;0\nWireConnection;57;1;56;0\nWireConnection;57;2;52;0\nWireConnection;41;0;42;0\nWireConnection;52;0;63;0\nWireConnection;61;0;58;1\nWireConnection;64;0;58;1\nWireConnection;68;0;63;0\nWireConnection;0;0;57;0\nASEEND*/\n//CHKSM=062D5642DA6ECE66641BB9C8961003F37895CAD3"
+  m_functionName: 
+  m_description: 'LOD Scale Cross Fade.
+
+
+'
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 1
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: LOD Fade
+  m_previewPosition: 0
+  m_hidden: 0

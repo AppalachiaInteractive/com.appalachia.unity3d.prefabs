@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Transmission (Impostor)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-864;1536;843;2899.324;565.0503;3.174716;True;False\nNode;AmplifyShaderEditor.FunctionInput;9;-1327.74,334.8758;Inherit;False;Transmission;5;3;False;1;0;COLOR;1,1,1,1;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionInput;6;34,238;Inherit;False;Albedo;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SaturateNode;37;-185.4361,-409.5303;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;52;-807.0796,637.3225;Inherit;False;Ambient
+    Color;5;9;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0\nNode;AmplifyShaderEditor.WorldSpaceLightDirHlpNode;55;-1387.633,40.41516;Inherit;False;True;1;0;FLOAT;0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.FunctionInput;57;-405.2034,-491.4071;Inherit;False;Occlusion;1;6;False;1;0;FLOAT;0.5;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ComponentMaskNode;53;-588.0796,635.3225;Inherit;False;True;True;True;False;1;0;COLOR;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;15;-1312,-96;Inherit;False;Normal
+    (World);3;2;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;35;-422.2243,-404.8089;Inherit;False;Occlusion
+    Effect;1;7;False;1;0;FLOAT;0.5;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ComponentMaskNode;23;-1071.74,334.8758;Inherit;False;True;True;True;False;1;0;COLOR;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;17;-229.9713,64.06825;Inherit;False;4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;54;-1147.633,36.41516;Inherit;False;Light
+    Direction (World);3;8;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;21;-1327.74,494.8757;Inherit;False;Strength;1;5;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;7;-1568,-256;Inherit;False;Normal
+    (Tangent);3;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.LerpOp;36;75.52448,-547.0347;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WorldNormalVector;40;-1311.421,-251.6481;Inherit;False;True;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.NegateNode;12;-672,-208;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ColorNode;51;-1047.08,638.3225;Inherit;False;Constant;_AmbientColor;Ambient
+    Color;0;0;Create;True;0;0;False;0;1,1,1,1;0,0,0,0;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.FunctionSwitch;14;-1056,-256;Inherit;False;Normal
+    Space;False;0;2;-1;Tangent;World;Object;-1;9;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.DotProductOpNode;5;-800,-208;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;8;221,119;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionSwitch;18;-815.7405,334.8758;Inherit;False;Strength;False;1;2;-1;Transmission
+    Alpha;Specified;Object;-1;9;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RangedFloatNode;39;-383.8174,-577.9532;Inherit;False;Constant;_Float1;Float
+    1;0;0;Create;True;0;0;False;0;1;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.ComponentMaskNode;33;544,128;Inherit;False;True;True;True;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SaturateNode;42;-412.9326,-211.5315;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.ComponentMaskNode;22;-1071.74,462.8757;Inherit;False;False;False;False;True;1;0;COLOR;0,0,0,0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionSwitch;20;-815.7405,462.8757;Inherit;False;Strength;False;1;2;-1;Transmission
+    Alpha;Specified;Instance;18;9;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;19;-1327.74,414.8757;Inherit;False;Transmission;3;4;False;1;0;FLOAT3;1,1,1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;0;768,128;Inherit;False;True;-1;RGB;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CommentaryNode;28;-730.5288,-100.8216;Inherit;False;666;100;half3
+    transmission = max(0 , -dot(s.Normal, gi.light.dir)) * gi.light.color * s.Transmission
+    ;0;;1,1,1,1;0;0\nNode;AmplifyShaderEditor.CommentaryNode;27;256,-128;Inherit;False;349;100;half4
+    d = half4(s.Albedo * transmission , 0)  ;0;;1,1,1,1;0;0\nWireConnection;37;0;35;0\nWireConnection;52;0;51;0\nWireConnection;53;0;52;0\nWireConnection;23;0;9;0\nWireConnection;17;0;42;0\nWireConnection;17;1;20;0\nWireConnection;17;2;18;0\nWireConnection;17;3;53;0\nWireConnection;54;0;55;0\nWireConnection;36;0;39;0\nWireConnection;36;1;57;0\nWireConnection;36;2;37;0\nWireConnection;40;0;7;0\nWireConnection;12;0;5;0\nWireConnection;14;0;40;0\nWireConnection;14;1;15;0\nWireConnection;5;0;14;0\nWireConnection;5;1;54;0\nWireConnection;8;0;36;0\nWireConnection;8;1;17;0\nWireConnection;18;0;23;0\nWireConnection;18;1;19;0\nWireConnection;33;0;8;0\nWireConnection;42;0;12;0\nWireConnection;22;0;9;0\nWireConnection;20;0;22;0\nWireConnection;20;1;21;0\nWireConnection;0;0;33;0\nASEEND*/\n//CHKSM=4A7B3B730E14C8BBF6CC1C8472AC94410C6D6637"
+  m_functionName: 
+  m_description: Transmission is a highly optimized way of approximating light scattering.
+    In other words, it defines how much light passes through a surface when lit from
+    behind, which is ideal for less detailed assets such as leaves, cloth, or even
+    wax objects; accepts full RGB inputs.
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 5
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

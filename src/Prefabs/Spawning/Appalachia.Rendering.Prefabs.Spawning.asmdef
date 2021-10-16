@@ -2,6 +2,7 @@
   "name": "Appalachia.Rendering.Prefabs.Spawning",
   "rootNamespace": "",
   "references": [
+    "GUID:56ca8901b63fd204692a4a27f67b605e",
     "GUID:a0053698365916c4291e09a4f5495c0b",
     "GUID:4a600fa6fa2ca854b8f233a23710b315",
     "GUID:195705ddaa6fe6c42a576177c5d36a5c",
@@ -18,9 +19,9 @@
     "GUID:b6294acf83d7a2d4ebc14a1f0fb45380",
     "GUID:1d9bff6eb4c4a694e9d9687c9a3d170b",
     "GUID:77e5466b8e149524e866bc8a5ebdef0a",
-    "GUID:fb58d5396d4f85044a40c7548929c37d",
     "GUID:e0cd26848372d4e5c891c569017e11f1",
-    "GUID:d8b63aba1907145bea998dd612889d6b"
+    "GUID:d8b63aba1907145bea998dd612889d6b",
+    "GUID:fb58d5396d4f85044a40c7548929c37d"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
@@ -30,5 +31,6 @@
   "autoReferenced": true,
   "defineConstraints": [],
   "versionDefines": [],
-  "noEngineReferences": false
+  "noEngineReferences": false,
+  "optionalUnityReferences": []
 }

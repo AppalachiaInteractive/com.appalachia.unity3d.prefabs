@@ -159,14 +159,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
                             var renderers = collisionInfo.prefab
                                                          .GetComponentsInChildren<MeshRenderer>();
 
-                            foreach (var renderer in renderers)
+                            foreach (var rndr in renderers)
                             {
-                                if (renderer.shadowCastingMode == ShadowCastingMode.ShadowsOnly)
+                                if (rndr.shadowCastingMode == ShadowCastingMode.ShadowsOnly)
                                 {
                                     continue;
                                 }
 
-                                var meshFilter = renderer.GetComponent<MeshFilter>();
+                                var meshFilter = rndr.GetComponent<MeshFilter>();
 
                                 var sharedMesh = meshFilter.sharedMesh;
                                 var verts = sharedMesh.vertices;

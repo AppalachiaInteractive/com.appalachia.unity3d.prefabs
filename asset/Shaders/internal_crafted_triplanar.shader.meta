@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+guid: 8374f5dc9bf32ef48a99018d9922692f
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _BurnMap: {fileID: 2800000, guid: 8144262478d28cc4eb4648b2a3d84292, type: 3}
+  - _BurnNoise: {fileID: 2800000, guid: 026dfc64f1bab7b4eae0975faef4dd55, type: 3}
+  - _CharNormal: {fileID: 2800000, guid: f2b65193a8a4c4648bf768cbe5190e55, type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

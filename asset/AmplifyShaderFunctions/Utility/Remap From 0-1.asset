@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Remap From 0-1
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-790.4;1048;752;1173.609;585.2383;1.724981;True;False\nNode;AmplifyShaderEditor.FunctionInput;8;-384,-64;Inherit;False;Max
+    New;4;2;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.TFHCRemapNode;14;-93.20044,-235.3213;Inherit;False;5;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT4;1,0,0,0;False;3;FLOAT4;0,0,0,0;False;4;FLOAT4;1,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.Vector4Node;15;-790.2004,-331.3213;Inherit;False;Constant;_Vector0;Vector
+    0;0;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.Vector4Node;16;-800,-144;Inherit;False;Constant;_Vector1;Vector
+    0;0;0;Create;True;0;0;False;0;1,1,1,1;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.WireNode;17;-533.2004,-160.3213;Inherit;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionInput;7;-384,-128;Inherit;False;Min
+    New;4;1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionInput;6;-397.7998,-362.9488;Inherit;False;;4;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.FunctionOutput;0;385,-257;Inherit;True;True;-1;;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0\nWireConnection;8;0;16;0\nWireConnection;14;0;6;0\nWireConnection;14;1;15;0\nWireConnection;14;2;17;0\nWireConnection;14;3;7;0\nWireConnection;14;4;8;0\nWireConnection;17;0;16;0\nWireConnection;7;0;15;0\nWireConnection;6;0;15;0\nWireConnection;0;0;14;0\nASEEND*/\n//CHKSM=738817FE737EE432ED013A1A008E46CFB87CCD4B"
+  m_functionName: 
+  m_description: 'Remap to 0-1.
+
+'
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 7
+  m_customNodeCategory: Advanced Dynamic Shaders
+  m_previewPosition: 0
+  m_hidden: 0

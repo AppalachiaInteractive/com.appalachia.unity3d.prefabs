@@ -1,0 +1,815 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: boulder
+  m_Shader: {fileID: 4800000, guid: 67743151cd9b899468eaa01f015a534a, type: 3}
+  m_ShaderKeywords: _EMISSION _INVERTCOVER_ON
+  m_LightmapFlags: 5
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: acb8be2722bc4414e94cfe13b829dd31, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseColor:
+        m_Texture: {fileID: 2800000, guid: aa2ceba9f9bc67540b6bc7659098f4a3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseMAOHS:
+        m_Texture: {fileID: 2800000, guid: cd121e6cbd0f97842955f1aeb81a9fe9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BaseNormal:
+        m_Texture: {fileID: 2800000, guid: 2e5500af45d5cdb47b7c35f173330eac, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BottomCoverBaseColor:
+        m_Texture: {fileID: 2800000, guid: 6969024d83b0bb14f8ea7b3fdc6d6ca6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BottomCoverNormSAO:
+        m_Texture: {fileID: 2800000, guid: 09d35913378560b45804c436684f970d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverBaseColorArray:
+        m_Texture: {fileID: 18700000, guid: a216b00a53d524146b21b7993c527348, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverMAOHSArray:
+        m_Texture: {fileID: 18700000, guid: c2c19ceabee801f4ca279695d4fbfe3f, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverNormSAOArray:
+        m_Texture: {fileID: 18700000, guid: ae39838eca598d0498952cd0089f0832, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverNormalArray:
+        m_Texture: {fileID: 18700000, guid: 349c057b57ca3564fa03c4475a03d93f, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverSideNormal:
+        m_Texture: {fileID: 2800000, guid: 303373cbf9a63d04f8982712c4f2b30f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CoverTopNormal:
+        m_Texture: {fileID: 2800000, guid: 54f1bfae1c5a1cb4ba32adc1db331deb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailArray:
+        m_Texture: {fileID: 18700000, guid: 8d265c578598fd048897a60577f7cd30, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailBaseColorArray:
+        m_Texture: {fileID: 18700000, guid: 6c89434725341434fb5f8d105ee15f19, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormal:
+        m_Texture: {fileID: 2800000, guid: 0aa941ff34c44ab4ca8ff4d116159e89, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalArray:
+        m_Texture: {fileID: 2800000, guid: 988043ff4d26f0b40abd1ca5cd3acd6f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainBaseColorArray:
+        m_Texture: {fileID: 18700000, guid: f4e67b3c1ea4f8041abf9a46d6b24957, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainBaseColorBottom:
+        m_Texture: {fileID: 2800000, guid: 17c63b68948343a468c0c1d410529ea9, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainBaseColorSides:
+        m_Texture: {fileID: 2800000, guid: 71faeaa8dee446746b6c746c5192cebf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainBaseColorTop:
+        m_Texture: {fileID: 2800000, guid: d8eaae5c0e62e524098bf5ff8886b2bc, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainMAOHS:
+        m_Texture: {fileID: 18700000, guid: bd7eb4fb25b086e4fa57c637943a8e79, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainMAOHSArray:
+        m_Texture: {fileID: 18700000, guid: 252bf8b5251c31949ac1d5d508dc38f5, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainNormSAOArray:
+        m_Texture: {fileID: 18700000, guid: e19d372147bd63d409e26b675c16217b, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainNormalArray:
+        m_Texture: {fileID: 18700000, guid: df6a4a101cffdfa4eaba98bbcc6f61ee, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainNormalBottom:
+        m_Texture: {fileID: 2800000, guid: 0c68cf95abd7c7348ad5ae574d7cc11a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainNormalSide:
+        m_Texture: {fileID: 2800000, guid: 318cd6c90f7df194b9bf24612477ab09, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainNormalTop:
+        m_Texture: {fileID: 2800000, guid: 3d28825ae9868c14398a2fe0619dad89, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Metallic:
+        m_Texture: {fileID: 2800000, guid: 64c4e49a2d5b9f1409fd1a539acfd3de, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MiddleCoverBaseColor:
+        m_Texture: {fileID: 2800000, guid: 6969024d83b0bb14f8ea7b3fdc6d6ca6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MiddleCoverNormSAO:
+        m_Texture: {fileID: 2800000, guid: 09d35913378560b45804c436684f970d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: ff56e280f640c70488a8852477081d01, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ObjectNormal:
+        m_Texture: {fileID: 2800000, guid: 0bebe40e9ebbecc48b8e9cfea982da7e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Occlusion:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockAlbedo:
+        m_Texture: {fileID: 2800000, guid: b297077dae62c1944ba14cad801cddf5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockNormal:
+        m_Texture: {fileID: 2800000, guid: 0bebe40e9ebbecc48b8e9cfea982da7e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _RockSpecular:
+        m_Texture: {fileID: 2800000, guid: 6618005f6bafebf40b3d09f498401fba, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SideColorMAOHS:
+        m_Texture: {fileID: 2800000, guid: 41f4000f3fd909849a94201126dc3f10, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SideColorNormal:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SideCoverBaseColor:
+        m_Texture: {fileID: 2800000, guid: 491cb9106efeb3840a0fa50d562c69c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowAlbedo:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowNormal:
+        m_Texture: {fileID: 2800000, guid: 24e31ecbf813d9e49bf7a1e0d4034916, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SnowSpecular:
+        m_Texture: {fileID: 2800000, guid: 84d76c914224da14a8210ba4ba8a2992, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainAwarenessMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainBaseColorArray:
+        m_Texture: {fileID: 18700000, guid: 4613c3793b326264981b6349efe9d107, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainNormalArray:
+        m_Texture: {fileID: 18700000, guid: f8a0ed8dfa0a6584cbb8324aba935b6b, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainSupplementalShadingMap:
+        m_Texture: {fileID: 2800000, guid: cfe65d2e95540e243bf5dda7543a0684, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TerrainWetnessData:
+        m_Texture: {fileID: 2800000, guid: 81bd0787394d1d84c9ccf1fcf3b16f6b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture0:
+        m_Texture: {fileID: 18700000, guid: a382312af245d45488af7b10260a0453, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture1:
+        m_Texture: {fileID: 18700000, guid: e19d372147bd63d409e26b675c16217b, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopCoverBaseColor:
+        m_Texture: {fileID: 2800000, guid: 6969024d83b0bb14f8ea7b3fdc6d6ca6, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopCoverMAOHS:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopCoverNormSAO:
+        m_Texture: {fileID: 2800000, guid: 09d35913378560b45804c436684f970d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopCoverNormSAOarray:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopCoverNormal:
+        m_Texture: {fileID: 2800000, guid: 54f1bfae1c5a1cb4ba32adc1db331deb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture0:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture1:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture3:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TopTexture5:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _char_woodman_diffuse:
+        m_Texture: {fileID: 2800000, guid: 7b2d250cb1ff5984ebe320abfcbe4c1f, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _char_woodman_metallic:
+        m_Texture: {fileID: 2800000, guid: 64a77576d662af04490c7233b092153e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _char_woodman_normals:
+        m_Texture: {fileID: 2800000, guid: 3832909a151eb124e80a8c701d5a7014, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _char_woodman_occlusion:
+        m_Texture: {fileID: 2800000, guid: b3d0b79482d24894c8f23411845c6604, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _snow_albedo:
+        m_Texture: {fileID: 2800000, guid: 84df6abfcd71cd0448c8570c7564ae79, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _snow_normal:
+        m_Texture: {fileID: 2800000, guid: a2f3f75f9d725d248bbe87bba9c46938, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _snow_specular:
+        m_Texture: {fileID: 2800000, guid: e3a9ce60ba4140c4ab56aecf455c1f69, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex4coord2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BaseColorContrast: 1
+    - _BaseFalloff: 1
+    - _BottomCoverAOMeshContrast: 1
+    - _BottomCoverAOMeshDarknessBoost: 0
+    - _BottomCoverAOMeshStrength: 1
+    - _BottomCoverAOOnlyBoostDarkMesh: 1
+    - _BottomCoverAOTextureStrength: 1
+    - _BottomCoverAlbedoMatch: 0.02
+    - _BottomCoverAlphaMask: 1
+    - _BottomCoverAreaNormalStrength: 0
+    - _BottomCoverBaseColorIndex: 0
+    - _BottomCoverColorLowThreshold: 0.02
+    - _BottomCoverContrast: 1
+    - _BottomCoverDetailBaseColoLightenrStrength: 0.283
+    - _BottomCoverDetailBaseColorDarkenStrength: 0.2
+    - _BottomCoverDetailBaseColorLighterStrength: 0.01
+    - _BottomCoverDetailBaseColorStrength: 0.434
+    - _BottomCoverDetailContrast: 1
+    - _BottomCoverDetailNormalScale: 1
+    - _BottomCoverDetailNormalStrength: 1
+    - _BottomCoverDetailOffset: 0
+    - _BottomCoverDetailTextureIndex: 4
+    - _BottomCoverDetailTiling: 2
+    - _BottomCoverFadeDistancemeters: 100
+    - _BottomCoverFadePercentage: 1
+    - _BottomCoverFadeSmoothness: 1
+    - _BottomCoverFillAmount: 0.499
+    - _BottomCoverFillFromTop: 0
+    - _BottomCoverFinalContrast: 3
+    - _BottomCoverFinalStrength: 2.89
+    - _BottomCoverHeightBlendFactor: 0.5
+    - _BottomCoverHeightBlendSharpness: 0.965
+    - _BottomCoverHeightBlendStrength: 0.5
+    - _BottomCoverHeightOffset: 0
+    - _BottomCoverHeightRange: 1
+    - _BottomCoverMaskChannel: 0
+    - _BottomCoverMaskContrast: 1.47
+    - _BottomCoverMaskFadeRange: 0.104
+    - _BottomCoverMaskFadeRangetoThresholdRatioMax: 0.137
+    - _BottomCoverMaskScale: 98
+    - _BottomCoverMaskThreshold: 0.425
+    - _BottomCoverMaskTiling: 0.0084
+    - _BottomCoverMaskTolerance: 0.02
+    - _BottomCoverMaximumRangeFade: 30
+    - _BottomCoverMaximumVerticalRange: 250
+    - _BottomCoverMinimumScale: 4
+    - _BottomCoverMinimumVerticalRange: 0.5
+    - _BottomCoverNormalIndex: 0
+    - _BottomCoverNormalScale: 0.1
+    - _BottomCoverNormalStrength: 1
+    - _BottomCoverObjectScaleFactor: 0.067
+    - _BottomCoverRange: 1
+    - _BottomCoverRangeDistance: 1
+    - _BottomCoverRangeFadeRatioMax: 1
+    - _BottomCoverSaturationMultiplier: 0.414
+    - _BottomCoverTargetPercentage: 1
+    - _BottomCoverTextureScale: 30
+    - _BottomCoverTriplanarContrast: 50
+    - _BottomCoverValueMultiplier: 1
+    - _BottomCoverWorldSpaceHeightBlendFalloff: 0.5
+    - _BottomCoverWorldSpaceHeightBlendRange: 0.5
+    - _BumpScale: 1
+    - _ClusterAOMultiplier: 0.8
+    - _ClusterNormalScale: 1.1
+    - _ClusterOctaves: 10
+    - _ClusterScale: 0.009
+    - _ColorContrast: 1.05
+    - _Cover: 10
+    - _CoverAOMeshContrast: 1
+    - _CoverAOMeshDarknessBoost: 0
+    - _CoverAOMeshStrength: 1
+    - _CoverAOTextureStrength: 0.89
+    - _CoverAmount: 0.597
+    - _CoverBaseColorIndex: 57
+    - _CoverColorLowThreshold: 0.074
+    - _CoverDetailBaseColorStrength: 0.211
+    - _CoverDetailNormalStrength: 0
+    - _CoverDetailTextureIndex: 0
+    - _CoverDetailTiling: 2.1
+    - _CoverFadeDistance: 0.0181
+    - _CoverFadeNoiseScale: 28.1
+    - _CoverFadeNoiseStrength: 0.575
+    - _CoverFalloff: 1
+    - _CoverFillAmount: 0.543
+    - _CoverHeightBlendFactor: 0.269
+    - _CoverHeightBlendStrength: 0
+    - _CoverMaskChannel: 3
+    - _CoverMaskContrast: 0.5
+    - _CoverMaskFadeRange: 0.154
+    - _CoverMaskFadeRangetoThresholdRatioMax: 1
+    - _CoverMaskThreshold: 0.74
+    - _CoverMaskTiling: 0.0314
+    - _CoverMaskTolerance: 0.246
+    - _CoverNormSAOIndex: 55
+    - _CoverNormalMAOHSIndex: 57
+    - _CoverNormalScale: 2
+    - _CoverObjectScaleFactor: 0.01
+    - _CoverOnlyBoostDarkMeshAO: 1
+    - _CoverRange: 0.605
+    - _CoverRangeDistance: 1
+    - _CoverRangeFadeRatioMax: 1
+    - _CoverSideAmount: 10
+    - _CoverSpread: 0.5
+    - _CoverSpreadAmount: 1.213
+    - _CoverSpreadSoftness: 0.1
+    - _CoverSurfacePorosity: 0.05
+    - _CoverThreshold: 1
+    - _CoverTiling: 0.1
+    - _CoverTopAmount: 0
+    - _CoverTopFalloff: 1
+    - _CoverTriplanarBlendSharpness: 1
+    - _CoverTriplanarContrast: 1
+    - _CoverTriplanarFalloff: 1
+    - _CoverWaterDarknessModifier: 0.99
+    - _CoverWaterSmoothnessMultiplier: 0.547
+    - _CoverWetnessDarknessModifier: 0.2
+    - _CoverWetnessSmoothnessMultiplier: 2
+    - _CoverWorldSpaceHeightBlendFalloff: 0.82
+    - _CoverWorldSpaceHeightBlendRange: 1
+    - _Cutoff: 0.5
+    - _DebugGlobalWetnessMinimum: 0
+    - _DebugMode: 0
+    - _DebugOpenAirWetness: 0
+    - _DebugUVOverrides: 0
+    - _DebugWetness: 0
+    - _DetailBaseColorStrength: 1
+    - _DetailContrast: 1
+    - _DetailIndex: 0.1
+    - _DetailIntensity: 0.5
+    - _DetailInversion: 0
+    - _DetailNormalMapScale: 1
+    - _DetailNormalScale: 0.4
+    - _DetailTextureIndex: 4
+    - _DetailTiling: 0.1
+    - _DetailViewDistance: 20
+    - _DetailViewFadeDistance: 20
+    - _DetailViewFadeStart: 10
+    - _DetailViewFalloff: 5
+    - _DstBlend: 0
+    - _EnableUV1WWetness: 0
+    - _EnableUV6WWetness: 1
+    - _EnableUV6Wetness: 0
+    - _EnableUVDebugging: 0
+    - _FillCoverFromBottom: 0
+    - _FinalAOMultiplier: 1
+    - _FinalAlbedoMatch: 0.039
+    - _FinalColorContrast: 1
+    - _FinalDetailMultiplier: 1
+    - _FinalMetallicMultiplier: 0.5
+    - _FinalNormalScale: 3.34
+    - _FinalNormalStrength: 1
+    - _FinalRoughnessMultiplier: 1.2
+    - _FinalSaturationMultiplier: 1
+    - _FinalValueMultiplier: 1
+    - _GlossMapScale: 1
+    - _Glossiness: 0.5
+    - _GlossyReflections: 1
+    - _InvertBottomCover: 0
+    - _InvertBottomMask: 0
+    - _InvertCover: 1
+    - _InvertDetails: 0
+    - _InvertMask: 1
+    - _InvertTerrainCover: 0
+    - _InvertTerrainMask: 0
+    - _InvertTopCover: 0
+    - _InvertTopMask: 0
+    - _LockBaseColorAndMapIndices: 0
+    - _LockBaseColorAndNormalIndexes: 1
+    - _LockBaseColorAndNormalIndices: 1
+    - _MainAOMeshContrast: 1
+    - _MainAOMeshDarknessBoost: 0
+    - _MainAOMeshStrength: 1
+    - _MainAOOnlyBoostDarkMesh: 1
+    - _MainAOTextureStrength: 1
+    - _MainBaseColorIndex: 33
+    - _MainColorBlendStrength: 0.039
+    - _MainColorContrast: 1
+    - _MainContrast: 0.982
+    - _MainDetailBaseColorDarkenStrength: 2
+    - _MainDetailBaseColorLightenStrength: 0.1
+    - _MainDetailBaseColorStrength: 1
+    - _MainDetailContrast: 2
+    - _MainDetailNormalScale: 1
+    - _MainDetailNormalStrength: 0
+    - _MainDetailOffset: 0
+    - _MainDetailTextureIndex: 0
+    - _MainDetailTiling: 0.1
+    - _MainFalloff: 1
+    - _MainHeightOffset: -1
+    - _MainHeightRange: 1
+    - _MainNormSAOIndex: 33
+    - _MainNormalMAOHSIndex: 33
+    - _MainNormalScale: 1.5
+    - _MainObjectMinimumScale: 1
+    - _MainObjectScaleFactor: 0.09
+    - _MainOnlyBoostDarkMeshAO: 1
+    - _MainSaturationMultiplier: 1
+    - _MainTextureBottomCoverNormalInfluence: 1
+    - _MainTextureMaximumContrastAdditive: 0.1
+    - _MainTextureScale: 2.5
+    - _MainTextureScaleContrastFactor: 0.0641
+    - _MainTextureTopCoverNormalInfluence: 0
+    - _MainTiling: 0.08
+    - _MainTriplanarBlendSharpness: 1
+    - _MainTriplanarContrast: 50
+    - _MainTriplanarFalloff: 1
+    - _MainValueMultiplier: 1.018
+    - _MeshAOContrast: 1
+    - _MeshAODarknessBoost: 0
+    - _MeshAOStrength: 0.31
+    - _MeshContrast: 0
+    - _MeshDarknessBoost: 0
+    - _MeshIndexUV7UV8: 0
+    - _Metallic: 0
+    - _MiddleCoverAlbedoMatch: 0.257
+    - _MiddleCoverAlphaMask: 1
+    - _MiddleCoverAreaNormalStrength: 0.5
+    - _MiddleCoverBaseColorIndex: 0
+    - _MiddleCoverColorLowThreshold: 0.084
+    - _MiddleCoverContrast: 0.984
+    - _MiddleCoverFadeDistancemeters: 5
+    - _MiddleCoverFadePercentage: 1
+    - _MiddleCoverFadeSmoothness: 1
+    - _MiddleCoverFinalContrast: 2
+    - _MiddleCoverFinalStrength: 1
+    - _MiddleCoverMaskTolerance: 0
+    - _MiddleCoverMaximumVerticalRange: 250
+    - _MiddleCoverMinimumVerticalRange: 0.5
+    - _MiddleCoverNormalIndex: 0
+    - _MiddleCoverNormalScale: 1
+    - _MiddleCoverSaturationMultiplier: 1.004
+    - _MiddleCoverTargetPercentage: 1
+    - _MiddleCoverTextureScale: 1.1
+    - _MiddleCoverTriplanarContrast: 50
+    - _MiddleCoverValueMultiplier: 0.737
+    - _MinimumHeightDifferenceWaterFlow: 2
+    - _Mode: 0
+    - _NormalTriplanarFalloffDivisor: 14.7
+    - _NormalZReconstructionStyle: 1.704
+    - _OcclusionStrength: 1
+    - _OnlyBoostDarkMesh: 1
+    - _OnlyBoostDarkMeshAO: 1
+    - _Parallax: 0.02
+    - _PositionAsDeterminant: 0
+    - _RoughnessMultiplier: 5
+    - _SideCoverAmount: 0.25
+    - _SmoothnessTextureChannel: 0
+    - _SnowAmount: 10
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _StochasticContrast: 0.15
+    - _StochasticScale: 0.05
+    - _SurfacePorosity: 0.01
+    - _TerarinCoverColorLowThreshold: 0.1
+    - _TerrainAOTextureStrength: 0.7
+    - _TerrainBaseBlendAmount: 0.05
+    - _TerrainBaseBlendFadeRange: 0.05
+    - _TerrainBaseBlendOffset: -0.5
+    - _TerrainBlendAmount: 0.2
+    - _TerrainBlendDeepness: 3
+    - _TerrainBlendFadeRange: 0.1
+    - _TerrainCoverAOTextureStrength: 1
+    - _TerrainCoverFadePercentage: 0.113
+    - _TerrainCoverFadeSmoothness: 1
+    - _TerrainCoverFillFromTop: 1
+    - _TerrainCoverFinalContrast: 1
+    - _TerrainCoverFinalStrength: 1
+    - _TerrainCoverHeightBlendSharpness: 1
+    - _TerrainCoverHeightOffset: 0.54
+    - _TerrainCoverHeightRange: 0
+    - _TerrainCoverMaskContrast: 3
+    - _TerrainCoverMaskFadeRange: 0.13
+    - _TerrainCoverMaskThreshold: 0.28
+    - _TerrainCoverMaximumVerticalRange: 15
+    - _TerrainCoverMinimumVerticalRange: 1
+    - _TerrainCoverTargetPercentage: 0
+    - _TerrainMaskScale: 24
+    - _TerrainMaxBoundsPercentage: 0.01
+    - _TerrainOverlay1AlbedoMatch: 0.118
+    - _TerrainOverlay1AreaNormalStrength: 0.115
+    - _TerrainOverlay1Contrast: 0.67
+    - _TerrainOverlay1FadePercentage: 1
+    - _TerrainOverlay1FadeSmoothness: 1
+    - _TerrainOverlay1FinalContrast: 1
+    - _TerrainOverlay1FinalStrength: 1
+    - _TerrainOverlay1MaximumVerticalRange: 100
+    - _TerrainOverlay1MinimumVerticalRange: 0.5
+    - _TerrainOverlay1NormalScale: 1
+    - _TerrainOverlay1SaturationMultiplier: 0.7
+    - _TerrainOverlay1TargetPercentage: 1
+    - _TerrainOverlay1TextureScale: 6
+    - _TerrainOverlay1ValueMultiplier: 0.573
+    - _TerrainOverlay2AlbedoMatch: 0.02
+    - _TerrainOverlay2AreaNormalStrength: 0.315
+    - _TerrainOverlay2Contrast: 0.51
+    - _TerrainOverlay2FadePercentage: 0.5
+    - _TerrainOverlay2FadeSmoothness: 1
+    - _TerrainOverlay2FinalContrast: 1
+    - _TerrainOverlay2FinalStrength: 1
+    - _TerrainOverlay2MaximumVerticalRange: 100
+    - _TerrainOverlay2MinimumVerticalRange: 0.5
+    - _TerrainOverlay2NormalScale: 1
+    - _TerrainOverlay2SaturationMultiplier: 0.751
+    - _TerrainOverlay2TargetPercentage: 1
+    - _TerrainOverlay2TextureScale: 5
+    - _TerrainOverlay2ValueMultiplier: 0.509
+    - _TerrainOverlayCoverMaskTolerance: 0
+    - _TerrainOverlayNoiseScale: 7.4
+    - _TerrainOverlayTriplanarContrast: 50
+    - _TerrainPositionNoiseScale: 5.530612
+    - _TerrainPositionNoiseStrength: 1
+    - _TerrainTextureContrast: 1
+    - _TerrainTextureIndex: 1
+    - _TerrainTextureNormalScale: 1
+    - _TerrainTextureNormalStrength: 1
+    - _TerrainTextureScale: 8
+    - _TopCoverAOMeshContrast: 1
+    - _TopCoverAOMeshDarknessBoost: 0
+    - _TopCoverAOMeshStrength: 1
+    - _TopCoverAOOnlyBoostDarkMesh: 1
+    - _TopCoverAOTextureStrength: 1
+    - _TopCoverAlbedoMatch: 0.049
+    - _TopCoverAlphaMask: 1
+    - _TopCoverAlphaMaskContrast: 2.99
+    - _TopCoverAlphaMaskMultiplier: 1.19
+    - _TopCoverAmount: 2
+    - _TopCoverAreaNormalStrength: 0.5
+    - _TopCoverBaseColorIndex: 0
+    - _TopCoverColorLowThreshold: 0.078
+    - _TopCoverContrast: 0.884
+    - _TopCoverDetailBaseColorDarkenStrength: 0.2
+    - _TopCoverDetailBaseColorLightenStrength: 0
+    - _TopCoverDetailBaseColorStrength: 0.4
+    - _TopCoverDetailContrast: 1
+    - _TopCoverDetailNormalScale: 1
+    - _TopCoverDetailNormalStrength: 1
+    - _TopCoverDetailOffset: 0
+    - _TopCoverDetailTextureIndex: 4
+    - _TopCoverDetailTiling: 2
+    - _TopCoverFadeDistancemeters: 0.25
+    - _TopCoverFadePercentage: 1
+    - _TopCoverFadeSmoothness: 1
+    - _TopCoverFillAmount: 0.52
+    - _TopCoverFillFromTop: 0
+    - _TopCoverFinalContrast: 2
+    - _TopCoverFinalStrength: 1
+    - _TopCoverHeightBlendFactor: 0.5
+    - _TopCoverHeightBlendSharpness: 1
+    - _TopCoverHeightBlendStrength: 0.5
+    - _TopCoverHeightOffset: 0.31
+    - _TopCoverHeightRange: 0.46
+    - _TopCoverMaskChannel: 0
+    - _TopCoverMaskContrast: 1
+    - _TopCoverMaskFadeRange: 0.287
+    - _TopCoverMaskFadeRangetoThresholdRatioMax: 1
+    - _TopCoverMaskScale: 3
+    - _TopCoverMaskThreshold: 0.485
+    - _TopCoverMaskTiling: 0.0372
+    - _TopCoverMaskTolerance: 0
+    - _TopCoverMaximumRangeFade: 0
+    - _TopCoverMaximumVerticalRange: 250
+    - _TopCoverMinimumScale: 2
+    - _TopCoverMinimumVerticalRange: 1
+    - _TopCoverNormalIndex: 0
+    - _TopCoverNormalScale: 1
+    - _TopCoverNormalStrength: 1
+    - _TopCoverObjectScaleFactor: 0.124
+    - _TopCoverRange: 0
+    - _TopCoverRangeDistance: 1
+    - _TopCoverRangeFadeRatioMax: 1
+    - _TopCoverSaturationMultiplier: 1
+    - _TopCoverTargetPercentage: 1
+    - _TopCoverTextureScale: 2
+    - _TopCoverTriplanarContrast: 29.1
+    - _TopCoverValueMultiplier: 0.945
+    - _TopCoverWorldSpaceHeightBlendFalloff: 0.5
+    - _TopCoverWorldSpaceHeightBlendRange: 0.5
+    - _TriplanarBlendSharpness: 1
+    - _TriplanarFalloff: 4.4
+    - _UVSec: 0
+    - _UseMeshTextureIndices: 1
+    - _UseMeshUV7andUV8: 0
+    - _UsePositionAsDeterminant: 0
+    - _WaterConsistencyBoost: 1
+    - _WaterDarkeningPower: 1
+    - _WaterDirectContactArea: 0.5
+    - _WaterFadeRange: 5
+    - _WaterHeightOffset: 0.2
+    - _WaterNeighborImpact: 0.1
+    - _WaterRangeScaleIncrease: 0.1
+    - _WaterSampleRange: 0.5
+    - _WaterSampleScaleIncreaseFactor: 0.01
+    - _WaterSmoothnessPower: 0.322
+    - _WetnessMultiplier: 1
+    - _WetnessTerrainNoiseStrength: 0.583
+    - _ZWrite: 1
+    - __dirty: 0
+    m_Colors:
+    - _BaseTiling: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _BottomCoverBaseCoverageRange: {r: 1, g: 1, b: 1, a: 0}
+    - _BottomCoverCoverageBasis: {r: 0, g: 0, b: 0, a: 0}
+    - _BottomCoverCoverageRange: {r: 1, g: 1, b: 1, a: 0}
+    - _BottomCoverPeakCoverageRange: {r: 1, g: 1, b: 1, a: 0}
+    - _BottomCoverTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _BottomCoverTextureOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _BottomCoverTint: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
+    - _ClusterBaseColorModifier: {r: 0, g: 0, b: 0, a: 0}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _CoverTextureIndices: {r: 17, g: 2, b: 0, a: 0}
+    - _CoverTiling: {r: 0.75, g: 0.75, b: 0, a: 0}
+    - _CoverTopTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _DebugUV7Overrides: {r: 0, g: 0, b: 0, a: 0}
+    - _DebugUV8Overrides: {r: 0, g: 0, b: 0, a: 0}
+    - _DeterminantMultipliers: {r: 100, g: 200, b: 300, a: 0}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _LayerOneTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _MainDetailTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _MainSaturationVarietyRange: {r: -0.01, g: 0.01, b: 0, a: 0}
+    - _MainSideThresholds: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTextureOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _MainTiling: {r: 0.5, g: 0.5, b: 0, a: 0}
+    - _MainTint: {r: 0.8018868, g: 0.8018868, b: 0.8018868, a: 1}
+    - _MainValueVarietyRange: {r: -0.01, g: 0.01, b: 0, a: 0}
+    - _MiddleCoverBaseCoverageRange: {r: 1, g: 0.8, b: 1, a: 0}
+    - _MiddleCoverCoverageBasis: {r: 0, g: 0.75, b: 0, a: 0}
+    - _MiddleCoverCoverageRange: {r: 1, g: 0.41, b: 1, a: 0}
+    - _MiddleCoverPeakCoverageRange: {r: 1, g: 0.25, b: 1, a: 0}
+    - _MiddleCoverTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _MiddleCoverTint: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+    - _RainYRangeLowHigh: {r: -0.5, g: 1, b: 0, a: 0}
+    - _TerrainBlendTextures1: {r: 4, g: 4, b: 4, a: 4}
+    - _TerrainBlendTextures2: {r: 4, g: 5, b: 6, a: 7}
+    - _TerrainBlendTextures3: {r: 7, g: 9, b: 10, a: 11}
+    - _TerrainBlendTextures4: {r: 12, g: 13, b: 14, a: -1}
+    - _TerrainCoverCoverageBasis: {r: 0, g: 1, b: 0, a: 0}
+    - _TerrainCoverCoverageRange: {r: 1, g: 0.15, b: 1, a: 0}
+    - _TerrainMapOffset: {r: 2048, g: 2048, b: 0, a: 0}
+    - _TerrainMapSize: {r: 4096, g: 4096, b: 0, a: 0}
+    - _TerrainOverlay1BaseCoverageRange: {r: 1, g: 0.3, b: 1, a: 0}
+    - _TerrainOverlay1CoverageBasis: {r: 0, g: 0.9, b: 0, a: 0}
+    - _TerrainOverlay1CoverageRange: {r: 1, g: 0.1, b: 1, a: 0}
+    - _TerrainOverlay1PeakCoverageRange: {r: 1, g: 0.1, b: 1, a: 0}
+    - _TerrainOverlay1TextureSet1: {r: -1, g: -1, b: -1, a: -1}
+    - _TerrainOverlay1TextureSet2: {r: -1, g: 9, b: 3, a: 6}
+    - _TerrainOverlay1TextureSet3: {r: -1, g: -1, b: 6, a: 4}
+    - _TerrainOverlay1TextureSet4: {r: 0, g: 0, b: 7, a: -1}
+    - _TerrainOverlay1Tint: {r: 0.78300005, g: 0.78300005, b: 0.78300005, a: 1}
+    - _TerrainOverlay2BaseCoverageRange: {r: 1, g: 0.3, b: 1, a: 0}
+    - _TerrainOverlay2CoverageBasis: {r: 0, g: 0.9, b: 0, a: 0}
+    - _TerrainOverlay2CoverageRange: {r: 1, g: 0.1, b: 1, a: 0}
+    - _TerrainOverlay2PeakCoverageRange: {r: 1, g: 0.1, b: 1, a: 0}
+    - _TerrainOverlay2TextureSet1: {r: -1, g: -1, b: -1, a: -1}
+    - _TerrainOverlay2TextureSet2: {r: -1, g: 3, b: 8, a: 4}
+    - _TerrainOverlay2TextureSet3: {r: -1, g: -1, b: 5, a: 5}
+    - _TerrainOverlay2TextureSet4: {r: -1, g: -1, b: 7, a: -1}
+    - _TerrainOverlay2Tint: {r: 0.65, g: 0.65, b: 0.65, a: 1}
+    - _TerrainReplacementTextures1: {r: 4, g: 4, b: 4, a: 4}
+    - _TerrainReplacementTextures2: {r: 4, g: 5, b: 6, a: 7}
+    - _TerrainReplacementTextures3: {r: 7, g: 9, b: 10, a: 11}
+    - _TerrainReplacementTextures4: {r: 12, g: 13, b: 4, a: -1}
+    - _TerrainTextureOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _TerrainTextureTint: {r: 1, g: 1, b: 1, a: 1}
+    - _TopCoverBaseCoverageBasis: {r: 0, g: 0.65, b: 0, a: 0}
+    - _TopCoverBaseCoverageRange: {r: 1, g: 0.75, b: 1, a: 0}
+    - _TopCoverCoverageBasis: {r: 0, g: 0.75, b: 0, a: 0}
+    - _TopCoverCoverageRange: {r: 1, g: 0.4, b: 1, a: 0}
+    - _TopCoverPeakCoverageRange: {r: 1, g: 0.25, b: 1, a: 0}
+    - _TopCoverSaturationVarietyRange: {r: -0.01, g: 0.01, b: 0, a: 0}
+    - _TopCoverTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _TopCoverTextureOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _TopCoverTint: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+    - _TopCoverValueVarietyRange: {r: -0.01, g: 0.01, b: 0, a: 0}
+    - _Vector0: {r: 4096, g: 4096, b: 0, a: 0}
+    - _Vector1: {r: 4, g: 5, b: 6, a: 7}
+    - _Vector2: {r: 7, g: 9, b: 10, a: 11}
+    - _Vector3: {r: 12, g: 13, b: 4, a: -1}

@@ -1,0 +1,81 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Basic Billboard
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;0;913;388;1573.05;735.3016;1;True;False\nNode;AmplifyShaderEditor.TransformPositionNode;18;845.8668,-386.6566;Inherit;False;Object;World;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.CustomExpressionNode;10;669.8517,-227.7396;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;v.vertex
+    = mul( v.vertex , unity_ObjectToWorld );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;56;1635.263,-583.8014;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.Vector3Node;30;-256,-928;Inherit;False;Constant;_Vector0;Vector
+    0;0;0;Create;True;0;0;False;0;0,1,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.WireNode;52;350.8989,-787.4103;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;9;883.3556,-847.3281;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;v.normal
+    = normalize( mul( float4( v.normal , 0 ), rotationCamMatrix )).xyz;True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;47;1056,-544;Inherit;False;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.NegateNode;55;199.1024,-766.2703;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.DynamicAppendNode;33;-96,-768;Inherit;False;FLOAT3;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.NormalizeNode;31;48,-768;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ComponentMaskNode;45;1194.217,-761.0769;Inherit;False;True;True;True;False;1;0;FLOAT4;0,0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.WireNode;42;430.3799,-729.8094;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.DynamicAppendNode;44;811.2172,-614.0769;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.CustomExpressionNode;1;-604.8,-875.4001;Inherit;False;float3
+    upCamVec = float3( 0, 1, 0 )@;1;False;1;True;In0;FLOAT;0;In;;Float;False;float3
+    upCamVec = float3( 0, 1, 0 );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;8;202,-936;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;float4x4
+    rotationCamMatrix = float4x4( rightCamVec, 0, upCamVec, 0, forwardCamVec, 0,
+    0, 0, 0, 1 );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;41;361.3799,-746.8094;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ViewMatrixNode;20;-434.7321,-663.09;Inherit;False;0;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.CustomExpressionNode;12;1417.458,-221.3265;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;v.vertex
+    = mul( v.vertex , unity_WorldToObject );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;5;-1160,-640;Inherit;False;//Calculate
+    new billboard vertex position and normal@$float3 upCamVec = float3( 0, 1, 0 )@$float3
+    forwardCamVec = -normalize ( UNITY_MATRIX_V._m20_m21_m22 )@$float3 rightCamVec
+    = normalize( UNITY_MATRIX_V._m00_m01_m02 )@$float4x4 rotationCamMatrix = float4x4(
+    rightCamVec, 0, upCamVec, 0, forwardCamVec, 0, 0, 0, 0, 1 )@$v.normal = normalize(
+    mul( float4( v.normal , 0 ), rotationCamMatrix )).xyz@$//This unfortunately must
+    be made to take non-uniform scaling into account@$//Transform to world coords,
+    apply rotation and transform back to local@$v.vertex = mul( v.vertex , unity_ObjectToWorld
+    )@$v.vertex = mul( v.vertex , rotationCamMatrix )@$v.vertex = mul( v.vertex ,
+    unity_WorldToObject )@;7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;62;-1152,-512;Inherit;False;float3
+    forwardCamVec = -normalize ( UNITY_MATRIX_V._m20_m21_m22 );7;True;0;Original
+    Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.WireNode;40;288.3799,-665.8094;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;6;-804.1002,-740.7;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;float3
+    forwardCamVec = -normalize ( UNITY_MATRIX_V._m20_m21_m22 );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.VectorFromMatrixNode;26;-256,-768;Inherit;False;Row;2;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;46;1152,-381.8;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.NormalizeNode;35;48,-608;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.DynamicAppendNode;34;-96,-608;Inherit;False;FLOAT3;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;11;1069.441,-222.7336;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;v.vertex
+    = mul( v.vertex , rotationCamMatrix );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;68;-1152,-128;Inherit;False;v.vertex
+    = mul( v.vertex , unity_WorldToObject );7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.VectorFromMatrixNode;27;-256,-608;Inherit;False;Row;0;1;0;FLOAT4x4;1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.Vector4Node;36;51.37994,-509.8094;Inherit;False;Constant;_Vector1;Vector
+    1;0;0;Create;True;0;0;False;0;0,0,0,1;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.TransformPositionNode;19;1325.367,-393.1566;Inherit;False;World;Object;False;Fast;True;1;0;FLOAT3;0,0,0;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.FunctionInput;22;640,-384;Inherit;False;Vertex
+    Position;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;24;607.2999,-614.1;Inherit;False;Vertex
+    Normal;3;1;False;1;0;FLOAT3;0,0,1;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;7;-778.8,-561.5;Inherit;False;//Calculate
+    new billboard vertex position and normal@;1;False;1;True;In0;FLOAT;0;In;;Float;False;float3
+    rightCamVec = normalize( UNITY_MATRIX_V._m00_m01_m02 );True;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;65;-1152,-320;Inherit;False;v.normal
+    = normalize( mul( float4( v.normal , 0 ), rotationCamMatrix )).xyz;7;True;0;Original
+    Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;66;-1152,-256;Inherit;False;v.vertex
+    = mul( v.vertex , unity_ObjectToWorld );7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;67;-1152,-192;Inherit;False;v.vertex
+    = mul( v.vertex , rotationCamMatrix );7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;61;-1152,-576;Inherit;False;float3
+    upCamVec = float3( 0, 1, 0 );7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.MatrixFromVectors;25;512,-768;Inherit;False;FLOAT4x4;True;4;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0,0,0,0;False;2;FLOAT4;0,0,0,0;False;3;FLOAT4;0,0,0,0;False;1;FLOAT4x4;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;43;1035.217,-760.0769;Inherit;False;2;2;0;FLOAT4;0,0,0,0;False;1;FLOAT4x4;0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1;False;1;FLOAT4;0\nNode;AmplifyShaderEditor.WireNode;60;816.7815,-442.8358;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.CustomExpressionNode;63;-1152,-448;Inherit;False;float3
+    rightCamVec = normalize( UNITY_MATRIX_V._m00_m01_m02 );7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CustomExpressionNode;64;-1153,-385.4058;Inherit;False;float4x4
+    rotationCamMatrix = float4x4( rightCamVec, 0, upCamVec, 0, forwardCamVec, 0,
+    0, 0, 0, 1 )$;7;True;0;Original Code;False;False;0;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;57;1860,-570;Inherit;False;False;-1;Position
+    Offset;2;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;72;-993.7814,-635.4204;Inherit;False;False;-1;;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;1561.162,-720.6597;Inherit;False;True;-1;Normal;3;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;48;1792,-384;Inherit;False;False;-1;Position;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nWireConnection;18;0;22;0\nWireConnection;56;0;19;0\nWireConnection;56;1;60;0\nWireConnection;52;0;30;0\nWireConnection;47;0;25;0\nWireConnection;55;0;31;0\nWireConnection;33;0;26;0\nWireConnection;31;0;33;0\nWireConnection;45;0;43;0\nWireConnection;42;0;52;0\nWireConnection;44;0;24;0\nWireConnection;41;0;40;0\nWireConnection;62;0;61;0\nWireConnection;40;0;35;0\nWireConnection;26;0;20;0\nWireConnection;46;0;18;0\nWireConnection;46;1;47;0\nWireConnection;35;0;34;0\nWireConnection;34;0;27;0\nWireConnection;68;0;67;0\nWireConnection;27;0;20;0\nWireConnection;19;0;46;0\nWireConnection;65;0;64;0\nWireConnection;66;0;65;0\nWireConnection;67;0;66;0\nWireConnection;25;0;41;0\nWireConnection;25;1;42;0\nWireConnection;25;2;55;0\nWireConnection;25;3;36;0\nWireConnection;43;0;44;0\nWireConnection;43;1;25;0\nWireConnection;60;0;22;0\nWireConnection;63;0;62;0\nWireConnection;64;0;63;0\nASEEND*/\n//CHKSM=FB469EBAB4E6AE75E4232244A372C72873C214B8"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Billboard
+  m_previewPosition: 0
+  m_hidden: 0

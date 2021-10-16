@@ -3,13 +3,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Scriptables;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Collections;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -107,7 +107,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                             var prefab = info.VegetationPrefab;
 
-                            var labels = AssetDatabase.GetLabels(prefab);
+                            var labels = AssetDatabaseManager.GetLabels(prefab);
 
                             if (labels.Length == 0)
                             {
@@ -185,28 +185,28 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
         {
             using (_PRF_CreateParametersForPrefab.Auto())
             {
-                ExternalRenderingParameters instance;
+                ExternalRenderingParameters erp;
 
                 if (!prefabs.ContainsKey(identifyingKey))
                 {
-                    instance = ExternalRenderingParameters.LoadOrCreateNew(
+                    erp = ExternalRenderingParameters.LoadOrCreateNew(
                         identifyingKey,
                         true,
                         false
                     );
 
-                    prefabs.Add(identifyingKey, instance);
+                    prefabs.Add(identifyingKey, erp);
                 }
                 else
                 {
-                    instance = prefabs[identifyingKey];
+                    erp = prefabs[identifyingKey];
                 }
 
-                update(instance);
+                update(erp);
 
-                instance.identifyingKey = identifyingKey;
+                erp.identifyingKey = identifyingKey;
 
-                instance.SetDirty();
+                erp.SetDirty();
             }
         }
 
@@ -313,9 +313,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                             instanceIndex < vegetationInstanceList.Length;
                             instanceIndex++)
                         {
-                            var instance = vegetationInstanceList[instanceIndex];
+                            var vegetationInstance = vegetationInstanceList[instanceIndex];
 
-                            matrices.Add(instance.Matrix);
+                            matrices.Add(vegetationInstance.Matrix);
 
                             parameterIndices.Add(parameterIndex);
                         }

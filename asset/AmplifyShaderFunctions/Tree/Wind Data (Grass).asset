@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Wind Data (Grass)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;0;924;389;681.9638;3946.159;1;True;False\nNode;AmplifyShaderEditor.FunctionNode;593;-910,-3232;Inherit;False;Invert;-1;;290;576cd4c8ab7177b4cb31dbee4d64a7ab;0;1;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;592;-1278,-3328;Half;False;Global;_WIND_GUST_GRASS_CYCLE_TIME;_WIND_GUST_GRASS_CYCLE_TIME;1;0;Create;True;0;0;False;0;0;0.5;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;585;-896,-3488;Inherit;False;Invert;-1;;322;576cd4c8ab7177b4cb31dbee4d64a7ab;0;1;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;604;768,-3584;Half;False;Global;_WIND_BASE_GRASS_FIELD_SIZE;_WIND_BASE_GRASS_FIELD_SIZE;1;0;Create;True;0;0;False;0;0;1024;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;627;-1280,-3072;Half;False;Global;_WIND_GUST_GRASS_MID_CYCLE_TIME;_WIND_GUST_GRASS_MID_CYCLE_TIME;1;0;Create;True;0;0;False;0;0;32;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;628;-912,-2976;Inherit;False;Invert;-1;;326;576cd4c8ab7177b4cb31dbee4d64a7ab;0;1;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;584;-1280,-3584;Half;False;Global;_WIND_BASE_GRASS_CYCLE_TIME;_WIND_BASE_GRASS_CYCLE_TIME;1;0;Create;True;0;0;False;0;0;12;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;632;768,-3072;Half;False;Global;_WIND_GUST_GRASS_MID_FIELD_SIZE;_WIND_GUST_GRASS_MID_FIELD_SIZE;1;0;Create;True;0;0;False;0;0;48;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;610;-1280,-2816;Half;False;Global;_WIND_GUST_GRASS_MICRO_CYCLE_TIME;_WIND_GUST_GRASS_MICRO_CYCLE_TIME;1;0;Create;True;0;0;False;0;0;18;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;615;768,-2816;Half;False;Global;_WIND_GUST_GRASS_MICRO_FIELD_SIZE;_WIND_GUST_GRASS_MICRO_FIELD_SIZE;1;0;Create;True;0;0;False;0;0;16;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;611;-912,-2720;Inherit;False;Invert;-1;;330;576cd4c8ab7177b4cb31dbee4d64a7ab;0;1;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;634;-256,-3840;Half;False;Global;_WIND_GRASS_STRENGTH;_WIND_GRASS_STRENGTH;1;0;Create;True;0;0;False;0;0;1;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;606;768,-3328;Half;False;Global;_WIND_GUST_GRASS_FIELD_SIZE;_WIND_GUST_GRASS_FIELD_SIZE;1;0;Create;True;0;0;False;0;0;256;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;626;-256,-3072;Half;False;Global;_WIND_GUST_GRASS_MID_STRENGTH;_WIND_GUST_GRASS_MID_STRENGTH;1;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;602;-254,-3584;Half;False;Global;_WIND_BASE_GRASS_STRENGTH;_WIND_BASE_GRASS_STRENGTH;1;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;624;-256,-3328;Half;False;Global;_WIND_GUST_GRASS_STRENGTH;_WIND_GUST_GRASS_STRENGTH;1;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;621;-255,-2817.312;Half;False;Global;_WIND_GUST_GRASS_MICRO_STRENGTH;_WIND_GUST_GRASS_MICRO_STRENGTH;1;0;Create;True;0;0;False;0;0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;629;-768,-3072;Inherit;False;False;-1;_WIND_GUST_GRASS_MID_CYCLE_TIME;10;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;594;-766,-3328;Inherit;False;False;-1;_WIND_GUST_GRASS_CYCLE_TIME;6;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;633;1280,-3072;Inherit;False;False;-1;_WIND_GUST_GRASS_MID_FIELD_SIZE;12;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;607;1280,-3328;Inherit;False;False;-1;_WIND_GUST_GRASS_FIELD_SIZE;8;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;623;1280,-2816;Inherit;False;True;-1;_WIND_GUST_GRASS_MICRO_FIELD_SIZE;16;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;587;-768,-3488;Inherit;False;False;-1;_WIND_BASE_GRASS_FREQUENCY;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;586;-768,-3584;Inherit;False;False;-1;_WIND_BASE_GRASS_CYCLE_TIME;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;625;256,-3328;Inherit;False;False;-1;_WIND_GUST_GRASS_STRENGTH;5;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;603;258,-3584;Inherit;False;False;-1;_WIND_BASE_GRASS_STRENGTH;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;595;-766,-3232;Inherit;False;False;-1;_WIND_GUST_GRASS_FREQUENCY;7;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;605;1280,-3584;Inherit;False;False;-1;_WIND_BASE_GRASS_FIELD_SIZE;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;635;256,-3840;Inherit;False;False;-1;_WIND_GRASS_STRENGTH;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;618;-768,-2720;Inherit;False;False;-1;_WIND_GUST_GRASS_MICRO_FREQUENCY;15;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;631;256,-3072;Inherit;False;False;-1;_WIND_GUST_GRASS_MID_STRENGTH;9;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;630;-768,-2976;Inherit;False;False;-1;_WIND_GUST_GRASS_MID_FREQUENCY;11;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;617;-768,-2816;Inherit;False;False;-1;_WIND_GUST_GRASS_MICRO_CYCLE_TIME;14;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;622;256,-2816;Inherit;False;False;-1;_WIND_GUST_GRASS_MICRO_STRENGTH;13;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;593;2;592;0\nWireConnection;585;2;584;0\nWireConnection;628;2;627;0\nWireConnection;611;2;610;0\nWireConnection;629;0;627;0\nWireConnection;594;0;592;0\nWireConnection;633;0;632;0\nWireConnection;607;0;606;0\nWireConnection;623;0;615;0\nWireConnection;587;0;585;0\nWireConnection;586;0;584;0\nWireConnection;625;0;624;0\nWireConnection;603;0;602;0\nWireConnection;595;0;593;0\nWireConnection;605;0;604;0\nWireConnection;635;0;634;0\nWireConnection;618;0;611;0\nWireConnection;631;0;626;0\nWireConnection;630;0;628;0\nWireConnection;617;0;610;0\nWireConnection;622;0;621;0\nASEEND*/\n//CHKSM=9EDE39F5B3BF1E54DE98013F251AD41A0C7E272E"
+  m_functionName: 
+  m_description: Global wind properties for grass shaders.
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0

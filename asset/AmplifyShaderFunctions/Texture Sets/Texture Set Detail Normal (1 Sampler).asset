@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Texture Set Detail Normal (1 Sampler)
+  m_EditorClassIdentifier: 
+  m_functionInfo: '/*ASEBEGIN
+
+    Version=17500
+
+    533.6;-864;1536;843;2217.608;1060.74;1.3;True;False
+
+    Node;AmplifyShaderEditor.FunctionInput;133;-1264.732,-599.7485;Inherit;False;UV;2;0;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0
+
+    Node;AmplifyShaderEditor.RangedFloatNode;23;-1339.332,-435.3623;Inherit;False;Property;_BumpScaleDetail;Normal
+    Scale;2;0;Create;False;0;0;False;0;1;1;0;5;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.SamplerNode;144;-885.2933,-632.4457;Inherit;True;Property;_BumpMap1;Normal;7;2;[NoScaleOffset];[Normal];Create;False;0;0;False;0;-1;None;243195388528b1741b423106c7e79fe5;True;0;True;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+
+    Node;AmplifyShaderEditor.TextureCoordinatesNode;1;-1525.184,-612.9318;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+
+    Node;AmplifyShaderEditor.RangedFloatNode;65;-402.9522,-738.6908;Half;False;Property;_MAINTEXXDetail;[
+    MAINTEXX ];0;0;Create;False;0;0;True;1;InternalCategory(Detail Texture);0;0;0;0;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.TexturePropertyNode;73;-1796.742,-770.4804;Inherit;True;Property;_BumpMapDetail;Normal;1;1;[Normal];Create;False;0;0;False;0;None;None;False;bump;LockedToTexture2D;Texture2D;-1;0;1;SAMPLER2D;0
+
+    Node;AmplifyShaderEditor.FunctionOutput;58;-485.6611,-625.4667;Inherit;False;True;-1;Normal
+    (TS);0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
+
+    WireConnection;133;0;1;0
+
+    WireConnection;144;0;73;0
+
+    WireConnection;144;1;133;0
+
+    WireConnection;144;5;23;0
+
+    WireConnection;1;2;73;0
+
+    WireConnection;58;0;144;0
+
+    ASEEND*/
+
+    //CHKSM=3158F7891EAF6CABAF15CC2B015C67F423883153'
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

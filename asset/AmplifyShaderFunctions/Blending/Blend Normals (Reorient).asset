@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Blend Normals (Reorient)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-864;1536;843;155.0522;264.2311;1;True;False\nNode;AmplifyShaderEditor.GetLocalVarNode;16;170,-169;Inherit;False;14;base;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;14;-249.6,-228.8;Float;False;base;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;1;-770.6,-216;Inherit;False;Base
+    Normal;3;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;18;122,-30;Inherit;False;14;base;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;17;113,73;Inherit;False;15;detail;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;8;-528,128;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.ComponentMaskNode;20;544,112;Inherit;False;False;False;True;True;1;0;FLOAT3;0,0,0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.Vector3Node;5;-768,-384;Float;False;Constant;_Vector0;Vector
+    0;0;0;Create;True;0;0;False;0;0,0,1;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.DotProductOpNode;9;315,10;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.Vector3Node;6;-768,256;Float;False;Constant;_Vector1;Vector
+    1;0;0;Create;True;0;0;False;0;-1,-1,1;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.SimpleAddOpNode;3;-528,-224;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RegisterLocalVarNode;15;-304,160;Float;False;detail;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionInput;2;-1031,107;Inherit;False;Detail
+    Normal;3;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;21;660,233;Inherit;False;15;detail;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;13;464,-80;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleDivideOpNode;26;768.9468,56.20813;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;11;985,116;Inherit;False;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.GetLocalVarNode;19;352,193;Inherit;False;14;base;1;0;OBJECT;0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;0;1164.1,116.7;Inherit;False;True;-1;Normal;0;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nWireConnection;14;0;3;0\nWireConnection;8;0;2;0\nWireConnection;8;1;6;0\nWireConnection;20;0;19;0\nWireConnection;9;0;18;0\nWireConnection;9;1;17;0\nWireConnection;3;0;5;0\nWireConnection;3;1;1;0\nWireConnection;15;0;8;0\nWireConnection;13;0;16;0\nWireConnection;13;1;9;0\nWireConnection;26;0;13;0\nWireConnection;26;1;20;0\nWireConnection;11;0;26;0\nWireConnection;11;1;21;0\nWireConnection;0;0;11;0\nASEEND*/\n//CHKSM=02C390900200040F5BD1AF9D372B26A35CB6B144"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

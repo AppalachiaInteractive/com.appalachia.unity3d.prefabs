@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Wind Data (Audio)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;0;1280;659;3539.478;3611.361;1;True;False\nNode;AmplifyShaderEditor.LerpOp;635;-3328,-2944;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;642;-3968,-3712;Half;False;Global;_WIND_GUST_AMPLITUDE;_WIND_GUST_AMPLITUDE;1;0;Create;True;0;0;False;0;0.25;1;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;637;-4480,-3328;Half;False;Global;_WIND_GUST_AUDIO_STRENGTH_VERYHIGH;_WIND_GUST_AUDIO_STRENGTH_VERYHIGH;1;0;Create;True;0;0;False;0;0.25;0.4091302;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;624;-4480,-3456;Half;False;Global;_WIND_GUST_AUDIO_STRENGTH;_WIND_GUST_AUDIO_STRENGTH;1;0;Create;True;0;0;False;0;0.25;0.4317344;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;626;-4480,-3200;Half;False;Global;_WIND_GUST_AUDIO_STRENGTH_HIGH;_WIND_GUST_AUDIO_STRENGTH_HIGH;1;0;Create;True;0;0;False;0;0.25;0.4075084;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;578;-3968,-2560;Half;False;Global;_WIND_AUDIO_INFLUENCE;_WIND_AUDIO_INFLUENCE;1;0;Create;True;0;0;False;0;0.25;0.9;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;630;-4480,-2944;Half;False;Global;_WIND_GUST_AUDIO_STRENGTH_LOW;_WIND_GUST_AUDIO_STRENGTH_LOW;1;0;Create;True;0;0;False;0;0.25;0.4317344;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;633;-3328,-3200;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;638;-3328,-3328;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;632;-3328,-3456;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;634;-3328,-3072;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;628;-4480,-3072;Half;False;Global;_WIND_GUST_AUDIO_STRENGTH_MID;_WIND_GUST_AUDIO_STRENGTH_MID;1;0;Create;True;0;0;False;0;0.25;0.4142441;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;629;-2944,-3072;Inherit;False;False;-1;_WIND_GUST_AUDIO_STRENGTH_MID;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;631;-2944,-2944;Inherit;False;False;-1;_WIND_GUST_AUDIO_STRENGTH_LOW;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;627;-2944,-3200;Inherit;False;True;-1;_WIND_GUST_AUDIO_STRENGTH_HIGH;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;639;-2944,-3328;Inherit;False;False;-1;_WIND_GUST_AUDIO_STRENGTH_VERYHIGH;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;640;-2944,-3456;Inherit;False;False;-1;_WIND_GUST_AUDIO_STRENGTH;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;635;0;642;0\nWireConnection;635;1;630;0\nWireConnection;635;2;578;0\nWireConnection;633;0;642;0\nWireConnection;633;1;626;0\nWireConnection;633;2;578;0\nWireConnection;638;0;642;0\nWireConnection;638;1;637;0\nWireConnection;638;2;578;0\nWireConnection;632;0;642;0\nWireConnection;632;1;624;0\nWireConnection;632;2;578;0\nWireConnection;634;0;642;0\nWireConnection;634;1;628;0\nWireConnection;634;2;578;0\nWireConnection;629;0;634;0\nWireConnection;631;0;635;0\nWireConnection;627;0;633;0\nWireConnection;639;0;638;0\nWireConnection;640;0;632;0\nASEEND*/\n//CHKSM=2586C57519111DDC0461E2525EEB1F79635702F4"
+  m_functionName: 
+  m_description: Retrieves and prepares global wind data.
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0

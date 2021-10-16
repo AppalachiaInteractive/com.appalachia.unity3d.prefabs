@@ -1,5 +1,6 @@
 #region
 
+using System;
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Preferences;
 using Appalachia.Core.Preferences.Globals;
@@ -250,7 +251,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                 Handles.PositionHandle(p, r);
 
-                if ((ltw != _stored) || (_increment != gizmoIncrement.v))
+                if ((ltw != _stored) || (Math.Abs(_increment - gizmoIncrement.v) > float.Epsilon))
                 {
                     if (_bounds == default)
                     {
@@ -292,35 +293,36 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 var rend = instance.currentState.rendering;
                 var isc = instance.instancesStateCode;
 
-                var physxColor = physx == InstancePhysicsState.NotSet
-                    ? ColorPrefs.Instance.PRI_PHYS_NotSet
-                    : physx == InstancePhysicsState.Disabled
-                        ? ColorPrefs.Instance.PRI_PHYS_Disabled
-                        : ColorPrefs.Instance.PRI_PHYS_Enabled;
+                var physxColor = physx switch
+                {
+                    InstancePhysicsState.NotSet   => ColorPrefs.Instance.PRI_PHYS_NotSet,
+                    InstancePhysicsState.Disabled => ColorPrefs.Instance.PRI_PHYS_Disabled,
+                    _                             => ColorPrefs.Instance.PRI_PHYS_Enabled
+                };
 
-                var interColor = inter == InstanceInteractionState.NotSet
-                    ? ColorPrefs.Instance.PRI_INT_NotSet
-                    : inter == InstanceInteractionState.Disabled
-                        ? ColorPrefs.Instance.PRI_INT_Disabled
-                        : ColorPrefs.Instance.PRI_INT_Enabled;
+                var interColor = inter switch
+                {
+                    InstanceInteractionState.NotSet   => ColorPrefs.Instance.PRI_INT_NotSet,
+                    InstanceInteractionState.Disabled => ColorPrefs.Instance.PRI_INT_Disabled,
+                    _                                 => ColorPrefs.Instance.PRI_INT_Enabled
+                };
 
-                var rendColor = rend == InstanceRenderingState.NotSet
-                    ? ColorPrefs.Instance.PRI_REND_NotSet
-                    : rend == InstanceRenderingState.Disabled
-                        ? ColorPrefs.Instance.PRI_REND_Disabled
-                        : rend == InstanceRenderingState.MeshRenderers
-                            ? ColorPrefs.Instance.PRI_REND_Mesh
-                            : ColorPrefs.Instance.PRI_REND_GPU;
+                var rendColor = rend switch
+                {
+                    InstanceRenderingState.NotSet        => ColorPrefs.Instance.PRI_REND_NotSet,
+                    InstanceRenderingState.Disabled      => ColorPrefs.Instance.PRI_REND_Disabled,
+                    InstanceRenderingState.MeshRenderers => ColorPrefs.Instance.PRI_REND_Mesh,
+                    _                                    => ColorPrefs.Instance.PRI_REND_GPU
+                };
 
-                var iscColor = isc == InstanceStateCode.NotSet
-                    ? ColorPrefs.Instance.PRIIC_NotSet
-                    : isc == InstanceStateCode.OutsideOfMaximumChangeRadius
-                        ? ColorPrefs.Instance.PRIIC_OutsideOfMaximumChangeRadius
-                        : isc == InstanceStateCode.Delayed
-                            ? ColorPrefs.Instance.PRIIC_Delayed
-                            : isc == InstanceStateCode.ForceDisabled
-                                ? ColorPrefs.Instance.PRIIC_ForceDisabled
-                                : ColorPrefs.Instance.PRIIC_Normal;
+                var iscColor = isc switch
+                {
+                    InstanceStateCode.NotSet                       => ColorPrefs.Instance.PRIIC_NotSet,
+                    InstanceStateCode.OutsideOfMaximumChangeRadius => ColorPrefs.Instance.PRIIC_OutsideOfMaximumChangeRadius,
+                    InstanceStateCode.Delayed                      => ColorPrefs.Instance.PRIIC_Delayed,
+                    InstanceStateCode.ForceDisabled                => ColorPrefs.Instance.PRIIC_ForceDisabled,
+                    _ => ColorPrefs.Instance.PRIIC_Normal
+                };
 
                 var sz = s.magnitude * _radius;
 

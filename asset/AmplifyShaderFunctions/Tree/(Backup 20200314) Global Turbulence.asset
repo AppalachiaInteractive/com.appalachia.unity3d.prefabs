@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: (Backup 20200314) Global Turbulence
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-790.4;773;752;2215.027;607.8406;2.521965;True;False\nNode;AmplifyShaderEditor.AbsOpNode;100;-544,128;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;125;-2048,128;Inherit;False;Object
+    Position;-1;;19;b9555b68a3d67c54f91597a05086026a;0;0;4;FLOAT3;7;FLOAT;0;FLOAT;4;FLOAT;5\nNode;AmplifyShaderEditor.RangedFloatNode;134;-2048,-256;Float;False;Property;_MotionNoise;Motion
+    Noise;0;1;[HideInInspector];Create;True;0;0;True;0;1;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;82;-1664,256;Half;False;Global;ADS_TurbulenceScale;ADS_TurbulenceScale;6;0;Create;True;0;0;False;0;0.05;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.SamplerNode;75;-894.7,128;Inherit;True;Global;ADS_TurbulenceTex;ADS_TurbulenceTex;2;1;[NoScaleOffset];Create;True;0;0;False;0;-1;None;None;True;0;False;black;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4\nNode;AmplifyShaderEditor.SwizzleNode;139;-1792,128;Inherit;False;FLOAT2;0;2;2;2;1;0;FLOAT3;0,0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;92;-1408,480;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.SimpleTimeNode;80;-1408,640;Inherit;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;81;-1408,128;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT;0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.PannerNode;73;-1216,128;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.NegateNode;91;-1792,576;Inherit;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.SaturateNode;116;-128,256;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.PowerNode;77;-384,256;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.LerpOp;136;192,256;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;137;-128,128;Inherit;False;const;-1;;18;5b64729fb717c5f49a1bc2dab81d5e1c;3,21,0,3,1,22,0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;119;-128,384;Float;False;Property;_GlobalTurbulence;Global
+    Turbulence;1;0;Create;True;0;0;True;0;1;0;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.ComponentMaskNode;88;-1664,576;Inherit;False;True;False;True;True;1;0;FLOAT3;0,0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.Vector3Node;89;-2048,512;Half;False;Global;ADS_GlobalDirection;ADS_GlobalDirection;1;0;Create;True;0;0;False;0;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.RangedFloatNode;71;-1664,384;Half;False;Global;ADS_TurbulenceSpeed;ADS_TurbulenceSpeed;6;0;Create;True;0;0;False;0;0.05;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;76;-896,320;Half;False;Global;ADS_TurbulenceContrast;ADS_TurbulenceContrast;4;0;Create;True;0;0;False;0;1;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;85;384,256;Inherit;False;True;-1;Turbulence;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.CommentaryNode;135;-2048,-384;Inherit;False;257;100;Internal
+    Only;0;;1,0,0,1;0;0\nWireConnection;100;0;75;1\nWireConnection;75;1;73;0\nWireConnection;139;0;125;7\nWireConnection;92;0;71;0\nWireConnection;92;1;88;0\nWireConnection;81;0;139;0\nWireConnection;81;1;82;0\nWireConnection;73;0;81;0\nWireConnection;73;2;71;0\nWireConnection;73;1;80;0\nWireConnection;91;0;89;0\nWireConnection;116;0;77;0\nWireConnection;77;0;100;0\nWireConnection;77;1;76;0\nWireConnection;136;0;137;0\nWireConnection;136;1;116;0\nWireConnection;136;2;119;0\nWireConnection;88;0;91;0\nWireConnection;85;0;136;0\nASEEND*/\n//CHKSM=007C55925DB83F709D8DBC5E98CDE9F715D1DC6D"
+  m_functionName: 
+  m_description: Global Turbulence Function.
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0

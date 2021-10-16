@@ -8,6 +8,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [EditorOnlyInitializeOnLoad]
     public static class PrefabLabelInitializer
     {
+        public static void Ensure()
+        {
+            
+        }
+        
         static PrefabLabelInitializer()
         {
             LabelManager.RegisterEnumTypeLabels(PrefabModelType.Scatter, LABELS.LABEL_Scatter);

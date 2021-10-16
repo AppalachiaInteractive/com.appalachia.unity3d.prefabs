@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Threshold Fade In
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n122.4;-649.6;1280;503;3883.409;36.43237;3.365914;True;False\nNode;AmplifyShaderEditor.SimpleSubtractOpNode;19;-1628.036,812.9265;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.TFHCCompareGreater;18;-680.0712,540.793;Inherit;False;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;26;-2068.921,828.9112;Inherit;False;Limit
+    By Value;-1;;25;154fffa0b1b74df43bcba74ab5e10f39;0;3;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0.2;False;1;FLOAT;0\nNode;AmplifyShaderEditor.AbsOpNode;27;-2224.982,745.9836;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;28;-2509.982,884.9836;Inherit;False;Fade
+    Range To Threshold Ratio Max;1;3;False;1;0;FLOAT;0.2;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;16;-2406.225,789.5665;Inherit;False;Fade
+    Range;1;2;False;1;0;FLOAT;0.05;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;24;-1594.111,301.1701;Inherit;False;Value;1;0;False;1;0;FLOAT;0.9;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;21;-2421.881,377.7639;Inherit;False;Threshold;1;1;False;1;0;FLOAT;0.9;False;1;FLOAT;0\nNode;AmplifyShaderEditor.TFHCCompareGreater;20;-925.5037,800.017;Inherit;False;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;17;-1372.697,685.2525;Inherit;False;Remap
+    To 0-1;-1;;23;5eda8a2bb94ebef4ab0e43d19291cd8b;0;3;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.TFHCCompareLower;30;-928,640;Inherit;False;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.TFHCCompareLower;29;-676.5845,393.0336;Inherit;False;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionSwitch;31;-455.1865,462.1131;Inherit;False;Comparison;False;1;2;-1;Less
+    Than;Greater Than;Object;-1;9;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;-56.1022,468.675;Inherit;False;True;-1;Output;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;19;0;21;0\nWireConnection;19;1;26;0\nWireConnection;18;0;24;0\nWireConnection;18;1;21;0\nWireConnection;18;3;20;0\nWireConnection;26;1;16;0\nWireConnection;26;2;27;0\nWireConnection;26;3;28;0\nWireConnection;27;0;21;0\nWireConnection;20;0;24;0\nWireConnection;20;1;19;0\nWireConnection;20;2;17;0\nWireConnection;17;6;24;0\nWireConnection;17;7;19;0\nWireConnection;17;8;21;0\nWireConnection;30;0;24;0\nWireConnection;30;1;19;0\nWireConnection;30;2;17;0\nWireConnection;29;0;24;0\nWireConnection;29;1;21;0\nWireConnection;29;3;30;0\nWireConnection;31;0;29;0\nWireConnection;31;1;18;0\nWireConnection;0;0;31;0\nASEEND*/\n//CHKSM=A529CBF7968BDD18D1F1355928F8EDB9D4155BC4"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

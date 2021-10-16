@@ -23,7 +23,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
                 var referencePoint = manager.distanceReferencePoint.transform.position;
-                var IDs = vegetationItemIDs.ToHashSet2();
+                var IDs = vegetationItemIDs.ToHashSet();
 
                 for (var setIndex = 0; setIndex < manager.renderingSets.Sets.Count; setIndex++)
                 {

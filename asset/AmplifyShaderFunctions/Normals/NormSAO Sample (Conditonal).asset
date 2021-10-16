@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: NormSAO Sample (Conditonal)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17000\n0;0;1280;659;2011.731;1176.014;2.19679;True;False\nNode;AmplifyShaderEditor.FunctionNode;45;-70,-497;Float;True;NormSAO
+    Split;-1;;1;84c40db2be6d4834a843125535b1524a;0;1;2;COLOR;0,0,0,0;False;3;FLOAT2;0;FLOAT;4;FLOAT;5\nNode;AmplifyShaderEditor.FunctionInput;53;-985.613,-215.9402;Float;False;Texture
+    Index;1;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;42;-1005.2,-341.4;Float;False;UV;2;3;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.OneMinusNode;54;299.7271,-254.0882;Float;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;52;-800.5747,-631.6295;Float;False;Texture
+    0;9;0;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionInput;51;-900.2397,-543.3676;Float;False;Texture
+    1;9;1;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionInput;49;-976.6787,-450.7136;Float;False;Texture
+    2;9;2;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.SamplerNodeConditional;55;-505.7296,-523.414;Float;False;5;0;SAMPLER2D;;False;1;SAMPLER2D;;False;2;SAMPLER2D;;False;3;FLOAT2;0,0;False;4;FLOAT;0;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionOutput;5;303,-370;Float;False;False;Smoothness;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;4;316,-475;Float;False;False;AO;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;320,-592;Float;False;True;Normal;0;True;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionOutput;9;459,-248;Float;False;False;Roughness;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;45;2;55;0\nWireConnection;54;0;45;5\nWireConnection;55;0;52;0\nWireConnection;55;1;51;0\nWireConnection;55;2;49;0\nWireConnection;55;3;42;0\nWireConnection;55;4;53;0\nWireConnection;5;0;45;5\nWireConnection;4;0;45;4\nWireConnection;0;0;45;0\nWireConnection;9;0;54;0\nASEEND*/\n//CHKSM=59AFA8D847377DB9A5DCE8BF71DC933E6B05D0B8"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

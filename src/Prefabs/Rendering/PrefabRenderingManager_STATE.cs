@@ -693,7 +693,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
 #if UNITY_EDITOR
 
-        private const int _P = MENU_P.TOOLS.PREFAB_RENDER.PRIORITY;
+        private const int _P = APPA_MENU.TOOLS.PREFAB_RENDER.PRIORITY;
         private const string _MENU = "Tools/Prefab Rendering/";
         private const string _M_ENABLE_ = _MENU + "Enable" + SHC.CTRL_ALT_1;
         private const string _M_RUNTIME_ = _MENU + "Runtime Rendering" + SHC.CTRL_ALT_2;

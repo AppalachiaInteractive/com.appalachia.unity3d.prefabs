@@ -6,8 +6,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             var template = prefabs.First();
 
-            var assetPath = AssetDatabase.GetAssetPath(template);
-            var folder = Path.GetDirectoryName(assetPath);
+            var assetPath = AssetDatabaseManager.GetAssetPath(template);
+            var folder = AppaPath.GetDirectoryName(assetPath);
             var newName = $"{template.name}_{spawned}_COMBINED";
 
             var newPrefab = new GameObject(newName);

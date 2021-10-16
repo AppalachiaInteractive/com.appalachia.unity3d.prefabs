@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Extensions.Helpers;
 using Sirenix.OdinInspector;
@@ -66,11 +67,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
                     {
                         if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
                         {
-                            var prefabAssetPath = AssetDatabase.GetAssetPath(gameObject);
+                            var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                prefabAssetPath = AssetDatabase.GetAssetPath(gameObject);
+                                prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
                             }
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
@@ -89,7 +90,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                             }
 
                             componentData =
-                                AssetDatabase.LoadAssetAtPath<MeshShadingComponentData>(
+                                AssetDatabaseManager.LoadAssetAtPath<MeshShadingComponentData>(
                                     prefabAssetPath
                                 );
 

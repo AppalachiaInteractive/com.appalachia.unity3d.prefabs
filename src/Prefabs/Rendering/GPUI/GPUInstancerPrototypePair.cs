@@ -1,6 +1,5 @@
 /*using System;
 using System.Collections.Generic;
-using System.IO;
 using GPUInstancer;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Globals.Serialization.ScriptableObjects;
@@ -51,11 +50,11 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                     var newPrefab = CreateNOGOPrefab();
                     _noGameObject.SetPrefab(newPrefab);
                     
-                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(prefab, out _prefabHashForNoGoGeneration, out long _);
+                    AssetDatabaseManager.TryGetGUIDAndLocalFileIdentifier(prefab, out _prefabHashForNoGoGeneration, out long _);
                 }
                 else
                 {
-                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(prefab, out var guid, out long _);
+                    AssetDatabaseManager.TryGetGUIDAndLocalFileIdentifier(prefab, out var guid, out long _);
 
                     if (guid != _prefabHashForNoGoGeneration)
                     {
@@ -157,14 +156,14 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
                 RemoveEmptyGameObjects(modified);
 
-                var existingPath = AssetDatabase.GetAssetPath(_gameObject.prefab);
-                var fileName = Path.GetFileNameWithoutExtension(existingPath);
-                var directory = Path.GetDirectoryName(existingPath);
-                var extension = Path.GetExtension(existingPath);
+                var existingPath = AssetDatabaseManager.GetAssetPath(_gameObject.prefab);
+                var fileName = AppaPath.GetFileNameWithoutExtension(existingPath);
+                var directory = AppaPath.GetDirectoryName(existingPath);
+                var extension = AppaPath.GetExtension(existingPath);
 
                 var subDirectory = $"{directory}_NGO";
 
-                Directory.CreateDirectory(subDirectory);
+                AppaDirectory.CreateDirectory(subDirectory);
 
                 var newPath = $"{subDirectory}/{fileName}_NGO{extension}";
 

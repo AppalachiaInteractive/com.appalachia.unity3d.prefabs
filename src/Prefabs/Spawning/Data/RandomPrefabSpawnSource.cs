@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Rendering;
@@ -173,7 +174,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                     }
 
                     var sum = 0;
-                    var path = AssetDatabase.GetAssetPath(prefab);
+                    var path = AssetDatabaseManager.GetAssetPath(prefab);
 
                     for (var i = 0; i < SceneManager.sceneCount; i++)
                     {
@@ -315,7 +316,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             {
                 case RandomPrefabSpawnerType.Prefab:
                 {
-                    var path = AssetDatabase.GetAssetPath(prefab);
+                    var path = AssetDatabaseManager.GetAssetPath(prefab);
 
                     for (var i = 0; i < SceneManager.sceneCount; i++)
                     {

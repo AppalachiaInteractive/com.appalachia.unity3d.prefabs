@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Aspects.Profiling;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
@@ -556,7 +557,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 {
                     RateLimiter.DoXTimesEvery(
                         nameof(HandleDisableLogic),
-                        AssetDatabase.SaveAssets,
+                        AssetDatabaseManager.SaveAssets,
                         1,
                         1000 * 60,
                         Time.time

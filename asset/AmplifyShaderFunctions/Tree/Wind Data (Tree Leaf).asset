@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Wind Data (Tree Leaf)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n19.2;-740;1285;640;5270.015;6697.933;7.968701;True;False\nNode;AmplifyShaderEditor.RangedFloatNode;568;768,-3840;Half;False;Global;_WIND_BASE_LEAF_FIELD_SIZE;_WIND_BASE_LEAF_FIELD_SIZE;1;0;Create;True;0;0;False;0;0;64;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;556;-912,-3744;Inherit;False;Invert;-1;;257;576cd4c8ab7177b4cb31dbee4d64a7ab;0;1;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;542;-256,-3840;Half;False;Global;_WIND_LEAF_STRENGTH;_WIND_LEAF_STRENGTH;1;0;Create;True;0;0;False;0;0;1;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;572;1792,-3840;Half;False;Global;_WIND_GUST_LEAF_FIELD_SIZE;_WIND_GUST_LEAF_FIELD_SIZE;1;0;Create;True;0;0;False;0;0;4;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;551;-1936,-3744;Inherit;False;Invert;-1;;266;576cd4c8ab7177b4cb31dbee4d64a7ab;0;1;2;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;558;-1280,-3840;Half;False;Global;_WIND_GUST_LEAF_CYCLE_TIME;_WIND_GUST_LEAF_CYCLE_TIME;1;0;Create;True;0;0;False;0;0;0.12;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;550;-2304,-3840;Half;False;Global;_WIND_BASE_LEAF_CYCLE_TIME;_WIND_BASE_LEAF_CYCLE_TIME;1;0;Create;True;0;0;False;0;0;0.35;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;552;-1792,-3840;Inherit;False;True;-1;_WIND_BASE_LEAF_CYCLE_TIME;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;569;1280,-3840;Inherit;False;False;-1;_WIND_BASE_LEAF_FIELD_SIZE;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;561;-768,-3744;Inherit;False;False;-1;_WIND_GUST_LEAF_FREQUENCY;5;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;553;-1792,-3744;Inherit;False;False;-1;_WIND_BASE_LEAF_FREQUENCY;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;573;2304,-3840;Inherit;False;False;-1;_WIND_GUST_LEAF_FIELD_SIZE;6;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;560;-768,-3840;Inherit;False;False;-1;_WIND_GUST_LEAF_CYCLE_TIME;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;545;256,-3840;Inherit;False;False;-1;_WIND_LEAF_STRENGTH;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;556;2;558;0\nWireConnection;551;2;550;0\nWireConnection;552;0;550;0\nWireConnection;569;0;568;0\nWireConnection;561;0;556;0\nWireConnection;553;0;551;0\nWireConnection;573;0;572;0\nWireConnection;560;0;558;0\nWireConnection;545;0;542;0\nASEEND*/\n//CHKSM=0CF6558F58CDFF96A7907D3DD1B02C1BBAFA4200"
+  m_functionName: 
+  m_description: Global wind data for tree leaves.
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0

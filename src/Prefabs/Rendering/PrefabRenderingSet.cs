@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections.Extensions;
 using Appalachia.Core.Collections.Implementations.Lists;
@@ -593,7 +594,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_Refresh.Auto())
             {
-                var labelsArray = AssetDatabase.GetLabels(prefab);
+                var labelsArray = AssetDatabaseManager.GetLabels(prefab);
                 labels = labelsArray.ToAppaSet<string, AppaSet_string, AppaList_string>();
 
                 //AssetType = AssetType.CheckObsolete();
@@ -655,7 +656,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                             }
 
                             var meshImporter =
-                                AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(cheapestMesh)) as
+                                AssetImporter.GetAtPath(AssetDatabaseManager.GetAssetPath(cheapestMesh)) as
                                     ModelImporter;
 
                             meshImporter.isReadable = true;

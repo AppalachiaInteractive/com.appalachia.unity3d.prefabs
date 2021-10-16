@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: a07afa705164b694489faee1936b28da
+ShaderImporter:
+  externalObjects: {}
+  defaultTextures:
+  - _MainNormalArray: {fileID: 18700000, guid: 865c86ad4eedcb74882054c43f92fb5d, type: 2}
+  - _CoverNormSAOArray: {fileID: 18700000, guid: c34942e9dbe8a034fa9400de52ca52a9,
+      type: 2}
+  - _CoverBaseColorArray: {fileID: 18700000, guid: 26e2a512463c8b2478ae90f3d95fe115,
+      type: 2}
+  - _MainBaseColorArray: {fileID: 18700000, guid: 8a0820cf6d5f4574489e41c01cf2d37b,
+      type: 2}
+  - _DetailNormalArray: {fileID: 2800000, guid: 0aa941ff34c44ab4ca8ff4d116159e89,
+      type: 3}
+  nonModifiableTextures: []
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

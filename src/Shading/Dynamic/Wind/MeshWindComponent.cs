@@ -2,8 +2,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using Appalachia.CI.Integration;
+using Appalachia.CI.Integration.Assets;
+using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Extensions.Helpers;
@@ -86,13 +88,13 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                              )
                 )) as Texture2D;
 
-            var texturePath = AssetDatabase.GetAssetPath(texture);
+            var texturePath = AssetDatabaseManager.GetAssetPath(texture);
             var importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
             var textureSettings = new TextureImporterSettings();
             importer.ReadTextureSettings(textureSettings);
 
             var newPath =
-                $"{Path.GetDirectoryName(texturePath)}\\{Path.GetFileNameWithoutExtension(texturePath)}_wind.png";
+                $"{AppaPath.GetDirectoryName(texturePath)}\\{AppaPath.GetFileNameWithoutExtension(texturePath)}_wind.png";
 
             var tex = new Texture2D(
                 (int) generatedMaskSize,
@@ -101,9 +103,9 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 true
             );
 
-            File.WriteAllBytes(newPath, tex.EncodeToPNG());
+           AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
 
-            AssetDatabase.Refresh();
+            AssetDatabaseManager.Refresh();
 
             var textureImporter = (TextureImporter) AssetImporter.GetAtPath(newPath);
 
@@ -149,13 +151,13 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                                  )
                     )) as Texture2D;
 
-                var texturePath = AssetDatabase.GetAssetPath(texture);
+                var texturePath = AssetDatabaseManager.GetAssetPath(texture);
                 var importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
                 var textureSettings = new TextureImporterSettings();
                 importer.ReadTextureSettings(textureSettings);
 
                 var newPath =
-                    $"{Path.GetDirectoryName(texturePath)}\\{Path.GetFileNameWithoutExtension(texturePath)}_wind.png";
+                    $"{AppaPath.GetDirectoryName(texturePath)}\\{AppaPath.GetFileNameWithoutExtension(texturePath)}_wind.png";
 
                 var tex = new Texture2D(
                     (int) generatedMaskSize,
@@ -164,9 +166,9 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     true
                 );
 
-                File.WriteAllBytes(newPath, tex.EncodeToPNG());
+               AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
 
-                AssetDatabase.Refresh();
+                AssetDatabaseManager.Refresh();
 
                 var textureImporter = (TextureImporter) AssetImporter.GetAtPath(newPath);
 
@@ -175,7 +177,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 textureImporter.SetTextureSettings(textureSettings);
                 textureImporter.SaveAndReimport();
 
-                tex = AssetDatabase.LoadAssetAtPath<Texture2D>(newPath);
+                tex = AssetDatabaseManager.LoadAssetAtPath<Texture2D>(newPath);
 
                 var treeMaterial =
                     new MeshWindComponentData.TreeMaterialSet {material = material, windMask = tex};
@@ -195,11 +197,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     {
                         if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
                         {
-                            var prefabAssetPath = AssetDatabase.GetAssetPath(gameObject);
+                            var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                prefabAssetPath = AssetDatabase.GetAssetPath(gameObject);
+                                prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
                             }
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
@@ -218,7 +220,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             }
 
                             componentData =
-                                AssetDatabase.LoadAssetAtPath<MeshWindComponentData>(
+                                AssetDatabaseManager.LoadAssetAtPath<MeshWindComponentData>(
                                     prefabAssetPath
                                 );
 
@@ -346,18 +348,18 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             (matchingRecoveryInfo.updated == null))
                         {
                             var newMeshName = $"{currentMesh.name}_ADSP";
-                            var path = AssetDatabase.GetAssetPath(currentMesh);
-                            var directory = Path.GetDirectoryName(path);
+                            var path = AssetDatabaseManager.GetAssetPath(currentMesh);
+                            var directory = AppaPath.GetDirectoryName(path);
 
                             var newPath = $"{directory}\\{newMeshName}.asset";
 
-                            updatedMesh = AssetDatabase.LoadAssetAtPath<Mesh>(newPath);
+                            updatedMesh = AssetDatabaseManager.LoadAssetAtPath<Mesh>(newPath);
 
                             if (updatedMesh == null)
                             {
                                 updatedMesh = Instantiate(currentMesh);
                                 updatedMesh.name = newMeshName;
-                                AssetDatabase.CreateAsset(updatedMesh, newPath);
+                                AssetDatabaseManager.CreateAsset(updatedMesh, newPath);
                             }
 
                             matchingRecoveryInfo = new MeshWindComponentData.WindMeshSet

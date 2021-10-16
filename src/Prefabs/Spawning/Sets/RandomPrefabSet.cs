@@ -42,7 +42,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
                 addPrefabs = new List<GameObject>();
             }
 
-            var existing = spawnablePrefabs.Select(sp => sp.prefab).ToHashSet2();
+            var existing = spawnablePrefabs.Select(sp => sp.prefab).ToHashSet();
 
             for (var index = 0; index < addPrefabs.Count; index++)
             {

@@ -3,7 +3,7 @@ using Appalachia.Editing.Visualizers;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace Appalachia.Rendering.src.Lighting.Occlusion.Visualizers
+namespace Appalachia.Rendering.Lighting.Occlusion.Visualizers
 {
     [ExecuteAlways]
     public class OcclusionProbeTester : InstancedIndirectVolumeVisualization

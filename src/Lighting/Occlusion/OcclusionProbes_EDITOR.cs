@@ -1,15 +1,16 @@
 #if UNITY_EDITOR
 using System;
 using System.Collections.Generic;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Editing.Debugging;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Appalachia.Rendering.src.Lighting.Occlusion
+namespace Appalachia.Rendering.Lighting.Occlusion
 {
-    public partial class OcclusionProbes : MonoBehaviour
+    public partial class OcclusionProbes
     {
         public const string OcclusionBake = "OcclusionBake";
 
@@ -265,14 +266,14 @@ namespace Appalachia.Rendering.src.Lighting.Occlusion
 
             // We don't care where was the old asset we were referencing. The new one has to be at the
             // canonical path. So we check if it's there already.
-            m_Data = AssetDatabase.LoadMainAssetAtPath(dataPath) as OcclusionProbeData;
+            m_Data = AssetDatabaseManager.LoadMainAssetAtPath(dataPath) as OcclusionProbeData;
 
             if (m_Data == null)
             {
                 // Assigning a new asset, dirty the scene that contains it, so that the user knows to save it.
                 EditorSceneManager.MarkSceneDirty(gameObject.scene);
                 m_Data = ScriptableObject.CreateInstance<OcclusionProbeData>();
-                AssetDatabase.CreateAsset(m_Data, dataPath);
+                AssetDatabaseManager.CreateAsset(m_Data, dataPath);
             }
             else
             {
@@ -310,7 +311,7 @@ namespace Appalachia.Rendering.src.Lighting.Occlusion
             );
             m_Data.worldToLocal = m_WorldToLocal;
 
-            AssetDatabase.AddObjectToAsset(m_Data.occlusion, m_Data);
+            AssetDatabaseManager.AddObjectToAsset(m_Data.occlusion, m_Data);
 
             // Detail occlusion probe sets
             var detailSetCount = m_CountBakedDetail.Length;
@@ -334,13 +335,13 @@ namespace Appalachia.Rendering.src.Lighting.Occlusion
                 );
                 m_Data.worldToLocalDetail[i] = m_WorldToLocalDetail[i];
 
-                AssetDatabase.AddObjectToAsset(m_Data.occlusionDetail[i], m_Data);
+                AssetDatabaseManager.AddObjectToAsset(m_Data.occlusionDetail[i], m_Data);
             }
 
             // Ambient probe
             BakeAmbientProbe();
 
-            AssetDatabase.SaveAssets();
+            AssetDatabaseManager.SaveAssets();
 
             m_CountBaked = new Vector3i(0, 0, 0);
             Lightmapping.bakedGI = false;
@@ -391,7 +392,7 @@ namespace Appalachia.Rendering.src.Lighting.Occlusion
             // We don't care where was the old asset we were referencing. The new one has to be at the
             // canonical path. So we check if it's there already.
             var oldData = m_AmbientProbeData;
-            m_AmbientProbeData = AssetDatabase.LoadMainAssetAtPath(dataPath) as AmbientProbeData;
+            m_AmbientProbeData = AssetDatabaseManager.LoadMainAssetAtPath(dataPath) as AmbientProbeData;
 
             if ((m_AmbientProbeData == null) || (m_AmbientProbeData != oldData))
             {
@@ -403,7 +404,7 @@ namespace Appalachia.Rendering.src.Lighting.Occlusion
             if (m_AmbientProbeData == null)
             {
                 m_AmbientProbeData = ScriptableObject.CreateInstance<AmbientProbeData>();
-                AssetDatabase.CreateAsset(m_AmbientProbeData, dataPath);
+                AssetDatabaseManager.CreateAsset(m_AmbientProbeData, dataPath);
             }
 
             var ambientProbe = RenderSettings.ambientProbe;

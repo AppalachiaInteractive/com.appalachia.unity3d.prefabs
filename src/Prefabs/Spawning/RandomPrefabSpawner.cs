@@ -191,7 +191,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             using (_PRF_CreateNewSettings.Auto())
             {
                 settings = PrefabSpawnSettings.CreateNew();
-                AssetDatabaseManager.SaveAssetsNextFrame();
+                AssetDatabaseSaveManager.SaveAssetsNextFrame();
             }
         }
 
@@ -207,7 +207,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
                 var collection = RandomPrefabSetCollection.CreateNew();
                 RandomPrefabMasterCollection.instance.collections.Add(collection);
                 state = new RandomPrefabSetCollectionState(transform, collection);
-                AssetDatabaseManager.SaveAssetsNextFrame();
+                AssetDatabaseSaveManager.SaveAssetsNextFrame();
             }
         }
 #endif
@@ -660,8 +660,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             var template = prefabs.First();
 
-            var assetPath = AssetDatabase.GetAssetPath(template);
-            var folder = Path.GetDirectoryName(assetPath);
+            var assetPath = AssetDatabaseManager.GetAssetPath(template);
+            var folder = AppaPath.GetDirectoryName(assetPath);
             var newName = $"{template.name}_{spawned}_COMBINED";
 
             var newPrefab = new GameObject(newName);

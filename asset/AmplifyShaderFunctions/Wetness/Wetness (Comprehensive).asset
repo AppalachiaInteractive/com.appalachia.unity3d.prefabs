@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Wetness (Comprehensive)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;-864;1536;843;3907.003;871.4406;1.6;True;False\nNode;AmplifyShaderEditor.FunctionInput;99;-3869.841,-538.4395;Inherit;False;Terrain
+    Height (m);1;4;False;1;0;FLOAT;100;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;8;-3105.24,-734.402;Inherit;True;Base
+    Color;5;0;False;1;0;COLOR;0.6415094,0.638396,0.3419366,0;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionInput;12;-3137,-341;Inherit;False;Porosity;1;3;False;1;0;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;11;-3115.07,-427.9306;Inherit;False;Metallic;1;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;80;-3174.686,-232.9655;Inherit;False;Water
+    Darkening Power;1;16;False;1;0;FLOAT;0.8;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;215;-3179.316,-151.7321;Inherit;False;Water
+    Smoothness Power;1;17;False;1;0;FLOAT;0.95;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;95;-3926.327,-272.8092;Inherit;False;Water
+    Direct Contact Area;1;7;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;187;-3838.959,-183.3562;Inherit;False;Wetness
+    Level;1;8;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;93;-3934.841,394.5605;Inherit;False;Wetness
+    Neighbor Impact;1;15;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;79;-3925.013,55.29494;Inherit;False;Water
+    Range Scale increase;1;11;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;90;-3962.944,297.3286;Inherit;False;Neighbor
+    Wetness Amount;1;14;False;1;0;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;132;-3880.493,215.7098;Inherit;False;Rain
+    Y Range;2;13;False;1;0;FLOAT2;0,1;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;86;-3955.565,130.4892;Inherit;False;Terrain
+    Puddles Amount;1;12;False;1;0;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;78;-3902.599,-23.46412;Inherit;False;Water
+    Object Scale Multiplier;1;10;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;84;-3864.841,-88.43951;Inherit;False;Wetness
+    Fade Range;1;9;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;222;-3312.158,6.276718;Inherit;False;Wetness
+    (Comp) (Calculation);-1;;31;9ce4e3f15d74aec42af1ba4f6a783003;0;13;99;FLOAT;100;False;89;FLOAT;99;False;91;FLOAT;0.1;False;95;FLOAT;1;False;187;FLOAT;1;False;84;FLOAT;1;False;78;FLOAT;1;False;79;FLOAT;1;False;86;FLOAT;0.1;False;132;FLOAT2;0,1;False;90;FLOAT;0.1;False;93;FLOAT;1;False;92;FLOAT;0;False;2;FLOAT;220;FLOAT;221\nNode;AmplifyShaderEditor.FunctionNode;223;-2631.024,-363.0594;Inherit;False;Wetness
+    (Comp) (Application);-1;;36;15c50a65ea48afb409b4cdaf608c7ebb;0;8;8;COLOR;0.6415094,0.638396,0.3419366,0;False;10;FLOAT;0.2;False;11;FLOAT;0;False;12;FLOAT;0.1;False;80;FLOAT;0.8;False;215;FLOAT;0.95;False;223;FLOAT;0;False;224;FLOAT;0;False;2;COLOR;0;FLOAT;21\nNode;AmplifyShaderEditor.FunctionInput;91;-3869.841,-346.4395;Inherit;False;Water
+    Height Offset;1;6;False;1;0;FLOAT;0.1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;89;-3869.841,-442.4395;Inherit;False;Terrain
+    Water Level (m);1;5;False;1;0;FLOAT;99;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;10;-3166.068,-521.6389;Inherit;False;Smoothness;1;1;False;1;0;FLOAT;0.2;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;92;-3973.363,497.5716;Inherit;False;Force
+    Debug Wetness Amount;1;18;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;220;-2139.037,14.64098;Inherit;True;False;-1;Wetness;2;True;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;0;-2130.169,-408.1101;Inherit;True;True;-1;Albedo;0;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionOutput;21;-2136.008,-198.7119;Inherit;True;False;-1;Smoothness;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;222;99;99;0\nWireConnection;222;89;89;0\nWireConnection;222;91;91;0\nWireConnection;222;95;95;0\nWireConnection;222;187;187;0\nWireConnection;222;84;84;0\nWireConnection;222;78;78;0\nWireConnection;222;79;79;0\nWireConnection;222;86;86;0\nWireConnection;222;132;132;0\nWireConnection;222;90;90;0\nWireConnection;222;93;93;0\nWireConnection;222;92;92;0\nWireConnection;223;8;8;0\nWireConnection;223;10;10;0\nWireConnection;223;11;11;0\nWireConnection;223;12;12;0\nWireConnection;223;80;80;0\nWireConnection;223;215;215;0\nWireConnection;223;223;222;220\nWireConnection;223;224;222;221\nWireConnection;220;0;222;220\nWireConnection;0;0;223;0\nWireConnection;21;0;223;21\nASEEND*/\n//CHKSM=3936747097CE96930696F0D51606A8968460FB2F"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

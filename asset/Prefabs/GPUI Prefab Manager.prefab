@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4268200735705472347
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4268200735705472325}
+  - component: {fileID: 4268200735705472324}
+  m_Layer: 0
+  m_Name: GPUI Prefab Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4268200735705472325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268200735705472347}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4268200735705472324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4268200735705472347}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a61b0404ba3e80438650c720ee964b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prototypeList:
+  - {fileID: 11400000, guid: 715c8c24368b35d40b982b6bd5eaf83a, type: 2}
+  - {fileID: 11400000, guid: b882b2931367f6245abf1e9942116b42, type: 2}
+  - {fileID: 11400000, guid: 29e732ebcfa211040b5650249aefa9a2, type: 2}
+  - {fileID: 11400000, guid: faa22a0c52b29bd40bb51ee9a53650f8, type: 2}
+  - {fileID: 11400000, guid: 17683299b54d6bf4bb60d535eba3a016, type: 2}
+  - {fileID: 11400000, guid: 76154fda5df60a74cbadef8b9cdc10a1, type: 2}
+  autoSelectCamera: 1
+  cameraData:
+    mainCamera: {fileID: 0}
+    hiZOcclusionGenerator: {fileID: 0}
+    mvpMatrixFloats:
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    mvpMatrix2Floats: []
+    cameraPosition: {x: 0, y: 0, z: 0}
+    hasOcclusionGenerator: 0
+    halfAngle: 0.2679492
+    renderOnlySelectedCamera: 1
+  useFloatingOriginHandler: 0
+  floatingOriginTransform: {fileID: 0}
+  floatingOriginHandler: {fileID: 0}
+  instancingBounds:
+    m_Center: {x: 151.35715, y: 11.812153, z: -35.407104}
+    m_Extent: {x: 5000, y: 5000, z: 5000}
+  isFrustumCulling: 1
+  isOcclusionCulling: 1
+  minCullingDistance: 0
+  selectedPrototypeList:
+  - {fileID: 11400000, guid: faa22a0c52b29bd40bb51ee9a53650f8, type: 2}
+  isPrototypeTextMode: 0
+  showSceneSettingsBox: 1
+  showPrototypeBox: 1
+  showAdvancedBox: 1
+  showHelpText: 0
+  showDebugBox: 1
+  showGlobalValuesBox: 1
+  showRegisteredPrefabsBox: 1
+  showPrototypesBox: 1
+  keepSimulationLive: 0
+  updateSimulation: 1
+  maxThreads: 3
+  isInitialized: 1
+  playModeState: 0
+  isQuiting: 0
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 8323073
+  lightProbeDisabled: 0
+  useLightProbeProxyVolume: 1
+  lightProbeProxyVolume: {fileID: 0}
+  registeredPrefabs:
+  - prefabPrototype: {fileID: 11400000, guid: 715c8c24368b35d40b982b6bd5eaf83a, type: 2}
+    registeredPrefabs: []
+  - prefabPrototype: {fileID: 11400000, guid: b882b2931367f6245abf1e9942116b42, type: 2}
+    registeredPrefabs: []
+  - prefabPrototype: {fileID: 11400000, guid: 29e732ebcfa211040b5650249aefa9a2, type: 2}
+    registeredPrefabs: []
+  - prefabPrototype: {fileID: 11400000, guid: faa22a0c52b29bd40bb51ee9a53650f8, type: 2}
+    registeredPrefabs: []
+  - prefabPrototype: {fileID: 11400000, guid: 17683299b54d6bf4bb60d535eba3a016, type: 2}
+    registeredPrefabs: []
+  - prefabPrototype: {fileID: 11400000, guid: 76154fda5df60a74cbadef8b9cdc10a1, type: 2}
+    registeredPrefabs: []
+  prefabList:
+  - {fileID: 5855719771457291861, guid: 400bf05d2b562684abbd5ffea797666f, type: 3}
+  - {fileID: 1387189914941945327, guid: 990fbaa87ea73824eb01118b0dbaae76, type: 3}
+  - {fileID: 6591230122523551437, guid: 289ad08b17806bc4d9e198599378665f, type: 3}
+  - {fileID: 6252112601614811135, guid: dab6b4512328853479d2f146a19c843d, type: 3}
+  - {fileID: 100002, guid: 04e0ab4312f682f439b88c86a65672e0, type: 3}
+  - {fileID: 7224721400719924359, guid: 872c4b2b13d5f1c47a451c2cb3be4ea5, type: 3}
+  enableMROnManagerDisable: 1
+  enableMROnRemoveInstance: 1

@@ -1,0 +1,66 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: internal_physx
+  m_Shader: {fileID: 4800000, guid: 593cdf77f41548248b11ad3a84750c20, type: 3}
+  m_ShaderKeywords: _PACKED_ON
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 1
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BackFacesNormal1:
+        m_Texture: {fileID: 2800000, guid: c3fe6a98430943e4cb3ae93b663be1f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BackOpacityMask:
+        m_Texture: {fileID: 2800000, guid: 2cc3fde46c6aa90438f527217c2d174e, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FacesNormal:
+        m_Texture: {fileID: 2800000, guid: c929f57137044294c9e9e8520ba20151, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FrontFacesNormal1:
+        m_Texture: {fileID: 2800000, guid: c3fe6a98430943e4cb3ae93b663be1f0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _FrontOpacityMask:
+        m_Texture: {fileID: 2800000, guid: 3c65230d888a88b4daa9adc3ddcb8ef3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 0d0b7bb6fa52ad14bbd860240a233091, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 69309b0d400fd454f9b527875a6784e1, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OpacityMask:
+        m_Texture: {fileID: 2800000, guid: 3c65230d888a88b4daa9adc3ddcb8ef3, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _Contrast: 10
+    - _Cutoff: 0.5
+    - _TRANSPARENCY: 0.714
+    - __dirty: 0
+    m_Colors:
+    - _COLOR: {r: 1, g: 0.7449475, b: 0, a: 1}
+    - _Offset: {r: 0, g: 0, b: 0, a: 0}
+    - _Scale: {r: 1, g: 1, b: 0, a: 0}

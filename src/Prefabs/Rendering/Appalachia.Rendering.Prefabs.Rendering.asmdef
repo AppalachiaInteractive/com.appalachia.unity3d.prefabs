@@ -2,6 +2,7 @@
   "name": "Appalachia.Rendering.Prefabs.Rendering",
   "rootNamespace": "",
   "references": [
+    "GUID:56ca8901b63fd204692a4a27f67b605e",
     "GUID:bd2961106a865a542b8ec0d49cb152f3",
     "GUID:a0053698365916c4291e09a4f5495c0b",
     "GUID:4a600fa6fa2ca854b8f233a23710b315",
@@ -39,14 +40,14 @@
     "GUID:6b8c99229a4703f47b9e6e696c2e8d8d",
     "GUID:aab7d97d30d7abe41b8a38190b985fb5",
     "GUID:a03736e1d95a0ed4c8a44e1ee02df53f",
-    "GUID:efa45043feb7e4147a305b73b5cea642",
-    "GUID:fb58d5396d4f85044a40c7548929c37d",
-    "GUID:e4a2dcef324d74d418aeaa12e10a02fb",
     "GUID:2665a8d13d1b3f18800f46e256720795",
     "GUID:e0cd26848372d4e5c891c569017e11f1",
     "GUID:75469ad4d38634e559750d17036d5f7c",
     "GUID:8a2eafa29b15f444eb6d74f94a930e1d",
-    "GUID:d8b63aba1907145bea998dd612889d6b"
+    "GUID:d8b63aba1907145bea998dd612889d6b",
+    "GUID:efa45043feb7e4147a305b73b5cea642",
+    "GUID:fb58d5396d4f85044a40c7548929c37d",
+    "GUID:e4a2dcef324d74d418aeaa12e10a02fb"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],
@@ -56,5 +57,6 @@
   "autoReferenced": true,
   "defineConstraints": [],
   "versionDefines": [],
-  "noEngineReferences": false
+  "noEngineReferences": false,
+  "optionalUnityReferences": []
 }

@@ -2,7 +2,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using Appalachia.CI.Integration;
+using Appalachia.CI.Integration.Assets;
+using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Scriptables;
 using Appalachia.Simulation.Core;
@@ -57,9 +59,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 
                 if (_originalPrefab == null)
                 {
-                    var name = _prototype == null ? "UNNAMED" : _prototype.name;
+                    var prototypeName = _prototype == null ? "UNNAMED" : _prototype.name;
 
-                    throw new NotSupportedException($"Prototype [{name}] has no prefab!");
+                    throw new NotSupportedException($"Prototype [{prototypeName}] has no prefab!");
                 }
 
                 var rigidbody = _originalPrefab.GetComponent<Rigidbody>();
@@ -74,7 +76,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                 {
                     _updatedPrefab = CreateNOGOPrefab();
 
-                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(
+                    AssetDatabaseManager.TryGetGUIDAndLocalFileIdentifier(
                         _originalPrefab,
                         out _prefabHashForNoGoGeneration,
                         out long _
@@ -82,7 +84,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                 }
                 else
                 {
-                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(
+                    AssetDatabaseManager.TryGetGUIDAndLocalFileIdentifier(
                         _originalPrefab,
                         out var guid,
                         out long _
@@ -211,14 +213,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 
                 RemoveEmptyGameObjects(modified);*/
 
-                var existingPath = AssetDatabase.GetAssetPath(_originalPrefab);
-                var fileName = Path.GetFileNameWithoutExtension(existingPath);
-                var directory = Path.GetDirectoryName(existingPath);
-                var extension = Path.GetExtension(existingPath);
+                var existingPath = AssetDatabaseManager.GetAssetPath(_originalPrefab);
+                var fileName = AppaPath.GetFileNameWithoutExtension(existingPath);
+                var directory = AppaPath.GetDirectoryName(existingPath);
+                var extension = AppaPath.GetExtension(existingPath);
 
                 var subDirectory = $"{directory}_NGO";
 
-                Directory.CreateDirectory(subDirectory);
+                AppaDirectory.CreateDirectory(subDirectory);
 
                 var newPath = $"{subDirectory}/{fileName}_NGO{extension}";
 

@@ -2,7 +2,7 @@
 using Appalachia.Editing.Debugging;
 using UnityEngine;
 
-namespace Appalachia.Rendering.src.Lighting.Occlusion
+namespace Appalachia.Rendering.Lighting.Occlusion
 {
     public class OcclusionProbesDetail : MonoBehaviour
     {

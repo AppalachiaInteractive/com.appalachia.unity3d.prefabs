@@ -1230,9 +1230,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                                 continue;
                             }
 
-                            var currentState = _element.currentStates[instanceIndex];
+                            var cs = _element.currentStates[instanceIndex];
 
-                            if (currentState.rendering == InstanceRenderingState.GPUInstancing)
+                            if (cs.rendering == InstanceRenderingState.GPUInstancing)
                             {
                                 instance.Teardown(_element);
                                 pushGPUI = true;

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Triplanar NormSAO Material
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17000\n0;-864;1259;843;11561.19;4276.928;2.2;True;False\nNode;AmplifyShaderEditor.FunctionInput;925;-10739.58,-3356.345;Float;False;Triplanar
+    Contrast;1;4;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;926;-10742.78,-3156.345;Float;False;Texture
+    Scale;2;3;False;1;0;FLOAT2;1,1;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;927;-10742.78,-3252.345;Float;False;Texture
+    Offset;2;2;False;1;0;FLOAT2;0,0;False;1;FLOAT2;0\nNode;AmplifyShaderEditor.FunctionInput;837;-9984,-3616;Float;False;Norm
+    SAO;9;1;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionInput;835;-9984,-3712;Float;False;Base
+    Color;9;0;False;1;0;SAMPLER2D;0;False;1;SAMPLER2D;0\nNode;AmplifyShaderEditor.FunctionNode;934;-10368,-3328;Float;False;Triplanar
+    UVs (Microsplat);-1;;884;12de860eba7d60c4086713c1564c6574;1,22,0;4;39;FLOAT;1;False;30;FLOAT2;0,0;False;31;FLOAT2;1,1;False;74;FLOAT;1;False;8;FLOAT2;0;FLOAT2;20;FLOAT2;21;FLOAT3;62;FLOAT3;61;FLOAT4;90;FLOAT4;99;FLOAT4;103\nNode;AmplifyShaderEditor.FunctionNode;936;-9600,-3328;Float;False;Triplanar
+    NormSAO Sampler;-1;;915;5224ae01a5e912244b97524418aa72a3;0;7;835;SAMPLER2D;0;False;837;SAMPLER2D;0;False;833;FLOAT2;0,0;False;834;FLOAT2;0,0;False;832;FLOAT2;0,0;False;836;FLOAT3;0,0,0;False;866;FLOAT3;0,0,0;False;5;COLOR;846;FLOAT3;847;FLOAT;858;FLOAT;859;FLOAT;857\nNode;AmplifyShaderEditor.FunctionOutput;899;-9088,-3456;Float;False;False;Base
+    Color;0;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionOutput;898;-9088,-3376;Float;False;False;Normal;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;900;-9088,-3296;Float;False;False;AO;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;897;-9088,-3216;Float;False;False;Smoothness;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;896;-9088,-3136;Float;False;True;Roughness;4;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;934;39;925;0\nWireConnection;934;30;927;0\nWireConnection;934;31;926;0\nWireConnection;936;835;835;0\nWireConnection;936;837;837;0\nWireConnection;936;833;934;0\nWireConnection;936;834;934;20\nWireConnection;936;832;934;21\nWireConnection;936;836;934;62\nWireConnection;936;866;934;61\nWireConnection;899;0;936;846\nWireConnection;898;0;936;847\nWireConnection;900;0;936;858\nWireConnection;897;0;936;859\nWireConnection;896;0;936;857\nASEEND*/\n//CHKSM=18F63219111ABC94AB4388CF5F3D6304554C6897"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Stochastic
+  m_previewPosition: 0
+  m_hidden: 0

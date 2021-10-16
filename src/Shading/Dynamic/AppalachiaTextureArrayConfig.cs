@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Scriptables;
 using UnityEditor;
 using UnityEngine;
@@ -124,13 +125,13 @@ namespace Appalachia.Rendering.Shading.Dynamic
             where T : Object
         {
             var assets = new List<T>();
-            var guids = AssetDatabase.FindAssets(
+            var guids = AssetDatabaseManager.FindAssets(
                 string.Format("t:{0}", typeof(T).ToString().Replace("UnityEngine.", ""))
             );
             for (var i = 0; i < guids.Length; i++)
             {
-                var assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
-                var asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+                var assetPath = AssetDatabaseManager.GUIDToAssetPath(guids[i]);
+                var asset = AssetDatabaseManager.LoadAssetAtPath<T>(assetPath);
                 if (asset != null)
                 {
                     assets.Add(asset);

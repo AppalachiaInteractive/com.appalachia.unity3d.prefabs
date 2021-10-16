@@ -1,0 +1,24 @@
+{
+  "name": "Appalachia.Rendering.Shading.Editor",
+  "rootNamespace": "",
+  "references": [
+    "GUID:56ca8901b63fd204692a4a27f67b605e",
+    "GUID:4c32fdd75da6bc94f9b79f03f11f5e30",
+    "GUID:a15d55b77c0da1b42af8372f5619c965",
+    "GUID:6b895e19b09475d47ac11c9e18515be3",
+    "GUID:4f51890e4f8fa0a4fb69d0fd0e4e89c2",
+    "GUID:5c9129092afc98e41809758272b5d77e"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": []
+}

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
+using Appalachia.CI.Integration;
+using Appalachia.CI.Integration.Assets;
+using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
@@ -142,7 +144,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         public float dataLength =>
             Lightmapping.lightingDataAsset == null
                 ? 0.0f
-                : new FileInfo(AssetDatabase.GetAssetPath(Lightmapping.lightingDataAsset)).Length /
+                : new AppaFileInfo(AssetDatabaseManager.GetAssetPath(Lightmapping.lightingDataAsset)).Length /
                   1024.0f /
                   1024.0f;
 
@@ -491,11 +493,12 @@ namespace Appalachia.Rendering.Lighting.Probes
                             if (cappedHeight >
                                 0.0f) // normal case where it is actually shaped like a capsule
                             {
-                                var axis = (cc.direction == 0
-                                               ? Vector3.right
-                                               : cc.direction == 1
-                                                   ? Vector3.up
-                                                   : Vector3.forward) *
+                                var axis = (cc.direction switch
+                                           {
+                                               0 => Vector3.right,
+                                               1 => Vector3.up,
+                                               _ => Vector3.forward
+                                           }) *
                                            cappedHeight;
                                 var p1 = cc.center - (axis * 0.5f);
 
@@ -1089,9 +1092,9 @@ namespace Appalachia.Rendering.Lighting.Probes
                     // it is a redundant point and can be removed.  Since it's very, very complicated to remove multiple points from an area and figure out adjacencies again, it's better to just do that
                     // in passes and keep doing passes until there is nothing more to remove.  Should be fairly quick anyway.
                     var perProbeError = new AppaList_float(8);
-                    var progress = 0;
+                    var progressCount = 0;
                     var totalProgress = positions.Length;
-                    var locked =
+                    var lockSet =
                         new HashSet<int>(); // these are probes we will not attempt to optimize out on this pass, because one of his neighbors was optimized out already
                     var toRemove = new HashSet<int>(); // these are probes we will optimize out
                     for (var i = 0; i < positions.Length; i++)
@@ -1110,7 +1113,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                             break;
                         }
 
-                        progress++;
+                        progressCount++;
 
                         var numAdjVerts = adjacencyVerts[i].Count;
                         if (
@@ -1119,7 +1122,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                         {
                             // Skip optimizing this tetrahedron if any of my adjacencies are locked.
                             if (
-                                locked.Contains(i) ==
+                                lockSet.Contains(i) ==
                                 false) // only attempt optimizing this vertex away if this specific vertex is not yet locked by an adjacent optimization
                             {
                                 // Since we already cached all the light probe SH's, we just need to try making new tetras that don't include p[i] so we can interpolate it from corners.
@@ -1206,7 +1209,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                               (corners[3] * coordinates[3]);
 
                                 var error = CompareSH(interpProbe, originalSH[i]);
-                                if (((errorTolerance != -1.0f) && (error < errorTolerance)) ||
+                                if (((Math.Abs(errorTolerance - (-1.0f)) > float.Epsilon) && (error < errorTolerance)) ||
                                     float.IsNaN(
                                         error
                                     )) // always delete NaN errors, it means light probes are garbage
@@ -1218,7 +1221,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                     foreach (var vIndex in
                                         originalIndices) // originalIndices already excludes the point we are removing (i), so we just add the whole array to the lock set for this pass
                                     {
-                                        locked.Add(
+                                        lockSet.Add(
                                             vIndex
                                         ); // lock everything related to this set of tetrahedrons.  None of them can be removed.
                                     }
@@ -1247,7 +1250,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                     if ((perProbeError.Count == 0) ||
                         (probePositions.Length <= probeBudget) ||
-                        ((errorTolerance != -1.0f) &&
+                        ((Math.Abs(errorTolerance - (-1.0f)) > float.Epsilon) &&
                          (toRemove.Count == 0))) // keep optimizing until we stop removing points.
                     {
                         break;

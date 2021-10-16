@@ -1,9 +1,9 @@
 #if UNITY_EDITOR
 using UnityEngine;
 
-namespace Appalachia.Rendering.src.Lighting.Occlusion
+namespace Appalachia.Rendering.Lighting.Occlusion
 {
-    public partial class OcclusionProbes : MonoBehaviour
+    public partial class OcclusionProbes
     {
         private static readonly Vector3i[] s_Offsets =
         {

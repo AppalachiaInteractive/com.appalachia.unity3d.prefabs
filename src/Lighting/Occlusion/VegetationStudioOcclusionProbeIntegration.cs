@@ -6,7 +6,7 @@ using AwesomeTechnologies.VegetationSystem;
 using UnityEditor;
 using UnityEngine;
 
-namespace Appalachia.Rendering.src.Lighting.Occlusion
+namespace Appalachia.Rendering.Lighting.Occlusion
 {
     public static class VegetationStudioOcclusionProbeIntegration
     {

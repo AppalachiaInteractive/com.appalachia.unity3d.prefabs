@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Wettable (Masked)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity
+    Asset Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n533.6;-864;1536;843;2389.162;-360.0614;1;True;False\nNode;AmplifyShaderEditor.FunctionInput;19;-1208.842,503.1353;Inherit;False;Submersion;1;6;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;7;24.8816,-140.6466;Half;False;Property;_WETNESS;[
+    WETNESS ];0;0;Create;True;0;0;True;1;InternalCategory(Wetness);0;0;0;0;0;1;FLOAT;0\nNode;AmplifyShaderEditor.WorldNormalVector;20;-1280,256;Inherit;False;True;1;0;FLOAT3;0,0,1;False;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3\nNode;AmplifyShaderEditor.RangedFloatNode;4;-1440,144;Inherit;False;Property;_WetnessSmoothness;Wetness
+    Smoothness;3;0;Create;True;0;0;False;0;0.3;0.05;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;24;-720.3134,303.7159;Inherit;False;Max3;-1;;2543;13ccdd389fec5ae42a45d099906119cb;0;3;1;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;11;-830.9797,-214.5504;Inherit;False;Albedo;5;1;False;1;0;COLOR;1,1,1,1;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionInput;12;-825.8546,-122.6674;Inherit;False;Smoothness;1;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.RangedFloatNode;3;-1440,-16;Inherit;False;Property;_WetnessPorosity;Wetness
+    Porosity;4;0;Create;True;0;0;False;0;0.1;0.1;0;1;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;13;-831.9547,-25.46739;Inherit;False;Metallic;1;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;16;-1044.894,572.4385;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;21;-1536,256;Inherit;False;Normal
+    TS;3;0;False;1;0;FLOAT3;1,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.RangedFloatNode;2;-1440,64;Inherit;False;Property;_WetnessDarkening;Wetness
+    Darkening;2;0;Create;True;0;0;False;0;0.65;0.5;0;0.93;0;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionNode;5;-465.2043,1.204343;Inherit;False;Wetness
+    (Comp) (Application);-1;;2544;15c50a65ea48afb409b4cdaf608c7ebb;0;8;8;COLOR;0.6415094,0.638396,0.3419366,0;False;10;FLOAT;0.2;False;11;FLOAT;0;False;12;FLOAT;0.1;False;80;FLOAT;0.8;False;215;FLOAT;0.95;False;223;FLOAT;0;False;224;FLOAT;0;False;2;COLOR;0;FLOAT;21\nNode;AmplifyShaderEditor.FunctionInput;14;-1489.79,562.614;Inherit;False;Wetness;1;4;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;18;-1280,416;Inherit;False;Rain
+    Wetness;1;5;False;1;0;FLOAT;1;False;1;FLOAT;0\nNode;AmplifyShaderEditor.SimpleMultiplyOpNode;22;-1074.313,323.7159;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionInput;26;-1490.162,660.0614;Inherit;False;Mask;1;7;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;9;25.06615,-6.40442;Inherit;False;False;-1;Albedo;0;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0\nNode;AmplifyShaderEditor.FunctionOutput;10;-3.410913,195.0092;Inherit;False;True;-1;Smoothness;1;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;20;0;21;0\nWireConnection;24;1;22;0\nWireConnection;24;4;19;0\nWireConnection;24;5;16;0\nWireConnection;16;0;14;0\nWireConnection;16;1;26;0\nWireConnection;5;8;11;0\nWireConnection;5;10;12;0\nWireConnection;5;11;13;0\nWireConnection;5;12;3;0\nWireConnection;5;80;2;0\nWireConnection;5;215;4;0\nWireConnection;5;223;24;0\nWireConnection;5;224;24;0\nWireConnection;22;0;20;2\nWireConnection;22;1;18;0\nWireConnection;9;0;5;0\nWireConnection;10;0;5;21\nASEEND*/\n//CHKSM=66F170D650B8D20D575E4BB51136DA4FF9A4F792"
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

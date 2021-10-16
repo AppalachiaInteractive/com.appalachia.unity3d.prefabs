@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Mesh Values (Tree) (Complex) (All)
+  m_EditorClassIdentifier: 
+  m_functionInfo: "// Made with Amplify Shader Editor\n// Available at the Unity Asset
+    Store - http://u3d.as/y3X \n/*ASEBEGIN\nVersion=17500\n0;0;1280;659;374.4977;2633.589;1;True;False\nNode;AmplifyShaderEditor.FunctionNode;582;-650.8749,-2359.087;Inherit;False;Mesh
+    Values (Tree) (Complex) (UV1);-1;;11;81bcd0c413f1b344ab52b9f96eee6f68;0;0;2;FLOAT;551;FLOAT;567\nNode;AmplifyShaderEditor.FunctionNode;584;-697.634,-3503.41;Inherit;False;Mesh
+    Values (Tree) (Complex) (UV2);-1;;13;6aa7893aa1709ed42a3bee16e085c725;0;0;2;FLOAT3;496;FLOAT;497\nNode;AmplifyShaderEditor.FunctionNode;587;-726.6368,-2977.55;Inherit;False;Mesh
+    Values (Tree) (Complex) (Vertex Colors);-1;;18;9cacaefc2ecfddf4c8e070f9be99b854;0;0;4;FLOAT;495;FLOAT;501;FLOAT;550;FLOAT;552\nNode;AmplifyShaderEditor.FunctionNode;583;-742.0881,-3316.104;Inherit;False;Mesh
+    Values (Tree) (Complex) (UV3);-1;;19;8e1e1d817f2a77d4ea50f9fe634408b6;0;0;2;FLOAT3;500;FLOAT;549\nNode;AmplifyShaderEditor.FunctionNode;585;-670.3699,-3152.955;Inherit;False;Mesh
+    Values (Tree) (Complex) (UV4);-1;;20;45371c5fd5eb7d9498f96d84bbcc0bbc;0;0;2;FLOAT3;498;FLOAT;499\nNode;AmplifyShaderEditor.FunctionNode;586;-430.8243,-2089.537;Inherit;False;Mesh
+    Values (Tree) (Complex) (UV5);-1;;21;ca5caa312e061df4fab122fb09e5b9f7;0;0;2;FLOAT3;570;FLOAT;571\nNode;AmplifyShaderEditor.FunctionNode;588;256,-2352;Inherit;False;Unpack
+    (0_1 to -1_1);-1;;24;86a02532438475f45a1d688bf1aee3c7;0;1;1;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;567;256,-2272;Inherit;False;False;-1;_AMBIENT_OCCLUSION;12;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;550;256,-2816;Inherit;False;False;-1;_WIND_TERTIARY_ROLL;8;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;497;256,-3648;Inherit;False;False;-1;_WIND_PRIMARY_BEND;2;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;499;256,-3072;Inherit;False;False;-1;_WIND_SECONDARY_BEND;5;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;496;256,-3744;Inherit;False;False;-1;_WIND_PRIMARY_PIVOT;1;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;500;256,-3360;Inherit;False;False;-1;_WIND_SECONDARY_GROWTH_DIRECTION;6;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;495;256,-3840;Inherit;False;False;-1;_WIND_PRIMARY_ROLL;0;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;501;256,-3456;Inherit;False;True;-1;_WIND_SECONDARY_ROLL;3;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;552;256,-2432;Inherit;False;False;-1;_WIND_PHASE;10;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;549;256,-3264;Inherit;False;False;-1;_TYPE_DESIGNATOR;7;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;551;256,-2560;Inherit;False;False;-1;_WIND_VARIATION;9;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;570;257.3,-2176;Inherit;False;False;-1;_BILLBOARD_DATA;13;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;571;256,-1984;Inherit;False;False;-1;_BILLBOARD_ON;14;False;1;0;FLOAT;0;False;1;FLOAT;0\nNode;AmplifyShaderEditor.FunctionOutput;498;256,-3168;Inherit;False;False;-1;_WIND_SECONDARY_PIVOT;4;False;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0\nNode;AmplifyShaderEditor.FunctionOutput;589;640,-2352;Inherit;False;False;-1;_WIND_PHASE_UNPACKED;11;False;1;0;FLOAT;0;False;1;FLOAT;0\nWireConnection;588;1;587;552\nWireConnection;567;0;582;567\nWireConnection;550;0;587;550\nWireConnection;497;0;584;497\nWireConnection;499;0;585;499\nWireConnection;496;0;584;496\nWireConnection;500;0;583;500\nWireConnection;495;0;587;495\nWireConnection;501;0;587;501\nWireConnection;552;0;587;552\nWireConnection;549;0;583;549\nWireConnection;551;0;582;551\nWireConnection;570;0;586;570\nWireConnection;571;0;586;571\nWireConnection;498;0;585;498\nWireConnection;589;0;588;0\nASEEND*/\n//CHKSM=04C892CF14B453CE285103287DFE447B606C5FA3"
+  m_functionName: 
+  m_description: 'Global Vertex Animation Function with custom inputs
+
+'
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 0
+  m_customNodeCategory: Wind
+  m_previewPosition: 0
+  m_hidden: 0
