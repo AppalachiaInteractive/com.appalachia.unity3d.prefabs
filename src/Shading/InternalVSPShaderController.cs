@@ -16,7 +16,7 @@ namespace Appalachia.Shaders
                 return false;
             }
 
-            return shaderName.StartsWith("internal/");
+            return shaderName.StartsWith("appalachia/");
         }
 
         

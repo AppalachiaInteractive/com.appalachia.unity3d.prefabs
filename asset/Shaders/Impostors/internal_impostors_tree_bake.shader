@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/impostors/tree-bake"
+Shader "appalachia/impostors/tree-bake"
 {
 	Properties
 	{
@@ -666,7 +666,7 @@ Node;AmplifyShaderEditor.FunctionNode;2820;4670.974,-3525.209;Inherit;False;Pivo
 Node;AmplifyShaderEditor.RangedFloatNode;2621;994.6508,-4667.531;Inherit;False;Property;_BackshadingBias;Backshading Bias;43;0;Create;True;0;0;False;0;0;0;-1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;862;5470.626,-4115.542;Half;False;Property;_Cutoff;_cutoff;0;1;[HideInInspector];Create;False;3;Off;0;Front;1;Back;2;0;False;0;0.5;0.5;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;2613;565.3524,-4898.113;Inherit;False;Property;_TrunkFadeStrength;Trunk Fade Strength;10;0;Create;True;0;0;False;0;0;0.748;0;2;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2642;5017.625,-4181.766;Float;False;True;-1;2;ASEMaterialInspector;100;9;internal/impostors/tree-bake;f53051a8190f7044fa936bd7fbe116c1;True;Unlit;0;0;Unlit;10;False;False;False;True;2;False;-1;False;False;False;False;False;True;1;RenderType=Opaque=RenderType;True;4;0;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;0;0;1;True;False;;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;2642;5017.625,-4181.766;Float;False;True;-1;2;ASEMaterialInspector;100;9;appalachia/impostors/tree-bake;f53051a8190f7044fa936bd7fbe116c1;True;Unlit;0;0;Unlit;10;False;False;False;True;2;False;-1;False;False;False;False;False;True;1;RenderType=Opaque=RenderType;True;4;0;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;0;0;1;True;False;;0
 Node;AmplifyShaderEditor.CommentaryNode;760;-2048,-1472;Inherit;False;2046.548;120.5201;Main Texture and Color;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;1544;-2051.614,1024;Inherit;False;2559.027;100;Ambient Occlusion;0;;1,1,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;715;130.7473,-1026.555;Inherit;False;872;100;Smoothness Texture(Metallic, AO, Height, Smoothness);0;;1,0.7686275,0,1;0;0

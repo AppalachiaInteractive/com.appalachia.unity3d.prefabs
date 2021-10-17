@@ -1,6 +1,6 @@
 ﻿// Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/generic"
+Shader "appalachia/generic"
 {
 	Properties
 	{
@@ -269,8 +269,8 @@ Shader "internal/generic"
 
 		ENDCG
 	}
-	Fallback "internal/fallback"
-	CustomEditor "InternalShaderGUI"
+	Fallback "appalachia/fallback"
+	CustomEditor "AppalachiaShaderEditorGUI"
 }
 /*ASEBEGIN
 Version=17500
@@ -364,7 +364,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;1107;-576,-3616;Half;False;Property;_AD
 Node;AmplifyShaderEditor.RangedFloatNode;1172;-1072,-3520;Half;False;Property;_MotionSpacee;# MotionSpacee;25;0;Create;True;0;0;True;1;InternalInteractive(_MotionSpace, 1);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.Vector3Node;1175;-1280,288;Half;False;Property;_LocalDirection;Internal_LocalDirection;34;1;[HideInInspector];Create;False;0;0;True;0;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.RangedFloatNode;550;-1280,-2944;Half;False;Property;_SrcBlend;_SrcBlend;35;1;[HideInInspector];Create;True;0;0;True;0;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,-2176;Float;False;True;-1;2;InternalShaderGUI;300;0;Standard;internal/generic;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;False;False;False;False;True;Off;0;True;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0;True;True;0;True;Opaque;;Geometry;All;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;1;5;True;550;10;True;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;internal/fallback;-1;-1;-1;-1;0;False;0;0;True;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;0,-2176;Float;False;True;-1;2;AppalachiaShaderEditorGUI;300;0;Standard;appalachia/generic;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;False;False;False;False;True;Off;0;True;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0;True;True;0;True;Opaque;;Geometry;All;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;1;5;True;550;10;True;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;appalachia/fallback;-1;-1;-1;-1;0;False;0;0;True;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.CommentaryNode;760;-128,-1024;Inherit;False;1361.88;100;Main Texture and Color;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;751;3712,-1024;Inherit;False;713.7266;100;Metallic / Smoothness;0;;1,0.7450981,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;1100;-1280,-3840;Inherit;False;897.0701;100;Drawers;0;;1,0.4980392,0,1;0;0

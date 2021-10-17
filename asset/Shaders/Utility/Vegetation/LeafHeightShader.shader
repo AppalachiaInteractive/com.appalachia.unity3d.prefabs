@@ -1,4 +1,4 @@
-﻿Shader "internal/utility/TreeCreator/LeafHeightShader"
+﻿Shader "appalachia/utility/TreeCreator/LeafHeightShader"
 {
 	Properties
 	{

@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/backup/bark-20200322"
+Shader "appalachia/backup/bark-20200322"
 {
 	Properties
 	{
@@ -512,8 +512,8 @@ Shader "internal/backup/bark-20200322"
 
 		ENDCG
 	}
-	Fallback "internal/bark-simple"
-	CustomEditor "InternalShaderGUI"
+	Fallback "appalachia/bark-simple"
+	CustomEditor "AppalachiaShaderEditorGUI"
 }
 /*ASEBEGIN
 Version=17500
@@ -698,7 +698,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;2470;-837.7521,-2577.258;Float;False;Pr
 Node;AmplifyShaderEditor.RangedFloatNode;1513;-928,-3360;Half;False;Property;_BASEE;[ BASEE ];38;0;Create;True;0;0;True;1;InternalCategory(Base);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SwitchByFaceNode;2243;1887.559,-2210.087;Inherit;False;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;646;3968,-1024;Half;False;Main_MetallicGlossMap_R;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2200.383,-2155.841;Float;False;True;-1;2;InternalShaderGUI;300;0;Standard;internal/backup/bark-20200322;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;True;False;False;False;True;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;False;0;True;Opaque;;Geometry;All;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;True;550;10;True;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;internal/bark-simple;-1;-1;-1;-1;0;False;0;0;False;743;-1;0;True;862;3;Include;UnityCG.cginc;False;;Custom;Include;./../../../GPUInstancer/Shaders/Include/GPUInstancerInclude.cginc;False;;Custom;Pragma;instancing_options procedural:setupGPUI;False;;Custom;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;2200.383,-2155.841;Float;False;True;-1;2;AppalachiaShaderEditorGUI;300;0;Standard;appalachia/backup/bark-20200322;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;True;False;False;False;True;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;False;0;True;Opaque;;Geometry;All;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;True;550;10;True;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;appalachia/bark-simple;-1;-1;-1;-1;0;False;0;0;False;743;-1;0;True;862;3;Include;UnityCG.cginc;False;;Custom;Include;./../../../GPUInstancer/Shaders/Include/GPUInstancerInclude.cginc;False;;Custom;Pragma;instancing_options procedural:setupGPUI;False;;Custom;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.CommentaryNode;2189;4032.557,-379.9876;Inherit;False;1027.098;100;Trunk Base Blending ;0;;1,0,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;712;-2048,-2240;Inherit;False;1919.763;125.4341;Main UVs;0;;0.4980392,1,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;760;-2048,-1472;Inherit;False;2046.548;120.5201;Main Texture and Color;0;;0,0.751724,1,1;0;0

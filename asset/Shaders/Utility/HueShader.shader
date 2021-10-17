@@ -1,4 +1,4 @@
-﻿Shader "internal/HueShader"
+﻿Shader "appalachia/HueShader"
 {
 	Properties
 	{

@@ -1,4 +1,4 @@
-﻿Shader "internal/utility/TreeCreator/LeafGlossShader"
+﻿Shader "appalachia/utility/TreeCreator/LeafGlossShader"
 {
 	Properties
 	{

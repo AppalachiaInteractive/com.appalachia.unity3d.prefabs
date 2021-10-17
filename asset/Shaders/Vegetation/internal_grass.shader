@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/grass"
+Shader "appalachia/grass"
 {
 	Properties
 	{
@@ -978,8 +978,8 @@ Shader "internal/grass"
 			ENDCG
 		}
 	}
-	Fallback "internal/fallback"
-	CustomEditor "InternalShaderGUI"
+	Fallback "appalachia/fallback"
+	CustomEditor "AppalachiaShaderEditorGUI"
 }
 /*ASEBEGIN
 Version=17500
@@ -1070,7 +1070,7 @@ Node;AmplifyShaderEditor.FunctionNode;2602;180.55,-270.8306;Inherit;False;Cutoff
 Node;AmplifyShaderEditor.StaticSwitch;2621;-3268.023,-270.1943;Inherit;False;Property;_Billboard;Billboard;2;0;Create;True;0;0;True;0;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;862;1026.891,-439.3616;Half;False;Property;_Cutoff;Depth Cutoff;4;0;Create;False;3;Off;0;Front;1;Back;2;0;True;0;0.5;0.8;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;2623;1024,-351;Inherit;False;Property;_ZWrite;Z Write;3;1;[Toggle];Create;True;0;0;True;0;0;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;569.8781,-833.283;Float;False;True;-1;4;InternalShaderGUI;300;0;CustomLighting;internal/grass;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;False;True;False;True;True;False;Off;1;True;2623;3;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.8;True;True;0;True;Custom;InternalGrass;AlphaTest;ForwardOnly;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;True;Cylindrical;True;True;True;_BILLBOARD_ON;Relative;300;internal/fallback;-1;-1;-1;-1;0;False;0;0;False;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;569.8781,-833.283;Float;False;True;-1;4;AppalachiaShaderEditorGUI;300;0;CustomLighting;appalachia/grass;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;False;True;False;True;True;False;Off;1;True;2623;3;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.8;True;True;0;True;Custom;InternalGrass;AlphaTest;ForwardOnly;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;True;Cylindrical;True;True;True;_BILLBOARD_ON;Relative;300;appalachia/fallback;-1;-1;-1;-1;0;False;0;0;False;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.CommentaryNode;708;-55.36663,256.3343;Inherit;False;1024.6;100;Normal Texture;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;760;-2780.052,230.1812;Inherit;False;2581.91;100;Main Texture and Color;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;715;-15.18266,649.5809;Inherit;False;833.8796;100;Surface Input;0;;1,0.7686275,0,1;0;0

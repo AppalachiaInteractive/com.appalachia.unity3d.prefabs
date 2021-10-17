@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/impostors/grass-bake"
+Shader "appalachia/impostors/grass-bake"
 {
 	Properties
 	{
@@ -186,7 +186,7 @@ Node;AmplifyShaderEditor.FunctionNode;1383;-873.9198,-2424.423;Inherit;False;Pac
 Node;AmplifyShaderEditor.DynamicAppendNode;1376;-399.8208,-2501.284;Inherit;False;FLOAT4;4;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
 Node;AmplifyShaderEditor.FunctionNode;1273;-817.849,-1089.736;Inherit;False;Normal BackFace;-1;;7068;121446c878db06f4c847f9c5afed7cfe;0;1;13;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleSubtractOpNode;1386;-542.0484,-2006.778;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1370;-135.392,-2406.51;Float;False;True;-1;2;ASEMaterialInspector;100;9;internal/impostors/grass-bake;f53051a8190f7044fa936bd7fbe116c1;True;Unlit;0;0;Unlit;10;False;False;False;True;2;False;-1;False;False;False;False;False;True;3;RenderType=TransparentCutout=RenderType;Queue=AlphaTest=Queue=0;IgnoreProjector=True;True;4;0;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;0;0;1;True;False;;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1370;-135.392,-2406.51;Float;False;True;-1;2;ASEMaterialInspector;100;9;appalachia/impostors/grass-bake;f53051a8190f7044fa936bd7fbe116c1;True;Unlit;0;0;Unlit;10;False;False;False;True;2;False;-1;False;False;False;False;False;True;3;RenderType=TransparentCutout=RenderType;Queue=AlphaTest=Queue=0;IgnoreProjector=True;True;4;0;False;False;False;False;False;False;False;False;False;False;False;0;;0;0;Standard;0;0;1;True;False;;0
 Node;AmplifyShaderEditor.CommentaryNode;760;-2292.742,-1340.294;Inherit;False;753.6121;100;Main Texture and Color;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;715;-253.849,-1304.236;Inherit;False;658.1602;100;Surface Input;0;;1,0.7686275,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;708;-1405.849,-1304.236;Inherit;False;1024.6;100;Normal Texture;0;;0,0.751724,1,1;0;0

@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/touchbend"
+Shader "appalachia/touchbend"
 {
 	Properties
 	{
@@ -157,7 +157,7 @@ Node;AmplifyShaderEditor.FunctionNode;119;-26.6889,-341.9917;Inherit;False;Pack 
 Node;AmplifyShaderEditor.SimpleMinOpNode;67;-273,-99.08176;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;55;-277.7122,13.18686;Inherit;False;Average;-1;;12;3cc639c87d4059642bd54021d04a32cc;2,5,0,4,0;9;15;FLOAT;0;False;16;FLOAT;0;False;17;FLOAT;0;False;18;FLOAT;0;False;19;FLOAT;0;False;20;FLOAT;0;False;21;FLOAT;0;False;22;FLOAT;0;False;23;FLOAT;0;False;1;FLOAT;14
 Node;AmplifyShaderEditor.DynamicAppendNode;3;640.8183,-157.5272;Inherit;False;FLOAT4;4;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;FLOAT4;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;77;856.9683,-159.5382;Float;False;True;-1;2;ASEMaterialInspector;100;1;internal/touchbend;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;1;False;-1;0;False;-1;0;5;False;-1;10;False;-1;True;0;False;-1;1;False;-1;True;False;True;2;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;77;856.9683,-159.5382;Float;False;True;-1;2;ASEMaterialInspector;100;1;appalachia/touchbend;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;1;False;-1;0;False;-1;0;5;False;-1;10;False;-1;True;0;False;-1;1;False;-1;True;False;True;2;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;1;False;-1;True;3;False;-1;True;True;0;False;-1;0;False;-1;True;1;RenderType=Opaque=RenderType;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
 WireConnection;37;2;24;0
 WireConnection;46;0;62;0
 WireConnection;36;0;37;0

@@ -1,4 +1,4 @@
-Shader "Hidden/internal/depth-normals" 
+Shader "Hidden/appalachia/depth-normals" 
 {
 	Properties
 	{

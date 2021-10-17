@@ -1,5 +1,5 @@
 ﻿
-Shader "internal/billboards/tree_diffuse"
+Shader "appalachia/billboards/tree_diffuse"
 {
 	Properties
 	{

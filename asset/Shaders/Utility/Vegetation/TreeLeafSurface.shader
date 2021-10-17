@@ -1,4 +1,4 @@
-﻿Shader "internal/utility/TreeCreator/TreeLeafSurface"
+﻿Shader "appalachia/utility/TreeCreator/TreeLeafSurface"
 {
 	Properties
 	{

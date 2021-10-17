@@ -1,4 +1,4 @@
-﻿Shader "internal/utility/TreeCreator/BarkMultiplyShader"
+﻿Shader "appalachia/utility/TreeCreator/BarkMultiplyShader"
 {
 	Properties
 	{

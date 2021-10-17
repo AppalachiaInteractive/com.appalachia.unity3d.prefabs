@@ -1,4 +1,4 @@
-﻿Shader "internal/depth-mask" 
+﻿Shader "appalachia/depth-mask" 
 {
     Properties
 	{

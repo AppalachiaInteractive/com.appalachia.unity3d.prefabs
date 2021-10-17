@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "internal/touchbend/quad-renderer_spatial"
+Shader "appalachia/touchbend/quad-renderer_spatial"
 {
 	Properties
 	{
@@ -159,7 +159,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;180;5097.445,2246.571;Inherit;False;Con
 Node;AmplifyShaderEditor.WireNode;182;5383.445,2322.571;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;146;4817.566,2060.496;Inherit;False;Property;_MIN_OLD;MIN_OLD;2;0;Create;True;0;0;True;0;0;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;148;6169.749,2131.054;Inherit;False;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;77;7060.31,1350.204;Float;False;True;-1;2;ASEMaterialInspector;100;1;internal/touchbend/quad-renderer_spatial;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;True;0;False;-1;0;False;-1;True;False;True;2;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;2;False;-1;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;3;RenderType=Touchbend=RenderType;Queue=Transparent=Queue=0;PreviewType=Plane;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;77;7060.31,1350.204;Float;False;True;-1;2;ASEMaterialInspector;100;1;appalachia/touchbend/quad-renderer_spatial;0770190933193b94aaa3065e307002fa;True;Unlit;0;0;Unlit;2;True;0;5;False;-1;10;False;-1;0;0;False;-1;0;False;-1;True;0;False;-1;0;False;-1;True;False;True;2;False;-1;True;True;True;True;True;0;False;-1;True;False;255;False;-1;255;False;-1;255;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;7;False;-1;1;False;-1;1;False;-1;1;False;-1;True;2;False;-1;True;0;False;-1;True;False;0;False;-1;0;False;-1;True;3;RenderType=Touchbend=RenderType;Queue=Transparent=Queue=0;PreviewType=Plane;True;2;0;False;False;False;False;False;False;False;False;False;True;1;LightMode=ForwardBase;False;0;;0;0;Standard;1;Vertex Position,InvertActionOnDeselection;1;0;1;True;False;;0
 WireConnection;137;0;194;1
 WireConnection;137;1;194;2
 WireConnection;137;2;194;3

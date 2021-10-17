@@ -1,4 +1,4 @@
-﻿Shader "internal/utility/TreeCreator/LeafTranslucencyShader"
+﻿Shader "appalachia/utility/TreeCreator/LeafTranslucencyShader"
 {
 	Properties
 	{

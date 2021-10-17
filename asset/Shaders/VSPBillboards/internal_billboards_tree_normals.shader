@@ -1,4 +1,4 @@
-﻿Shader "internal/billboards/tree_normals"
+﻿Shader "appalachia/billboards/tree_normals"
 {
 	Properties
 	{
