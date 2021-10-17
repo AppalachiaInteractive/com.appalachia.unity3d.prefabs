@@ -1,7 +1,7 @@
 {
   "name": "com.appalachia.unity3d.prefabs",
   "displayName": "appalachia.Prefabs for Unity3D",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "unity": "2020.3",
   "description": "Prefab rendering and spawning for Unity3D.",
   "keywords": [
