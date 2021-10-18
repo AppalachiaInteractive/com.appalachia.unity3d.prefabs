@@ -12,6 +12,12 @@
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| f7ba9a11ce7755b254eae40d3761ce41598024fe | 2021-10-17 | Chris Schubert | Fixing package jsons |
+
+
+ ## Tag: `v0.1.4`
+| Hash | Date | Author | Changes |
+|------|------|--------|---------|
 | 80133ca7ce9f923660bea27b2cbe9b95a82b68be | 2021-10-17 | Chris Schubert | Fixing doozy input issues |
 
 
