@@ -1,15 +1,15 @@
 #region
 
 using System;
+using Appalachia.CI.Constants;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Constants;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
-using Appalachia.Utility.Constants;
+using Appalachia.Utility.src.Constants;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;

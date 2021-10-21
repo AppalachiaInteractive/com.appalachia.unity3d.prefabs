@@ -2,8 +2,8 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.CI.Constants;
 using Appalachia.Core.Behaviours;
-using Appalachia.Core.Constants;
 using Appalachia.Rendering.Prefabs.Spawning.Collections;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
