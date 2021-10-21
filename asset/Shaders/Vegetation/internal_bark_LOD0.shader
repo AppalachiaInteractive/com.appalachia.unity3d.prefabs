@@ -1169,7 +1169,7 @@ Shader "appalachia/bark_LOD0"
 		}
 	}
 	Fallback "Diffuse"
-	CustomEditor "AppalachiaShaderEditorGUI"
+	CustomEditor "AppalachiaShaderGUI"
 }
 /*ASEBEGIN
 Version=17500
@@ -1282,7 +1282,7 @@ Node;AmplifyShaderEditor.SwitchByFaceNode;2787;7393.001,-1475.082;Inherit;False;
 Node;AmplifyShaderEditor.RangedFloatNode;2638;8000.601,-1330.614;Half;False;Property;_IsBark;Is Bark;101;2;[HideInInspector];[Toggle];Create;True;2;Off;0;On;1;0;True;0;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1468;7998.114,-1512.581;Half;False;Property;_TRUNKK;[ TRUNKK ];2;0;Create;True;0;0;True;1;InternalCategory(Trunk);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.FunctionNode;2841;7305.033,-1237.781;Inherit;False;Execute LOD Fade;-1;;24113;18ea34bd83a0d6c4db425672111543e6;0;2;41;FLOAT;0;False;58;FLOAT3;0,0,0;False;3;FLOAT;0;FLOAT3;91;FLOAT;96
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;7721.279,-1647.184;Float;False;True;-1;4;AppalachiaShaderEditorGUI;300;0;CustomLighting;appalachia/bark_LOD0;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;False;True;False;False;False;False;Off;1;False;925;3;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;True;0;True;Custom;InternalBark;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;0;False;550;0;False;553;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;False;False;_BILLBOARD_ON;Relative;300;;0;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;7721.279,-1647.184;Float;False;True;-1;4;AppalachiaShaderGUI;300;0;CustomLighting;appalachia/bark_LOD0;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;False;True;False;False;False;False;Off;1;False;925;3;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;True;0;True;Custom;InternalBark;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;0;False;550;0;False;553;0;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;False;False;_BILLBOARD_ON;Relative;300;;0;-1;-1;-1;0;False;0;0;False;-1;-1;0;False;-1;0;0;0;False;0.1;False;-1;0;False;-1;16;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT3;0,0,0;False;4;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 WireConnection;1299;0;2700;0
 WireConnection;1109;0;1102;0
 WireConnection;1109;1;1102;5

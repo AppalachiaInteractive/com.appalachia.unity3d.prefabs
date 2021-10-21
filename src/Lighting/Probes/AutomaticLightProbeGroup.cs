@@ -1092,7 +1092,6 @@ namespace Appalachia.Rendering.Lighting.Probes
                     // it is a redundant point and can be removed.  Since it's very, very complicated to remove multiple points from an area and figure out adjacencies again, it's better to just do that
                     // in passes and keep doing passes until there is nothing more to remove.  Should be fairly quick anyway.
                     var perProbeError = new AppaList_float(8);
-                    var progressCount = 0;
                     var totalProgress = positions.Length;
                     var lockSet =
                         new HashSet<int>(); // these are probes we will not attempt to optimize out on this pass, because one of his neighbors was optimized out already
@@ -1112,8 +1111,6 @@ namespace Appalachia.Rendering.Lighting.Probes
                         {
                             break;
                         }
-
-                        progressCount++;
 
                         var numAdjVerts = adjacencyVerts[i].Count;
                         if (

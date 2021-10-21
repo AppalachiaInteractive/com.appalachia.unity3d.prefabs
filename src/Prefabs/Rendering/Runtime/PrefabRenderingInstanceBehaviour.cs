@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Behaviours;
+using Appalachia.Core.Debugging;
 using Appalachia.Core.Preferences;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Editing.Debugging;

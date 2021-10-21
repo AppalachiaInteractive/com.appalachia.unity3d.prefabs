@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using Appalachia.Core.Debugging;
 using Appalachia.Editing.Debugging;
 using UnityEngine;
 

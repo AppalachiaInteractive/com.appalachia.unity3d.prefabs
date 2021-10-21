@@ -618,7 +618,7 @@ Shader "appalachia/fallback-cutout"
 		ENDCG
 	}
 	Fallback "Unlit/Color"
-	CustomEditor "AppalachiaShaderEditorGUI"
+	CustomEditor "AppalachiaShaderGUI"
 }
 /*ASEBEGIN
 Version=17500
@@ -672,7 +672,7 @@ Node;AmplifyShaderEditor.GetLocalVarNode;1182;-3105.03,-2983.886;Inherit;False;1
 Node;AmplifyShaderEditor.GetLocalVarNode;1181;-3108.297,-3067.238;Inherit;False;1172;MainBumpMap;1;0;OBJECT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;1204;-1457.367,-1847.791;Half;False;Property;_BANNER;BANNER;0;0;Create;True;0;0;True;1;InternalBanner(Internal, Leaf);1;1;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1208;-1311.368,-1296.791;Half;False;Property;_IsLeaf;Is Leaf;52;1;[Toggle];Create;True;2;Off;0;On;1;0;True;0;1;1;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-1220.608,-3079.287;Float;False;True;-1;2;AppalachiaShaderEditorGUI;200;0;Standard;appalachia/fallback-cutout;False;False;False;False;False;True;True;True;True;False;True;True;False;False;False;False;True;False;False;False;False;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0;True;True;0;True;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;21;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;200;Unlit/Color;-1;-1;-1;-1;0;False;0;0;False;743;-1;0;False;1197;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-1220.608,-3079.287;Float;False;True;-1;2;AppalachiaShaderGUI;200;0;Standard;appalachia/fallback-cutout;False;False;False;False;False;True;True;True;True;False;True;True;False;False;False;False;True;False;False;False;False;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Opaque;0;True;True;0;True;Opaque;;Geometry;All;14;all;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;21;False;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;200;Unlit/Color;-1;-1;-1;-1;0;False;0;0;False;743;-1;0;False;1197;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.CommentaryNode;1211;-4360.188,-1058.388;Inherit;False;578.3026;100;Main Texture and Color;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;1210;-2440.188,-1058.388;Inherit;False;826;100;Surface Texture (Metallic, AO, SubSurface, Smoothness);0;;1,0.7686275,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;1212;-4492.286,-1966.285;Inherit;False;2871.096;100;Main Texture and Color;0;;0,0.751724,1,1;0;0

@@ -3,6 +3,7 @@
 using System;
 using Appalachia.Core.Assets;
 using Appalachia.Core.Behaviours;
+using Appalachia.Core.Debugging;
 using Appalachia.Editing.Debugging;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Spawning.Data;

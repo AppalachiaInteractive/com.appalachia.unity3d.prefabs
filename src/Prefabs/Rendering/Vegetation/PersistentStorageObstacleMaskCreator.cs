@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
+using Appalachia.Core.Debugging;
 using Appalachia.Editing.Debugging;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Spatial.Octree;
