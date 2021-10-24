@@ -231,6 +231,11 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 {
                     var prototype = gpui.prototypeList[i] as GPUInstancerPrefabPrototype;
 
+                    if (prototype == null)
+                    {
+                        throw new NotSupportedException($"Prototype at index {i} was null.");
+                    }
+                    
                     if (prototypeLookup.ContainsKey(prototype))
                     {
                         continue;
@@ -783,7 +788,9 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                                 {
                                 }
 
-                                ex.LogException($"Exception while updating {identifier}.", context);
+                                Debug.LogError($"Failed to assign mesh wind data to {name}.");
+                                Debug.LogException(ex);
+                                Debug.LogError($"Exception while updating {identifier}.", context);
                                 handle.Complete();
                             }
                         }

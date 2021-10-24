@@ -17,7 +17,7 @@ MonoBehaviour:
   _toggles:
     initializerCount: 64
     values:
-      noTracking: 0
+      _capacityIncreaseMultiplier: 2
       _values:
       - options: {fileID: 11400000, guid: 505e6761135317d4cbe6db46908dbfb8, type: 2}
       - options: {fileID: 11400000, guid: d8d3dcd8226afcc4ea440f24cea511a4, type: 2}
@@ -41,17 +41,17 @@ MonoBehaviour:
       - options: {fileID: 11400000, guid: d45f831494bfc204f823e161ae41abdc, type: 2}
       - options: {fileID: 11400000, guid: 8864b3872144d64428824b6a349fac41, type: 2}
       - options: {fileID: 11400000, guid: 18f6f7ede7f37a547b32768a9f1b20c8, type: 2}
-      _capacityIncreaseMultiplier: 2
+      noTracking: 0
       _count: 22
     keys:
-      noTracking: 0
-      _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
       _capacityIncreaseMultiplier: 2
+      _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
+      noTracking: 0
       _count: 22
   _state:
     initializerCount: 64
     values:
-      noTracking: 0
+      _capacityIncreaseMultiplier: 2
       _values:
       - {fileID: 11400000, guid: 505e6761135317d4cbe6db46908dbfb8, type: 2}
       - {fileID: 11400000, guid: d8d3dcd8226afcc4ea440f24cea511a4, type: 2}
@@ -75,10 +75,10 @@ MonoBehaviour:
       - {fileID: 11400000, guid: d45f831494bfc204f823e161ae41abdc, type: 2}
       - {fileID: 11400000, guid: 8864b3872144d64428824b6a349fac41, type: 2}
       - {fileID: 11400000, guid: 18f6f7ede7f37a547b32768a9f1b20c8, type: 2}
-      _capacityIncreaseMultiplier: 2
+      noTracking: 0
       _count: 22
     keys:
-      noTracking: 0
-      _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
       _capacityIncreaseMultiplier: 2
+      _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
+      noTracking: 0
       _count: 22

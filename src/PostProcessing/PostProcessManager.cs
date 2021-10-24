@@ -1,5 +1,5 @@
 using System.Linq;
-using Appalachia.Utility.src.Constants;
+using Appalachia.Utility.Constants;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;

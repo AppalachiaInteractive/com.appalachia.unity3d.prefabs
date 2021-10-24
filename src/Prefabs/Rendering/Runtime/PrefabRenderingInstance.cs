@@ -288,9 +288,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 }
                 catch (Exception ex)
                 {
-                    ex.LogException(
-                        $"Error moving [{metadata.prototype.prefabObject.name}] from [{currentState}] to [{nextState}]: {ex.Message}"
-                    );
+                    var name = metadata.prototype.prefabObject.name;
+                    
+                    Debug.LogError($"Error moving [{name}] from [{currentState}] to [{nextState}]"                    );
+                    Debug.LogException(ex);
 
                     pushGpuiMatrices = false;
                     return false;

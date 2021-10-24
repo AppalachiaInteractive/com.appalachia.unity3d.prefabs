@@ -628,7 +628,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (renderingSet == null)
                             {
-                                DebugHelper.LogWarning(
+                                Debug.LogWarning(
                                     $"No render set for [{renderingParameter.prefab}].",
                                     manager
                                 );

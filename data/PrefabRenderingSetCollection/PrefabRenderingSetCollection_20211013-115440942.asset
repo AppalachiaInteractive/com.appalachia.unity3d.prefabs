@@ -17,24 +17,24 @@ MonoBehaviour:
   _toggles:
     initializerCount: 64
     values:
-      noTracking: 0
-      _values: []
       _capacityIncreaseMultiplier: 2
+      _values: []
+      noTracking: 0
       _count: 0
     keys:
-      noTracking: 0
-      _values: []
       _capacityIncreaseMultiplier: 2
+      _values: []
+      noTracking: 0
       _count: 0
   _state:
     initializerCount: 64
     values:
-      noTracking: 0
-      _values: []
       _capacityIncreaseMultiplier: 2
+      _values: []
+      noTracking: 0
       _count: 0
     keys:
-      noTracking: 0
-      _values: []
       _capacityIncreaseMultiplier: 2
+      _values: []
+      noTracking: 0
       _count: 0

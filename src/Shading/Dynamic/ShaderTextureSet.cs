@@ -96,7 +96,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
             catch (Exception ex)
             {
-                ex.LogException($"Error while updating image: {ex.Message}");
+                Debug.LogError($"Error while updating image.");
+                Debug.LogException(ex);
             }
 
             Shader.SetGlobalFloatArray(globalFloatArray, globalTextureConfiguration);

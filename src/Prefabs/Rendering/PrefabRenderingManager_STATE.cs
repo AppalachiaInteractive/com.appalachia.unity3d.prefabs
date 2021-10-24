@@ -9,7 +9,7 @@ using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
-using Appalachia.Utility.src.Constants;
+using Appalachia.Utility.Constants;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -612,7 +612,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (enable)
                 {
-                    DebugHelper.Log("Attempting to start runtime rendering.", this);
+                    Debug.Log("Attempting to start runtime rendering.", this);
 
                     _updateLoopCount = 0;
                     _updateLoopStopped = false;
@@ -633,12 +633,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                     catch (Exception ex)
                     {
-                        DebugHelper.LogException("Failed to start runtime rendering", ex, this);
+                        Debug.LogException(ex, this);
                     }
                 }
                 else
                 {
-                    DebugHelper.Log("Attempting to end runtime rendering.", this);
+                    Debug.Log("Attempting to end runtime rendering.", this);
 
                     gpui.enabled = false;
                 }
@@ -655,7 +655,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (enable)
                 {
-                    DebugHelper.Log("Attempting to start GPUI simulation.", this);
+                    Debug.Log("Attempting to start GPUI simulation.", this);
 
                     _updateLoopCount = 0;
                     _updateLoopStopped = false;
@@ -678,12 +678,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                     catch (Exception ex)
                     {
-                        DebugHelper.LogException("Failed to start simulation", ex, this);
+                        Debug.LogError("Failed to start simulation", this);
+                        Debug.LogException(ex, this);
                     }
                 }
                 else
                 {
-                    DebugHelper.Log("Attempting to end GPUI simulation.", this);
+                    Debug.Log("Attempting to end GPUI simulation.", this);
 
                     GPUInstancerAPI.StopEditorSimulation(gpui);
                 }
