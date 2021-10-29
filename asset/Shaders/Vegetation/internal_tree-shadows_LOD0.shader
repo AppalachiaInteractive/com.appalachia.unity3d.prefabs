@@ -37,7 +37,7 @@ Shader "appalachia/tree-shadows_LOD0"
 
 		// FEATURE_GPU_INSTANCER
 		#include "UnityCG.cginc"
-		#include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+		#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
 		#pragma instancing_options procedural:setupGPUI
 
 

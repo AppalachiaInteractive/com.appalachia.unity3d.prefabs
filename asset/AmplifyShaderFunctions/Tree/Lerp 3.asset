@@ -1,0 +1,112 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78b2425a2284af743826c689403a4924, type: 3}
+  m_Name: Lerp 3
+  m_EditorClassIdentifier: 
+  m_functionInfo: '/*ASEBEGIN
+
+    Version=17500
+
+    -320.8889;-964;1706.667;939;1191.681;289.4505;1;True;False
+
+    Node;AmplifyShaderEditor.FunctionInput;3;-383,1;Inherit;False;B;4;1;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+
+    Node;AmplifyShaderEditor.Vector4Node;9;-1536,-112;Inherit;False;Constant;_A;A;0;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+
+    Node;AmplifyShaderEditor.Vector4Node;11;-1024,128;Inherit;False;Constant;_C;C;0;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+
+    Node;AmplifyShaderEditor.FunctionInput;4;-384,128;Inherit;False;C;4;2;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+
+    Node;AmplifyShaderEditor.FunctionInput;1;-395,-128;Inherit;False;A;4;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+
+    Node;AmplifyShaderEditor.FunctionNode;15;-384,512;Inherit;False;const;-1;;11;5b64729fb717c5f49a1bc2dab81d5e1c;4,21,0,3,1,22,0,28,0;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.Vector4Node;10;-1312,1;Inherit;False;Constant;_B;B;0;0;Create;True;0;0;False;0;0,0,0,0;0,0,0,0;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+
+    Node;AmplifyShaderEditor.FunctionNode;24;-286.3221,618.6685;Inherit;False;const;-1;;22;5b64729fb717c5f49a1bc2dab81d5e1c;4,21,0,3,2,22,0,28,0;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.FunctionNode;25;-136.3221,719.6685;Inherit;False;const;-1;;23;5b64729fb717c5f49a1bc2dab81d5e1c;4,21,0,3,1,22,0,28,0;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.FunctionNode;23;65.67792,510.6684;Inherit;False;Remap
+    From 0-1;-1;;21;e64dd7a39884fcf479ce6585a25254a4;0;3;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.FunctionInput;6;-384,256;Inherit;False;Alpha
+    (0 to 1);1;3;False;1;0;FLOAT;0;False;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.FunctionNode;14;-384,384;Inherit;False;const;-1;;9;5b64729fb717c5f49a1bc2dab81d5e1c;4,21,0,3,0,22,0,28,0;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.RangedFloatNode;7;-704,256;Inherit;False;Constant;_Alpha0to1;Alpha
+    (0 to 1);0;0;Create;True;0;0;False;0;0;0;0;1;0;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.ClampOpNode;13;-176.599,346.0148;Inherit;False;3;0;FLOAT;0;False;1;FLOAT;0;False;2;FLOAT;1;False;1;FLOAT;0
+
+    Node;AmplifyShaderEditor.FunctionNode;22;314.6779,287.6685;Inherit;False;Expanded
+    Lerp 3;-1;;14;5025c4586b263b64ca9681aa17567b83;0;4;1;FLOAT4;0,0,0,0;False;3;FLOAT4;0,0,0,0;False;4;FLOAT4;0,0,0,0;False;6;FLOAT;0;False;1;FLOAT4;0
+
+    Node;AmplifyShaderEditor.FunctionOutput;0;1152,0;Inherit;False;True;-1;;0;True;1;0;FLOAT4;0,0,0,0;False;1;FLOAT4;0
+
+    WireConnection;3;0;10;0
+
+    WireConnection;4;0;11;0
+
+    WireConnection;1;0;9;0
+
+    WireConnection;23;6;13;0
+
+    WireConnection;23;7;24;0
+
+    WireConnection;23;8;25;0
+
+    WireConnection;6;0;7;0
+
+    WireConnection;13;0;6;0
+
+    WireConnection;13;1;14;0
+
+    WireConnection;13;2;15;0
+
+    WireConnection;22;1;1;0
+
+    WireConnection;22;3;3;0
+
+    WireConnection;22;4;4;0
+
+    WireConnection;22;6;23;0
+
+    WireConnection;0;0;22;0
+
+    ASEEND*/
+
+    //CHKSM=83AE09897C7B9D446ABE039CCF467B51E8D2A94A'
+  m_functionName: 
+  m_description: 
+  m_additionalIncludes:
+    m_additionalIncludes: []
+    m_outsideIncludes: []
+  m_additionalPragmas:
+    m_additionalPragmas: []
+    m_outsidePragmas: []
+  m_additionalDirectives:
+    m_validData: 0
+    m_isDirty: 0
+    m_moduleName: ' Additional Directives'
+    m_independentModule: 1
+    m_additionalDirectives: []
+    m_shaderFunctionDirectives: []
+    m_nativeDirectives: []
+    m_nativeDirectivesIndex: -1
+    m_nativeDirectivesFoldout: 0
+    m_directivesSaveItems: []
+  m_nodeCategory: 3
+  m_customNodeCategory: 
+  m_previewPosition: 0
+  m_hidden: 0

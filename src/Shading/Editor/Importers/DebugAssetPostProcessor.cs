@@ -5,20 +5,21 @@ namespace Appalachia.Rendering.Shading.Importers
 {
     internal class DebugAssetPostProcessor : AssetPostprocessor
     {
-        private const string k_MenuName = "Tools/Toggle Asset Import Debugging";
+        private const string NAME = "Toggle Asset Import Debugging";
 
         private static Camera _mainCamera;
 
         public static bool enabled;
 
-        [MenuItem(k_MenuName, true)]
+        [MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, true, priority = PKG.Menu.Appalachia.Tools.Priority)]
+        [UnityEditor.MenuItem(NAME, true)]
         public static bool ToggleAssetImportDebuggingValidate()
         {
-            Menu.SetChecked(k_MenuName, enabled);
+            Menu.SetChecked(NAME, enabled);
             return true;
         }
 
-        [MenuItem(k_MenuName, priority = 1050)]
+        [MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, priority = PKG.Menu.Appalachia.Tools.Priority)]
         public static void ToggleAssetImportDebugging()
         {
             SetEnabled(!enabled);

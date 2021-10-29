@@ -14,9 +14,9 @@ Shader "Hidden/appalachia/depth-normals"
         {
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -49,9 +49,9 @@ Shader "Hidden/appalachia/depth-normals"
         {
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma shader_feature_local _GROUNDED_ON
             #pragma vertex vert
@@ -86,9 +86,9 @@ Shader "Hidden/appalachia/depth-normals"
 		    ColorMask 0
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -121,9 +121,9 @@ Shader "Hidden/appalachia/depth-normals"
         {
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma shader_feature_local _GROUNDED_ON
             #pragma vertex vert
@@ -157,9 +157,9 @@ Shader "Hidden/appalachia/depth-normals"
         {
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -192,9 +192,9 @@ Shader "Hidden/appalachia/depth-normals"
         {             
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -239,9 +239,9 @@ Shader "Hidden/appalachia/depth-normals"
             
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -281,9 +281,9 @@ Shader "Hidden/appalachia/depth-normals"
         {
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -326,9 +326,9 @@ Shader "Hidden/appalachia/depth-normals"
         {
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -369,9 +369,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Back
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -417,9 +417,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Front
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -469,9 +469,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Off
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -513,9 +513,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Off
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -562,9 +562,9 @@ Shader "Hidden/appalachia/depth-normals"
             
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -609,9 +609,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Off
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -733,9 +733,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Off
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -784,9 +784,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Off
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag
@@ -836,9 +836,9 @@ Shader "Hidden/appalachia/depth-normals"
             Cull Off
             CGPROGRAM
             #include "UnityCG.cginc"
-            #include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
             #pragma instancing_options procedural:setupGPUI
-            #include "Assets/Resources/CGIncludes/InternalIncludes.cginc"
+            #include "Assets/Resources/CGIncludes/Appalachia/InternalIncludes.cginc"
             #pragma multi_compile_instancing
             #pragma vertex vert
             #pragma fragment frag

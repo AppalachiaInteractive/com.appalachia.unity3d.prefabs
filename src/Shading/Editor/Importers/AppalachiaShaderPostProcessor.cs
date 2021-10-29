@@ -10,20 +10,20 @@ namespace Appalachia.Rendering.Shading.Importers
 {
     public sealed class AppalachiaShaderPostProcessor : AssetPostprocessor
     {
-        private const string k_MenuName = "Appalachia/Tools/Appalachia.Rendering.Shading/Shader Feature Compilation";
+        private const string NAME = "Shader Feature Compilation";
         public static bool enabled = true;
 
         private static Dictionary<string, byte[]> processed = new Dictionary<string, byte[]>();
         private static HashAlgorithm _hasher;
 
-        [MenuItem(k_MenuName, true)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, true)]
         public static bool ToggleShaderFeatureCompilationValidate()
         {
-            Menu.SetChecked(k_MenuName, enabled);
+            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Base + NAME, enabled);
             return true;
         }
 
-        [MenuItem(k_MenuName, priority = 1050)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, priority = PKG.Menu.Appalachia.Tools.Priority)]
         public static void ToggleShaderFeatureCompilation()
         {
             SetEnabled(!enabled);

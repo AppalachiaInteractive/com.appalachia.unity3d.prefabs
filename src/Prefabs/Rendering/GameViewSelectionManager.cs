@@ -35,7 +35,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_TrySelect = new(_PRF_PFX + nameof(TrySelect));
         private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
-        private const string _G = "Gizmos/Game View";
         private static PREF<float> rayDuration;
         private static PREF<float> rayIndexResetDistance;
         private static PREF<Color> gizmoColor;
@@ -65,18 +64,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (gizmoColor == null)
                 {
-                    gizmoColor = PREFS.REG(_G, nameof(gizmoColor), Colors.Cyan);
+                    gizmoColor = PREFS.REG(PKG.Prefs.Gizmos.GameView, nameof(gizmoColor), Colors.Cyan);
                 }
 
                 if (rayDuration == null)
                 {
-                    rayDuration = PREFS.REG(_G, nameof(rayDuration), 2f, .1f, 10f);
+                    rayDuration = PREFS.REG(PKG.Prefs.Gizmos.GameView, nameof(rayDuration), 2f, .1f, 10f);
                 }
 
                 if (rayIndexResetDistance == null)
                 {
                     rayIndexResetDistance = PREFS.REG(
-                        _G,
+                        PKG.Prefs.Gizmos.GameView,
                         nameof(rayIndexResetDistance),
                         25f,
                         5f,

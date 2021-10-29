@@ -19,7 +19,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     {
 #if UNITY_EDITOR
 
-        private const string G_ = "Appalachia/Prefab Rendering/Gizmos";
         private static PREF<float> gizmoRayShowTime;
 
         private Vector3[] points;
@@ -55,7 +54,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (gizmoRayShowTime == null)
                 {
-                    gizmoRayShowTime = PREFS.REG(G_, "Max Size", 1f, .1f, 10f);
+                    gizmoRayShowTime = PREFS.REG(PKG.Prefs.Gizmos.Base, "Max Size", 1f, .1f, 10f);
                 }
 
                 if (!options.gizmos.gizmosEnabled)

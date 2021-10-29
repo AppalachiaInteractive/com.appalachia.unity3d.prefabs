@@ -20,7 +20,7 @@ Shader "appalachia/lighting/Occlusion Probe Visualization"
 		#pragma multi_compile_instancing
 		#pragma shader_feature _SPECULARHIGHLIGHTS_OFF
 		#pragma shader_feature _GLOSSYREFLECTIONS_OFF
-		#include "Assets/Resources/CGIncludes/indirect.cginc"
+		#include "Assets/Resources/CGIncludes/Appalachia/indirect.cginc"
 		#pragma instancing_options procedural:setup
 		#pragma surface surf Unlit keepalpha noshadow nometa noforwardadd 
 		#undef TRANSFORM_TEX

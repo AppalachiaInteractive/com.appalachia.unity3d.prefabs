@@ -26,7 +26,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstanceBehaviour) + ".";
 
-        private const string G_ = "Appalachia/Prefab Rendering/Gizmos/Instance";
         private static PREF<float> gizmoRadius;
         private static PREF<float> gizmoIncrement;
         private static PREF<int> gizmoLimit;
@@ -167,27 +166,27 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 {
                     if (gizmoRadius == null)
                     {
-                        gizmoRadius = PREFS.REG(G_, "Max Size", .25f, .1f, 2f);
+                        gizmoRadius = PREFS.REG(PKG.Prefs.Instance, "Max Size", .25f, .1f, 2f);
                     }
 
                     if (gizmoIncrement == null)
                     {
-                        gizmoIncrement = PREFS.REG(G_, "Vertical", .5f, .1f, 2f);
+                        gizmoIncrement = PREFS.REG(PKG.Prefs.Instance, "Vertical", .5f, .1f, 2f);
                     }
 
                     if (gizmoLimit == null)
                     {
-                        gizmoLimit = PREFS.REG(G_, "Limit", 25, 1, 150);
+                        gizmoLimit = PREFS.REG(PKG.Prefs.Instance, "Limit", 25, 1, 150);
                     }
 
                     if (drawHandleLabels == null)
                     {
-                        drawHandleLabels = PREFS.REG(G_, "Draw Labels", true);
+                        drawHandleLabels = PREFS.REG(PKG.Prefs.Instance, "Draw Labels", true);
                     }
 
                     if (handleRadius == null)
                     {
-                        handleRadius = PREFS.REG(G_, "HandleRadius", 4f);
+                        handleRadius = PREFS.REG(PKG.Prefs.Instance, "HandleRadius", 4f);
                     }
 
                     _cachedFrame = frame;

@@ -3,7 +3,7 @@
 #ifdef INDIRECT_INSTANCING_VSP
 
 // FEATURE_VEGETATION_STUDIO_GENERAL
-#include "Assets/Resources/CGIncludes/VS_indirect.cginc"
+#include "Assets/Resources/CGIncludes/Appalachia/VS_indirect.cginc"
 #pragma instancing_options assumeuniformscaling maxcount:50 procedural:setup_VSP
 #pragma multi_compile GPU_FRUSTUM_ON __
 
@@ -11,14 +11,14 @@
 
 // FEATURE_GPU_INSTANCER
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 
 // FEATURE_GPUINSTANCER_ENABLED_ENDIF
 #endif
 
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 */
 

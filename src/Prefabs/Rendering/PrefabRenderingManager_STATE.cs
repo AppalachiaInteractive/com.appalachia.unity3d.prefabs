@@ -1,15 +1,12 @@
 #region
 
 using System;
-using Appalachia.CI.Constants;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
-using Appalachia.Utility.Constants;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -23,6 +20,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
+        #region Profiling And Tracing Markers
+
         private static RenderingStateReasonCodeLookup _reasonCodes = new();
 
         private static readonly ProfilerMarker _PRF_IsEditorSimulating =
@@ -37,38 +36,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_ChangeRuntimeRenderingState =
             new(_PRF_PFX + nameof(ChangeRuntimeRenderingState));
 
-        [HideInInspector] public bool hideHeader;
-        [HideInInspector] public bool hideTabs;
+        #endregion
+
         [HideInInspector] public bool hideButtons;
 
+        [HideInInspector] public bool hideHeader;
+        [HideInInspector] public bool hideTabs;
+
         [HideInInspector] public RenderingState currentState;
-
-        [HideIf(nameof(hideHeader))]
-        [PropertyOrder(-99)]
-        [HorizontalGroup("Z", .49f)]
-        [SmartLabel]
-        [ReadOnly]
-        [GUIColor(nameof(_updateCodeColors))]
-        public RenderLoopBreakCode updateBreak;
-
-        [HideIf(nameof(hideHeader))]
-        [PropertyOrder(-99)]
-        [HorizontalGroup("Z", .49f)]
-        [SmartLabel]
-        [ReadOnly]
-        [GUIColor(nameof(_updateCodeColors))]
-        public RenderLoopBreakCode lateUpdateBreak;
-
-        /*private UnityObjectTracker _renderingSetsTracker;
-        private UnityObjectTracker _distanceReferenceTracker;
-        private UnityObjectTracker _gpuiTracker;*/
-        //private int _trackingCache = 1500;
-
-        private int _editorCheckFrame;
-        private readonly int _frameCacheLength = 15;
-        private bool _simulationCache;
-
-        private RenderingStateReasonCode _stateReasonCode;
 
         [HideIf(nameof(hideHeader))]
         [PropertyOrder(-100)]
@@ -123,112 +98,49 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         )]
         public RenderingState nextState;
 
-        private Color _updateCodeColors => ColorPrefs.Instance.BackgroundInfo.v;
+        [HideIf(nameof(hideHeader))]
+        [PropertyOrder(-99)]
+        [HorizontalGroup("Z", .49f)]
+        [SmartLabel]
+        [ReadOnly]
+        [GUIColor(nameof(_updateCodeColors))]
+        public RenderLoopBreakCode lateUpdateBreak;
 
-        private Color _stateColor =>
-            currentState == RenderingState.Rendering
-                ? ColorPrefs.Instance.Enabled.v
-                : ColorPrefs.Instance.DisabledImportant.v;
+        [HideIf(nameof(hideHeader))]
+        [PropertyOrder(-99)]
+        [HorizontalGroup("Z", .49f)]
+        [SmartLabel]
+        [ReadOnly]
+        [GUIColor(nameof(_updateCodeColors))]
+        public RenderLoopBreakCode updateBreak;
 
-        private string _title => currentState.ToString().SeperateWords();
+        private readonly int _frameCacheLength = 15;
+        private bool _simulationCache;
 
-        private string _stateReason
-        {
-            get
-            {
-                if (_reasonCodes == null)
-                {
-                    _reasonCodes = new RenderingStateReasonCodeLookup();
-                }
+        /*private UnityObjectTracker _renderingSetsTracker;
+        private UnityObjectTracker _distanceReferenceTracker;
+        private UnityObjectTracker _gpuiTracker;*/
+        //private int _trackingCache = 1500;
 
-                if (_reasonCodes.Count == 0)
-                {
-                    _reasonCodes.InitializeLookup();
-                }
+        private int _editorCheckFrame;
 
-                return _reasonCodes[_stateReasonCode];
-            }
-        }
+        private RenderingStateReasonCode _stateReasonCode;
 
         private bool _canChangeState => string.IsNullOrEmpty(_stateReason);
-        private string _cycleTitle => _cycleManager?.CountsString() ?? string.Empty;
-        private string _cycleSubtitle => _cycleManager?.TimingsString() ?? string.Empty;
-
-        private double _cycleQuality01
-        {
-            get
-            {
-                if (_cycleManager == null)
-                {
-                    return 0;
-                }
-
-                if (!_cycleManager.AnyActive)
-                {
-                    return 0;
-                }
-
-                if (_cycleManager.ActiveCount == 1)
-                {
-                    return 0;
-                }
-
-                var exeo = RenderingOptions.execution;
-                var time = _cycleManager?.TimeTracker;
-
-                if (time == null)
-                {
-                    return 0;
-                }
-
-                var t = time.Average / exeo.idealCycleTimeMilliseconds;
-
-                return math.clamp(t, 0.0, 1.0);
-            }
-        }
-
-        private string _startText => "Start";
-        private string _stopText => "Stop";
-
-        private Color _startColor =>
-            currentState != RenderingState.Rendering
-                ? ColorPrefs.Instance.Enabled.v
-                : ColorPrefs.Instance.EnabledSubdued.v;
-
-        private Color _stopColor =>
-            currentState == RenderingState.Rendering
-                ? ColorPrefs.Instance.DisabledImportant.v
-                : ColorPrefs.Instance.DisabledImportantDisabled.v;
-
-        private Color _fixColor =>
-            _canFix ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.Disabled.v;
-
-        private Color _cycleColor =>
-            ColorPrefs.Instance.Quality_BadToGood.v.Evaluate(1.0f - (float) _cycleQuality01);
 
         private bool _canFix => _stateReasonCode != RenderingStateReasonCode.NONE;
         private bool _disableFix => !_canFix;
+        private bool _disableStart => currentState == RenderingState.Rendering;
+        private bool _disableStop => currentState != RenderingState.Rendering;
+        private bool _disableUnmuteAll => !_enableUnmuteAll;
+        private bool _disableUnsoloAll => !_enableUnsoloAll;
+        private bool _enableUnmuteAll => _showTypeMuteBox || _showSetMuteBox;
+        private bool _enableUnsoloAll => _showTypeSoloBox || _showSetSoloBox;
+        private bool _showSetMuteBox => PrefabRenderingSet.AnyMute;
+        private bool _showSetSoloBox => PrefabRenderingSet.AnySolo;
+        private bool _showTypeMuteBox => PrefabModelTypeOptions.AnyMute;
 
         private bool _showTypeSoloBox => PrefabModelTypeOptions.AnySolo;
-        private bool _showTypeMuteBox => PrefabModelTypeOptions.AnyMute;
-        private bool _showSetSoloBox => PrefabRenderingSet.AnySolo;
-        private bool _showSetMuteBox => PrefabRenderingSet.AnyMute;
-        private bool _enableUnsoloAll => _showTypeSoloBox || _showSetSoloBox;
-        private bool _enableUnmuteAll => _showTypeMuteBox || _showSetMuteBox;
-        private bool _disableUnsoloAll => !_enableUnsoloAll;
-        private bool _disableUnmuteAll => !_enableUnmuteAll;
-        private bool _disableStop => currentState != RenderingState.Rendering;
-        private bool _disableStart => currentState == RenderingState.Rendering;
-
-        private Color _unsoloAllColor =>
-            _enableUnsoloAll
-                ? ColorPrefs.Instance.SoloEnabled.v
-                : ColorPrefs.Instance.SoloDisabled.v;
-
-        private Color _unmuteAllColor =>
-            _enableUnmuteAll
-                ? ColorPrefs.Instance.MuteEnabled.v
-                : ColorPrefs.Instance.MuteDisabled.v;
 
         private bool IsEditorSimulating
         {
@@ -265,103 +177,131 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        private void Start()
+        private Color _cycleColor =>
+            ColorPrefs.Instance.Quality_BadToGood.v.Evaluate(1.0f - (float) _cycleQuality01);
+
+        private Color _fixColor => _canFix ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.Disabled.v;
+
+        private Color _startColor =>
+            currentState != RenderingState.Rendering
+                ? ColorPrefs.Instance.Enabled.v
+                : ColorPrefs.Instance.EnabledSubdued.v;
+
+        private Color _stateColor =>
+            currentState == RenderingState.Rendering
+                ? ColorPrefs.Instance.Enabled.v
+                : ColorPrefs.Instance.DisabledImportant.v;
+
+        private Color _stopColor =>
+            currentState == RenderingState.Rendering
+                ? ColorPrefs.Instance.DisabledImportant.v
+                : ColorPrefs.Instance.DisabledImportantDisabled.v;
+
+        private Color _unmuteAllColor =>
+            _enableUnmuteAll ? ColorPrefs.Instance.MuteEnabled.v : ColorPrefs.Instance.MuteDisabled.v;
+
+        private Color _unsoloAllColor =>
+            _enableUnsoloAll ? ColorPrefs.Instance.SoloEnabled.v : ColorPrefs.Instance.SoloDisabled.v;
+
+        private Color _updateCodeColors => ColorPrefs.Instance.BackgroundInfo.v;
+
+        private double _cycleQuality01
         {
-            nextState = RenderingState.Rendering;
+            get
+            {
+                if (_cycleManager == null)
+                {
+                    return 0;
+                }
+
+                if (!_cycleManager.AnyActive)
+                {
+                    return 0;
+                }
+
+                if (_cycleManager.ActiveCount == 1)
+                {
+                    return 0;
+                }
+
+                var exeo = RenderingOptions.execution;
+                var time = _cycleManager?.TimeTracker;
+
+                if (time == null)
+                {
+                    return 0;
+                }
+
+                var t = time.Average / exeo.idealCycleTimeMilliseconds;
+
+                return math.clamp(t, 0.0, 1.0);
+            }
         }
 
-        private void FixState()
-        {
-            switch (_stateReasonCode)
-            {
-                case RenderingStateReasonCode.NONE:
-                    break;
-                case RenderingStateReasonCode.PREFAB_RENDER_SET_NULL:
-                    renderingSets = PrefabRenderingSetCollection.instance;
-                    renderingSets.SetDirty();
-                    break;
-                case RenderingStateReasonCode.PREFAB_RENDER_SET_EMPTY:
-                    PrefabRenderingManagerInitializer.InitializeAllPrefabRenderingSets();
-                    break;
-                case RenderingStateReasonCode.DISTANCE_REFERENCE_NULL:
-                case RenderingStateReasonCode.GPUI_PREFAB_MANAGER_NULL:
-                case RenderingStateReasonCode.GPUI_SIMULATOR_NULL:
-                    PrefabRenderingManagerInitializer.CheckNulls();
-                    break;
-                case RenderingStateReasonCode.STATE_INVALID:
-                    nextState = RenderingState.Rendering;
-                    break;
-                case RenderingStateReasonCode.NOT_ENABLED:
-                    enabled = true;
-                    break;
-                case RenderingStateReasonCode.NOT_ACTIVE_SELF:
-                case RenderingStateReasonCode.NOT_ACTIVE_HIERARCHY:
-                    gameObject.SetActive(true);
-                    break;
-                case RenderingStateReasonCode.NOT_SIMULATING:
-                    ChangeEditorSimulationState(true);
-                    break;
-                case RenderingStateReasonCode.PREVENT_OPTIONS:
-                case RenderingStateReasonCode.PREVENT_ERROR:
-                    renderingOptions.execution.allowUpdates = true;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+        private string _cycleSubtitle => _cycleManager?.TimingsString() ?? string.Empty;
+        private string _cycleTitle => _cycleManager?.CountsString() ?? string.Empty;
 
-            renderingOptions.SetDirty();
-            nextState = RenderingState.Rendering;
+        private string _startText => "Start";
+
+        private string _stateReason
+        {
+            get
+            {
+                if (_reasonCodes == null)
+                {
+                    _reasonCodes = new RenderingStateReasonCodeLookup();
+                }
+
+                if (_reasonCodes.Count == 0)
+                {
+                    _reasonCodes.InitializeLookup();
+                }
+
+                return _reasonCodes[_stateReasonCode];
+            }
         }
 
-        private void UnsoloAll()
+        private string _stopText => "Stop";
+
+        private string _title => currentState.ToString().SeperateWords();
+
+        private void ChangeRuntimeRenderingState(bool enable)
         {
-            for (var i = 0; i < AssetModelTypeLookup.State.Count; i++)
+            using (_PRF_ChangeRuntimeRenderingState.Auto())
             {
-                var state = AssetModelTypeLookup.State.at[i];
-                state.Solo(false);
-                state.SetDirty();
+                if (enable)
+                {
+                    Debug.Log("Attempting to start runtime rendering.", this);
+
+                    _updateLoopCount = 0;
+                    _updateLoopStopped = false;
+
+                    try
+                    {
+                        if (!gpui.gameObject.activeSelf)
+                        {
+                            gpui.gameObject.SetActive(true);
+                        }
+
+                        if (!gpui.enabled)
+                        {
+                            gpui.enabled = true;
+                        }
+
+                        Bounce();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogException(ex, this);
+                    }
+                }
+                else
+                {
+                    Debug.Log("Attempting to end runtime rendering.", this);
+
+                    gpui.enabled = false;
+                }
             }
-
-            for (var i = 0; i < renderingSets.Sets.Count; i++)
-            {
-                var set = renderingSets.Sets.at[i];
-                set.Soloed = false;
-                set.SetDirty();
-            }
-
-            PrefabRenderingSet.AnySolo = false;
-            PrefabModelTypeOptions.AnySolo = false;
-
-            renderingSets.SetDirty();
-            AssetModelTypeLookup.SetDirty();
-        }
-
-        private void UnmuteAll()
-        {
-            for (var i = 0; i < AssetModelTypeLookup.State.Count; i++)
-            {
-                var state = AssetModelTypeLookup.State.at[i];
-                state.Mute(false);
-                state.SetDirty();
-            }
-
-            for (var i = 0; i < renderingSets.Sets.Count; i++)
-            {
-                var set = renderingSets.Sets.at[i];
-                set.Muted = false;
-                set.SetDirty();
-            }
-
-            PrefabRenderingSet.AnyMute = false;
-            PrefabModelTypeOptions.AnyMute = false;
-
-            renderingSets.SetDirty();
-            AssetModelTypeLookup.SetDirty();
-        }
-
-        private void Stop()
-        {
-            nextState = RenderingState.NotRendering;
         }
 
         private void ConfirmExecutionState()
@@ -606,43 +546,103 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        private void ChangeRuntimeRenderingState(bool enable)
+        private void FixState()
         {
-            using (_PRF_ChangeRuntimeRenderingState.Auto())
+            switch (_stateReasonCode)
             {
-                if (enable)
-                {
-                    Debug.Log("Attempting to start runtime rendering.", this);
-
-                    _updateLoopCount = 0;
-                    _updateLoopStopped = false;
-
-                    try
-                    {
-                        if (!gpui.gameObject.activeSelf)
-                        {
-                            gpui.gameObject.SetActive(true);
-                        }
-
-                        if (!gpui.enabled)
-                        {
-                            gpui.enabled = true;
-                        }
-
-                        Bounce();
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogException(ex, this);
-                    }
-                }
-                else
-                {
-                    Debug.Log("Attempting to end runtime rendering.", this);
-
-                    gpui.enabled = false;
-                }
+                case RenderingStateReasonCode.NONE:
+                    break;
+                case RenderingStateReasonCode.PREFAB_RENDER_SET_NULL:
+                    renderingSets = PrefabRenderingSetCollection.instance;
+                    renderingSets.SetDirty();
+                    break;
+                case RenderingStateReasonCode.PREFAB_RENDER_SET_EMPTY:
+                    PrefabRenderingManagerInitializer.InitializeAllPrefabRenderingSets();
+                    break;
+                case RenderingStateReasonCode.DISTANCE_REFERENCE_NULL:
+                case RenderingStateReasonCode.GPUI_PREFAB_MANAGER_NULL:
+                case RenderingStateReasonCode.GPUI_SIMULATOR_NULL:
+                    PrefabRenderingManagerInitializer.CheckNulls();
+                    break;
+                case RenderingStateReasonCode.STATE_INVALID:
+                    nextState = RenderingState.Rendering;
+                    break;
+                case RenderingStateReasonCode.NOT_ENABLED:
+                    enabled = true;
+                    break;
+                case RenderingStateReasonCode.NOT_ACTIVE_SELF:
+                case RenderingStateReasonCode.NOT_ACTIVE_HIERARCHY:
+                    gameObject.SetActive(true);
+                    break;
+                case RenderingStateReasonCode.NOT_SIMULATING:
+                    ChangeEditorSimulationState(true);
+                    break;
+                case RenderingStateReasonCode.PREVENT_OPTIONS:
+                case RenderingStateReasonCode.PREVENT_ERROR:
+                    renderingOptions.execution.allowUpdates = true;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
+
+            renderingOptions.SetDirty();
+            nextState = RenderingState.Rendering;
+        }
+
+        private void Start()
+        {
+            nextState = RenderingState.Rendering;
+        }
+
+        private void Stop()
+        {
+            nextState = RenderingState.NotRendering;
+        }
+
+        private void UnmuteAll()
+        {
+            for (var i = 0; i < AssetModelTypeLookup.State.Count; i++)
+            {
+                var state = AssetModelTypeLookup.State.at[i];
+                state.Mute(false);
+                state.SetDirty();
+            }
+
+            for (var i = 0; i < renderingSets.Sets.Count; i++)
+            {
+                var set = renderingSets.Sets.at[i];
+                set.Muted = false;
+                set.SetDirty();
+            }
+
+            PrefabRenderingSet.AnyMute = false;
+            PrefabModelTypeOptions.AnyMute = false;
+
+            renderingSets.SetDirty();
+            AssetModelTypeLookup.SetDirty();
+        }
+
+        private void UnsoloAll()
+        {
+            for (var i = 0; i < AssetModelTypeLookup.State.Count; i++)
+            {
+                var state = AssetModelTypeLookup.State.at[i];
+                state.Solo(false);
+                state.SetDirty();
+            }
+
+            for (var i = 0; i < renderingSets.Sets.Count; i++)
+            {
+                var set = renderingSets.Sets.at[i];
+                set.Soloed = false;
+                set.SetDirty();
+            }
+
+            PrefabRenderingSet.AnySolo = false;
+            PrefabModelTypeOptions.AnySolo = false;
+
+            renderingSets.SetDirty();
+            AssetModelTypeLookup.SetDirty();
         }
 
 #if UNITY_EDITOR
@@ -694,37 +694,43 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
 #if UNITY_EDITOR
 
-        private const int _P = APPA_MENU.TOOLS.PREFAB_RENDER.PRIORITY;
-        private const string _MENU = "Tools/Prefab Rendering/";
-        private const string _M_ENABLE_ = _MENU + "Enable" + SHC.CTRL_ALT_1;
-        private const string _M_RUNTIME_ = _MENU + "Runtime Rendering" + SHC.CTRL_ALT_2;
-        private const string _M_SIMULATE_ = _MENU + "Simulate" + SHC.CTRL_ALT_3;
-        private const string _M_UPDATES_ = _MENU + "Allow Updates" + SHC.CTRL_ALT_4;
-        private const string _M_BOUNCE_ = _MENU + "Bounce" + SHC.CTRL_ALT_5;
-
         private bool _queueToggleSimulation;
 
-        [MenuItem(_M_ENABLE_, true)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.Enable.Base,
+            true,
+            priority = PKG.Menu.Appalachia.Tools.Enable.Priority
+        )]
         private static bool _M_ENABLE_VALIDATE()
         {
-            Menu.SetChecked(_M_ENABLE_, instance.enabled);
+            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Enable.Base, instance.enabled);
             return true;
         }
 
-        [MenuItem(_M_ENABLE_, priority = _P)]
+        [MenuItem(PKG.Menu.Appalachia.Tools.Enable.Base, priority = PKG.Menu.Appalachia.Tools.Enable.Priority)]
         private static void _M_ENABLE()
         {
             instance.enabled = !instance.enabled;
         }
 
-        [MenuItem(_M_RUNTIME_, true)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.RuntimeRendering.Base,
+            true,
+            priority = PKG.Menu.Appalachia.Tools.RuntimeRendering.Priority
+        )]
         private static bool _M_RUNTIME_VALIDATE()
         {
-            Menu.SetChecked(_M_RUNTIME_, instance.currentState == RenderingState.Rendering);
+            Menu.SetChecked(
+                PKG.Menu.Appalachia.Tools.RuntimeRendering.Base,
+                instance.currentState == RenderingState.Rendering
+            );
             return instance.enabled;
         }
 
-        [MenuItem(_M_RUNTIME_, priority = _P)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.RuntimeRendering.Base,
+            priority = PKG.Menu.Appalachia.Tools.RuntimeRendering.Priority
+        )]
         public static void _M_RUNTIME()
         {
             instance.nextState = instance.currentState == RenderingState.Rendering
@@ -732,14 +738,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 : RenderingState.Rendering;
         }
 
-        [MenuItem(_M_SIMULATE_, true)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.Simulate.Base,
+            true,
+            priority = PKG.Menu.Appalachia.Tools.Simulate.Priority
+        )]
         private static bool _M_SIMULATE_VALIDATE()
         {
-            Menu.SetChecked(_M_SIMULATE_, instance.IsEditorSimulating);
+            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Simulate.Base, instance.IsEditorSimulating);
             return instance.enabled;
         }
 
-        [MenuItem(_M_SIMULATE_, priority = _P)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.Simulate.Base,
+            priority = PKG.Menu.Appalachia.Tools.Simulate.Priority
+        )]
         public static void _M_SIMULATE()
         {
             instance.nextState = instance.IsEditorSimulating
@@ -747,34 +760,47 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 : RenderingState.Rendering;
         }
 
-        [MenuItem(_M_UPDATES_, true)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.AllowUpdates.Base,
+            true,
+            priority = PKG.Menu.Appalachia.Tools.AllowUpdates.Priority
+        )]
         private static bool _M_UPDATES_VALIDATE()
         {
-            Menu.SetChecked(_M_UPDATES_, instance.RenderingOptions.execution.allowUpdates);
+            Menu.SetChecked(
+                PKG.Menu.Appalachia.Tools.AllowUpdates.Base,
+                instance.RenderingOptions.execution.allowUpdates
+            );
             return instance.enabled;
         }
 
-        [MenuItem(_M_UPDATES_, priority = _P)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.AllowUpdates.Base,
+            priority = PKG.Menu.Appalachia.Tools.AllowUpdates.Priority
+        )]
         public static void _M_UPDATES()
         {
             instance.RenderingOptions.execution.allowUpdates =
                 !instance.RenderingOptions.execution.allowUpdates;
         }
 
-        [MenuItem(_M_BOUNCE_, true)]
+        [MenuItem(
+            PKG.Menu.Appalachia.Tools.Bounce.Base,
+            true,
+            priority = PKG.Menu.Appalachia.Tools.Bounce.Priority
+        )]
         private static bool _M_BOUNCE_VALIDATE()
         {
             return instance.enabled && (instance.nextState != RenderingState.BounceState);
         }
 
-        [MenuItem(_M_BOUNCE_, priority = _P)]
+        [MenuItem(PKG.Menu.Appalachia.Tools.Bounce.Base, priority = PKG.Menu.Appalachia.Tools.Bounce.Priority)]
         private static void _M_BOUNCE()
         {
             instance.nextState = RenderingState.BounceState;
         }
 
-        private static readonly ProfilerMarker _PRF_ReBuryMeshes =
-            new(_PRF_PFX + nameof(ReBuryMeshes));
+        private static readonly ProfilerMarker _PRF_ReBuryMeshes = new(_PRF_PFX + nameof(ReBuryMeshes));
 
         [HideIf(nameof(hideButtons))]
         [Button]

@@ -108,7 +108,7 @@ Shader "appalachia/leaf_LOD0"
 
 		// FEATURE_GPU_INSTANCER
 		#include "UnityCG.cginc"
-		#include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+		#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
 		#pragma instancing_options procedural:setupGPUI
 
 
@@ -1129,7 +1129,7 @@ Shader "appalachia/leaf_LOD0"
 		ENDCG
 		CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
@@ -1144,7 +1144,7 @@ Shader "appalachia/leaf_LOD0"
 			ZWrite On
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"

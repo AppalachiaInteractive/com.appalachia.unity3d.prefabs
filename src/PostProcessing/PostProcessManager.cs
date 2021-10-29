@@ -127,7 +127,7 @@ namespace Appalachia.Rendering.PostProcessing
             _layer.debugLayer.lightMeter.width = width;
         }
 #if UNITY_EDITOR
-        /*[MenuItem("Tools/Game View Auto Update"+SHC.CTRL_ALT_SHFT_G, true)]
+        /*[UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Game View Auto Update"+SHC.CTRL_ALT_SHFT_G, true)]
         public static bool ToggleGameViewAutoUpdateValidate()
         {
             var gameView = EditorWindow.
@@ -135,13 +135,13 @@ namespace Appalachia.Rendering.PostProcessing
             return true;
         }
 
-        [MenuItem("Tools/Game View Auto Update"+SHC.CTRL_ALT_SHFT_G, priority = 1050)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Game View Auto Update"+SHC.CTRL_ALT_SHFT_G, priority = 1050)]
         public static void ToggleGameViewAutoUpdate()
         {
             SetPaused(!_paused);
         }*/
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/None" + SHC.CTRL_ALT_SHFT_F1,
             priority = 40
         )]
@@ -150,7 +150,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.None;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Depth" + SHC.CTRL_ALT_SHFT_F2,
             priority = 41
         )]
@@ -159,7 +159,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.Depth;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Normals" + SHC.CTRL_ALT_SHFT_F3,
             priority = 42
         )]
@@ -168,7 +168,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.Normals;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Motion Vectors" + SHC.CTRL_ALT_SHFT_F4,
             priority = 43
         )]
@@ -177,19 +177,19 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.MotionVectors;
         }
 
-        [MenuItem("Tools/Post Processing/Debug Overlays/NAN Tracker", priority = 44)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Debug Overlays/NAN Tracker", priority = 44)]
         public static void PostProcessingOverlay_NANTracker()
         {
             debugOverlay = DebugOverlay.NANTracker;
         }
 
-        [MenuItem("Tools/Post Processing/Debug Overlays/Color Blindness Simulation", priority = 45)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Debug Overlays/Color Blindness Simulation", priority = 45)]
         public static void PostProcessingOverlay_ColorBlindnessSimulation()
         {
             debugOverlay = DebugOverlay.ColorBlindnessSimulation;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Ambient Occlusion" + SHC.CTRL_ALT_SHFT_F5,
             priority = 46
         )]
@@ -198,7 +198,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.AmbientOcclusion;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Bloom Buffer" + SHC.CTRL_ALT_SHFT_F6,
             priority = 47
         )]
@@ -207,7 +207,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.BloomBuffer;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Bloom Threshold" + SHC.CTRL_ALT_SHFT_F7,
             priority = 48
         )]
@@ -216,7 +216,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.BloomThreshold;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Debug Overlays/Dept hOf Field" + SHC.CTRL_ALT_SHFT_F8,
             priority = 49
         )]
@@ -225,7 +225,7 @@ namespace Appalachia.Rendering.PostProcessing
             debugOverlay = DebugOverlay.DepthOfField;
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Light Meter" + SHC.CTRL_ALT_SHFT_F9, true)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Light Meter" + SHC.CTRL_ALT_SHFT_F9, true)]
         public static bool TogglePostProcessingMonitorLightMeterValidate()
         {
             Initialize();
@@ -233,7 +233,7 @@ namespace Appalachia.Rendering.PostProcessing
             return _debug != null;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Monitors/Light Meter" + SHC.CTRL_ALT_SHFT_F9,
             priority = 50
         )]
@@ -242,7 +242,7 @@ namespace Appalachia.Rendering.PostProcessing
             lightMeter = !lightMeter;
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Histogram" + SHC.CTRL_ALT_SHFT_F10, true)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Histogram" + SHC.CTRL_ALT_SHFT_F10, true)]
         public static bool TogglePostProcessingMonitorHistogramValidate()
         {
             Initialize();
@@ -250,7 +250,7 @@ namespace Appalachia.Rendering.PostProcessing
             return _debug != null;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Monitors/Histogram" + SHC.CTRL_ALT_SHFT_F10,
             priority = 50
         )]
@@ -259,7 +259,7 @@ namespace Appalachia.Rendering.PostProcessing
             histogram = !histogram;
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Waveform" + SHC.CTRL_ALT_SHFT_F11, true)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Waveform" + SHC.CTRL_ALT_SHFT_F11, true)]
         public static bool TogglePostProcessingMonitorWaveformValidate()
         {
             Initialize();
@@ -267,13 +267,13 @@ namespace Appalachia.Rendering.PostProcessing
             return _debug != null;
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Waveform" + SHC.CTRL_ALT_SHFT_F11, priority = 50)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Waveform" + SHC.CTRL_ALT_SHFT_F11, priority = 50)]
         public static void TogglePostProcessingMonitorWaveform()
         {
             waveform = !waveform;
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Vectorscope" + SHC.CTRL_ALT_SHFT_F12, true)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Vectorscope" + SHC.CTRL_ALT_SHFT_F12, true)]
         public static bool TogglePostProcessingMonitorVectorscopeValidate()
         {
             Initialize();
@@ -281,7 +281,7 @@ namespace Appalachia.Rendering.PostProcessing
             return _debug != null;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             "Tools/Post Processing/Monitors/Vectorscope" + SHC.CTRL_ALT_SHFT_F12,
             priority = 50
         )]
@@ -290,109 +290,109 @@ namespace Appalachia.Rendering.PostProcessing
             vectorscope = !vectorscope;
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/32", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/32", priority = 40)]
         public static void PPM_Height_032()
         {
             SetMonitorHeight(32);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/48", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/48", priority = 40)]
         public static void PPM_Height_048()
         {
             SetMonitorHeight(48);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/64", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/64", priority = 40)]
         public static void PPM_Height_064()
         {
             SetMonitorHeight(64);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/96", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/96", priority = 40)]
         public static void PPM_Height_096()
         {
             SetMonitorHeight(96);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/128", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/128", priority = 40)]
         public static void PPM_Height_128()
         {
             SetMonitorHeight(128);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/192", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/192", priority = 40)]
         public static void PPM_Height_192()
         {
             SetMonitorHeight(192);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/256", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/256", priority = 40)]
         public static void PPM_Height_256()
         {
             SetMonitorHeight(256);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/384", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/384", priority = 40)]
         public static void PPM_Height_384()
         {
             SetMonitorHeight(384);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Height/512", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Height/512", priority = 40)]
         public static void PPM_Height_512()
         {
             SetMonitorHeight(512);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/32", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/32", priority = 40)]
         public static void PPM_Width_032()
         {
             SetMonitorWidth(32);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/48", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/48", priority = 40)]
         public static void PPM_Width_048()
         {
             SetMonitorWidth(48);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/64", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/64", priority = 40)]
         public static void PPM_Width_064()
         {
             SetMonitorWidth(64);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/96", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/96", priority = 40)]
         public static void PPM_Width_096()
         {
             SetMonitorWidth(96);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/128", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/128", priority = 40)]
         public static void PPM_Width_128()
         {
             SetMonitorWidth(128);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/192", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/192", priority = 40)]
         public static void PPM_Width_192()
         {
             SetMonitorWidth(192);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/256", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/256", priority = 40)]
         public static void PPM_Width_256()
         {
             SetMonitorWidth(256);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/384", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/384", priority = 40)]
         public static void PPM_Width_384()
         {
             SetMonitorWidth(384);
         }
 
-        [MenuItem("Tools/Post Processing/Monitors/Width/512", priority = 40)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + "Post Processing/Monitors/Width/512", priority = 40)]
         public static void PPM_Width_512()
         {
             SetMonitorWidth(512);

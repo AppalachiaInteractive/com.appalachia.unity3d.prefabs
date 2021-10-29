@@ -1,6 +1,6 @@
 using System;
-using Appalachia.Core.Volumes.Parameters;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
