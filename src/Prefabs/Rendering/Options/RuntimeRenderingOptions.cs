@@ -12,7 +12,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
     public class
-        RuntimeRenderingOptions : SelfSavingSingletonScriptableObject<RuntimeRenderingOptions>
+        RuntimeRenderingOptions : SingletonAppalachiaObject<RuntimeRenderingOptions>
     {
         private const string _PRF_PFX = nameof(RuntimeRenderingOptions) + ".";
 

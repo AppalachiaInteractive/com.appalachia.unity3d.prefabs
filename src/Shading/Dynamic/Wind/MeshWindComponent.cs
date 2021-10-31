@@ -29,7 +29,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class MeshWindComponent : AppalachiaMonoBehaviour
+    public class MeshWindComponent : AppalachiaBehaviour
     {
         private const string _PRF_PFX = nameof(MeshWindComponent) + ".";
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + "Awake");

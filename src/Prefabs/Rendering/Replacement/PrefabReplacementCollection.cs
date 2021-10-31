@@ -14,7 +14,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 {
     [Critical]
     public class
-        PrefabReplacementCollection : SelfSavingSingletonScriptableObject<
+        PrefabReplacementCollection : SingletonAppalachiaObject<
             PrefabReplacementCollection>
     {
         [SerializeField]

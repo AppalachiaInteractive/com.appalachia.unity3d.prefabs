@@ -41,7 +41,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [InlineProperty]
     [HideLabel]
     [LabelWidth(0)]
-    public class PrefabRenderingSet : SelfSavingAndIdentifyingScriptableObject<PrefabRenderingSet>
+    public class PrefabRenderingSet : IdentifiableAppalachiaObject<PrefabRenderingSet>
     {
         private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
 

@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Appalachia.Core.Rendering.Metadata.GPUI
 {
     [Serializable]
-    public class GPUInstancerPrototypePair : SelfSavingAndIdentifyingScriptableObject<GPUInstancerPrototypePair>
+    public class GPUInstancerPrototypePair : AppalachiaAndIdentifyingScriptableObject<GPUInstancerPrototypePair>
     {
         [SerializeField, InlineProperty] private GPUInstancerPrototypeMetadata _gameObject;
         [SerializeField, InlineProperty] private GPUInstancerPrototypeMetadata _noGameObject;

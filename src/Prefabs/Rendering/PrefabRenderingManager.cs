@@ -49,7 +49,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [ExecuteAlways]
     [DisallowMultipleComponent]
     [ExecutionOrder(-10000)]
-    public partial class PrefabRenderingManager : SingletonMonoBehaviour<PrefabRenderingManager>
+    public partial class PrefabRenderingManager : SingletonAppalachiaBehaviour<PrefabRenderingManager>
     {
         private static readonly ProfilerMarker _PRF_RenderingOptions =
             new(_PRF_PFX + nameof(RenderingOptions));

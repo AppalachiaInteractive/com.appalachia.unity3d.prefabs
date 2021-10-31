@@ -11,7 +11,7 @@ using UnityEngine;
 
 namespace Appalachia.Core.Rendering.Metadata.GPUI
 {
-    public class GPUInstancerPrototypePairCollection : SelfSavingSingletonScriptableObject<GPUInstancerPrototypePairCollection>
+    public class GPUInstancerPrototypePairCollection : AppalachiaSingletonScriptableObject<GPUInstancerPrototypePairCollection>
     {
         [SerializeField] private IndexedGPUInstancerPrototypePairList _prototypePairs = new IndexedGPUInstancerPrototypePairList();
     

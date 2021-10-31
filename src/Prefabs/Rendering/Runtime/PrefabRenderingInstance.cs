@@ -28,7 +28,7 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingInstance : InternalBase<PrefabRenderingInstance>, IDisposable
+    public class PrefabRenderingInstance : AppalachiaBase<PrefabRenderingInstance>, IDisposable
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstance) + ".";
 
@@ -649,7 +649,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 instance.layer = set.modelOptions.layer;
 
                 var colls = instance.FilterComponents<Collider>(true)
-                                    .ExcludeLayers(LAYERS.Interaction)
+                                    .ExcludeLayers(Layers.ByName.Interactable)
                                     .ExcludeTags(TAGS.OcclusionBake)
                                     .RunFilter();
 
@@ -885,7 +885,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 using (_PRF_InitializePhysics_ColliderQuery.Auto())
                 {
                     physicsColliders = transform.FilterComponents<Collider>(true)
-                                                .ExcludeLayers(LAYERS.Interaction)
+                                                .ExcludeLayers(Layers.ByName.Interactable)
                                                 .ExcludeTags(TAGS.OcclusionBake)
                                                 .RunFilter();
                 }
@@ -924,7 +924,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 if (firstInteractionCollider == null)
                 {
                     interactionColliders = transform.FilterComponents<Collider>(true)
-                                                    .IncludeOnlyLayers(LAYERS.Interaction)
+                                                    .IncludeOnlyLayers(Layers.ByName.Interactable)
                                                     .ExcludeTags(TAGS.OcclusionBake)
                                                     .RunFilter();
 

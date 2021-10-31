@@ -8,7 +8,7 @@ using Appalachia.Core.Scriptables;
 namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 {
     public class
-        RandomPrefabMasterCollection : SelfSavingSingletonScriptableObject<
+        RandomPrefabMasterCollection : SingletonAppalachiaObject<
             RandomPrefabMasterCollection>
     {
         public List<RandomPrefabSetCollection> collections = new();

@@ -8,7 +8,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldStateSettings : SelfNamingSavingAndIdentifyingScriptableObject<
+    public class DepthOfFieldStateSettings : AutonamedIdentifiableAppalachiaObject<
         DepthOfFieldStateSettings>
     {
         [SerializeField]

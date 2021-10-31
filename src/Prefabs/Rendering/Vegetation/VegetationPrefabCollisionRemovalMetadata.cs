@@ -9,7 +9,7 @@ using AwesomeTechnologies.Vegetation.PersistentStorage;
 namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 {
     public class
-        VegetationPrefabCollisionRemovalMetadata : SelfSavingScriptableObject<
+        VegetationPrefabCollisionRemovalMetadata : AppalachiaObject<
             VegetationPrefabCollisionRemovalMetadata>
     {
         public AppaList_VegetationPrefabCollisionRemovalInfo collisionInfos = new(24);

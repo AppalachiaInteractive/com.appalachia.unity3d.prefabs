@@ -20,7 +20,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     [AlwaysInitializeOnLoad]
     public abstract class PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
                                                   IL_TW, IL_TT> :
-        SelfSavingSingletonScriptableObject<TL>
+        SingletonAppalachiaObject<TL>
         where TE : Enum
         where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
         new()

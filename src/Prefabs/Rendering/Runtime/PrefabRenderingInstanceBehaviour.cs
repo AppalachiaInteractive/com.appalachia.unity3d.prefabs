@@ -22,7 +22,7 @@ using UnityEngine.Serialization;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [ExecuteAlways]
-    public class PrefabRenderingInstanceBehaviour : AppalachiaMonoBehaviour
+    public class PrefabRenderingInstanceBehaviour : AppalachiaBehaviour
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstanceBehaviour) + ".";
 

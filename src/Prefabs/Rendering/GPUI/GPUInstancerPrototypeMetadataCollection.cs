@@ -13,7 +13,7 @@ using UnityEngine.Serialization;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 {
-    public class GPUInstancerPrototypeMetadataCollection : SelfSavingSingletonScriptableObject<
+    public class GPUInstancerPrototypeMetadataCollection : SingletonAppalachiaObject<
         GPUInstancerPrototypeMetadataCollection>
     {
         private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadataCollection) + ".";

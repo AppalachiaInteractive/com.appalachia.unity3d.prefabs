@@ -5,8 +5,8 @@ using Unity.Profiling;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options.Rendering
 {
     [Serializable]
-    public class RenderingOptionsBase<T> : InternalBase<T>
-        where T : InternalBase<T>
+    public class RenderingOptionsBase<T> : AppalachiaBase<T>
+        where T : AppalachiaBase<T>
     {
         private const string _PRF_PFX = nameof(RenderingOptionsBase<T>) + ".";
 

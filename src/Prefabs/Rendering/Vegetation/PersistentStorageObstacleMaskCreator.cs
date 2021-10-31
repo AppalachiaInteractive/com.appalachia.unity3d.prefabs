@@ -20,7 +20,7 @@ using UnityEngine.Rendering;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 {
-    public class PersistentStorageObstacleMaskCreator : AppalachiaMonoBehaviour
+    public class PersistentStorageObstacleMaskCreator : AppalachiaBehaviour
     {
         public ObstacleMaskQuality ObstacleMaskQuality = ObstacleMaskQuality.High4096;
 

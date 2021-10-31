@@ -12,8 +12,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Features
 {
-    [CreateAssetMenu(fileName = "Appalachia Shader Features", menuName = "Appalachia/Data/Appalachia.Rendering.Shading/Appalachia Shader Features", order = 100)]
-    public class AppalachiaShaderFeatures : SelfSavingSingletonScriptableObject<AppalachiaShaderFeatures>
+    public class AppalachiaShaderFeatures : SingletonAppalachiaObject<AppalachiaShaderFeatures>
     {
         public List<AppalachiaShaderFeature> features = new List<AppalachiaShaderFeature>();
 
@@ -413,5 +412,11 @@ namespace Appalachia.Rendering.Shading.Features
                 AssetDatabaseManager.ImportAsset(shaderPath);
             }
         }*/
+
+        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(AppalachiaShaderFeatures), priority = PKG.Menu.Assets.Priority)]
+        public static void CreateAsset()
+        {
+            CreateNew();
+        }
     }
 }

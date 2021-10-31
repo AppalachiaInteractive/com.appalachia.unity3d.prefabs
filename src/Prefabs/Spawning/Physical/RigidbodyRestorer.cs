@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 {
-    public class RigidbodyRestorer : AppalachiaMonoBehaviour
+    public class RigidbodyRestorer : AppalachiaBehaviour
     {
         private const string _PRF_PFX = nameof(RigidbodyRestorer) + ".";
 

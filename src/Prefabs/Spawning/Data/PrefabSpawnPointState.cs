@@ -15,7 +15,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class PrefabSpawnPointState : InternalBase<PrefabSpawnPointState>
+    public class PrefabSpawnPointState : AppalachiaBase<PrefabSpawnPointState>
     {
         private const string _PRF_PFX = nameof(PrefabSpawnPointState) + ".";
 

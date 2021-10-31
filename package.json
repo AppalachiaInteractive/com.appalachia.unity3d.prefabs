@@ -16,7 +16,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/AppalachiaInteractive/com.appalachia.unity3d.prefabs.git"
+    "url": "https://github.com/AppalachiaInteractive/com.appalachia.unity3d.rendering.git"
   },
   "publishConfig": {
     "registry": "http://35.211.123.13:4873/"
@@ -43,8 +43,8 @@
     "com.appalachia.unity3d.third-party.awesometechnologies": "0.1.0",
     "com.appalachia.unity3d.third-party.gurbu": "0.1.0",
     "com.unity.timeline": "1.6.2",
-    "com.unity.visualeffectgraph": "11.0.0-backport",
-    "com.unity.cinemachine": "2.8.0-pre.1"
+    "com.unity.cinemachine": "2.8.0-pre.1",
+    "com.unity.visualeffectgraph": "12.1.0"
   },
   "scripts": {
     "preversion": "bash ~/com.appalachia/appa/appa package unity3d preversion",

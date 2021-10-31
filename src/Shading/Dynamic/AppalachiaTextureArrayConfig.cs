@@ -12,8 +12,7 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Shading.Dynamic
 {
-    [CreateAssetMenu(menuName = "Internal/Metadata/Shading/Texture Array Config", order = 1)]
-    public class AppalachiaTextureArrayConfig : AppalachiaScriptableObject<AppalachiaTextureArrayConfig>
+    public class AppalachiaTextureArrayConfig : AppalachiaObject<AppalachiaTextureArrayConfig>
     {
         public enum AllTextureChannel
         {
@@ -237,6 +236,12 @@ namespace Appalachia.Rendering.Shading.Dynamic
                        (smoothness != null) ||
                        (ao != null);
             }
+        }
+
+        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(AppalachiaTextureArrayConfig), priority = PKG.Menu.Assets.Priority)]
+        public static void CreateAsset()
+        {
+            CreateNew();
         }
     }
 }

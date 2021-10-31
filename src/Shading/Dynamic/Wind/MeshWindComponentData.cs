@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
-    public class MeshWindComponentData : EmbeddedScriptableObject<MeshWindComponentData>
+    public class MeshWindComponentData : EmbeddedAppalachiaObject<MeshWindComponentData>
     {
         public enum MeshWindStyle
         {

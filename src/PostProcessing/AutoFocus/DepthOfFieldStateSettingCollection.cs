@@ -9,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldStateSettingCollection : SelfNamingSavingAndIdentifyingScriptableObject
+    public class DepthOfFieldStateSettingCollection : AutonamedIdentifiableAppalachiaObject
         <DepthOfFieldStateSettingCollection>
     {
         [FoldoutGroup("Defaults")]

@@ -15,7 +15,7 @@ using UnityEngine.Rendering;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class RenderPassSettings : InternalBase<RenderPassSettings>
+    public class RenderPassSettings : AppalachiaBase<RenderPassSettings>
     {
         private const string _PRF_PFX = nameof(RenderPassSettings) + ".";
 

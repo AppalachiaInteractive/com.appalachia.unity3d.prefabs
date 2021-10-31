@@ -21,7 +21,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.External
 {
     [Serializable]
-    public class PrefabLocationSource : SelfSavingSingletonScriptableObject<PrefabLocationSource>
+    public class PrefabLocationSource : SingletonAppalachiaObject<PrefabLocationSource>
     {
         private const string _PRF_PFX = nameof(PrefabLocationSource) + ".";
 

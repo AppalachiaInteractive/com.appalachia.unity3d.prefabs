@@ -1,8 +1,9 @@
+using Appalachia.Core.Scriptables;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
-    public class OcclusionProbeData : ScriptableObject
+    public class OcclusionProbeData : AppalachiaObject<OcclusionProbeData>
     {
         [Header("Baked Results")]
         [Tooltip("Affects grass occlusion as well.")]

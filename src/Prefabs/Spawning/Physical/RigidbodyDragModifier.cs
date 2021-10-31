@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 {
-    public class RigidbodyDragModifier : AppalachiaMonoBehaviour
+    public class RigidbodyDragModifier : AppalachiaBehaviour
     {
         private const string _PRF_PFX = nameof(RigidbodyDragModifier) + ".";
 

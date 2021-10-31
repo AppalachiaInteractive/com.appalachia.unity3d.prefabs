@@ -22,7 +22,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 {
     [Serializable]
-    public class GPUInstancerPrototypeMetadata : SelfSavingAndIdentifyingScriptableObject<
+    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject<
         GPUInstancerPrototypeMetadata>
     {
         private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadata) + ".";

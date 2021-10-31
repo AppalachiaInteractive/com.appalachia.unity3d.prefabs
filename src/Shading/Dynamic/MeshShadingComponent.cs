@@ -21,7 +21,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class MeshShadingComponent : AppalachiaMonoBehaviour
+    public class MeshShadingComponent : AppalachiaBehaviour
     {
         private const string _PRF_PFX = nameof(MeshShadingComponent) + ".";
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + "Awake");

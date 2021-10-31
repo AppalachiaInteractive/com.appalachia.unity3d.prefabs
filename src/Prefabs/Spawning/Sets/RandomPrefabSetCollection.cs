@@ -8,7 +8,7 @@ using Appalachia.Rendering.Prefabs.Spawning.Data;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 {
-    public class RandomPrefabSetCollection : SelfNamingSavingAndIdentifyingScriptableObject<
+    public class RandomPrefabSetCollection : AutonamedIdentifiableAppalachiaObject<
         RandomPrefabSetCollection>
     {
         public List<RandomPrefabSetElement> prefabSets = new();

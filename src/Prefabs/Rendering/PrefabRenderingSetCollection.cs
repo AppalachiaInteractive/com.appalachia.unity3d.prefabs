@@ -17,7 +17,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public class
-        PrefabRenderingSetCollection : SelfSavingSingletonScriptableObject<
+        PrefabRenderingSetCollection : SingletonAppalachiaObject<
             PrefabRenderingSetCollection>
     {
         private const string _TAB = "TAB";

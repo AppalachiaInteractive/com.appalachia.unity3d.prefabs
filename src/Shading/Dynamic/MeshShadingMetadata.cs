@@ -10,8 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Dynamic
 {
-    [CreateAssetMenu(menuName = "Internal/Metadata/Shading/Mesh Shading Metadata", order = 0)]
-    public class MeshShadingMetadata : AppalachiaScriptableObject<MeshShadingMetadata>
+    public class MeshShadingMetadata : AppalachiaObject<MeshShadingMetadata>
     {
         public enum MeshChannelValueType
         {
@@ -253,6 +252,12 @@ namespace Appalachia.Rendering.Shading.Dynamic
                         return 0f;
                 }
             }
+        }
+
+        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(MeshShadingMetadata), priority = PKG.Menu.Assets.Priority)]
+        public static void CreateAsset()
+        {
+            CreateNew();
         }
     }
 }

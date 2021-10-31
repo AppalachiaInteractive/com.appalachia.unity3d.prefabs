@@ -19,7 +19,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning
 {
     [ExecuteAlways]
-    public class RandomPrefabSpawner : AppalachiaMonoBehaviour
+    public class RandomPrefabSpawner : AppalachiaBehaviour
     {
         private const string _PRF_PFX = nameof(RandomPrefabSpawner) + ".";
 
