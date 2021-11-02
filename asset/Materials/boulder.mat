@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: boulder
-  m_Shader: {fileID: 4800000, guid: 67743151cd9b899468eaa01f015a534a, type: 3}
-  m_ShaderKeywords: _EMISSION _INVERTCOVER_ON
+  m_Shader: {fileID: 4800000, guid: 245af7b422923e54bb6587b1c71e3d0b, type: 3}
+  m_ShaderKeywords: _MOTIONSPACE_WORLD
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -19,6 +19,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Albedo:
         m_Texture: {fileID: 2800000, guid: acb8be2722bc4414e94cfe13b829dd31, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -335,9 +339,13 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
+    - _ADSStandardLitGeneric: 1
+    - _ADVANCEDD: 0
     - _BaseColorContrast: 1
     - _BaseFalloff: 1
+    - _BatchingInfo: 0
     - _BottomCoverAOMeshContrast: 1
     - _BottomCoverAOMeshDarknessBoost: 0
     - _BottomCoverAOMeshStrength: 1
@@ -490,6 +498,7 @@ Material:
     - _FinalRoughnessMultiplier: 1.2
     - _FinalSaturationMultiplier: 1
     - _FinalValueMultiplier: 1
+    - _GlobalTurbulence: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -505,6 +514,8 @@ Material:
     - _LockBaseColorAndMapIndices: 0
     - _LockBaseColorAndNormalIndexes: 1
     - _LockBaseColorAndNormalIndices: 1
+    - _MAINN: 0
+    - _MOTIONN: 0
     - _MainAOMeshContrast: 1
     - _MainAOMeshDarknessBoost: 0
     - _MainAOMeshStrength: 1
@@ -573,6 +584,16 @@ Material:
     - _MiddleCoverValueMultiplier: 0.737
     - _MinimumHeightDifferenceWaterFlow: 2
     - _Mode: 0
+    - _MotionAmplitude: 0
+    - _MotionNoise: 1
+    - _MotionScale: 0
+    - _MotionSpace: 0
+    - _MotionSpacee: 0
+    - _MotionSpacee_ON: 0
+    - _MotionSpeed: 0
+    - _MotionVariation: 0
+    - _NormalInvertOnBackface: 1
+    - _NormalScale: 1
     - _NormalTriplanarFalloffDivisor: 14.7
     - _NormalZReconstructionStyle: 1.704
     - _OcclusionStrength: 1
@@ -580,8 +601,14 @@ Material:
     - _OnlyBoostDarkMeshAO: 1
     - _Parallax: 0.02
     - _PositionAsDeterminant: 0
+    - _RENDERINGG: 0
+    - _RenderFaces: 0
+    - _RenderType: 0
+    - _RenderTypee: 0
     - _RoughnessMultiplier: 5
+    - _SETTINGSS: 0
     - _SideCoverAmount: 0.25
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SnowAmount: 10
     - _SpecularHighlights: 1
@@ -732,7 +759,7 @@ Material:
     - _WetnessMultiplier: 1
     - _WetnessTerrainNoiseStrength: 0.583
     - _ZWrite: 1
-    - __dirty: 0
+    - __dirty: 1
     m_Colors:
     - _BaseTiling: {r: 0.5, g: 0.5, b: 0, a: 0}
     - _BottomCoverBaseCoverageRange: {r: 1, g: 1, b: 1, a: 0}
@@ -752,6 +779,7 @@ Material:
     - _DeterminantMultipliers: {r: 100, g: 200, b: 300, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _LayerOneTextureIndices: {r: 0, g: 0, b: 0, a: 0}
+    - _LocalDirection: {r: 0, g: 0, b: 0, a: 0}
     - _MainDetailTextureIndices: {r: 0, g: 0, b: 0, a: 0}
     - _MainSaturationVarietyRange: {r: -0.01, g: 0.01, b: 0, a: 0}
     - _MainSideThresholds: {r: 0, g: 0, b: 0, a: 0}
@@ -766,6 +794,7 @@ Material:
     - _MiddleCoverPeakCoverageRange: {r: 1, g: 0.25, b: 1, a: 0}
     - _MiddleCoverTextureIndices: {r: 0, g: 0, b: 0, a: 0}
     - _MiddleCoverTint: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
+    - _MotionLocalDirection: {r: 1, g: 0, b: 0, a: 0}
     - _RainYRangeLowHigh: {r: -0.5, g: 1, b: 0, a: 0}
     - _TerrainBlendTextures1: {r: 4, g: 4, b: 4, a: 4}
     - _TerrainBlendTextures2: {r: 4, g: 5, b: 6, a: 7}
@@ -809,7 +838,9 @@ Material:
     - _TopCoverTextureOffset: {r: 0, g: 0, b: 0, a: 0}
     - _TopCoverTint: {r: 0.8679245, g: 0.8679245, b: 0.8679245, a: 1}
     - _TopCoverValueVarietyRange: {r: -0.01, g: 0.01, b: 0, a: 0}
+    - _UVZero: {r: 1, g: 1, b: 0, a: 0}
     - _Vector0: {r: 4096, g: 4096, b: 0, a: 0}
     - _Vector1: {r: 4, g: 5, b: 6, a: 7}
     - _Vector2: {r: 7, g: 9, b: 10, a: 11}
     - _Vector3: {r: 12, g: 13, b: 4, a: -1}
+  m_BuildTextureStacks: []

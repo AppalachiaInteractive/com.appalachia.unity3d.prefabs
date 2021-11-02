@@ -4,11 +4,11 @@ Shader "appalachia/fungus-emissive"
 {
 	Properties
 	{
-		[InternalBanner(Internal, Plant)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaBanner(Internal, Plant)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		[Enum(Two Sided,0,Back,1,Front,2)]_RenderFaces("Render Faces", Float) = 0
 		_Cutoff("Cutout", Range( 0 , 1)) = 0.5
-		[InternalCategory(Main)]_MAINN("[ MAINN ]", Float) = 0
+		[AppalachiaCategory(Main)]_MAINN("[ MAINN ]", Float) = 0
 		_MainTex("Plant Albedo", 2D) = "white" {}
 		_EmissionMap1("Plant Emission Map", 2D) = "white" {}
 		_Color("Plant Color", Color) = (1,1,1,1)
@@ -17,9 +17,9 @@ Shader "appalachia/fungus-emissive"
 		_Float6("Plant AO (G)", Range( 0 , 1)) = 1
 		_Smoothness("Plant Smoothness (A)", Range( 0 , 1)) = 1
 		_MetallicGlossMap("Plant Surface", 2D) = "white" {}
-		[InternalCategory(Settings)]_SETTINGS("[ SETTINGS ]", Float) = 0
+		[AppalachiaCategory(Settings)]_SETTINGS("[ SETTINGS ]", Float) = 0
 		_Invisible("Invisible", Range( 0 , 1)) = 0
-		[InternalCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
+		[AppalachiaCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
@@ -350,8 +350,8 @@ Shader "appalachia/fungus-emissive"
 
 		ENDCG
 	}
-	Fallback "Utils/ADS Fallback"
-	CustomEditor "ADSShaderGUI"
+	Fallback "Utils/Appalachia Fallback"
+	CustomEditor "AppalachiaShaderGUI"
 }
 /*ASEBEGIN
 Version=17500
@@ -406,7 +406,7 @@ Node;AmplifyShaderEditor.GetLocalVarNode;1267;-1312.607,-1955.884;Inherit;False;
 Node;AmplifyShaderEditor.TFHCCompareGreater;1268;-608.6682,-1827.791;Inherit;False;4;0;FLOAT;0;False;1;FLOAT;0.5;False;2;FLOAT;1;False;3;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SaturateNode;1109;-577.3071,-2368.148;Inherit;False;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;1118;296.4815,-1804.256;Half;False;Property;_ADVANCEDD;[ ADVANCEDD ];15;0;Create;True;0;0;True;1;InternalCategory(Advanced);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-128,-2048;Float;False;True;-1;4;ADSShaderGUI;300;0;Standard;appalachia/fungus-emissive;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;True;False;False;False;True;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;True;0;True;Opaque;;AlphaTest;All;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;Utils/ADS Fallback;-1;-1;-1;-1;0;False;0;0;True;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-128,-2048;Float;False;True;-1;4;AppalachiaShaderGUI;300;0;Standard;appalachia/fungus-emissive;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;True;False;False;False;True;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Custom;0.5;True;True;0;True;Opaque;;AlphaTest;All;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;Utils/Appalachia Fallback;-1;-1;-1;-1;0;False;0;0;True;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.CommentaryNode;708;0,-1024;Inherit;False;1024.6;100;Normal Texture;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;1281;-2812.793,-1139.139;Inherit;False;1152.612;100;Main Texture and Color;0;;0,0.751724,1,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;683;264.4814,-1484.256;Inherit;False;417.3682;100;Rendering And Settings;0;;1,0,0.503,1;0;0

@@ -4,8 +4,8 @@ Shader "appalachia/tree-shadows_LOD0"
 {
 	Properties
 	{
-		[InternalBanner(Internal,Tree Shadows)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaBanner(Internal,Tree Shadows)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		_CutoffLowNear("Cutoff Low (Near)", Range( 0 , 1)) = 0.75
 		_CutoffHighNear("Cutoff High (Near)", Range( 0 , 1)) = 1
 		_CutoffFar("Cutoff Far", Range( 64 , 1024)) = 64

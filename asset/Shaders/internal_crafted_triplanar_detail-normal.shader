@@ -4,21 +4,21 @@ Shader "appalachia/crafted_triplanar_normal-detail"
 {
 	Properties
 	{
-		[InternalBanner(Internal,Standard)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG  ]", Float) = 0
+		[AppalachiaBanner(Internal,Standard)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG  ]", Float) = 0
 		[Enum(UnityEngine.Rendering.CullMode)]_CullMode("Cull Mode", Float) = 2
 		_MaskClipValue("Mask Clip Value", Range( 0 , 1)) = 0.5
 		[Toggle]_AlphaToCoverage("Alpha To Coverage", Float) = 0
 		[Toggle]_ZWriteMode("ZWrite Mode", Float) = 1
 		[Enum(UnityEngine.Rendering.CompareFunction)]_ZTestMode("ZTest Mode", Float) = 4
-		[InternalCategory(Triplanar)]_TRIPLANARR("[ TRIPLANARR ]", Float) = 0
+		[AppalachiaCategory(Triplanar)]_TRIPLANARR("[ TRIPLANARR ]", Float) = 0
 		_TextureOffset("Texture Offset", Vector) = (0,0,0,0)
 		_TextureScale("Texture Scale", Vector) = (1,1,0,0)
 		_TriplanarContrast("Triplanar Contrast", Range( 0 , 20)) = 1
 		[Toggle]_ZYFlip("ZY Flip", Float) = 0
 		[Toggle]_XZFlip("XZ Flip", Float) = 0
 		[Toggle]_XYFlip("XY Flip", Float) = 0
-		[InternalCategory(Main Texture)]_MAINTEXX("[ MAINTEXX ]", Float) = 0
+		[AppalachiaCategory(Main Texture)]_MAINTEXX("[ MAINTEXX ]", Float) = 0
 		_MainTex("Albedo", 2D) = "white" {}
 		_Color("Color", Color) = (1,1,1,0)
 		_Saturation("Saturation", Range( -1 , 4)) = 0
@@ -30,7 +30,7 @@ Shader "appalachia/crafted_triplanar_normal-detail"
 		_Metallic("Metallic", Range( 0 , 1)) = 0
 		_OcclusionStrength("Occlusion", Range( 0 , 1)) = 1
 		_Glossiness("Smoothness", Range( 0 , 1)) = 0.1
-		[InternalCategory(Texture 2)]_MAINTEXX2("[ MAINTEXX ]", Float) = 0
+		[AppalachiaCategory(Texture 2)]_MAINTEXX2("[ MAINTEXX ]", Float) = 0
 		_MainTex2("Albedo", 2D) = "white" {}
 		_Color2("Color", Color) = (1,1,1,0)
 		_Saturation2("Saturation", Range( -1 , 4)) = 0
@@ -42,7 +42,7 @@ Shader "appalachia/crafted_triplanar_normal-detail"
 		_Metallic2("Metallic", Range( 0 , 1)) = 0
 		_OcclusionStrength2("Occlusion", Range( 0 , 1)) = 1
 		_Glossiness2("Smoothness", Range( 0 , 1)) = 0.1
-		[InternalCategory(Texture 3)]_MAINTEXX3("[ MAINTEXX ]", Float) = 0
+		[AppalachiaCategory(Texture 3)]_MAINTEXX3("[ MAINTEXX ]", Float) = 0
 		_MainTex3("Albedo", 2D) = "white" {}
 		_Color3("Color", Color) = (1,1,1,0)
 		_Saturation3("Saturation", Range( -1 , 4)) = 0
@@ -54,16 +54,16 @@ Shader "appalachia/crafted_triplanar_normal-detail"
 		_Metallic3("Metallic", Range( 0 , 1)) = 0
 		_OcclusionStrength3("Occlusion", Range( 0 , 1)) = 1
 		_Glossiness3("Smoothness", Range( 0 , 1)) = 0.1
-		[InternalCategory(Detail Texture)]_MAINTEXXDetail("[ MAINTEXX ]", Float) = 0
+		[AppalachiaCategory(Detail Texture)]_MAINTEXXDetail("[ MAINTEXX ]", Float) = 0
 		[Normal]_BumpMapDetail("Normal", 2D) = "bump" {}
 		_BumpScaleDetail("Normal Scale", Range( 0 , 5)) = 1
-		[InternalCategory(Occlusion Probes)]_OCCLUSIONPROBESS("[ OCCLUSION PROBESS  ]", Float) = 0
-		[InternalCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
+		[AppalachiaCategory(Occlusion Probes)]_OCCLUSIONPROBESS("[ OCCLUSION PROBESS  ]", Float) = 0
+		[AppalachiaCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
 		_Occlusion("Texture Occlusion", Range( 0 , 1)) = 0.5
 		_AOProbeStrength("AO Probe Strength", Range( 0 , 1)) = 0.8
 		_AOIndirect("AO Indirect", Range( 0 , 1)) = 1
 		_AODirect("AO Direct", Range( 0 , 1)) = 0
-		[InternalCategory(Burn)]_BURNN("[ BURNN ]", Float) = 0
+		[AppalachiaCategory(Burn)]_BURNN("[ BURNN ]", Float) = 0
 		_CharColor1("Char Color 1", Color) = (0.3098039,0.3098039,0.3098039,1)
 		_CharColor2("Char Color 2", Color) = (0.1333333,0.1333333,0.1333333,1)
 		_BurnColor1("Burn Color 1", Color) = (1,0.5137255,0,1)
@@ -85,17 +85,17 @@ Shader "appalachia/crafted_triplanar_normal-detail"
 		[PerRendererData]_Burned("Burned", Range( 0 , 1)) = 0
 		[PerRendererData]_Heat("Heat", Range( 0 , 1)) = 0
 		[PerRendererData]_WindProtection("Wind Protection", Range( 0 , 1)) = 0
-		[InternalCategory(Wettable)]_WETT("[ WETT ]", Float) = 0
+		[AppalachiaCategory(Wettable)]_WETT("[ WETT ]", Float) = 0
 		[Toggle(_WETTABLE_ON)] _Wettable("Wettable", Float) = 0
 		[PerRendererData]_Wetness("Wetness", Range( 0 , 1)) = 0
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[PerRendererData]_RainWetness("Rain Wetness", Range( 0 , 1)) = 0
 		[PerRendererData]_SubmersionWetness("Submersion Wetness", Range( 0 , 1)) = 0
-		[InternalCategory(Wetness)]_WETNESS("[ WETNESS ]", Float) = 0
+		[AppalachiaCategory(Wetness)]_WETNESS("[ WETNESS ]", Float) = 0
 		_WetnessDarkening("Wetness Darkening", Range( 0 , 0.93)) = 0.65
 		_WetnessSmoothness("Wetness Smoothness", Range( 0 , 1)) = 0.3
 		_WetnessPorosity("Wetness Porosity", Range( 0 , 1)) = 0.1
-		[InternalCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
+		[AppalachiaCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
 		_GlobalIlluminationAlbedoEffect("Global Illumination Albedo Effect", Range( 0 , 5)) = 1
 		_GlobalIlluminationEmissiveEffect("Global Illumination Emissive Effect", Range( 0 , 5)) = 1
 		[HideInInspector] _tex3coord( "", 2D ) = "white" {}

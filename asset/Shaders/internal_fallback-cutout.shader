@@ -4,17 +4,17 @@ Shader "appalachia/fallback"
 {
 	Properties
 	{
-		[InternalBanner(ADS Fallback)]_ADSFallback("< ADS Fallback >", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaBanner(Appalachia Fallback)]_AppalachiaFallback("< Appalachia Fallback >", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		[Enum(Opaque,0,Cutout,1,Fade,2,Transparent,3)]_RenderType("Render Type", Float) = 0
 		[Enum(Off,0,Front,1,Back,2)]_CullType("Cull Type", Float) = 0
-		[InternalInteractive(_RenderType, 1)]_RenderTypee("# _RenderTypee", Float) = 0
+		[AppalachiaInteractive(_RenderType, 1)]_RenderTypee("# _RenderTypee", Float) = 0
 		_Cutoff("Cutout", Range( 0 , 1)) = 0.5
-		[InternalCategory(Main)]_MAINN("[ MAINN ]", Float) = 0
+		[AppalachiaCategory(Main)]_MAINN("[ MAINN ]", Float) = 0
 		_Color("Main Color", Color) = (1,1,1,1)
 		[NoScaleOffset]_MainTex("Main Albedo", 2D) = "white" {}
 		[Space(10)]_UVZero("Main UVs", Vector) = (1,1,0,0)
-		[InternalCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
+		[AppalachiaCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
 		[HideInInspector]_SrcBlend("_SrcBlend", Float) = 1
 		[HideInInspector]_DstBlend("_DstBlend", Float) = 10
 		[HideInInspector]_ZWrite("_ZWrite", Float) = 1
@@ -40,7 +40,7 @@ Shader "appalachia/fallback"
 		};
 
 		uniform half _ADVANCEDD;
-		uniform half _ADSFallback;
+		uniform half _AppalachiaFallback;
 		uniform half _ZWrite;
 		uniform half _RenderType;
 		uniform half _RenderTypee;
@@ -211,7 +211,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1118;-960,-2944;Inherit;False;2;2;
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1058;-1024,-2560;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1115;-960,-2848;Inherit;False;4;4;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;3;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;1102;-1270.17,-3744.119;Half;False;Property;_RenderTypee;# _RenderTypee;4;0;Create;True;0;0;True;1;InternalInteractive(_RenderType, 1);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;1106;-1270.17,-3936.119;Half;False;Property;_ADSFallback;< ADS Fallback >;0;0;Create;True;0;0;True;1;InternalBanner(ADS Fallback);1;0;1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;1106;-1270.17,-3936.119;Half;False;Property;_AppalachiaFallback;< Appalachia Fallback >;0;0;Create;True;0;0;True;1;InternalBanner(Appalachia Fallback);1;0;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1109;-934.1699,-3840.119;Half;False;Property;_ADVANCEDD;[ ADVANCEDD ];10;0;Create;True;0;0;True;1;InternalCategory(Advanced);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;1112;-768,-2528;Float;False;Property;_RENDERTYPEKEY;RenderTypeKey;5;0;Create;False;0;0;False;0;0;0;0;False;_ALPHABLEND_ON;KeywordEnum;4;_OPAQUE;_CUT;_FADE;_TRANSPARENT;Create;True;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;1114;-768,-2944;Float;False;Property;_RENDERTYPEKEY;RenderTypeKey;5;0;Create;False;0;0;False;0;0;0;0;False;_ALPHABLEND_ON;KeywordEnum;4;_OPAQUE;_CUT;_FADE;_TRANSPARENT;Create;True;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0

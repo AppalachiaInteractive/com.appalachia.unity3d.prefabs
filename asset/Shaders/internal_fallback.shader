@@ -4,17 +4,17 @@ Shader "appalachia/fallback-cutout"
 {
 	Properties
 	{
-		[InternalBanner(Internal, Leaf)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
-		[InternalCategory(Cutoff)]_CUTOFFF("[ CUTOFFF ]", Float) = 0
-		[InternalCategory(Leaf)]_LEAFF("[ LEAFF ]", Float) = 0
+		[AppalachiaBanner(Internal, Leaf)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaCategory(Cutoff)]_CUTOFFF("[ CUTOFFF ]", Float) = 0
+		[AppalachiaCategory(Leaf)]_LEAFF("[ LEAFF ]", Float) = 0
 		[NoScaleOffset]_MainTex("Leaf Albedo", 2D) = "white" {}
 		[NoScaleOffset]_BumpMap("Leaf Normal", 2D) = "bump" {}
 		_BumpScale("Leaf Normal Scale", Range( 0 , 5)) = 1
 		[NoScaleOffset]_MetallicGlossMap("Leaf Surface", 2D) = "white" {}
 		_Glossiness("Leaf Smoothness", Range( 0 , 1)) = 0.1
 		_Color("Primary Color", Color) = (1,1,1,1)
-		[InternalCategory(Color Map)]_COLORMAPP("[ COLOR MAPP ]", Float) = 0
+		[AppalachiaCategory(Color Map)]_COLORMAPP("[ COLOR MAPP ]", Float) = 0
 		_SecondaryColor("Secondary Color", Color) = (0,0,0,0)
 		_MaskedColor("Masked Color", Color) = (0,0,0,0)
 		[NoScaleOffset]_ColorMap("Color Map", 2D) = "white" {}

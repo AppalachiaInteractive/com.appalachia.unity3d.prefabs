@@ -4,19 +4,19 @@ Shader "appalachia/cloth"
 {
 	Properties
 	{
-		[InternalBanner(ADS Standard Lit, Cloth)]_ADSStandardLitCloth("< ADS Standard Lit Cloth >", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaBanner(Appalachia Standard Lit, Cloth)]_AppalachiaStandardLitCloth("< Appalachia Standard Lit Cloth >", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		[Enum(Opaque,0,Cutout,1,Fade,2,Transparent,3)]_RenderType("Render Type", Float) = 0
 		[Enum(Two Sided,0,Back,1,Front,2)]_RenderFaces("Render Faces", Float) = 0
 		[Enum(Mirrored Normals,0,Flipped Normals,1)]_NormalInvertOnBackface("Render Backface", Float) = 1
-		[InternalInteractive(_RenderType, 1)]_RenderTypee("# RenderTypee", Float) = 0
+		[AppalachiaInteractive(_RenderType, 1)]_RenderTypee("# RenderTypee", Float) = 0
 		_Cutoff("Cutout", Range( 0 , 1)) = 0.5
-		[InternalCategory(Alpha)]_ALPHAA("[ ALPHAA ]", Float) = 0
+		[AppalachiaCategory(Alpha)]_ALPHAA("[ ALPHAA ]", Float) = 0
 		[KeywordEnum(Main,Alpha)] _AlphaFrom("Alpha From", Float) = 0
-		[InternalInteractive(_AlphaFrom, 1)]_AlphaFromm("# AlphaFromm", Float) = 0
+		[AppalachiaInteractive(_AlphaFrom, 1)]_AlphaFromm("# AlphaFromm", Float) = 0
 		[NoScaleOffset]_AlphaTexture("Alpha Texture", 2D) = "white" {}
 		_AlphaUVs("Alpha UVs", Vector) = (1,1,0,0)
-		[InternalCategory(Cloth)]_CLOTHH("[ CLOTHH ]", Float) = 0
+		[AppalachiaCategory(Cloth)]_CLOTHH("[ CLOTHH ]", Float) = 0
 		_Color("Cloth Color", Color) = (1,1,1,1)
 		[NoScaleOffset]_MainTex("Cloth Albedo", 2D) = "white" {}
 		_NormalScale("Cloth Normal Scale", Float) = 1
@@ -24,31 +24,31 @@ Shader "appalachia/cloth"
 		_Smoothness("Cloth Smoothness", Range( 0 , 1)) = 0.5
 		[NoScaleOffset]_MetallicGlossMap("Cloth Surface", 2D) = "white" {}
 		[Space(10)]_UVZero("Cloth UVs", Vector) = (1,1,0,0)
-		[InternalCategory(Symbol)]_SYMBOLL("[ SYMBOLL ]", Float) = 0
+		[AppalachiaCategory(Symbol)]_SYMBOLL("[ SYMBOLL ]", Float) = 0
 		[Enum(Multiplied,0,Sticker,1)]_SymbolMode("Symbol Mode", Float) = 0
 		_SymbolColor("Symbol Color", Color) = (1,1,1,1)
 		[NoScaleOffset]_SymbolTexture("Symbol Texture", 2D) = "gray" {}
 		_SymbolRotation("Symbol Rotation", Range( 0 , 360)) = 0
 		_SymbolUVs("Symbol UVs", Vector) = (1,1,1,0)
-		[InternalCategory(Settings)]_SETTINGS("[ SETTINGS ]", Float) = 0
+		[AppalachiaCategory(Settings)]_SETTINGS("[ SETTINGS ]", Float) = 0
 		[HideInInspector]_MotionNoise("Motion Noise", Float) = 1
 		_GlobalTurbulence("Global Turbulence", Range( 0 , 1)) = 1
-		[InternalCategory(Cloth Motion)]_CLOTHMOTIONN("[ CLOTH MOTIONN ]", Float) = 0
+		[AppalachiaCategory(Cloth Motion)]_CLOTHMOTIONN("[ CLOTH MOTIONN ]", Float) = 0
 		[KeywordEnum(World,Local)] _MotionSpace("Cloth Motion Space", Float) = 0
-		[InternalInteractive(_MotionSpace, 1)]_MotionSpacee("# MotionSpacee", Float) = 0
+		[AppalachiaInteractive(_MotionSpace, 1)]_MotionSpacee("# MotionSpacee", Float) = 0
 		_MotionLocalDirection("Cloth Local Direction", Vector) = (0,0,0,0)
-		[InternalInteractive(ON)]_MotionSpacee_ON("# MotionSpacee_ON", Float) = 0
+		[AppalachiaInteractive(ON)]_MotionSpacee_ON("# MotionSpacee_ON", Float) = 0
 		_MotionAmplitude("Cloth Motion Amplitude", Float) = 0
 		_MotionSpeed("Cloth Motion Speed", Float) = 0
 		_MotionScale("Cloth Motion Scale", Float) = 0
 		_MotionVariation("Cloth Motion Variation", Float) = 0
-		[InternalCategory(Detail Motion)]_DETAILMOTIONN("[ DETAIL MOTIONN ]", Float) = 0
+		[AppalachiaCategory(Detail Motion)]_DETAILMOTIONN("[ DETAIL MOTIONN ]", Float) = 0
 		_MotionLocalDirection3("Cloth Detail Direction", Vector) = (1,1,1,0)
 		_MotionAmplitude3("Cloth Detail Amplitude", Float) = 0
 		_MotionSpeed3("Cloth Detail Speed", Float) = 0
 		_MotionScale3("Cloth Detail Scale", Float) = 0
-		[InternalCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
-		[InternalMessage(Info, Batching is not currently supported Please use GPU Instancing instead for better performance, 0, 0)]_BatchingInfo("!!! BatchingInfo", Float) = 0
+		[AppalachiaCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
+		[AppalachiaMessage(Info, Batching is not currently supported Please use GPU Instancing instead for better performance, 0, 0)]_BatchingInfo("!!! BatchingInfo", Float) = 0
 		[HideInInspector]_SrcBlend("_SrcBlend", Float) = 1
 		[HideInInspector]_DstBlend("_DstBlend", Float) = 10
 		[HideInInspector]_ZWrite("_ZWrite", Float) = 1
@@ -89,7 +89,7 @@ Shader "appalachia/cloth"
 		uniform half _BatchingInfo;
 		uniform half _ADVANCEDD;
 		uniform half _Cutoff;
-		uniform half _ADSStandardLitCloth;
+		uniform half _AppalachiaStandardLitCloth;
 		uniform half _SETTINGS;
 		uniform half _DstBlend;
 		uniform half _RenderFaces;
@@ -102,19 +102,19 @@ Shader "appalachia/cloth"
 		uniform half _SrcBlend;
 		uniform half _DETAILMOTIONN;
 		uniform half _ZWrite;
-		uniform half ADS_GlobalScale;
+		uniform half Appalachia_GlobalScale;
 		uniform float _MotionScale;
-		uniform half ADS_GlobalSpeed;
+		uniform half Appalachia_GlobalSpeed;
 		uniform float _MotionSpeed;
 		uniform float _MotionVariation;
-		uniform half ADS_GlobalAmplitude;
+		uniform half Appalachia_GlobalAmplitude;
 		uniform float _MotionAmplitude;
-		uniform sampler2D ADS_TurbulenceTex;
-		uniform half ADS_TurbulenceSpeed;
-		uniform half ADS_TurbulenceScale;
-		uniform half ADS_TurbulenceContrast;
+		uniform sampler2D Appalachia_TurbulenceTex;
+		uniform half Appalachia_TurbulenceSpeed;
+		uniform half Appalachia_TurbulenceScale;
+		uniform half Appalachia_TurbulenceContrast;
 		uniform float _GlobalTurbulence;
-		uniform half3 ADS_GlobalDirection;
+		uniform half3 Appalachia_GlobalDirection;
 		uniform half3 _MotionLocalDirection;
 		uniform half3 _MotionLocalDirection3;
 		uniform float _MotionScale3;
@@ -167,25 +167,25 @@ Shader "appalachia/cloth"
 			#else
 				float3 staticSwitch345_g1894 = ase_worldPos;
 			#endif
-			half MotionScale60_g1894 = ( ADS_GlobalScale * _MotionScale );
-			half MotionSpeed62_g1894 = ( ADS_GlobalSpeed * _MotionSpeed );
+			half MotionScale60_g1894 = ( Appalachia_GlobalScale * _MotionScale );
+			half MotionSpeed62_g1894 = ( Appalachia_GlobalSpeed * _MotionSpeed );
 			float mulTime90_g1894 = _Time.y * MotionSpeed62_g1894;
 			float3 temp_output_95_0_g1894 = ( ( staticSwitch345_g1894 * MotionScale60_g1894 ) + mulTime90_g1894 );
 			half Packed_Variation1228 = v.color.a;
 			half MotionVariation269_g1894 = ( _MotionVariation * Packed_Variation1228 );
-			half MotionlAmplitude58_g1894 = ( ADS_GlobalAmplitude * _MotionAmplitude );
+			half MotionlAmplitude58_g1894 = ( Appalachia_GlobalAmplitude * _MotionAmplitude );
 			float3 temp_output_92_0_g1894 = ( sin( ( temp_output_95_0_g1894 + MotionVariation269_g1894 ) ) * MotionlAmplitude58_g1894 );
 			float3 temp_output_160_0_g1894 = ( temp_output_92_0_g1894 + MotionlAmplitude58_g1894 + MotionlAmplitude58_g1894 );
-			float2 temp_cast_0 = (ADS_TurbulenceSpeed).xx;
+			float2 temp_cast_0 = (Appalachia_TurbulenceSpeed).xx;
 			half localunity_ObjectToWorld0w1_g1857 = ( unity_ObjectToWorld[0].w );
 			half localunity_ObjectToWorld1w2_g1857 = ( unity_ObjectToWorld[1].w );
 			half localunity_ObjectToWorld2w3_g1857 = ( unity_ObjectToWorld[2].w );
 			float3 appendResult6_g1857 = (float3(localunity_ObjectToWorld0w1_g1857 , localunity_ObjectToWorld1w2_g1857 , localunity_ObjectToWorld2w3_g1857));
-			float2 panner73_g1855 = ( _Time.y * temp_cast_0 + ( (appendResult6_g1857).xz * ADS_TurbulenceScale ));
-			float lerpResult136_g1855 = lerp( 1.0 , saturate( pow( abs( tex2Dlod( ADS_TurbulenceTex, float4( panner73_g1855, 0, 0.0) ).r ) , ADS_TurbulenceContrast ) ) , _GlobalTurbulence);
+			float2 panner73_g1855 = ( _Time.y * temp_cast_0 + ( (appendResult6_g1857).xz * Appalachia_TurbulenceScale ));
+			float lerpResult136_g1855 = lerp( 1.0 , saturate( pow( abs( tex2Dlod( Appalachia_TurbulenceTex, float4( panner73_g1855, 0, 0.0) ).r ) , Appalachia_TurbulenceContrast ) ) , _GlobalTurbulence);
 			half Motion_Turbulence1283 = lerpResult136_g1855;
 			float3 lerpResult293_g1894 = lerp( temp_output_92_0_g1894 , temp_output_160_0_g1894 , Motion_Turbulence1283);
-			half3 GlobalDirection349_g1894 = ADS_GlobalDirection;
+			half3 GlobalDirection349_g1894 = Appalachia_GlobalDirection;
 			#if defined(_MOTIONSPACE_WORLD)
 				float3 staticSwitch343_g1894 = mul( unity_WorldToObject, float4( GlobalDirection349_g1894 , 0.0 ) ).xyz;
 			#elif defined(_MOTIONSPACE_LOCAL)
@@ -199,10 +199,10 @@ Shader "appalachia/cloth"
 			float3 temp_output_94_0_g1894 = ( ( lerpResult293_g1894 * MotionDirection59_g1894 ) * MotionMask137_g1894 );
 			half3 Motion_Cloth1250 = temp_output_94_0_g1894;
 			float3 break311_g1895 = ( ase_vertex3Pos * _MotionLocalDirection3 );
-			half MotionFlutterScale60_g1895 = ( ADS_GlobalScale * _MotionScale3 );
-			half MotionFlutterSpeed62_g1895 = ( ADS_GlobalSpeed * _MotionSpeed3 );
+			half MotionFlutterScale60_g1895 = ( Appalachia_GlobalScale * _MotionScale3 );
+			half MotionFlutterSpeed62_g1895 = ( Appalachia_GlobalSpeed * _MotionSpeed3 );
 			float mulTime303_g1895 = _Time.y * MotionFlutterSpeed62_g1895;
-			half MotionlFlutterAmplitude58_g1895 = ( ADS_GlobalAmplitude * _MotionAmplitude3 );
+			half MotionlFlutterAmplitude58_g1895 = ( Appalachia_GlobalAmplitude * _MotionAmplitude3 );
 			half MotionMask137_g1895 = Packed_Cloth1234;
 			float3 ase_vertexNormal = v.normal.xyz;
 			half3 Motion_Flutter1301 = ( sin( ( ( ( break311_g1895.x + break311_g1895.y + break311_g1895.z ) * MotionFlutterScale60_g1895 ) + mulTime303_g1895 ) ) * MotionlFlutterAmplitude58_g1895 * MotionMask137_g1895 * ase_vertexNormal );
@@ -309,7 +309,7 @@ Shader "appalachia/cloth"
 			#else
 				float staticSwitch40_g1911 = temp_output_41_0_g1911;
 			#endif
-			#ifdef ADS_LODFADE_DITHER
+			#ifdef Appalachia_LODFADE_DITHER
 				float staticSwitch50_g1911 = staticSwitch40_g1911;
 			#else
 				float staticSwitch50_g1911 = temp_output_41_0_g1911;
@@ -336,7 +336,7 @@ Shader "appalachia/cloth"
 			#else
 				float staticSwitch40_g1909 = temp_output_41_0_g1909;
 			#endif
-			#ifdef ADS_LODFADE_DITHER
+			#ifdef Appalachia_LODFADE_DITHER
 				float staticSwitch50_g1909 = staticSwitch40_g1909;
 			#else
 				float staticSwitch50_g1909 = temp_output_41_0_g1909;
@@ -394,7 +394,7 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;490;640,640;Half;False;SymbolTex;-
 Node;AmplifyShaderEditor.GetLocalVarNode;593;-128,-896;Inherit;False;603;AlphaUVs;1;0;OBJECT;0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;486;1024,-128;Half;False;Main_Color;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;975;1888,800;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.FunctionNode;1282;-1280,1664;Inherit;False;ADS Global Turbulence;27;;1855;047eb809542f42d40b4b5066e22cee72;0;0;1;FLOAT;85
+Node;AmplifyShaderEditor.FunctionNode;1282;-1280,1664;Inherit;False;Appalachia Global Turbulence;27;;1855;047eb809542f42d40b4b5066e22cee72;0;0;1;FLOAT;85
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1228;-1024,1488;Half;False;Packed_Variation;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;492;1280,640;Half;False;SymbolColor;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;516;1664,1024;Inherit;False;487;Main_MainTex;1;0;OBJECT;0;False;1;COLOR;0
@@ -425,11 +425,11 @@ Node;AmplifyShaderEditor.RangedFloatNode;1294;768,1408;Float;False;Property;_Mot
 Node;AmplifyShaderEditor.Vector3Node;1303;-512,2048;Half;False;Property;_MotionLocalDirection;Cloth Local Direction;36;0;Create;False;0;0;False;0;0,0,0;0,0,0;0;4;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3
 Node;AmplifyShaderEditor.GetLocalVarNode;1239;-512,1920;Inherit;False;1234;Packed_Cloth;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1240;-512,1488;Float;False;Property;_MotionSpeed;Cloth Motion Speed;39;0;Create;False;0;0;False;0;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1293;1088,1408;Inherit;False;ADS Motion Flutter;-1;;1895;87d8028e5f83178498a65cfa9f0e9ace;1,312,1;5;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;136;FLOAT;0;False;310;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1293;1088,1408;Inherit;False;Appalachia Motion Flutter;-1;;1895;87d8028e5f83178498a65cfa9f0e9ace;1,312,1;5;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;136;FLOAT;0;False;310;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.LerpOp;967;2400,640;Inherit;False;3;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;2;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.GetLocalVarNode;618;768,-896;Inherit;False;616;Main_MainTex_A;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;644;2560,-128;Inherit;False;587;Main_UVs;1;0;OBJECT;0;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.FunctionNode;1299;128,1408;Inherit;False;ADS Motion Generic;32;;1894;81cab27e2a487a645a4ff5eb3c63bd27;6,252,2,278,1,228,1,292,2,330,2,326,2;8;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;218;FLOAT;0;False;287;FLOAT;0;False;136;FLOAT;0;False;279;FLOAT;0;False;342;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1299;128,1408;Inherit;False;Appalachia Motion Generic;32;;1894;81cab27e2a487a645a4ff5eb3c63bd27;6,252,2,278,1,228,1,292,2,330,2,326,2;8;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;218;FLOAT;0;False;287;FLOAT;0;False;136;FLOAT;0;False;279;FLOAT;0;False;342;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;619;768,-768;Inherit;False;595;AlphaTextureRed;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;615;1088,-896;Float;False;Property;_AlphaFrom;Alpha From;8;0;Create;True;0;0;False;0;0;0;0;True;;KeywordEnum;2;Main;Alpha;Create;False;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SamplerNode;645;2816,-128;Inherit;True;Property;_MetallicGlossMap;Cloth Surface;18;1;[NoScaleOffset];Create;False;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -458,7 +458,7 @@ Node;AmplifyShaderEditor.FunctionNode;1203;-768,-1792;Inherit;False;const;-1;;19
 Node;AmplifyShaderEditor.GetLocalVarNode;1179;-1280,-2160;Inherit;False;1057;Main_Color_A;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1255;2240,1408;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;745;3904,-128;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1204;2000,-128;Inherit;False;ADS Normal Backface;-1;;1901;4f53bc25e6d8da34db70401bcf363a2a;0;2;13;FLOAT3;0,0,0;False;30;FLOAT;0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1204;2000,-128;Inherit;False;Appalachia Normal Backface;-1;;1901;4f53bc25e6d8da34db70401bcf363a2a;0;2;13;FLOAT3;0,0,0;False;30;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1058;-1024,-1728;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;36;-1280,-2304;Inherit;False;416;OUT_ALBEDO;1;0;OBJECT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;1172;-512,-1648;Float;False;Property;_RENDERTYPEKEY;RenderTypeKey;5;0;Create;False;0;0;False;0;0;0;0;False;_ALPHABLEND_ON;KeywordEnum;4;_OPAQUE;_CUT;_FADE;_TRANSPARENT;Create;False;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
@@ -470,16 +470,16 @@ Node;AmplifyShaderEditor.RegisterLocalVarNode;1256;2432,1408;Half;False;Motion_O
 Node;AmplifyShaderEditor.RangedFloatNode;553;-1120,-2816;Half;False;Property;_DstBlend;_DstBlend;50;1;[HideInInspector];Create;True;0;0;True;0;10;10;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;624;-1280,-2048;Inherit;False;620;MainBumpMap;1;0;OBJECT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;1151;-592,-3488;Half;False;Property;_SETTINGS;[ SETTINGS ];26;0;Create;True;0;0;True;1;InternalCategory(Settings);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;1152;-1280,-3584;Half;False;Property;_ADSStandardLitCloth;< ADS Standard Lit Cloth >;0;0;Create;True;0;0;True;1;InternalBanner(ADS Standard Lit, Cloth);1;1;1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;1152;-1280,-3584;Half;False;Property;_AppalachiaStandardLitCloth;< Appalachia Standard Lit Cloth >;0;0;Create;True;0;0;True;1;InternalBanner(Appalachia Standard Lit, Cloth);1;1;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;862;-448,-2816;Half;False;Property;_Cutoff;Cutout;6;0;Create;False;3;Off;0;Front;1;Back;2;0;True;0;0.5;0.1;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1288;-256,-1792;Inherit;False;ADS LODFade Dither;-1;;1911;f1eaf6a5452c7c7458970a3fc3fa22c1;1,44,0;1;41;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;1288;-256,-1792;Inherit;False;Appalachia LODFade Dither;-1;;1911;f1eaf6a5452c7c7458970a3fc3fa22c1;1,44,0;1;41;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1144;-1280,-3488;Half;False;Property;_RENDERINGG;[ RENDERINGG ];1;0;Create;True;0;0;True;1;InternalCategory(Rendering);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;549;-816,-2816;Half;False;Property;_RenderType;Render Type;2;1;[Enum];Create;True;4;Opaque;0;Cutout;1;Fade;2;Transparent;3;0;True;0;0;3;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1281;-480,-3392;Half;False;Property;_BatchingInfo;!!! BatchingInfo;48;0;Create;True;0;0;True;1;InternalMessage(Info, Batching is not currently supported Please use GPU Instancing instead for better performance, 0, 0);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1145;-928,-3488;Half;False;Property;_CLOTHH;[ CLOTHH ];12;0;Create;True;0;0;True;1;InternalCategory(Cloth);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1146;-1088,-3488;Half;False;Property;_ALPHAA;[ ALPHAA ];7;0;Create;True;0;0;True;1;InternalCategory(Alpha);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1147;-1088,-3392;Half;False;Property;_AlphaFromm;# AlphaFromm;9;0;Create;True;0;0;True;1;InternalInteractive(_AlphaFrom, 1);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1289;-256,-1648;Inherit;False;ADS LODFade Dither;-1;;1909;f1eaf6a5452c7c7458970a3fc3fa22c1;1,44,0;1;41;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;1289;-256,-1648;Inherit;False;Appalachia LODFade Dither;-1;;1909;f1eaf6a5452c7c7458970a3fc3fa22c1;1,44,0;1;41;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;743;-640,-2816;Half;False;Property;_RenderFaces;Render Faces;3;1;[Enum];Create;True;3;Two Sided;0;Back;1;Front;2;0;True;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;489;640,704;Half;False;SymbolTexRed;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1306;-896,-3392;Half;False;Property;_MotionSpacee;# MotionSpacee;35;0;Create;True;0;0;True;1;InternalInteractive(_MotionSpace, 1);0;0;0;0;0;1;FLOAT;0

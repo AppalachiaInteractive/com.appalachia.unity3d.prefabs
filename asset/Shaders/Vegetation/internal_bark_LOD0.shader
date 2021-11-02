@@ -4,8 +4,8 @@ Shader "appalachia/bark_LOD0"
 {
 	Properties
 	{
-		[InternalBanner(Internal, Bark)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Trunk)]_TRUNKK("[ TRUNKK ]", Float) = 0
+		[AppalachiaBanner(Internal, Bark)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Trunk)]_TRUNKK("[ TRUNKK ]", Float) = 0
 		_MainTex("Bark Albedo", 2D) = "white" {}
 		_Color("Trunk Color", Color) = (1,1,1,1)
 		_Saturation("Saturation", Range( -1 , 1)) = 0
@@ -18,7 +18,7 @@ Shader "appalachia/bark_LOD0"
 		_TrunkVariation("Trunk Variation", Range( 0 , 1)) = 1
 		_Glossiness("Base Smoothness", Range( 0 , 1)) = 0.1
 		_Occlusion("Base Occlusion", Range( 0 , 1)) = 1
-		[InternalCategory(Cover Blending)]_COVERR("[ COVERR  ]", Float) = 0
+		[AppalachiaCategory(Cover Blending)]_COVERR("[ COVERR  ]", Float) = 0
 		[Toggle(_ENABLEBASE_ON)] _EnableBase("Enable Base", Float) = 0
 		_BlendAmount("Blend Amount", Range( 0.0001 , 1)) = 1
 		_BlendVariation("Blend Variation", Range( 0 , 1)) = 1
@@ -41,7 +41,7 @@ Shader "appalachia/bark_LOD0"
 		[NoScaleOffset][Normal]_BumpMap3("Cover Normal", 2D) = "bump" {}
 		_BumpScale3("Cover Normal Scale", Range( 0 , 5)) = 1
 		[NoScaleOffset]_MetallicGlossMap3("Cover Surface", 2D) = "white" {}
-		[InternalCategory(Break)]_BREAKK("[ BREAKK ]", Float) = 0
+		[AppalachiaCategory(Break)]_BREAKK("[ BREAKK ]", Float) = 0
 		_MainTex2("Break Albedo", 2D) = "white" {}
 		[NoScaleOffset]_Map2("Break Color Map", 2D) = "white" {}
 		_BreakColorHeartwood("Break Color Heartwood", Color) = (0.3215686,0.2352941,0.1333333,1)
@@ -52,14 +52,14 @@ Shader "appalachia/bark_LOD0"
 		[NoScaleOffset]_MetallicGlossMap2("Break Surface", 2D) = "white" {}
 		_Occlusion2("Break Occlusion", Range( 0 , 1)) = 1
 		_Glossiness2("Break Smoothness", Range( 0 , 1)) = 0.2
-		[InternalCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
+		[AppalachiaCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
 		_Occlusion("Texture Occlusion", Range( 0 , 1)) = 0.5
 		_VertexOcclusion("Vertex Occlusion", Range( 0 , 1)) = 0.5
 		_VertexOcclusionContrast("Vertex Occlusion Contrast", Range( 0 , 5)) = 0.5
 		_AOProbeStrength("AO Probe Strength", Range( 0 , 1)) = 0.8
 		_AOIndirect("AO Indirect", Range( 0 , 1)) = 1
 		_AODirect("AO Direct", Range( 0 , 1)) = 0
-		[InternalCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
+		[AppalachiaCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
 		_GlobalIlluminationAlbedoEffect("Global Illumination Albedo Effect", Range( 0 , 5)) = 1
 		_GlobalIlluminationEmissiveEffect("Global Illumination Emissive Effect", Range( 0 , 5)) = 1
 		[HideInInspector][Toggle]_IsLeaf("Is Leaf", Float) = 0

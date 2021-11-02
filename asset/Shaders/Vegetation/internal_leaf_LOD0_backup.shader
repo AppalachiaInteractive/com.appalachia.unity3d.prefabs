@@ -3,7 +3,7 @@ Shader "appalachia/leaf_LOD0_backup"
 	Properties
 	{
 		[Header(Translucency)]
-		[HideInInspector][InternalCategory(Backshading)]_BACKSHADINGG("[ BACKSHADINGG ]", Float) = 0
+		[HideInInspector][AppalachiaCategory(Backshading)]_BACKSHADINGG("[ BACKSHADINGG ]", Float) = 0
 		_Backshade("Backshade", Color) = (0,0,0,0.3294118)
 		_Translucency("Strength", Range( 0 , 50)) = 1
 		_BackshadingBias("Backshading Bias", Range( -1 , 1)) = 0
@@ -14,15 +14,15 @@ Shader "appalachia/leaf_LOD0_backup"
 		_TransDirect("Direct", Range( 0 , 1)) = 1
 		_TransAmbient("Ambient", Range( 0 , 1)) = 0.2
 		_TransShadow("Shadow", Range( 0 , 1)) = 0.9
-		[InternalCategory(Cutoff)]_CUTOFFF("[ CUTOFFF ]", Float) = 0
-		[InternalBanner(Internal, Leaf)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaCategory(Cutoff)]_CUTOFFF("[ CUTOFFF ]", Float) = 0
+		[AppalachiaBanner(Internal, Leaf)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		_CutoffLowNear("Cutoff Low (Near)", Range( 0 , 1)) = 0.75
 		_CutoffHighNear("Cutoff High (Near)", Range( 0 , 1)) = 1
 		_CutoffFar("Cutoff Far", Range( 64 , 1024)) = 64
 		_CutoffLowFar("Cutoff Low (Far)", Range( 0 , 1)) = 0.1
 		_CutoffHighFar("Cutoff High (Far)", Range( 0 , 1)) = 0.6
-		[InternalCategory(Leaf)]_LEAFF("[ LEAFF ]", Float) = 0
+		[AppalachiaCategory(Leaf)]_LEAFF("[ LEAFF ]", Float) = 0
 		[NoScaleOffset]_MainTex("Leaf Albedo", 2D) = "white" {}
 		[NoScaleOffset]_BumpMap("Leaf Normal", 2D) = "bump" {}
 		_BumpScale("Leaf Normal Scale", Range( 0 , 5)) = 1
@@ -30,7 +30,7 @@ Shader "appalachia/leaf_LOD0_backup"
 		_Glossiness("Leaf Smoothness", Range( 0 , 1)) = 0.5
 		_Occlusion("Texture Occlusion", Range( 0 , 1)) = 0.5
 		_VertexOcclusion("Vertex Occlusion", Range( 0 , 1)) = 0.5
-		[InternalCategory(Color)]_COLORR("[ COLORR ]", Float) = 0
+		[AppalachiaCategory(Color)]_COLORR("[ COLORR ]", Float) = 0
 		_Saturation("Leaf Saturation", Range( 0 , 4)) = 1
 		_Brightness("Leaf Brightness", Range( 0 , 4)) = 1
 		_Color("Leaf Color", Color) = (1,1,1,1)
@@ -41,15 +41,15 @@ Shader "appalachia/leaf_LOD0_backup"
 		_ColorMapContrast("Color Map Contrast", Range( 0.1 , 2)) = 1
 		_NonLeafFadeColor("Non-Leaf Fade Color", Color) = (0.3773585,0.3773585,0.3773585,1)
 		_NonLeafFadeStrength("Non-Leaf Fade Strength", Range( 0 , 2)) = 0.1
-		[InternalCategory(Translucency)]_TRANSLUCENCYY("[ TRANSLUCENCYY ]", Float) = 0
+		[AppalachiaCategory(Translucency)]_TRANSLUCENCYY("[ TRANSLUCENCYY ]", Float) = 0
 		_OcclusionTransmissionDamping("Occlusion Transmission Damping", Range( 0 , 1)) = 0.5
 		_TranlucencyFadeDistance("Tranlucency Fade Distance", Range( 12 , 256)) = 64
 		_TranlucencyFadeOffset("Tranlucency Fade Offset", Range( 12 , 256)) = 24
 		_SubsurfaceColor("Leaf Subsurface Color", Color) = (1,1,1,1)
 		_TransmissionCutoff("Leaf Transmission Cutoff", Range( 0 , 0.25)) = 0.25
 		_TransmissionCutoff1("Leaf Transmission Albedo Blend", Range( 0 , 1)) = 0.25
-		[InternalCategory(Backshading)]_BACKSHADINGG("[ BACKSHADINGG ]", Float) = 0
-		[InternalCategory(Settings)]_SETTINGSS("[ SETTINGSS ]", Float) = 0
+		[AppalachiaCategory(Backshading)]_BACKSHADINGG("[ BACKSHADINGG ]", Float) = 0
+		[AppalachiaCategory(Settings)]_SETTINGSS("[ SETTINGSS ]", Float) = 0
 		[HideInInspector][Toggle]_IsLeaf("Is Leaf", Float) = 0
 		[HideInInspector][Toggle]_IsBark("Is Bark", Float) = 0
 		[HideInInspector][Toggle]_IsShadow("Is Shadow", Float) = 0

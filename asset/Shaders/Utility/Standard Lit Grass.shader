@@ -5,7 +5,7 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 	Properties
 	{
 		[HideInInspector]_Internal_Version("Internal_Version", Float) = 232
-		[BBanner(ADS Standard Lit, Grass)]_ADSStandardLitGrass("< ADS Standard Lit Grass >", Float) = 1
+		[BBanner(Appalachia Standard Lit, Grass)]_AppalachiaStandardLitGrass("< Appalachia Standard Lit Grass >", Float) = 1
 		[BCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		[Enum(Two Sided,0,Back,1,Front,2)]_RenderFaces("Render Faces", Float) = 0
 		_Cutoff("Cutout", Range( 0 , 1)) = 0.5
@@ -33,7 +33,7 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 		_MotionScale3("Leaf Flutter Scale", Float) = 0
 		[BCategory(Advanced)]_ADVANCEDD("[ ADVANCEDD ]", Float) = 0
 		[BMessage(Info, Batching is not currently supported Please use GPU Instancing instead for better performance, 0, 0)]_BatchingInfo("!!! BatchingInfo", Float) = 0
-		[HideInInspector]_Internal_ADS("Internal_ADS", Float) = 1
+		[HideInInspector]_Internal_Appalachia("Internal_Appalachia", Float) = 1
 		[HideInInspector]_MainUVs("_MainUVs", Vector) = (1,1,0,0)
 		[HideInInspector]_CullMode("_CullMode", Float) = 0
 		[HideInInspector]_Glossiness("_Glossiness", Float) = 0
@@ -88,7 +88,7 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 		uniform float _MotionNoise;
 		uniform half _BatchingInfo;
 		uniform half _MAINN;
-		uniform half _Internal_ADS;
+		uniform half _Internal_Appalachia;
 		uniform half _Internal_SetByScript;
 		uniform half _Internal_DebugMask2;
 		uniform half _Cutoff;
@@ -105,39 +105,39 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 		uniform half _LEAFMOTIONN;
 		uniform half _Internal_DebugVariation;
 		uniform half _ADVANCEDD;
-		uniform half _ADSStandardLitGrass;
+		uniform half _AppalachiaStandardLitGrass;
 		uniform half _SETTINGS;
 		uniform half _RENDERINGG;
 		uniform half _RenderFaces;
 		uniform half _Internal_LitStandard;
-		uniform half ADS_GlobalScale;
+		uniform half Appalachia_GlobalScale;
 		uniform float _MotionScale;
-		uniform half ADS_GlobalSpeed;
+		uniform half Appalachia_GlobalSpeed;
 		uniform float _MotionSpeed;
 		uniform float _MotionVariation;
-		uniform half ADS_GlobalAmplitude;
+		uniform half Appalachia_GlobalAmplitude;
 		uniform float _MotionAmplitude;
-		uniform sampler2D ADS_TurbulenceTex;
-		uniform half ADS_TurbulenceSpeed;
-		uniform half ADS_TurbulenceScale;
-		uniform half ADS_TurbulenceContrast;
+		uniform sampler2D Appalachia_TurbulenceTex;
+		uniform half Appalachia_TurbulenceSpeed;
+		uniform half Appalachia_TurbulenceScale;
+		uniform half Appalachia_TurbulenceContrast;
 		uniform float _GlobalTurbulence;
-		uniform half3 ADS_GlobalDirection;
+		uniform half3 Appalachia_GlobalDirection;
 		uniform float _MotionScale3;
 		uniform float _MotionSpeed3;
 		uniform float _MotionAmplitude3;
-		uniform half ADS_GlobalSizeMin;
-		uniform half ADS_GlobalSizeMax;
-		uniform sampler2D ADS_GlobalTex;
-		uniform half4 ADS_GlobalUVs;
+		uniform half Appalachia_GlobalSizeMin;
+		uniform half Appalachia_GlobalSizeMax;
+		uniform sampler2D Appalachia_GlobalTex;
+		uniform half4 Appalachia_GlobalUVs;
 		uniform half _GlobalSize;
 		uniform half _NormalScale;
 		uniform sampler2D BumpMap;
 		uniform sampler2D _MainTex;
 		uniform half4 _Color;
-		uniform half4 ADS_GlobalTintColorOne;
-		uniform half4 ADS_GlobalTintColorTwo;
-		uniform half ADS_GlobalTintIntensity;
+		uniform half4 Appalachia_GlobalTintColorOne;
+		uniform half4 Appalachia_GlobalTintColorTwo;
+		uniform half Appalachia_GlobalTintIntensity;
 		uniform half _GlobalTint;
 		uniform sampler2D _MetallicGlossMap;
 		uniform half _Smoothness;
@@ -160,25 +160,25 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 		{
 			UNITY_INITIALIZE_OUTPUT( Input, o );
 			float3 ase_worldPos = mul( unity_ObjectToWorld, v.vertex );
-			half MotionScale60_g1894 = ( ADS_GlobalScale * _MotionScale );
-			half MotionSpeed62_g1894 = ( ADS_GlobalSpeed * _MotionSpeed );
+			half MotionScale60_g1894 = ( Appalachia_GlobalScale * _MotionScale );
+			half MotionSpeed62_g1894 = ( Appalachia_GlobalSpeed * _MotionSpeed );
 			float mulTime90_g1894 = _Time.y * MotionSpeed62_g1894;
 			float2 temp_output_95_0_g1894 = ( ( (ase_worldPos).xz * MotionScale60_g1894 ) + mulTime90_g1894 );
 			half Packed_Variation1239 = v.color.a;
 			half MotionVariation269_g1894 = ( _MotionVariation * Packed_Variation1239 );
-			half MotionlAmplitude58_g1894 = ( ADS_GlobalAmplitude * _MotionAmplitude );
+			half MotionlAmplitude58_g1894 = ( Appalachia_GlobalAmplitude * _MotionAmplitude );
 			float2 temp_output_92_0_g1894 = ( sin( ( temp_output_95_0_g1894 + MotionVariation269_g1894 ) ) * MotionlAmplitude58_g1894 );
 			float2 temp_output_160_0_g1894 = ( temp_output_92_0_g1894 + MotionlAmplitude58_g1894 + MotionlAmplitude58_g1894 );
-			float2 temp_cast_0 = (ADS_TurbulenceSpeed).xx;
+			float2 temp_cast_0 = (Appalachia_TurbulenceSpeed).xx;
 			half localunity_ObjectToWorld0w1_g1581 = ( unity_ObjectToWorld[0].w );
 			half localunity_ObjectToWorld1w2_g1581 = ( unity_ObjectToWorld[1].w );
 			half localunity_ObjectToWorld2w3_g1581 = ( unity_ObjectToWorld[2].w );
 			float3 appendResult6_g1581 = (float3(localunity_ObjectToWorld0w1_g1581 , localunity_ObjectToWorld1w2_g1581 , localunity_ObjectToWorld2w3_g1581));
-			float2 panner73_g1579 = ( _Time.y * temp_cast_0 + ( (appendResult6_g1581).xz * ADS_TurbulenceScale ));
-			float lerpResult136_g1579 = lerp( 1.0 , saturate( pow( abs( tex2Dlod( ADS_TurbulenceTex, float4( panner73_g1579, 0, 0.0) ).r ) , ADS_TurbulenceContrast ) ) , _GlobalTurbulence);
+			float2 panner73_g1579 = ( _Time.y * temp_cast_0 + ( (appendResult6_g1581).xz * Appalachia_TurbulenceScale ));
+			float lerpResult136_g1579 = lerp( 1.0 , saturate( pow( abs( tex2Dlod( Appalachia_TurbulenceTex, float4( panner73_g1579, 0, 0.0) ).r ) , Appalachia_TurbulenceContrast ) ) , _GlobalTurbulence);
 			half Motion_Turbulence1240 = lerpResult136_g1579;
 			float2 lerpResult293_g1894 = lerp( temp_output_92_0_g1894 , temp_output_160_0_g1894 , Motion_Turbulence1240);
-			half3 GlobalDirection349_g1894 = ADS_GlobalDirection;
+			half3 GlobalDirection349_g1894 = Appalachia_GlobalDirection;
 			float3 break339_g1894 = mul( unity_WorldToObject, float4( GlobalDirection349_g1894 , 0.0 ) ).xyz;
 			float2 appendResult340_g1894 = (float2(break339_g1894.x , break339_g1894.z));
 			half2 MotionDirection59_g1894 = appendResult340_g1894;
@@ -190,10 +190,10 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 			half3 Motion_Grass1257 = appendResult308_g1894;
 			float3 ase_vertex3Pos = v.vertex.xyz;
 			float3 break311_g1893 = ase_vertex3Pos;
-			half MotionFlutterScale60_g1893 = ( ADS_GlobalScale * _MotionScale3 );
-			half MotionFlutterSpeed62_g1893 = ( ADS_GlobalSpeed * _MotionSpeed3 );
+			half MotionFlutterScale60_g1893 = ( Appalachia_GlobalScale * _MotionScale3 );
+			half MotionFlutterSpeed62_g1893 = ( Appalachia_GlobalSpeed * _MotionSpeed3 );
 			float mulTime303_g1893 = _Time.y * MotionFlutterSpeed62_g1893;
-			half MotionlFlutterAmplitude58_g1893 = ( ADS_GlobalAmplitude * _MotionAmplitude3 );
+			half MotionlFlutterAmplitude58_g1893 = ( Appalachia_GlobalAmplitude * _MotionAmplitude3 );
 			half MotionMask137_g1893 = Packed_Grass1241;
 			float3 ase_vertexNormal = v.normal.xyz;
 			half3 Motion_Leaf1256 = ( sin( ( ( ( break311_g1893.x + break311_g1893.y + break311_g1893.z ) * MotionFlutterScale60_g1893 ) + mulTime303_g1893 ) ) * MotionlFlutterAmplitude58_g1893 * MotionMask137_g1893 * ase_vertexNormal );
@@ -202,9 +202,9 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 			half localunity_ObjectToWorld1w2_g1897 = ( unity_ObjectToWorld[1].w );
 			half localunity_ObjectToWorld2w3_g1897 = ( unity_ObjectToWorld[2].w );
 			float3 appendResult6_g1897 = (float3(localunity_ObjectToWorld0w1_g1897 , localunity_ObjectToWorld1w2_g1897 , localunity_ObjectToWorld2w3_g1897));
-			float4 tex2DNode140_g1895 = tex2Dlod( ADS_GlobalTex, float4( ( ( (appendResult6_g1897).xz * (ADS_GlobalUVs).xy ) + (ADS_GlobalUVs).zw ), 0, 0.0) );
-			half ADS_GlobalTex_B198_g1895 = tex2DNode140_g1895.b;
-			float lerpResult156_g1895 = lerp( ADS_GlobalSizeMin , ADS_GlobalSizeMax , ADS_GlobalTex_B198_g1895);
+			float4 tex2DNode140_g1895 = tex2Dlod( Appalachia_GlobalTex, float4( ( ( (appendResult6_g1897).xz * (Appalachia_GlobalUVs).xy ) + (Appalachia_GlobalUVs).zw ), 0, 0.0) );
+			half Appalachia_GlobalTex_B198_g1895 = tex2DNode140_g1895.b;
+			float lerpResult156_g1895 = lerp( Appalachia_GlobalSizeMin , Appalachia_GlobalSizeMax , Appalachia_GlobalTex_B198_g1895);
 			float3 temp_output_41_0_g1900 = ( ( lerpResult156_g1895 * _GlobalSize ) * ase_vertex3Pos );
 			float3 lerpResult57_g1900 = lerp( temp_output_41_0_g1900 , -ase_vertex3Pos , ( 1.0 - max( unity_LODFade.x , step( unity_LODFade.x , 0.0 ) ) ));
 			#ifdef LOD_FADE_CROSSFADE
@@ -212,7 +212,7 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 			#else
 				float3 staticSwitch40_g1900 = temp_output_41_0_g1900;
 			#endif
-			#ifdef ADS_LODFADE_SCALE
+			#ifdef Appalachia_LODFADE_SCALE
 				float3 staticSwitch58_g1900 = staticSwitch40_g1900;
 			#else
 				float3 staticSwitch58_g1900 = temp_output_41_0_g1900;
@@ -220,13 +220,13 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 			half3 Global_Size1209 = staticSwitch58_g1900;
 			v.vertex.xyz += ( Motion_Output1263 + Global_Size1209 );
 			float4 temp_cast_3 = (1.0).xxxx;
-			half4 ADS_GlobalTintColorOne176_g1895 = ADS_GlobalTintColorOne;
-			half4 ADS_GlobalTintColorTwo177_g1895 = ADS_GlobalTintColorTwo;
-			half ADS_GlobalTex_R180_g1895 = tex2DNode140_g1895.r;
-			float4 lerpResult147_g1895 = lerp( ADS_GlobalTintColorOne176_g1895 , ADS_GlobalTintColorTwo177_g1895 , ADS_GlobalTex_R180_g1895);
-			half ADS_GlobalTintIntensity181_g1895 = ADS_GlobalTintIntensity;
+			half4 Appalachia_GlobalTintColorOne176_g1895 = Appalachia_GlobalTintColorOne;
+			half4 Appalachia_GlobalTintColorTwo177_g1895 = Appalachia_GlobalTintColorTwo;
+			half Appalachia_GlobalTex_R180_g1895 = tex2DNode140_g1895.r;
+			float4 lerpResult147_g1895 = lerp( Appalachia_GlobalTintColorOne176_g1895 , Appalachia_GlobalTintColorTwo177_g1895 , Appalachia_GlobalTex_R180_g1895);
+			half Appalachia_GlobalTintIntensity181_g1895 = Appalachia_GlobalTintIntensity;
 			half GlobalTint186_g1895 = _GlobalTint;
-			float4 lerpResult150_g1895 = lerp( temp_cast_3 , ( lerpResult147_g1895 * ADS_GlobalTintIntensity181_g1895 ) , GlobalTint186_g1895);
+			float4 lerpResult150_g1895 = lerp( temp_cast_3 , ( lerpResult147_g1895 * Appalachia_GlobalTintIntensity181_g1895 ) , GlobalTint186_g1895);
 			o.vertexToFrag1205 = lerpResult150_g1895;
 			float4 ase_screenPos = ComputeScreenPos( UnityObjectToClipPos( v.vertex ) );
 			o.screenPosition = ase_screenPos;
@@ -295,7 +295,7 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 			#else
 				float staticSwitch40_g1903 = temp_output_41_0_g1903;
 			#endif
-			#ifdef ADS_LODFADE_DITHER
+			#ifdef Appalachia_LODFADE_DITHER
 				float staticSwitch50_g1903 = staticSwitch40_g1903;
 			#else
 				float staticSwitch50_g1903 = temp_output_41_0_g1903;
@@ -305,14 +305,14 @@ Shader "BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass"
 
 		ENDCG
 	}
-	Fallback "Utils/ADS Fallback"
-	CustomEditor "ADSShaderGUI"
+	Fallback "Utils/Appalachia Fallback"
+	CustomEditor "AppalachiaShaderGUI"
 }
 /*ASEBEGIN
 Version=17500
 0;-864;1536;843;898.8879;3025.845;1;True;False
 Node;AmplifyShaderEditor.VertexColorNode;1237;-1280,-256;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;1238;-1280,-64;Inherit;False;ADS Global Turbulence;15;;1579;047eb809542f42d40b4b5066e22cee72;0;0;1;FLOAT;85
+Node;AmplifyShaderEditor.FunctionNode;1238;-1280,-64;Inherit;False;Appalachia Global Turbulence;15;;1579;047eb809542f42d40b4b5066e22cee72;0;0;1;FLOAT;85
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1239;-1024,-192;Half;False;Packed_Variation;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1242;-512,-16;Float;False;Property;_MotionVariation;Grass Motion Variation;30;0;Create;False;0;0;False;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1243;-512,64;Inherit;False;1239;Packed_Variation;1;0;OBJECT;0;False;1;FLOAT;0
@@ -328,15 +328,15 @@ Node;AmplifyShaderEditor.RangedFloatNode;1253;-512,-256;Float;False;Property;_Mo
 Node;AmplifyShaderEditor.RangedFloatNode;1251;-512,-176;Float;False;Property;_MotionSpeed;Grass Motion Speed;28;0;Create;False;0;0;False;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1249;768,0;Inherit;False;1241;Packed_Grass;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1250;-256,-16;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1255;1152,-256;Inherit;False;ADS Motion Flutter;-1;;1893;87d8028e5f83178498a65cfa9f0e9ace;1,312,0;5;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;136;FLOAT;0;False;310;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;1278;128,-256;Inherit;False;ADS Motion Generic;25;;1894;81cab27e2a487a645a4ff5eb3c63bd27;6,252,0,278,1,228,1,292,2,330,0,326,0;8;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;218;FLOAT;0;False;287;FLOAT;0;False;136;FLOAT;0;False;279;FLOAT;0;False;342;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1255;1152,-256;Inherit;False;Appalachia Motion Flutter;-1;;1893;87d8028e5f83178498a65cfa9f0e9ace;1,312,0;5;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;136;FLOAT;0;False;310;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1278;128,-256;Inherit;False;Appalachia Motion Generic;25;;1894;81cab27e2a487a645a4ff5eb3c63bd27;6,252,0,278,1,228,1,292,2,330,0,326,0;8;220;FLOAT;0;False;221;FLOAT;0;False;222;FLOAT;0;False;218;FLOAT;0;False;287;FLOAT;0;False;136;FLOAT;0;False;279;FLOAT;0;False;342;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1256;1408,-256;Half;False;Motion_Leaf;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1257;384,-256;Half;False;Motion_Grass;-1;True;1;0;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SamplerNode;645;1152,-896;Inherit;True;Property;_MetallicGlossMap;Grass Surface;11;1;[NoScaleOffset];Create;False;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.GetLocalVarNode;1259;1792,-256;Inherit;False;1257;Motion_Grass;1;0;OBJECT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1258;1792,-160;Inherit;False;1256;Motion_Leaf;1;0;OBJECT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.PosVertexDataNode;1234;-1280,768;Inherit;False;0;0;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.FunctionNode;1204;-1280,640;Inherit;False;ADS Global Settings;19;;1895;0fe83146627632b4981f5a0aa1b63801;0;1;171;FLOAT;0;False;3;COLOR;85;COLOR;165;FLOAT;157
+Node;AmplifyShaderEditor.FunctionNode;1204;-1280,640;Inherit;False;Appalachia Global Settings;19;;1895;0fe83146627632b4981f5a0aa1b63801;0;1;171;FLOAT;0;False;3;COLOR;85;COLOR;165;FLOAT;157
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1271;1536,-896;Half;False;Main_MetallicGlossMap_B;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1207;-1024,768;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SamplerNode;18;-1280,-896;Inherit;True;Property;_MainTex;Grass Albedo;8;1;[NoScaleOffset];Create;False;0;0;False;0;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -352,7 +352,7 @@ Node;AmplifyShaderEditor.ColorNode;1266;2816,-800;Half;False;Property;_Subsurfac
 Node;AmplifyShaderEditor.GetLocalVarNode;749;1920,-896;Inherit;False;744;Main_MetallicGlossMap_A;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;486;-336,-896;Half;False;Main_Color;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;294;1920,-816;Half;False;Property;_Smoothness;Grass Smoothness (A);12;0;Create;False;0;0;False;0;1;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1277;-768,768;Inherit;False;ADS LODFade Scale;-1;;1900;768eaebf5ab5e9748a01997bf1b9d313;0;1;41;FLOAT3;0,0,0;False;1;FLOAT3;0
+Node;AmplifyShaderEditor.FunctionNode;1277;-768,768;Inherit;False;Appalachia LODFade Scale;-1;;1900;768eaebf5ab5e9748a01997bf1b9d313;0;1;41;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1262;2240,-256;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1208;-384,640;Half;False;Gloabl_Tint;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SamplerNode;607;256,-896;Inherit;True;Property;BumpMap;Grass Normal;10;1;[NoScaleOffset];Create;False;0;0;False;0;-1;None;None;True;0;False;bump;Auto;True;Object;-1;Auto;Texture2D;6;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;5;FLOAT3;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -380,25 +380,25 @@ Node;AmplifyShaderEditor.SaturateNode;1109;-576,-2176;Inherit;False;1;0;COLOR;0,
 Node;AmplifyShaderEditor.RangedFloatNode;1196;272,-2688;Half;False;Property;_Internal_LitStandard;Internal_LitStandard;45;1;[HideInInspector];Create;True;0;0;True;0;1;0;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1116;-928,-3232;Half;False;Property;_SETTINGS;[ SETTINGS ];14;0;Create;True;0;0;True;1;BCategory(Settings);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1113;-1280,-3232;Half;False;Property;_RENDERINGG;[ RENDERINGG ];3;0;Create;True;0;0;True;1;BCategory(Rendering);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1274;1536,-2688;Inherit;False;ADS Features Support;-1;;1906;217a332a46517ae4cb8ca16677bdb217;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;1274;1536,-2688;Inherit;False;Appalachia Features Support;-1;;1906;217a332a46517ae4cb8ca16677bdb217;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;743;-1280,-2688;Half;False;Property;_RenderFaces;Render Faces;4;1;[Enum];Create;True;3;Two Sided;0;Back;1;Front;2;0;True;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1272;-1280,-1760;Inherit;False;1269;OUT_TRANSMISSION;1;0;OBJECT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;1119;-1280,-3328;Half;False;Property;_ADSStandardLitGrass;< ADS Standard Lit Grass >;2;0;Create;True;0;0;True;1;BBanner(ADS Standard Lit, Grass);1;0;1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;1119;-1280,-3328;Half;False;Property;_AppalachiaStandardLitGrass;< Appalachia Standard Lit Grass >;2;0;Create;True;0;0;True;1;BBanner(Appalachia Standard Lit, Grass);1;0;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1117;-752,-3232;Half;False;Property;_GRASSMOTIONN;[ GRASS MOTIONN ];24;0;Create;True;0;0;True;1;BCategory(Grass Motion);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1279;-400,-2688;Inherit;False;ADS Internal Version;0;;1904;858e1f7f7bf8673449834f9aaa5bae83;0;0;1;FLOAT;5
+Node;AmplifyShaderEditor.FunctionNode;1279;-400,-2688;Inherit;False;Appalachia Internal Version;0;;1904;858e1f7f7bf8673449834f9aaa5bae83;0;0;1;FLOAT;5
 Node;AmplifyShaderEditor.FunctionNode;1199;-640,-2688;Inherit;False;Internal Unity Props;38;;1905;b286e6ef621b64a4fb35da1e13fa143f;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1195;32,-2688;Half;False;Property;_Internal_TypeGrass;Internal_TypeGrass;46;1;[HideInInspector];Create;True;0;0;True;0;1;0;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleAddOpNode;1179;-1024,-1536;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
-Node;AmplifyShaderEditor.FunctionNode;1276;-1024,-1664;Inherit;False;ADS LODFade Dither;-1;;1903;f1eaf6a5452c7c7458970a3fc3fa22c1;1,44,0;1;41;FLOAT;0;False;1;FLOAT;0
+Node;AmplifyShaderEditor.FunctionNode;1276;-1024,-1664;Inherit;False;Appalachia LODFade Dither;-1;;1903;f1eaf6a5452c7c7458970a3fc3fa22c1;1,44,0;1;41;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;862;-1120,-2688;Half;False;Property;_Cutoff;Cutout;5;0;Create;False;3;Off;0;Front;1;Back;2;0;True;0;0.5;0;0;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1192;752,-2688;Half;False;Property;_Internal_DebugMask2;Internal_DebugMask2;48;1;[HideInInspector];Create;True;0;0;True;0;1;0;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1193;1280,-2688;Half;False;Property;_Internal_SetByScript;Internal_SetByScript;49;1;[HideInInspector];Create;True;0;0;True;0;0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;1201;-160,-2688;Half;False;Property;_Internal_ADS;Internal_ADS;37;1;[HideInInspector];Create;True;0;0;True;0;1;1;1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;1201;-160,-2688;Half;False;Property;_Internal_Appalachia;Internal_Appalachia;37;1;[HideInInspector];Create;True;0;0;True;0;1;1;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1115;-1088,-3232;Half;False;Property;_MAINN;[ MAINN ];6;0;Create;True;0;0;True;1;BCategory(Main);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;624;-1280,-1920;Inherit;False;620;MainBumpMap;1;0;OBJECT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;1233;-1280,-3136;Half;False;Property;_BatchingInfo;!!! BatchingInfo;36;0;Create;True;0;0;True;1;BMessage(Info, Batching is not currently supported Please use GPU Instancing instead for better performance, 0, 0);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1191;512,-2688;Half;False;Property;_Internal_DebugMask;Internal_DebugMask;47;1;[HideInInspector];Create;True;0;0;True;0;1;0;1;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-128,-2048;Float;False;True;-1;2;ADSShaderGUI;300;0;Standard;BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;True;False;False;False;True;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Masked;0;True;True;0;False;TransparentCutout;;AlphaTest;ForwardOnly;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;Utils/ADS Fallback;-1;-1;-1;-1;0;False;0;0;True;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
+Node;AmplifyShaderEditor.StandardSurfaceOutputNode;0;-128,-2048;Float;False;True;-1;2;AppalachiaShaderGUI;300;0;Standard;BOXOPHOBIC/Advanced Dynamic Shaders/Standard Lit/Grass;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;False;True;False;False;False;True;Off;0;False;925;0;False;-1;False;0;False;-1;0;False;-1;False;0;Masked;0;True;True;0;False;TransparentCutout;;AlphaTest;ForwardOnly;12;d3d9;d3d11_9x;d3d11;glcore;gles3;metal;xbox360;xboxone;ps4;psp2;n3ds;wiiu;True;True;True;True;0;False;-1;False;0;False;-1;255;False;-1;255;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;0;False;-1;False;2;15;10;25;False;0.5;True;0;5;False;550;10;False;553;0;1;False;550;10;False;553;0;True;-1;0;False;-1;0;False;0;0,0,0,0;VertexOffset;True;False;Cylindrical;False;Relative;300;Utils/Appalachia Fallback;-1;-1;-1;-1;0;False;0;0;True;743;-1;0;True;862;0;0;0;False;0.1;False;-1;0;False;-1;17;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;2;FLOAT3;0,0,0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT3;0,0,0;False;7;FLOAT3;0,0,0;False;8;FLOAT;0;False;9;FLOAT;0;False;10;FLOAT;0;False;14;FLOAT3;0,0,0;False;11;FLOAT3;0,0,0;False;12;FLOAT3;0,0,0;False;13;FLOAT4;0,0,0,0;False;15;FLOAT3;0,0,0;False;16;FLOAT3;0,0,0;False;0
 Node;AmplifyShaderEditor.CommentaryNode;1112;-1280,-3456;Inherit;False;1185.27;100;Drawers;0;;1,0.4980392,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;1198;-640,-2816;Inherit;False;2397.62;100;Internal Only;0;;1,0,0,1;0;0
 Node;AmplifyShaderEditor.CommentaryNode;683;-1280,-2816;Inherit;False;417.3682;100;Rendering And Settings;0;;1,0,0.503,1;0;0

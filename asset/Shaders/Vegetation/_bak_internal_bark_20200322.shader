@@ -5,10 +5,10 @@ Shader "appalachia/backup/bark-20200322"
 	Properties
 	{
 		[HideInInspector]_Mode1("_Mode", Float) = 0
-		[InternalBanner(Internal, Bark)]_ADSStandardLitTreeBark("< ADS Standard Lit Tree Bark>", Float) = 1
+		[AppalachiaBanner(Internal, Bark)]_AppalachiaStandardLitTreeBark("< Appalachia Standard Lit Tree Bark>", Float) = 1
 		[Toggle(_ENABLEBASE_ON)] _ENABLEBASE("Enable Base", Float) = 0
-		[InternalInteractive(_Mode, 1)]_RenderCutt("# RenderCutt", Float) = 0
-		[InternalCategory(Trunk)]_TRUNKK("[ TRUNKK ]", Float) = 0
+		[AppalachiaInteractive(_Mode, 1)]_RenderCutt("# RenderCutt", Float) = 0
+		[AppalachiaCategory(Trunk)]_TRUNKK("[ TRUNKK ]", Float) = 0
 		_Color("Trunk Color", Color) = (1,1,1,1)
 		[NoScaleOffset]_MainTex("MainTex", 2D) = "white" {}
 		_Saturation("Saturation", Range( 0.1 , 2)) = 1
@@ -20,8 +20,8 @@ Shader "appalachia/backup/bark-20200322"
 		_Occlusion("Trunk Occlusion (G)", Range( 0 , 1)) = 1
 		_TrunkVariation("Trunk Variation", Range( 0 , 1)) = 1
 		[Space(10)]_UVZero("Trunk UVs", Vector) = (1,1,0,0)
-		[InternalCategory(Base)]_BASEE("[ BASEE ]", Float) = 0
-		[InternalInteractive(_ENABLEBASE_ON)]_BlendingBasee("# BlendingBasee", Float) = 0
+		[AppalachiaCategory(Base)]_BASEE("[ BASEE ]", Float) = 0
+		[AppalachiaInteractive(_ENABLEBASE_ON)]_BlendingBasee("# BlendingBasee", Float) = 0
 		_Color3("Base Color", Color) = (1,1,1,1)
 		[NoScaleOffset]_MainTex3("MainTex3", 2D) = "white" {}
 		_BumpScale3("BumpScale3", Float) = 1
@@ -39,7 +39,7 @@ Shader "appalachia/backup/bark-20200322"
 		_BaseHeightOffset("Base Height Offset", Range( -1 , 1)) = 0
 		_BaseHeightRange("Base Height Range", Range( 0 , 1)) = 0.9
 		_BaseBlendNormals("Base Blend Normals", Range( 0 , 1)) = 0
-		[InternalCategory(Settings)]_SETTINGSS("[ SETTINGSS ]", Float) = 0
+		[AppalachiaCategory(Settings)]_SETTINGSS("[ SETTINGSS ]", Float) = 0
 		_TextureOcclusionDarkening("Texture Occlusion Darkening", Range( 0 , 1)) = 0.8
 		_VertexOcclusion("Vertex Occlusion", Range( 0 , 1)) = 0.5
 		_VertexOcclusionDarkening("Vertex Occlusion Darkening", Range( 0 , 1)) = 0.8
@@ -92,7 +92,7 @@ Shader "appalachia/backup/bark-20200322"
 
 		uniform half _BASEE;
 		uniform float _Mode1;
-		uniform half _ADSStandardLitTreeBark;
+		uniform half _AppalachiaStandardLitTreeBark;
 		uniform half _RenderCutt;
 		uniform half _SETTINGSS;
 		uniform half _TRUNKK;
@@ -691,7 +691,7 @@ Node;AmplifyShaderEditor.GetLocalVarNode;624;1048.383,-2027.841;Inherit;False;15
 Node;AmplifyShaderEditor.RangedFloatNode;1476;-1280,-3264;Half;False;Property;_RenderCutt;# RenderCutt;24;0;Create;True;0;0;True;1;InternalInteractive(_Mode, 1);0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;925;-960,-2688;Half;False;Property;_ZWrite;_ZWrite;63;1;[HideInInspector];Create;True;2;Off;0;On;1;0;False;0;1;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1492;-64,-176;Half;False;Base_MainTex_A;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;1472;-1280,-3456;Half;False;Property;_ADSStandardLitTreeBark;< ADS Standard Lit Tree Bark>;15;0;Create;True;0;0;True;1;InternalBanner(Internal, Bark);1;1;1;1;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;1472;-1280,-3456;Half;False;Property;_AppalachiaStandardLitTreeBark;< Appalachia Standard Lit Tree Bark>;15;0;Create;True;0;0;True;1;InternalBanner(Internal, Bark);1;1;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;549;-800,-2688;Half;False;Property;_RenderType;Render Type;17;1;[Enum];Create;True;2;Opaque;0;Cutout;1;0;False;0;0;0;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;553;-1120,-2688;Half;False;Property;_DstBlend;_DstBlend;62;1;[HideInInspector];Create;True;0;0;False;0;10;10;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;2470;-837.7521,-2577.258;Float;False;Property;_Mode1;_Mode;14;1;[HideInInspector];Create;True;0;0;True;0;0;0;0;0;0;1;FLOAT;0

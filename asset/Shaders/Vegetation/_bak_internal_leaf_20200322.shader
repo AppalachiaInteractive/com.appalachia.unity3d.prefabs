@@ -9,15 +9,15 @@ Shader "appalachia/backup/leaf-20200322"
 		_TransDirect("Direct", Range( 0 , 1)) = 1
 		_TransAmbient("Ambient", Range( 0 , 1)) = 0.2
 		_TransShadow("Shadow", Range( 0 , 1)) = 0.9
-		[InternalBanner(Internal, Leaf)]_BANNER("BANNER", Float) = 1
-		[InternalCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
+		[AppalachiaBanner(Internal, Leaf)]_BANNER("BANNER", Float) = 1
+		[AppalachiaCategory(Rendering)]_RENDERINGG("[ RENDERINGG ]", Float) = 0
 		[Enum(Two Sided,0,Back,1,Front,2)]_RenderFaces("Render Faces", Float) = 0
 		_CutoffLowNear("Cutoff Low (Near)", Range( 0 , 1)) = 0.75
 		_CutoffHighNear("Cutoff High (Near)", Range( 0 , 1)) = 1
 		_CutoffFar("Cutoff Far", Range( 64 , 1024)) = 64
 		_CutoffLowFar("Cutoff Low (Far)", Range( 0 , 1)) = 0.1
 		_CutoffHighFar("Cutoff High (Far)", Range( 0 , 1)) = 0.6
-		[InternalCategory(Leaf)]_LEAFF("[ LEAFF ]", Float) = 0
+		[AppalachiaCategory(Leaf)]_LEAFF("[ LEAFF ]", Float) = 0
 		[NoScaleOffset]_MainTex("Leaf Albedo", 2D) = "white" {}
 		_Color("Leaf Color", Color) = (1,1,1,1)
 		_Color3("Non-Leaf Color", Color) = (1,1,1,1)
@@ -29,10 +29,10 @@ Shader "appalachia/backup/leaf-20200322"
 		_Smoothness("Leaf Smoothness", Range( 0 , 1)) = 0.5
 		_Occlusion("Texture Occlusion", Range( 0 , 1)) = 0
 		_VertexOcclusion("Vertex Occlusion", Range( 0 , 1)) = 0
-		[InternalCategory(Transmission)]_TRANSMISSION("[ TRANSMISSION ]", Float) = 0
-		[InternalCategory(Translucency)]_TRANSLUCENCYY("[ TRANSLUCENCYY ]", Float) = 0
+		[AppalachiaCategory(Transmission)]_TRANSMISSION("[ TRANSMISSION ]", Float) = 0
+		[AppalachiaCategory(Translucency)]_TRANSLUCENCYY("[ TRANSLUCENCYY ]", Float) = 0
 		[Toggle(_ENABLETRANSLUCENCY_ON)] _EnableTranslucency("Enable Translucency", Float) = 1
-		[InternalCategory(Settings)]_SETTINGSS("[ SETTINGSS ]", Float) = 0
+		[AppalachiaCategory(Settings)]_SETTINGSS("[ SETTINGSS ]", Float) = 0
 		[Toggle(_ENABLEBILLBOARDS_ON)] _EnableBillboards("Enable Billboards", Float) = 1
 		[HideInInspector] _tex4coord( "", 2D ) = "white" {}
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
@@ -797,7 +797,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;549;2433.32,985.7433;Half;False;Propert
 Node;AmplifyShaderEditor.GetLocalVarNode;654;-377.3445,-2365.83;Inherit;False;660;SMOOTHNESS;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;1935;4224,-544;Half;False;OUT_TRANSMISSION;-1;True;1;0;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.RangedFloatNode;1974;3143.968,-781.4052;Half;False;Property;_TransmissionCutoff;Leaf Transmission Cutoff;34;0;Create;False;0;0;False;0;0.5;0;0;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1931;-1519.281,-24.19777;Inherit;False;ADS Leaves Amount;-1;;5988;ee8761bdf5e2c1e4b8e0ff49e8488b33;0;1;152;FLOAT;0;False;3;FLOAT;154;FLOAT;148;FLOAT;167
+Node;AmplifyShaderEditor.FunctionNode;1931;-1519.281,-24.19777;Inherit;False;Appalachia Leaves Amount;-1;;5988;ee8761bdf5e2c1e4b8e0ff49e8488b33;0;1;152;FLOAT;0;False;3;FLOAT;154;FLOAT;148;FLOAT;167
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;1808;-1158,934.6452;Inherit;False;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;2147;1565,-1920;Inherit;False;Property;_EnableTransmission;Enable Transmission;31;0;Create;True;0;0;False;0;0;1;0;True;;Toggle;2;Key0;Key1;Create;True;9;1;COLOR;0,0,0,0;False;0;COLOR;0,0,0,0;False;2;COLOR;0,0,0,0;False;3;COLOR;0,0,0,0;False;4;COLOR;0,0,0,0;False;5;COLOR;0,0,0,0;False;6;COLOR;0,0,0,0;False;7;COLOR;0,0,0,0;False;8;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TexCoordVertexDataNode;1924;-1759.281,-104.1978;Inherit;False;0;4;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
@@ -814,7 +814,7 @@ Node;AmplifyShaderEditor.TexCoordVertexDataNode;1992;-1564,420.6451;Inherit;Fals
 Node;AmplifyShaderEditor.GetLocalVarNode;1986;275.7517,-1366.932;Inherit;False;1819;Packed_Leaf;1;0;OBJECT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;624;1382.341,-2264.02;Inherit;False;620;MainBumpMap;1;0;OBJECT;0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;553;2113.32,985.7433;Half;False;Property;_DstBlend;_DstBlend;72;1;[HideInInspector];Create;True;0;0;False;0;10;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;1941;576.1029,-1472.322;Inherit;False;ADS LODFade Dither;-1;;3984;f1eaf6a5452c7c7458970a3fc3fa22c1;0;0;0
+Node;AmplifyShaderEditor.FunctionNode;1941;576.1029,-1472.322;Inherit;False;Appalachia LODFade Dither;-1;;3984;f1eaf6a5452c7c7458970a3fc3fa22c1;0;0;0
 Node;AmplifyShaderEditor.SimpleMinOpNode;2179;1218.597,-1688.612;Inherit;False;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.GetLocalVarNode;1937;135.9433,-1691.649;Inherit;False;1935;OUT_TRANSMISSION;1;0;OBJECT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.StaticSwitch;2157;1792,-1184;Inherit;False;Property;_Billboards;Billboards;53;0;Create;True;0;0;False;0;0;0;0;True;;Toggle;2;Key0;Key1;Reference;2151;True;9;1;FLOAT4;0,0,0,0;False;0;FLOAT4;0,0,0,0;False;2;FLOAT4;0,0,0,0;False;3;FLOAT4;0,0,0,0;False;4;FLOAT4;0,0,0,0;False;5;FLOAT4;0,0,0,0;False;6;FLOAT4;0,0,0,0;False;7;FLOAT4;0,0,0,0;False;8;FLOAT4;0,0,0,0;False;1;FLOAT4;0
@@ -824,7 +824,7 @@ Node;AmplifyShaderEditor.RangedFloatNode;925;2273.32,985.7433;Half;False;Propert
 Node;AmplifyShaderEditor.RangedFloatNode;1472;673.3196,985.7433;Half;False;Property;_BANNER;BANNER;8;0;Create;True;0;0;True;1;InternalBanner(Internal, Leaf);1;1;1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RegisterLocalVarNode;646;1920,-896;Half;False;Main_MetallicGlossMap_R;-1;True;1;0;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1990;897.3197,1177.743;Half;False;Property;_TRANSMISSION;[ TRANSMISSION ];30;0;Create;True;0;0;True;1;InternalCategory(Transmission);0;0;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.FunctionNode;2218;-1024,1920;Inherit;False;ADS Global Settings;66;;5991;95705fd913244e94ba3077d52471de69;0;1;171;FLOAT;0;False;3;COLOR;85;COLOR;165;FLOAT;157
+Node;AmplifyShaderEditor.FunctionNode;2218;-1024,1920;Inherit;False;Appalachia Global Settings;66;;5991;95705fd913244e94ba3077d52471de69;0;1;171;FLOAT;0;False;3;COLOR;85;COLOR;165;FLOAT;157
 Node;AmplifyShaderEditor.SimpleAddOpNode;2006;2048,-1664;Inherit;False;2;2;0;FLOAT3;0,0,0;False;1;FLOAT3;0,0,0;False;1;FLOAT3;0
 Node;AmplifyShaderEditor.RangedFloatNode;550;1953.32,985.7433;Half;False;Property;_SrcBlend;_SrcBlend;71;1;[HideInInspector];Create;True;0;0;False;0;1;1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.RangedFloatNode;1468;865.3197,1081.743;Half;False;Property;_LEAFF;[ LEAFF ];17;0;Create;True;0;0;True;1;InternalCategory(Leaf);0;0;0;0;0;1;FLOAT;0

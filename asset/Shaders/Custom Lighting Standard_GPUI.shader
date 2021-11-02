@@ -20,12 +20,12 @@ Shader "GPUInstancer/appalachia/Standard"
 		[Toggle]_InvertSmoothness("Invert Smoothness", Float) = 0
 		[NoScaleOffset]_OcclusionMap("Occlusion Map", 2D) = "white" {}
 		_OcclusionStrength("Occlusion", Range( 0 , 1)) = 1
-		[HideInInspector][InternalCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
+		[HideInInspector][AppalachiaCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
 		_Occlusion("Texture Occlusion", Range( 0 , 1)) = 0.5
 		_AOProbeStrength("AO Probe Strength", Range( 0 , 1)) = 0.8
 		_AOIndirect("AO Indirect", Range( 0 , 1)) = 1
 		_AODirect("AO Direct", Range( 0 , 1)) = 0
-		[HideInInspector][InternalCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
+		[HideInInspector][AppalachiaCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
 		_GlobalIlluminationAlbedoEffect("Global Illumination Albedo Effect", Range( 0 , 5)) = 1
 		_GlobalIlluminationEmissiveEffect("Global Illumination Emissive Effect", Range( 0 , 5)) = 1
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}

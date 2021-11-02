@@ -20,10 +20,10 @@ Shader "appalachia/terrain-first-pass"
 		_FlatColor("Flat Color", Color) = (0,0,0,0)
 		[Enum(UnityEngine.Rendering.CullMode)]_CullMode("Cull Mode", Int) = 0
 		_BackColor("Back Color", Color) = (0,0,0,0)
-		[InternalCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
+		[AppalachiaCategory(Global Illumination)]_GLOBALILLUMINATIONN("[ GLOBAL ILLUMINATIONN ]", Float) = 0
 		_GlobalIlluminationAlbedoEffect("Global Illumination Albedo Effect", Range( 0 , 5)) = 1
 		_GlobalIlluminationEmissiveEffect("Global Illumination Emissive Effect", Range( 0 , 5)) = 1
-		[InternalCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
+		[AppalachiaCategory(Occlusion)]_OCCLUSIONN("[ OCCLUSIONN ]", Float) = 0
 		_Occlusion("Texture Occlusion", Range( 0 , 1)) = 0.5
 		_VertexOcclusion("Vertex Occlusion", Range( 0 , 1)) = 0.5
 		_AOProbeStrength("AO Probe Strength", Range( 0 , 1)) = 0.8

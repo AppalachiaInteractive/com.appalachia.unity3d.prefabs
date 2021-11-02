@@ -8,8 +8,8 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: internal_plant-individual-harvested
-  m_Shader: {fileID: 4800000, guid: 306497b005c2d2343a41088d02266aab, type: 3}
-  m_ShaderKeywords: _RENDERTYPEKEY_OPAQUE
+  m_Shader: {fileID: 4800000, guid: 69043a5dafd3b864e9d2da4161d21694, type: 3}
+  m_ShaderKeywords: _RENDERTYPEKEY_OPAQUE _WINDSTYLE_VERTEXRGBA
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -67,27 +67,60 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _WindMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _tex3coord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _ADSStandardLitPlant: 1
     - _ADVANCEDD: 0
     - _AO: 1
+    - _AODirect: 0
+    - _AOIndirect: 1
+    - _AOProbeStrength: 0.8
+    - _BANNER: 1
+    - _BASEDARKENINGG: 0
+    - _BaseDarkening: 0
+    - _BaseDarkeningFadeInRange: 16
+    - _BaseDarkeningFadeInStart: 2
+    - _BaseDarkeningHeight: 1.5
     - _BatchingInfo: 0
+    - _Billboard: 0
+    - _Brightness: 0
     - _BumpScale: 1
+    - _COLORR: 0
+    - _CUTOFFF: 0
+    - _ColorMap: 0
     - _CullMode: 0
-    - _Cutoff: 1
+    - _Cutoff: 0.79999995
+    - _CutoffFar: 16
+    - _CutoffHighFar: 0.7
+    - _CutoffHighNear: 0.9
+    - _CutoffLowFar: 0.5
+    - _CutoffLowNear: 0.7
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _Float6: 1
+    - _GLOBALILLUMINATIONN: 0
+    - _GlobalIlluminationAlbedoEffect: 1
+    - _GlobalIlluminationEmissiveEffect: 1
     - _GlobalSize: 1
     - _GlobalTint: 1
     - _GlobalTurbulence: 1
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
+    - _HeightBasedWind: 0
+    - _HeightWindStrength: 0.5
     - _Internal_ADS: 1
     - _Internal_DebugMask: 1
     - _Internal_DebugMask2: 1
@@ -113,22 +146,62 @@ Material:
     - _MotionSpeed3: 0
     - _MotionVariation: 0
     - _MotionVertical: 0
+    - _NORMALL: 0
+    - _NighttimeTranslucencyDamping: 1
+    - _NighttimeTransmissionDamping: 1
     - _NormalScale: 1
+    - _OCCLUSIONN: 0
+    - _Occlusion: 0.5
     - _OcclusionStrength: 1
+    - _OcclusionTranslucencyDamping: 1
+    - _OcclusionTransmissionDampening: 1
+    - _OcclusionTransmissionLightingScale: 2
+    - _OcclusionTransmissionLightingScale1: 2
     - _Parallax: 0.02
     - _PlantMotionParameters: 0
     - _RENDERINGG: 0
     - _RenderFaces: 2
     - _SETTINGS: 0
+    - _SURFACEE: 0
+    - _Saturation: 0
     - _Smoothness: 1
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _TRANSLUCENCYY: 0
+    - _TRANSMISSIONN: 0
+    - _TRANSMITTANCEE: 0
+    - _TransAmbient: 0
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.05
+    - _TransScattering: 1
+    - _TransShadow: 0.8
+    - _Translucency: 4
+    - _TranslucencyAlbedoBlend: 0.5
+    - _TranslucencyCutoff: 0.1
+    - _TranslucencyFadeDistance: 256
+    - _TranslucencyFadeOffset: 256
+    - _TransmAmbient: 0
+    - _TransmDirect: 1
+    - _Transmission: 1
+    - _TransmissionAlbedoBlend: 0.5
+    - _TransmissionCutoff: 0.1
+    - _TransmissionFadeDistance: 256
+    - _TransmissionFadeOffset: 256
+    - _TransmittanceLimit: 5
+    - _TransmittanceScaling: 1
     - _UVSec: 0
+    - _VertexColors: 0
+    - _WINDD: 0
+    - _WindStyle: 0
     - _ZWrite: 1
     - __dirty: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 0}
+    - _Color_2: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainUVs: {r: 1, g: 1, b: 0, a: 0}
     - _SubsurfaceColor: {r: 1, g: 1, b: 1, a: 1}
+    - _TranslucencyColor: {r: 0.8566224, g: 0.887, b: 0.2581168, a: 1}
+    - _TransmissionColor: {r: 0.8069925, g: 0.93, b: 0.4677897, a: 1}
+  m_BuildTextureStacks: []

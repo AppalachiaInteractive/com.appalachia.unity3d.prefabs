@@ -6,8 +6,8 @@ Shader "appalachia/log"
 {
 	Properties
 	{
-		[InternalBanner(Internal, Log)]_BANNER("< BANNER >", Float) = 1
-		[InternalCategory(Bark)]_BARK("[ BARK ]", Float) = 0
+		[AppalachiaBanner(Internal, Log)]_BANNER("< BANNER >", Float) = 1
+		[AppalachiaCategory(Bark)]_BARK("[ BARK ]", Float) = 0
 		_Color("Bark Color", Color) = (1,1,1,1)
 		[NoScaleOffset]_MainTex("Bark Albedo", 2D) = "white" {}
 		[NoScaleOffset][Normal]_BumpMap("Bark Normal", 2D) = "bump" {}
@@ -15,12 +15,12 @@ Shader "appalachia/log"
 		[NoScaleOffset]_MetallicGlossMap("Bark Surface", 2D) = "white" {}
 		_Smoothness("Bark Smoothness (A)", Range( 0 , 1)) = 0.1
 		_Occlusion("Bark Occlusion (G)", Range( 0 , 1)) = 1
-		[InternalCategory(Wood)]_WOOD("[ WOOD ]", Float) = 0
+		[AppalachiaCategory(Wood)]_WOOD("[ WOOD ]", Float) = 0
 		_Color9("Wood Ring Color", Color) = (0.3764706,0.3411765,0.3215686,1)
 		[NoScaleOffset]_MainTex2("Wood Albedo", 2D) = "white" {}
 		[NoScaleOffset][Normal]_BumpMap2("Wood Normal", 2D) = "bump" {}
 		_NormalScale2("Wood Normal Scale", Range( 0 , 5)) = 1
-		[InternalCategory(Cover)]_COVER("[ COVER ]", Float) = 0
+		[AppalachiaCategory(Cover)]_COVER("[ COVER ]", Float) = 0
 		_Color3("Cover 1 Color", Color) = (1,1,1,1)
 		_MainTex3("Cover 1 Albedo", 2D) = "white" {}
 		_Cover1UVScale("Cover 1 UV Scale", Vector) = (2,10,0,0)
@@ -31,14 +31,14 @@ Shader "appalachia/log"
 		_Cover2UVScale("Cover 2 UV Scale", Vector) = (2,10,0,0)
 		[NoScaleOffset][Normal]_BumpMap4("Cover 2 Normal", 2D) = "bump" {}
 		_NormalScale4("Cover 2 Normal Scale", Range( 0 , 5)) = 1
-		[InternalCategory(Cover Blend)]_COVERBLEND("[ COVER BLEND ]", Float) = 0
+		[AppalachiaCategory(Cover Blend)]_COVERBLEND("[ COVER BLEND ]", Float) = 0
 		_CoverBlendStrength("Cover Blend Strength", Range( 0.0001 , 1)) = 1
 		_MaskBlendHeightContrast("Mask Blend Height Contrast", Range( 0 , 1)) = 1
 		_BarkHeightRange("Bark Height Range", Range( 0 , 1)) = 1
 		_BarkHeightOffset("Bark Height Offset", Range( -1 , 1)) = 0.2
 		_MaskHeightRange("Mask Height Range", Range( 0 , 1)) = 0.9
 		_MaskHeightOffset("Mask Height Offset", Range( -1 , 1)) = -0.1
-		[InternalCategory(Burn)]_BURN("[ BURN ]", Float) = 0
+		[AppalachiaCategory(Burn)]_BURN("[ BURN ]", Float) = 0
 		_CharColor1("Char Color 1", Color) = (0.3098039,0.3098039,0.3098039,1)
 		_CharColor2("Char Color 2", Color) = (0.1333333,0.1333333,0.1333333,1)
 		_BurnColor1("Burn Color 1", Color) = (1,0.5137255,0,1)
@@ -59,13 +59,13 @@ Shader "appalachia/log"
 		[PerRendererData]_Burned("Burned", Range( 0 , 1)) = 0
 		[PerRendererData]_Heat("Heat", Range( 0 , 1)) = 0
 		[PerRendererData]_WindProtection("Wind Protection", Range( 0 , 1)) = 0
-		[InternalCategory(Environment)]_ENVIRONMENT("[ ENVIRONMENT ]", Float) = 0
+		[AppalachiaCategory(Environment)]_ENVIRONMENT("[ ENVIRONMENT ]", Float) = 0
 		[PerRendererData]_Wetness("Wetness", Range( 0 , 1)) = 0
-		[InternalCategory(Wetness)]_WETNESS("[ WETNESS ]", Float) = 0
+		[AppalachiaCategory(Wetness)]_WETNESS("[ WETNESS ]", Float) = 0
 		_WetnessDarkening("Wetness Darkening", Range( 0 , 1)) = 0.65
 		_WetnessSmoothness("Wetness Smoothness", Range( 0 , 1)) = 0.3
 		_WetnessPorosity("Wetness Porosity", Range( 0 , 1)) = 0.1
-		[InternalCategory(Instanced)]_INSTANCED("[ INSTANCED ]", Float) = 0
+		[AppalachiaCategory(Instanced)]_INSTANCED("[ INSTANCED ]", Float) = 0
 		[PerRendererData]_Seasoned("Seasoned", Range( 0 , 1)) = 0
 		[HideInInspector]_MainUVs("_MainUVs", Vector) = (1,1,0,0)
 		[HideInInspector]_CullMode("_CullMode", Float) = 0
