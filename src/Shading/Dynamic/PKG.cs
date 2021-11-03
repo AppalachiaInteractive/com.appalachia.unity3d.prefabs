@@ -8,7 +8,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
 {
     internal static partial class PKG
     {
-        public const int Priority = -284000;
+        public const int Priority = -292000;
         public const string Name = "Rendering/Shading/Dynamic";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";
