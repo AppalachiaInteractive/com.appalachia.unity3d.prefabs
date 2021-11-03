@@ -14,6 +14,7 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| 9a768671d477d537bceaa299c0e11a1d28650920 | 2021-11-02 | Chris Schubert | Updating changelog and releaselog |
 | 5e5f55c115b2e5b942e862852eafcda4a72d0946 | 2021-11-02 | Chris Schubert | Updating changelog and releaselog |
 | b2af028921866f22584ae1c029bcde46996142d0 | 2021-11-02 | Chris Schubert | Updating changelog and releaselog |
 | 6cb069a3f7690426fe1f53199aa93f14f79002f8 | 2021-11-02 | Chris Schubert | Updating changelog and releaselog |
