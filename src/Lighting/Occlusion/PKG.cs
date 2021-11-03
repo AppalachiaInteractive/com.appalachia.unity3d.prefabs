@@ -8,7 +8,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 {
     internal static partial class PKG
     {
-        public const int Priority = -290000;
+        public const int Priority = -291000;
         public const string Name = "Rendering/Lighting/Occlusion";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";

@@ -8,7 +8,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 {
     internal static partial class PKG
     {
-        public const int Priority = -289000;
+        public const int Priority = -290000;
         public const string Name = "Rendering/Lighting/Probes";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";

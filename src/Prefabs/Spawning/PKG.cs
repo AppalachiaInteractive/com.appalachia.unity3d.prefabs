@@ -8,7 +8,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 {
     internal static partial class PKG
     {
-        public const int Priority = -285000;
+        public const int Priority = -286000;
         public const string Name = "Rendering/Prefabs/Spawning";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";
