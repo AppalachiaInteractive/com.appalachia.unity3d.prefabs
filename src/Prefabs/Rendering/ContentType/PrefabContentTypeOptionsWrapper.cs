@@ -5,6 +5,7 @@ using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 
 #endregion

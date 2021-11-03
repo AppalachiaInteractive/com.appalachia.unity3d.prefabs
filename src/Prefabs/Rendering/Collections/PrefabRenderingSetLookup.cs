@@ -4,6 +4,7 @@ using System;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Extensions;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

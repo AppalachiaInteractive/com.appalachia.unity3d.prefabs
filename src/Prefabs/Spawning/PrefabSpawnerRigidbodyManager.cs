@@ -8,6 +8,7 @@ using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Rendering.Prefabs.Spawning.Physical;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Spatial.Terrains.Utilities;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;

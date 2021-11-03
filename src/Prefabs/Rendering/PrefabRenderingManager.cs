@@ -23,6 +23,7 @@ using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
+using Appalachia.Utility.Extensions;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding.Voxels;

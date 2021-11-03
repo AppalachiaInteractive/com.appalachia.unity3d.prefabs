@@ -6,6 +6,7 @@ using Appalachia.Core.Behaviours;
 using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;

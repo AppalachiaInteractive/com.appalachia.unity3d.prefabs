@@ -10,6 +10,7 @@ using Appalachia.Core.Behaviours;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Math;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using TreeEditor;
 using Unity.Profiling;

@@ -7,6 +7,7 @@ using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 

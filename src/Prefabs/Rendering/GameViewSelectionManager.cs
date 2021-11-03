@@ -6,6 +6,7 @@ using Appalachia.Core.Extensions;
 using Appalachia.Core.Preferences;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Utility.Colors;
+using Appalachia.Utility.Extensions;
 using Unity.Mathematics;
 using Unity.Profiling;
 using UnityEditor;

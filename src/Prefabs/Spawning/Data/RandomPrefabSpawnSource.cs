@@ -6,6 +6,7 @@ using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Rendering;
+using Appalachia.Utility.Extensions;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using Sirenix.OdinInspector;

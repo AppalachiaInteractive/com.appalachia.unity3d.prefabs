@@ -6,6 +6,7 @@ using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Mathematics.List;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Types;
+using Appalachia.Utility.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
 

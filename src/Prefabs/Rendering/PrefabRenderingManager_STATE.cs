@@ -7,6 +7,7 @@ using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;

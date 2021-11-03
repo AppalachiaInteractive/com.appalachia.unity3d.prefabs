@@ -6,6 +6,7 @@ using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Rendering.Prefabs.Rendering.Burstable;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;

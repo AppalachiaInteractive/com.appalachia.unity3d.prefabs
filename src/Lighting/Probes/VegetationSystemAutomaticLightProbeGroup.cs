@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Extensions;
+using Appalachia.Utility.Extensions;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using UnityEditor;

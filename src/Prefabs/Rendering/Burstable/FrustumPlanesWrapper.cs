@@ -4,6 +4,7 @@ using System;
 using Appalachia.Core.Extensions;
 using Appalachia.Jobs.Burstable;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
+using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Reflection.Delegated;
 using Unity.Burst;
 using Unity.Mathematics;

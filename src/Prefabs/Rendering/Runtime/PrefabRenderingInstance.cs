@@ -14,6 +14,7 @@ using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
