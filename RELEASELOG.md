@@ -1,6 +1,4 @@
 ```
-C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
- Let's go!  
  ______   ______   __       ______   ______   ______   ______    
 /\  == \ /\  ___\ /\ \     /\  ___\ /\  __ \ /\  ___\ /\  ___\   
 \ \  __< \ \  __\ \ \ \____\ \  __\ \ \  __ \\ \___  \\ \  __\   
@@ -15,6 +13,7 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 `0.2.0`
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| 5ab41e6c7de790e500fa891cf96a716ac80b43d8 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
 | 5b0434f9431264e6ede5c1331fbfff3cc912aa8b | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
 | 76b374476863e806b4e2608eb349ca3c7f949b52 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
 | 03b53c0cba39c82a9a95c6fef8a5a1b004d3bb26 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
@@ -41,3 +40,4 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 | 4ecf480bae2df18455c0e7264bc2394262ef1775 | 2021-10-31 | Chris Schubert | Updating changelog and releaselog |
 | ff0e9a8c58194f44fc085e79f0f85675bee47a1b | 2021-10-31 | Chris Schubert | Updating changelog and releaselog |
 | c2fa9278c3844c31474da1cae9eeaea3b4ded0f9 | 2021-10-31 | Chris Schubert | Updating changelog and releaselog |
+| 97d582ad43a07157e3dbf1d664308600ab11ee12 | 2021-10-31 | Chris Schubert | Updating changelog and releaselog |
