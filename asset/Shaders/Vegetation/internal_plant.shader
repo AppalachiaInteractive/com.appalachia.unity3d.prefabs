@@ -113,7 +113,7 @@ Shader "appalachia/plant"
 
 		// FEATURE_GPU_INSTANCER
 		#include "UnityCG.cginc"
-		#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+		#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 		#pragma instancing_options procedural:setupGPUI
 
 
@@ -921,7 +921,7 @@ Shader "appalachia/plant"
 		ENDCG
 		CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
@@ -935,7 +935,7 @@ Shader "appalachia/plant"
 			ZWrite On
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"

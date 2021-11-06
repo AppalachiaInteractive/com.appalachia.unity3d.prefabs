@@ -55,7 +55,7 @@ Shader "GPUInstancer/appalachia/impostors/grass-runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
@@ -704,7 +704,7 @@ Shader "GPUInstancer/appalachia/impostors/grass-runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
@@ -1285,7 +1285,7 @@ Shader "GPUInstancer/appalachia/impostors/grass-runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
@@ -1942,7 +1942,7 @@ Shader "GPUInstancer/appalachia/impostors/grass-runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
@@ -2498,7 +2498,7 @@ Shader "GPUInstancer/appalachia/impostors/grass-runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"

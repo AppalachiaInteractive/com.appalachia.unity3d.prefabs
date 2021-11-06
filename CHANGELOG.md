@@ -1,4 +1,6 @@
 ```
+C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
+ Let's go!  
  ________   ___  ___   ________   ________    ________   _______    ________      
 |\   ____\ |\  \|\  \ |\   __  \ |\   ___  \ |\   ____\ |\  ___ \  |\   ____\     
 \ \  \___| \ \  \\\  \\ \  \|\  \\ \  \\ \  \\ \  \___| \ \   __/| \ \  \___|_    
@@ -12,6 +14,7 @@
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| 400ee4e4dcae797b48c4cfcd84f6b837a65379c7 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
 | 5ab41e6c7de790e500fa891cf96a716ac80b43d8 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
 | 5b0434f9431264e6ede5c1331fbfff3cc912aa8b | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
 | 76b374476863e806b4e2608eb349ca3c7f949b52 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |

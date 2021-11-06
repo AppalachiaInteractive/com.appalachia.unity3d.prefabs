@@ -43,7 +43,7 @@ Shader "GPUInstancer/appalachia/Standard"
 		#include "Lighting.cginc"
 		#pragma target 4.5
 		#pragma shader_feature_local _USESURFACEMAP_ON
-		#include "Assets/Resources/CGIncludes/Appalachia/indirect.cginc"
+		#include "Assets/Resources/CGIncludes/appalachia/indirect.cginc"
 		#ifdef UNITY_PASS_SHADOWCASTER
 			#undef INTERNAL_DATA
 			#undef WorldReflectionVector
@@ -255,7 +255,7 @@ Shader "GPUInstancer/appalachia/Standard"
 		ENDCG
 		CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 		#pragma surface surf StandardCustomLighting keepalpha fullforwardshadows 
@@ -268,7 +268,7 @@ Shader "GPUInstancer/appalachia/Standard"
 			ZWrite On
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			#pragma vertex vert

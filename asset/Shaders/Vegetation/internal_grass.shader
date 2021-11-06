@@ -877,7 +877,7 @@ Shader "appalachia/grass"
 		ENDCG
 		CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 		#pragma surface surf StandardCustomLighting keepalpha fullforwardshadows exclude_path:deferred dithercrossfade vertex:vertexDataFunc 
@@ -890,7 +890,7 @@ Shader "appalachia/grass"
 			ZWrite On
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			#pragma vertex vert

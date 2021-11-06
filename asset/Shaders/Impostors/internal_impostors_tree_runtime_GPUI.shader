@@ -56,7 +56,7 @@ Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			
@@ -702,7 +702,7 @@ Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			
@@ -1280,7 +1280,7 @@ Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			
@@ -1934,7 +1934,7 @@ Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			
@@ -2487,7 +2487,7 @@ Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 
 			CGPROGRAM
 #include "UnityCG.cginc"
-#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 			

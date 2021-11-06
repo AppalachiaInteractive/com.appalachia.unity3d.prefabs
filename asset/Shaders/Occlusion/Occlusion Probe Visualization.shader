@@ -25,7 +25,7 @@ Shader "Occlusion Shader"
 		#pragma multi_compile_instancing
 		#pragma shader_feature _SPECULARHIGHLIGHTS_OFF
 		#pragma shader_feature _GLOSSYREFLECTIONS_OFF
-		#include "Assets/Resources/CGIncludes/Appalachia/indirect.cginc"
+		#include "Assets/Resources/CGIncludes/appalachia/indirect.cginc"
 		#pragma instancing_options procedural:setup
 		#ifdef UNITY_PASS_SHADOWCASTER
 			#undef INTERNAL_DATA

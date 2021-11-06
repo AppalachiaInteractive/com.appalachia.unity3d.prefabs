@@ -61,7 +61,7 @@ Shader "appalachia/backup/bark-20200322"
 		#pragma multi_compile_instancing
 		#pragma shader_feature_local _ENABLEBASE_ON
 		#include "UnityCG.cginc"
-		#include "Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc"
+		#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 		#pragma instancing_options procedural:setupGPUI
 		#pragma exclude_renderers gles vulkan 
 		#pragma surface surf Standard keepalpha vertex:vertexDataFunc 
