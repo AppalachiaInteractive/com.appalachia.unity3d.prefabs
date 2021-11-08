@@ -23,14 +23,14 @@ namespace Appalachia.Rendering.Shading.Features
 
         public const string FEATURE_VEGETATION_STUDIO_FOLIAGE = @"
 		// FEATURE_VEGETATION_STUDIO_FOLIAGE
-		#include ""Assets/Resources/CGIncludes/Appalachia/VS_indirect.cginc""
+		#include ""Assets/Resources/CGIncludes/appalachia/VS_indirect.cginc""
 		#pragma instancing_options procedural:setupScale_VSP
 		#pragma multi_compile GPU_FRUSTUM_ON __
 ";
 
         public const string FEATURE_VEGETATION_STUDIO_GENERAL = @"
 		// FEATURE_VEGETATION_STUDIO_GENERAL
-		#include ""Assets/Resources/CGIncludes/Appalachia/VS_indirect.cginc""
+		#include ""Assets/Resources/CGIncludes/appalachia/VS_indirect.cginc""
 		#pragma instancing_options assumeuniformscaling maxcount:50 procedural:setup_VSP
 		#pragma multi_compile GPU_FRUSTUM_ON __
 ";
@@ -38,7 +38,7 @@ namespace Appalachia.Rendering.Shading.Features
         public const string FEATURE_GPU_INSTANCER = @"
 		// FEATURE_GPU_INSTANCER
 		#include ""UnityCG.cginc""
-		#include ""Assets/Resources/CGIncludes/Appalachia/GPUInstancerInclude.cginc""
+		#include ""Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc""
 		#pragma instancing_options procedural:setupGPUI
 
 ";
