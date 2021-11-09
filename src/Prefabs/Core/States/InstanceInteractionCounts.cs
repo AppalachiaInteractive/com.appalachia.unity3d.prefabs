@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Unity.Burst;
 
@@ -37,7 +38,7 @@ namespace Appalachia.Rendering.Prefabs.Core.States
 
         [BurstDiscard]
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public override string ToString()
+        [DebuggerStepThrough] public override string ToString()
         {
             return $"Interact {enabledCount} / {total}";
         }

@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Layers.Overrides;
 using Appalachia.Core.Overrides.Implementations;
@@ -191,7 +192,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
 #region IEquatable
 
-        public bool Equals(PrefabModelTypeOptionsOverride other)
+        [DebuggerStepThrough] public bool Equals(PrefabModelTypeOptionsOverride other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -215,7 +216,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                    Equals(burialOptions, other.burialOptions);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -235,7 +236,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             return Equals((PrefabModelTypeOptionsOverride) obj);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -269,14 +270,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             }
         }
 
-        public static bool operator ==(
+        [DebuggerStepThrough] public static bool operator ==(
             PrefabModelTypeOptionsOverride left,
             PrefabModelTypeOptionsOverride right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(
+        [DebuggerStepThrough] public static bool operator !=(
             PrefabModelTypeOptionsOverride left,
             PrefabModelTypeOptionsOverride right)
         {

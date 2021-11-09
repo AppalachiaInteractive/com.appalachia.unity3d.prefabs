@@ -70,6 +70,7 @@ Shader "Hidden/Appalachia/Blur"
 	{
 		ZTest Off Cull Off ZWrite Off Blend Off
 
+		
 		// 0
 		Pass
 		{

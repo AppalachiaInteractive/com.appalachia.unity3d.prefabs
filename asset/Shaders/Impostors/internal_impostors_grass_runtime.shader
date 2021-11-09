@@ -62,6 +62,7 @@ Shader "appalachia/impostors/grass-runtime"
 #pragma instancing_options procedural:setupGPUI
 #pragma multi_compile_instancing
 #include "UnityCG.cginc"
+
 			
 			#pragma vertex vert_surf
 			#pragma fragment frag_surf

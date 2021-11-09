@@ -2,6 +2,7 @@
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "appalachia/plant"
 {
+	
 	Properties
 	{
 		[HideInInspector][AppalachiaBanner(Internal,Grass)]_BANNER("BANNER", Float) = 1

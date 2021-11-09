@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -155,7 +156,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
 
 #region IEquatable
 
-        public bool Equals(AssetLightingSettings other)
+        [DebuggerStepThrough] public bool Equals(AssetLightingSettings other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -177,7 +178,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
                    shadowRenderingDistance.Equals(other.shadowRenderingDistance);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -197,7 +198,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
             return Equals((AssetLightingSettings) obj);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -213,12 +214,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
             }
         }
 
-        public static bool operator ==(AssetLightingSettings left, AssetLightingSettings right)
+        [DebuggerStepThrough] public static bool operator ==(AssetLightingSettings left, AssetLightingSettings right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(AssetLightingSettings left, AssetLightingSettings right)
+        [DebuggerStepThrough] public static bool operator !=(AssetLightingSettings left, AssetLightingSettings right)
         {
             return !Equals(left, right);
         }

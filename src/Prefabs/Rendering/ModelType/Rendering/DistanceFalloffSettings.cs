@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -64,7 +65,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
 
 #region IEquatable
 
-        public bool Equals(DistanceFalloffSettings other)
+        [DebuggerStepThrough] public bool Equals(DistanceFalloffSettings other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -80,7 +81,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
                    distanceFalloffStartDistance.Equals(other.distanceFalloffStartDistance);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -100,7 +101,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
             return Equals((DistanceFalloffSettings) obj);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -109,12 +110,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
             }
         }
 
-        public static bool operator ==(DistanceFalloffSettings left, DistanceFalloffSettings right)
+        [DebuggerStepThrough] public static bool operator ==(DistanceFalloffSettings left, DistanceFalloffSettings right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(DistanceFalloffSettings left, DistanceFalloffSettings right)
+        [DebuggerStepThrough] public static bool operator !=(DistanceFalloffSettings left, DistanceFalloffSettings right)
         {
             return !Equals(left, right);
         }

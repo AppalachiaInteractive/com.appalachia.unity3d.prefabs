@@ -2,6 +2,7 @@
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "appalachia/backup/bark-20200322"
 {
+	
 	Properties
 	{
 		[HideInInspector]_Mode1("_Mode", Float) = 0

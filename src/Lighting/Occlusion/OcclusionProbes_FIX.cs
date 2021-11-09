@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using System.Diagnostics;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
@@ -164,7 +165,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 this.z = z;
             }
 
-            public static Vector3i operator +(Vector3i v1, Vector3i v2)
+            [DebuggerStepThrough] public static Vector3i operator +(Vector3i v1, Vector3i v2)
             {
                 return new(v1.x + v2.x, v1.y + v2.y, v1.z + v2.z);
             }

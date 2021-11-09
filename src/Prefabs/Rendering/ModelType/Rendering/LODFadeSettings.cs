@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -74,7 +75,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
 
 #region IEquatable
 
-        public bool Equals(LODFadeSettings other)
+        [DebuggerStepThrough] public bool Equals(LODFadeSettings other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -92,7 +93,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
                    lodFadeTransitionWidth.Equals(other.lodFadeTransitionWidth);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -112,7 +113,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
             return Equals((LODFadeSettings) obj);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -124,12 +125,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering
             }
         }
 
-        public static bool operator ==(LODFadeSettings left, LODFadeSettings right)
+        [DebuggerStepThrough] public static bool operator ==(LODFadeSettings left, LODFadeSettings right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(LODFadeSettings left, LODFadeSettings right)
+        [DebuggerStepThrough] public static bool operator !=(LODFadeSettings left, LODFadeSettings right)
         {
             return !Equals(left, right);
         }

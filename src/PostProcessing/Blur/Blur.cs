@@ -5,15 +5,15 @@ using UnityEngine.Rendering.PostProcessing;
 namespace Appalachia.Rendering.PostProcessing.Blur
 {
     [Serializable]
-    [PostProcess(typeof(BlurRenderer), PostProcessEvent.AfterStack, "Appalachia/Blur")]
+    [PostProcess(typeof(BlurRenderer), PostProcessEvent.BeforeTransparent, "Appalachia/Blur")]
     public sealed class Blur : PostProcessEffectSettings
     {
         // ReSharper disable FieldCanBeMadeReadOnly.Global
-        [Range(0, 2)] public IntParameter downsample = new IntParameter {value = 1};
+        [Range(1, 8)] public IntParameter downsample = new IntParameter {value = 1};
 
-        [Range(0.0f, 10.0f)] public FloatParameter blurSize = new FloatParameter {value = 3f};
+        [Range(0.0f, 40.0f)] public FloatParameter blurSize = new FloatParameter {value = 3f};
 
-        [Range(0, 4)] public IntParameter blurIterations = new IntParameter {value = 2};
+        [Range(0, 8)] public IntParameter blurIterations = new IntParameter {value = 2};
     }
 
     public sealed class BlurRenderer : PostProcessEffectRenderer<Blur>

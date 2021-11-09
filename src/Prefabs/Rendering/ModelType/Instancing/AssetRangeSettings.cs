@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Sirenix.OdinInspector;
@@ -125,7 +126,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
 
 #region IEquatable
 
-        public bool Equals(AssetRangeSettings other)
+        [DebuggerStepThrough] public bool Equals(AssetRangeSettings other)
         {
             return (enabled == other.enabled) &&
                    (showRangeLimit == other.showRangeLimit) &&
@@ -135,12 +136,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
                    (interactions == other.interactions);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             return obj is AssetRangeSettings other && Equals(other);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -154,12 +155,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
             }
         }
 
-        public static bool operator ==(AssetRangeSettings left, AssetRangeSettings right)
+        [DebuggerStepThrough] public static bool operator ==(AssetRangeSettings left, AssetRangeSettings right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(AssetRangeSettings left, AssetRangeSettings right)
+        [DebuggerStepThrough] public static bool operator !=(AssetRangeSettings left, AssetRangeSettings right)
         {
             return !left.Equals(right);
         }

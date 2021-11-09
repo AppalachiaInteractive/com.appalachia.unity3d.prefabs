@@ -32,6 +32,7 @@ Shader "GPUInstancer/appalachia/Standard"
 		[HideInInspector] _tex3coord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
+	
 
 	SubShader
 	{

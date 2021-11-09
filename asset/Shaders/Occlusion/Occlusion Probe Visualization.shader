@@ -1,6 +1,6 @@
 // Made with Amplify Shader Editor
 // Available at the Unity Asset Store - http://u3d.as/y3X 
-Shader "Occlusion Shader"
+Shader "appalachia/lighting/Occlusion Probe Visualization"
 {
 	Properties
 	{
@@ -21,11 +21,11 @@ Shader "Occlusion Shader"
 		CGINCLUDE
 		#include "UnityPBSLighting.cginc"
 		#include "Lighting.cginc"
+		#include "Assets/Resources/CGIncludes/appalachia/indirect.cginc"
 		#pragma target 4.5
 		#pragma multi_compile_instancing
 		#pragma shader_feature _SPECULARHIGHLIGHTS_OFF
 		#pragma shader_feature _GLOSSYREFLECTIONS_OFF
-		#include "Assets/Resources/CGIncludes/appalachia/indirect.cginc"
 		#pragma instancing_options procedural:setup
 		#ifdef UNITY_PASS_SHADOWCASTER
 			#undef INTERNAL_DATA

@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -96,7 +97,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
 
 #region IEquatable
 
-        public bool Equals(FrustumSettings other)
+        [DebuggerStepThrough] public bool Equals(FrustumSettings other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -115,7 +116,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
                    farPlaneOffset.Equals(other.farPlaneOffset);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -135,7 +136,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
             return Equals((FrustumSettings) obj);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -148,12 +149,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing
             }
         }
 
-        public static bool operator ==(FrustumSettings left, FrustumSettings right)
+        [DebuggerStepThrough] public static bool operator ==(FrustumSettings left, FrustumSettings right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(FrustumSettings left, FrustumSettings right)
+        [DebuggerStepThrough] public static bool operator !=(FrustumSettings left, FrustumSettings right)
         {
             return !Equals(left, right);
         }

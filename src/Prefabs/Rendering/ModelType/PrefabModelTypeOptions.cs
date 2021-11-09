@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections.Special;
 using Appalachia.Core.Layers;
@@ -501,7 +502,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
 #region IEquatable
 
-        public bool Equals(PrefabModelTypeOptions other)
+        [DebuggerStepThrough] public bool Equals(PrefabModelTypeOptions other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -526,7 +527,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                    burialOptions.Equals(other.burialOptions);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -546,7 +547,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             return Equals((PrefabModelTypeOptions) obj);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -573,12 +574,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             }
         }
 
-        public static bool operator ==(PrefabModelTypeOptions left, PrefabModelTypeOptions right)
+        [DebuggerStepThrough] public static bool operator ==(PrefabModelTypeOptions left, PrefabModelTypeOptions right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(PrefabModelTypeOptions left, PrefabModelTypeOptions right)
+        [DebuggerStepThrough] public static bool operator !=(PrefabModelTypeOptions left, PrefabModelTypeOptions right)
         {
             return !Equals(left, right);
         }

@@ -99,11 +99,6 @@ Shader "appalachia/leaf_LOD0"
 		#include "Lighting.cginc"
 		#pragma target 4.0
 		 
-
-
-
-
-
 		// INTERNAL_SHADER_FEATURE_START
 
 		// FEATURE_GPU_INSTANCER

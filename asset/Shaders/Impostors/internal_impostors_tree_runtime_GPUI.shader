@@ -2,6 +2,7 @@
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 {
+	
 	Properties
 	{
 		[HideInInspector]_AI_Offset("Impostor Offset", Vector) = (0,0,0,0)

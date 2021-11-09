@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Appalachia.Core.Attributes.Editing;
 
@@ -34,7 +35,7 @@ namespace Appalachia.Rendering.Prefabs.Core.States
             return new(this);
         }
 
-        public override string ToString()
+        [DebuggerStepThrough] public override string ToString()
         {
             return $"Rendering: {rendering} | Physics: {physics} | Interaction: {interaction}";
             ;
@@ -42,19 +43,19 @@ namespace Appalachia.Rendering.Prefabs.Core.States
 
 #region IEquatable
 
-        public bool Equals(InstanceState other)
+        [DebuggerStepThrough] public bool Equals(InstanceState other)
         {
             return (interaction == other.interaction) &&
                    (physics == other.physics) &&
                    (rendering == other.rendering);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             return obj is InstanceState other && Equals(other);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -65,12 +66,12 @@ namespace Appalachia.Rendering.Prefabs.Core.States
             }
         }
 
-        public static bool operator ==(InstanceState left, InstanceState right)
+        [DebuggerStepThrough] public static bool operator ==(InstanceState left, InstanceState right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(InstanceState left, InstanceState right)
+        [DebuggerStepThrough] public static bool operator !=(InstanceState left, InstanceState right)
         {
             return !left.Equals(right);
         }

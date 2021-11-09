@@ -1941,6 +1941,7 @@ Shader "GPUInstancer/appalachia/impostors/grass-runtime"
 			Cull Off
 
 			CGPROGRAM
+			
 #include "UnityCG.cginc"
 #include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI

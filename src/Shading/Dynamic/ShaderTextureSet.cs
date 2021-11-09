@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Scriptables;
@@ -176,7 +177,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 this.normalArrayIndex = normalArrayIndex;
             }
 
-            public int CompareTo(object obj)
+            [DebuggerStepThrough] public int CompareTo(object obj)
             {
                 if (ReferenceEquals(null, obj))
                 {
@@ -193,7 +194,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                     : throw new ArgumentException($"Object must be of type {nameof(ArrayElement)}");
             }
 
-            public int CompareTo(ArrayElement other)
+            [DebuggerStepThrough] public int CompareTo(ArrayElement other)
             {
                 if (ReferenceEquals(this, other))
                 {
@@ -214,7 +215,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 return normalArrayIndex.CompareTo(other.normalArrayIndex);
             }
 
-            public bool Equals(ArrayElement other)
+            [DebuggerStepThrough] public bool Equals(ArrayElement other)
             {
                 if (ReferenceEquals(null, other))
                 {
@@ -230,27 +231,27 @@ namespace Appalachia.Rendering.Shading.Dynamic
                        (normalArrayIndex == other.normalArrayIndex);
             }
 
-            public static bool operator <(ArrayElement left, ArrayElement right)
+            [DebuggerStepThrough] public static bool operator <(ArrayElement left, ArrayElement right)
             {
                 return Comparer<ArrayElement>.Default.Compare(left, right) < 0;
             }
 
-            public static bool operator >(ArrayElement left, ArrayElement right)
+            [DebuggerStepThrough] public static bool operator >(ArrayElement left, ArrayElement right)
             {
                 return Comparer<ArrayElement>.Default.Compare(left, right) > 0;
             }
 
-            public static bool operator <=(ArrayElement left, ArrayElement right)
+            [DebuggerStepThrough] public static bool operator <=(ArrayElement left, ArrayElement right)
             {
                 return Comparer<ArrayElement>.Default.Compare(left, right) <= 0;
             }
 
-            public static bool operator >=(ArrayElement left, ArrayElement right)
+            [DebuggerStepThrough] public static bool operator >=(ArrayElement left, ArrayElement right)
             {
                 return Comparer<ArrayElement>.Default.Compare(left, right) >= 0;
             }
 
-            public override bool Equals(object obj)
+            [DebuggerStepThrough] public override bool Equals(object obj)
             {
                 if (ReferenceEquals(null, obj))
                 {
@@ -270,7 +271,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 return Equals((ArrayElement) obj);
             }
 
-            public override int GetHashCode()
+            [DebuggerStepThrough] public override int GetHashCode()
             {
                 unchecked
                 {
@@ -278,12 +279,12 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 }
             }
 
-            public static bool operator ==(ArrayElement left, ArrayElement right)
+            [DebuggerStepThrough] public static bool operator ==(ArrayElement left, ArrayElement right)
             {
                 return Equals(left, right);
             }
 
-            public static bool operator !=(ArrayElement left, ArrayElement right)
+            [DebuggerStepThrough] public static bool operator !=(ArrayElement left, ArrayElement right)
             {
                 return !Equals(left, right);
             }

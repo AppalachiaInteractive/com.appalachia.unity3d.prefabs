@@ -718,6 +718,7 @@ Shader "appalachia/impostors/tree-runtime"
 			Blend One One
 
 			CGPROGRAM
+			
 #include "UnityCG.cginc"
 #include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 #pragma instancing_options procedural:setupGPUI

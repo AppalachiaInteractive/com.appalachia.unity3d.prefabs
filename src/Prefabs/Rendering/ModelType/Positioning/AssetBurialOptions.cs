@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -77,17 +78,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Positioning
 
 #region IEquatable
 
-        public bool Equals(AssetBurialOptions other)
+        [DebuggerStepThrough] public bool Equals(AssetBurialOptions other)
         {
             return (buryMesh == other.buryMesh) && (adoptTerrainNormal == other.adoptTerrainNormal);
         }
 
-        public override bool Equals(object obj)
+        [DebuggerStepThrough] public override bool Equals(object obj)
         {
             return obj is AssetBurialOptions other && Equals(other);
         }
 
-        public override int GetHashCode()
+        [DebuggerStepThrough] public override int GetHashCode()
         {
             unchecked
             {
@@ -95,12 +96,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Positioning
             }
         }
 
-        public static bool operator ==(AssetBurialOptions left, AssetBurialOptions right)
+        [DebuggerStepThrough] public static bool operator ==(AssetBurialOptions left, AssetBurialOptions right)
         {
             return left.Equals(right);
         }
 
-        public static bool operator !=(AssetBurialOptions left, AssetBurialOptions right)
+        [DebuggerStepThrough] public static bool operator !=(AssetBurialOptions left, AssetBurialOptions right)
         {
             return !left.Equals(right);
         }

@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections.Extensions;
@@ -47,7 +48,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     {
         private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
 
-        public override string ToString()
+        [DebuggerStepThrough] public override string ToString()
         {
             return $"{prefab.name} - Prefab Render Set";
         }

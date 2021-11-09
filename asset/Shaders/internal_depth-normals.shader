@@ -414,6 +414,7 @@ Shader "Hidden/appalachia/depth-normals"
     
         Pass 
         {
+            
             Cull Front
             CGPROGRAM
             #include "UnityCG.cginc"

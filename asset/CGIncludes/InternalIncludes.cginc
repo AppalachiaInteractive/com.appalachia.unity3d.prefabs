@@ -22,6 +22,8 @@
 #pragma instancing_options procedural:setupGPUI
 */
 
+#include <UnityCG.cginc>
+#include <UnityShaderVariables.cginc>
 uniform float4 _TOUCHBEND_CURRENT_STATE_MAP_MIN_XZ;
 uniform half _WIND_AUDIO_INFLUENCE;
 uniform half _WIND_BASE_AMPLITUDE;

@@ -21,6 +21,7 @@ Shader "appalachia/tree-shadows_LOD0"
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
 
+	
 	SubShader
 	{
 		Tags{ "RenderType" = "TransparentCutout"  "Queue" = "AlphaTest+0" "IgnoreProjector" = "True" "DisableBatching" = "True" }

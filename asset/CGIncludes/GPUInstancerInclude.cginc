@@ -3,7 +3,7 @@
 
 #ifdef UNITY_PROCEDURAL_INSTANCING_ENABLED
 
-#include "GPUIPlatformDependent.cginc"
+#include "Assets/Resources/CGIncludes/appalachia/GPUIPlatformDependent.cginc"
 
 #if GPUI_MHT_COPY_TEXTURE
     uniform sampler2D gpuiTransformationMatrixTexture;

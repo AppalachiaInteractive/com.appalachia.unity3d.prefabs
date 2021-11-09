@@ -99,6 +99,7 @@ Shader "appalachia/bark_LOD0"
 		#include "Assets/Resources/CGIncludes/appalachia/GPUInstancerInclude.cginc"
 		#pragma instancing_options procedural:setupGPUI
 
+		
 
 		// FEATURE_LODFADE_DITHER
 		#define INTERNAL_LODFADE_DITHER

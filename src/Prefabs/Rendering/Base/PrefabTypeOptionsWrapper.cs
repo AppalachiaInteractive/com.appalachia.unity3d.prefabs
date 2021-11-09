@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Scriptables;
 using Appalachia.Editing.Labels;
@@ -133,7 +134,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 
-        public override string ToString()
+        [DebuggerStepThrough] public override string ToString()
         {
             return $"{Title}: {Subtitle}";
         }

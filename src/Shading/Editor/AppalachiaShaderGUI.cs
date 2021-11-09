@@ -3,7 +3,6 @@ using AmplifyShaderEditor;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Shading;
 using Appalachia.Utility.Logging;
-using Unity.CodeEditor;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -43,7 +42,6 @@ public class AppalachiaShaderGUI : ShaderGUI
 
             using (new GUILayout.HorizontalScope())
             {
-
                 if (GUILayout.Button("Open in Shader Editor"))
                 {
                     ASEPackageManagerHelper.SetupLateMaterial(material);
@@ -60,7 +58,6 @@ public class AppalachiaShaderGUI : ShaderGUI
                         AssetDatabase.OpenAsset(material.shader, 1);
                     }
                 }
-
             }
             
 

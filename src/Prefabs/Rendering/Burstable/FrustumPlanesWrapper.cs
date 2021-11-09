@@ -1,6 +1,7 @@
 #region
 
 using System;
+using System.Diagnostics;
 using Appalachia.Core.Extensions;
 using Appalachia.Jobs.Burstable;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
@@ -254,7 +255,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Burstable
 #region ToString
 
         [BurstDiscard]
-        public override string ToString()
+        [DebuggerStepThrough] public override string ToString()
         {
             var range = centerFar - centerNear;
             var rangeMag = math.length(range);
