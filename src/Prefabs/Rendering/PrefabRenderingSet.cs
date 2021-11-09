@@ -22,6 +22,7 @@ using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Replacement;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Logging;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -910,7 +911,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         globalRenderingOptions.execution
                     ))
                     {
-                        Debug.LogError(
+                        AppaLog.Error(
                             $"Instance validation for [{prefab.name}] producing continued errors."
                         );
                         return false;

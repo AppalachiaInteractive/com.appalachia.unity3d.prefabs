@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Logging;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Collections;
@@ -111,7 +112,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                             if (labels.Length == 0)
                             {
-                                Debug.LogWarning(
+                               AppaLog.Warning(
                                     $"No labels for asset [{prefab.name}]. Setting it as a test prefab."
                                 );
                                 info.TestOnly = true;

@@ -125,7 +125,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         {
             var assets = new List<T>();
             var guids = AssetDatabaseManager.FindAssets(
-                string.Format("t:{0}", typeof(T).ToString().Replace("UnityEngine.", ""))
+                $"t:{typeof(T).ToString().Replace("UnityEngine.", "")}"
             );
             for (var i = 0; i < guids.Length; i++)
             {

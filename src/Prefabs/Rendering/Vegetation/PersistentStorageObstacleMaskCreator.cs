@@ -9,6 +9,7 @@ using Appalachia.Core.Debugging;
 using Appalachia.Editing.Debugging;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Spatial.Octree;
+using Appalachia.Utility.Logging;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
@@ -388,7 +389,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                AppaLog.Error(ex);
             }
         }
 
@@ -477,7 +478,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                AppaLog.Error(ex);
             }
         }
 
@@ -517,11 +518,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 
                 itemBounds.size *= 1.1f;
 
-                Debug.Log(itemBounds);
+                AppaLog.Info(itemBounds);
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                AppaLog.Error(ex);
             }
         }
 
@@ -707,11 +708,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
                     }
                 }
 
-                Debug.Log(itemBounds);
+                AppaLog.Info(itemBounds);
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                AppaLog.Error(ex);
             }
         }
 
@@ -733,7 +734,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
             }
             catch (Exception ex)
             {
-                Debug.LogError(ex);
+                AppaLog.Error(ex);
             }
         }
 

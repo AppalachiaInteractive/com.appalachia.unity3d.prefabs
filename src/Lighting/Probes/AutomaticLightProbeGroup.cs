@@ -7,6 +7,7 @@ using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Spatial.Terrains.Utilities;
+using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -964,7 +965,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                AppaLog.Exception(e);
             }
             finally
             {
@@ -1211,7 +1212,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                         error
                                     )) // always delete NaN errors, it means light probes are garbage
                                 {
-                                    //									Debug.Log("Error tolerance is reasonable for probe " + i + " Err: " + error);
+                                    //									AppaLog.Info("Error tolerance is reasonable for probe " + i + " Err: " + error);
                                     // Note, if the SH we had originally is almost the same as the one we can generate using corner points and interpolation, let's throw it out.
                                     // lock all the verts
                                     toRemove.Add(i);
@@ -1303,7 +1304,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                AppaLog.Exception(e);
             }
             finally
             {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Debugging;
 using Appalachia.Editing.Debugging;
+using Appalachia.Utility.Logging;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -82,13 +83,13 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         {
             if (!Lightmapping.bakedGI)
             {
-                Debug.LogWarning(
+               AppaLog.Warning(
                     "Lightmapping started.  Occlusion probes will not bake as Baked GI is not enabled."
                 );
                 return;
             }
 
-            Debug.LogWarning("Lightmapping & occlusion probes baking started.");
+           AppaLog.Warning("Lightmapping & occlusion probes baking started.");
 
             VegetationStudioOcclusionProbeIntegration.BakeStarted(occlusionBakeObjects);
 
@@ -229,20 +230,20 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         {
             if (!Lightmapping.bakedGI)
             {
-                Debug.LogWarning(
+               AppaLog.Warning(
                     "Lightmapping completed.  Occlusion probes did not bake as Baked GI is not enabled."
                 );
                 return;
             }
 
-            Debug.LogWarning("Lightmapping & occlusion probes baking completed.");
+           AppaLog.Warning("Lightmapping & occlusion probes baking completed.");
 
             VegetationStudioOcclusionProbeIntegration.BakeCompleted(occlusionBakeObjects);
 
             var count = m_CountBaked.x * m_CountBaked.y * m_CountBaked.z;
             if (count == 0)
             {
-                Debug.LogWarning("No occlusion probes baked.");
+               AppaLog.Warning("No occlusion probes baked.");
                 return;
             }
 
@@ -251,17 +252,17 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 count += c.x * c.y * c.z;
             }
 
-            Debug.LogWarning($"Baked {count} occlusion probes.");
+           AppaLog.Warning($"Baked {count} occlusion probes.");
 
             var results = new Vector4[count];
 
             if (!UnityEditor.Experimental.Lightmapping.GetCustomBakeResults(results))
             {
-                Debug.LogError("Failed to fetch the occlusion probe bake results.");
+                AppaLog.Error("Failed to fetch the occlusion probe bake results.");
                 return;
             }
 
-            Debug.LogWarning($"Retrieved {count} custom baking results.");
+           AppaLog.Warning($"Retrieved {count} custom baking results.");
 
             var dataPath = SceneToOcclusionProbeDataPath(gameObject.scene, "OcclusionProbeData");
 
@@ -425,7 +426,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
             if (path.Substring(path.Length - suffixLength) != ".unity")
             {
-                Debug.LogError("Something's wrong with the path to the scene", this);
+                AppaLog.Error("Something's wrong with the path to the scene", this);
             }
 
             return path.Substring(0, path.Length - suffixLength) + "/" + name + ".asset";

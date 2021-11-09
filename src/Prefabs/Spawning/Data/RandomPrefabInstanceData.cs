@@ -4,6 +4,7 @@ using System;
 using Appalachia.Core.Behaviours;
 using Appalachia.Rendering.Prefabs.Spawning.Physical;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
+using Appalachia.Utility.Logging;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -113,7 +114,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 {
                     rigidbody.drag = settings.drag;
                     rigidbody.angularDrag = settings.angularDrag;
-                    Debug.Log($"Setting mass from {rigidbody.mass} to {settings.mass}.");
+                    AppaLog.Info($"Setting mass from {rigidbody.mass} to {settings.mass}.");
                     rigidbody.mass = settings.mass;
                     rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
                     rigidbody.isKinematic = false;

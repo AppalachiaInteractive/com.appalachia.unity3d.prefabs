@@ -24,6 +24,7 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Logging;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding.Voxels;
@@ -767,8 +768,8 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                             }
                             catch (InvalidOperationException iox)
                             {
-                                Debug.LogError($"Exception while updating index {dataSetIndex}.");
-                                Debug.LogException(iox);
+                                AppaLog.Error($"Exception while updating index {dataSetIndex}.");
+                                AppaLog.Exception(iox);
                                 renderingOptions.execution.allowUpdates = false;
                                 stoppedDueToErrors = true;
                             }
@@ -789,9 +790,9 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                                 {
                                 }
 
-                                Debug.LogError($"Failed to assign mesh wind data to {name}.");
-                                Debug.LogException(ex);
-                                Debug.LogError($"Exception while updating {identifier}.", context);
+                                AppaLog.Error($"Failed to assign mesh wind data to {name}.");
+                                AppaLog.Exception(ex);
+                                AppaLog.Error($"Exception while updating {identifier}.", context);
                                 handle.Complete();
                             }
                         }
@@ -971,15 +972,15 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                         }
                         catch (InvalidOperationException iox)
                         {
-                            Debug.LogError($"Exception while late updating index {dataSetIndex}.");
-                            Debug.LogException(iox);
+                            AppaLog.Error($"Exception while late updating index {dataSetIndex}.");
+                            AppaLog.Exception(iox);
                             renderingOptions.execution.allowUpdates = false;
                             stoppedDueToErrors = true;
                         }
                         catch (Exception ex)
                         {
-                            Debug.LogError($"Exception while late updating index {dataSetIndex}.");
-                            Debug.LogException(ex);
+                            AppaLog.Error($"Exception while late updating index {dataSetIndex}.");
+                            AppaLog.Exception(ex);
                         }
 
                         JobTracker.CompleteAll(
@@ -1003,19 +1004,19 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                         }
                         catch (InvalidOperationException iox)
                         {
-                            Debug.LogError(
+                            AppaLog.Error(
                                 $"Exception while pushing GPUI matrices for index {lateI}."
                             );
-                            Debug.LogException(iox);
+                            AppaLog.Exception(iox);
                             renderingOptions.execution.allowUpdates = false;
                             stoppedDueToErrors = true;
                         }
                         catch (Exception ex)
                         {
-                            Debug.LogError(
+                            AppaLog.Error(
                                 $"Exception while pushing GPUI matrices for index {lateI}."
                             );
-                            Debug.LogException(ex);
+                            AppaLog.Exception(ex);
                         }
                         finally
                         {

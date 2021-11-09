@@ -8,6 +8,7 @@ using Appalachia.Rendering.Prefabs.Spawning.Collections;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Spatial.Extensions;
+using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -179,7 +180,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
                 if (subRoot == null)
                 {
-                    Debug.Log($"{root.name}  ::  {pointString}");
+                    AppaLog.Info($"{root.name}  ::  {pointString}");
                     subRoot = new GameObject(pointString);
                     subRoot.transform.position = point;
                     subRoot.transform.SetParent(root, true);

@@ -2,6 +2,7 @@
 using AmplifyShaderEditor;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Shading;
+using Appalachia.Utility.Logging;
 using Unity.CodeEditor;
 using UnityEditor;
 using UnityEngine;
@@ -52,10 +53,7 @@ public class AppalachiaShaderGUI : ShaderGUI
                 {
                     if (UIUtils.IsUnityNativeShader(material.shader))
                     {
-                        Debug.LogWarningFormat(
-                            "Action not allowed. Attempting to load the native {0} shader into Text Editor",
-                            material.shader.name
-                        );
+                        AppaLog.Warning($"Action not allowed. Attempting to load the native {material.shader.name} shader into Text Editor");
                     }
                     else
                     {
@@ -119,7 +117,7 @@ public class AppalachiaShaderGUI : ShaderGUI
         }
         catch (Exception ex)
         {
-            Debug.LogError(ex);
+            AppaLog.Exception(ex);
         }
     }
 

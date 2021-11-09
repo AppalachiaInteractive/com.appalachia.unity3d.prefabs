@@ -1,0 +1,79 @@
+using System;
+using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+
+namespace Appalachia.Rendering.PostProcessing.Blur
+{
+    [Serializable]
+    [PostProcess(typeof(BlurRenderer), PostProcessEvent.AfterStack, "Appalachia/Blur")]
+    public sealed class Blur : PostProcessEffectSettings
+    {
+        // ReSharper disable FieldCanBeMadeReadOnly.Global
+        [Range(0, 2)] public IntParameter downsample = new IntParameter {value = 1};
+
+        [Range(0.0f, 10.0f)] public FloatParameter blurSize = new FloatParameter {value = 3f};
+
+        [Range(0, 4)] public IntParameter blurIterations = new IntParameter {value = 2};
+    }
+
+    public sealed class BlurRenderer : PostProcessEffectRenderer<Blur>
+    {
+        private int parameterID;
+        private Shader shader;
+
+        public override void Init()
+        {
+            base.Init();
+            shader = Shader.Find("Hidden/Appalachia/Blur");
+            parameterID = Shader.PropertyToID("_Parameter");
+        }
+
+        public override void Render(PostProcessRenderContext context)
+        {
+            var nbIterations = settings.blurIterations.value;
+            if (nbIterations == 0)
+            {
+                context.command.Blit(context.source, context.destination);
+                return;
+            }
+
+            var cmd = context.command;
+            var sheet = context.propertySheets.Get(shader);
+
+            var widthMod = 1.0f / (1.0f * (1 << settings.downsample.value));
+            var blurSize = settings.blurSize.value;
+            sheet.properties.SetFloat(parameterID, blurSize * widthMod);
+
+            var rtW = context.width >> settings.downsample.value;
+            var rtH = context.height >> settings.downsample.value;
+
+            // downsample
+            var rt = RenderTexture.GetTemporary(rtW, rtH, 0, context.sourceFormat);
+            rt.filterMode = FilterMode.Bilinear;
+            cmd.BlitFullscreenTriangle(context.source, rt, sheet, 0);
+
+            for (var i = 0; i < nbIterations; i++)
+            {
+                var iterationOffs = i * 1.0f;
+                sheet.properties.SetFloat(parameterID, (blurSize * widthMod) + iterationOffs);
+
+                // vertical blur
+                var rt2 = RenderTexture.GetTemporary(rtW, rtH, 0, context.sourceFormat);
+                rt2.filterMode = FilterMode.Bilinear;
+                cmd.BlitFullscreenTriangle(rt, rt2, sheet, 1);
+                RenderTexture.ReleaseTemporary(rt);
+                rt = rt2;
+
+                // horizontal blur
+                rt2 = RenderTexture.GetTemporary(rtW, rtH, 0, context.sourceFormat);
+                rt2.filterMode = FilterMode.Bilinear;
+                cmd.BlitFullscreenTriangle(rt, rt2, sheet, 2);
+                RenderTexture.ReleaseTemporary(rt);
+                rt = rt2;
+            }
+
+            context.command.Blit(rt, context.destination);
+            RenderTexture.ReleaseTemporary(rt);
+        }
+    }
+}

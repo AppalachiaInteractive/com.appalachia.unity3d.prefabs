@@ -15,6 +15,7 @@ using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -291,7 +292,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 {
                     var name = metadata.prototype.prefabObject.name;
                     
-                    Debug.LogError($"Error moving [{name}] from [{currentState}] to [{nextState}]"                    );
+                    AppaLog.Error($"Error moving [{name}] from [{currentState}] to [{nextState}]"                    );
                     Debug.LogException(ex);
 
                     pushGpuiMatrices = false;
@@ -959,7 +960,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     rigidbody.useGravity = rigidbodyData.useGravity;
                     rigidbody.angularDrag = rigidbodyData.angularDrag;
 
-                    //Debug.Log($"Setting mass from {rigidbody.mass} to {rigidbodyData.mass}.");
+                    //AppaLog.Info($"Setting mass from {rigidbody.mass} to {rigidbodyData.mass}.");
                     rigidbody.mass = rigidbodyData.mass;
                     rigidbody.constraints = rigidbodyData.constraints;
                     rigidbody.detectCollisions = true;

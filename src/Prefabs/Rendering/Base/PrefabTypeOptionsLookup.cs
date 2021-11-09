@@ -8,6 +8,7 @@ using Appalachia.Core.Collections.Interfaces;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Core.Scriptables;
 using Appalachia.Utility.Enums;
+using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -275,7 +276,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     }
                 }
 
-                Debug.LogWarning("Could not find match...now logging.");
+               AppaLog.Warning("Could not find match...now logging.");
 
                 Initialize();
 

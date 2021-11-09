@@ -18,6 +18,7 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
+using Appalachia.Utility.Logging;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -1116,7 +1117,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                             if (errorCount >= 10)
                             {
-                                Debug.LogError(
+                                AppaLog.Error(
                                     $"Skipping instancing validation for {renderingSet.prefab.name} as it reached the error limit of {errorCount}."
                                 );
 

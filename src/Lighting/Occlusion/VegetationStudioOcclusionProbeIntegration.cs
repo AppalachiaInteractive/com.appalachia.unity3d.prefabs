@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.Core.Extensions;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Logging;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using UnityEditor;
@@ -35,7 +36,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     Object.DestroyImmediate(occlusionBakeObjects.transform.GetChild(i).gameObject);
                 }
 
-                Debug.LogWarning("Ensuring lightmap scales are set to 0.");
+               AppaLog.Warning("Ensuring lightmap scales are set to 0.");
 
                 //var systemCount = manager.VegetationSystemList.Count;
                 var cellCount = manager.VegetationSystemList.Sum(s => s.VegetationCellList.Count);
@@ -84,7 +85,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     }
                 }
 
-                Debug.LogWarning("Building matrix lookup from storage.");
+               AppaLog.Warning("Building matrix lookup from storage.");
 
                 var instances =
                     new Dictionary<VegetationItemInfoPro, (GameObject prefab, HashSet<Matrix4x4>
@@ -253,7 +254,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 var instanceCount = instances.Sum(i => i.Value.matrices.Count);
                 var instanceSum = 0;
 
-                Debug.LogWarning("Deploying instances to scene.");
+               AppaLog.Warning("Deploying instances to scene.");
 
                 var layerID = LayerMask.NameToLayer(OcclusionProbes.OcclusionBake);
 
@@ -305,7 +306,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     }
                 }
 
-                Debug.LogWarning("Enabling occlusion components.");
+               AppaLog.Warning("Enabling occlusion components.");
 
                 var transforms = occlusionBakeObjects.GetComponentsInChildren<Transform>();
 
@@ -357,7 +358,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                 occlusionBakeObjects.MoveToLayerRecursive(layerID);
 
-                Debug.LogWarning("Occlusion bake deployment completed.");
+               AppaLog.Warning("Occlusion bake deployment completed.");
             }
             finally
             {
@@ -367,7 +368,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
         public static void BakeCompleted(GameObject occlusionBakeObjects)
         {
-            Debug.LogWarning("Removing deployed instances.");
+           AppaLog.Warning("Removing deployed instances.");
 
             try
             {

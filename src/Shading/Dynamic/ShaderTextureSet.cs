@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -95,8 +96,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Error while updating image.");
-                Debug.LogException(ex);
+                AppaLog.Error($"Error while updating image.");
+                AppaLog.Exception(ex);
             }
 
             Shader.SetGlobalFloatArray(globalFloatArray, globalTextureConfiguration);

@@ -13,6 +13,7 @@ using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 using Appalachia.Spatial.Terrains.Utilities;
+using Appalachia.Utility.Logging;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding;
@@ -446,7 +447,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (sharedRendererMaterial == null)
                             {
-                                Debug.LogWarning(
+                               AppaLog.Warning(
                                     $"Missing a material for renderer {renderer.name}!",
                                     renderer
                                 );
@@ -628,7 +629,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (renderingSet == null)
                             {
-                                Debug.LogWarning(
+                               AppaLog.Warning(
                                     $"No render set for [{renderingParameter.prefab}].",
                                     manager
                                 );
@@ -658,7 +659,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                         if (renderingSet.modelType == PrefabModelType.None)
                         {
-                            Debug.LogWarning(
+                           AppaLog.Warning(
                                 $"Could not assign a prefab type for object [{renderingSet.prefab.name}].",
                                 renderingSet.prefab
                             );

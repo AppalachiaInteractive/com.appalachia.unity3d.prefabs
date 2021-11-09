@@ -11,6 +11,7 @@ using Appalachia.Core.Extensions;
 using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Math;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using TreeEditor;
 using Unity.Profiling;
@@ -213,7 +214,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                Debug.LogError(
+                                AppaLog.Error(
                                     $"Could not find asset path for prefab {name}.", this
                                 );
 
@@ -244,8 +245,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"Failed to assign mesh wind data to {name}.", this);
-                    Debug.LogException(ex, this);
+                    AppaLog.Error($"Failed to assign mesh wind data to {name}.", this);
+                    AppaLog.Exception(ex, this);
 
                     return;
                 }
@@ -434,8 +435,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 }
                 catch (Exception ex)
                 {
-                    Debug.LogError($"Failed to assign mesh wind data to {name}.", this);
-                    Debug.LogException(ex, this);
+                    AppaLog.Error($"Failed to assign mesh wind data to {name}.", this);
+                    AppaLog.Exception(ex, this);
                 }
             }
         }
@@ -483,8 +484,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
             catch (Exception ex)
             {
-                Debug.LogError($"Failed to revert mesh wind data to {name}.", this);
-                Debug.LogException(ex, this);
+                AppaLog.Error($"Failed to revert mesh wind data to {name}.", this);
+                AppaLog.Exception(ex, this);
             }
         }
 
@@ -727,7 +728,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     ret[i] = Color.black;
                 }
 
-                Debug.LogError($"Could not find wind mask for object {mesh.name}", mesh);
+                AppaLog.Error($"Could not find wind mask for object {mesh.name}", mesh);
                 return ret;
             }
 
