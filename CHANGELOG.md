@@ -14,6 +14,14 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| 09c172611ddb83d0a9a053acbd42c6bd63c68554 | 2021-11-08 | Chris Schubert | Blur effect and logging updates. |
+| 7dd8bbf17374eb410e1e84177842cf4db7f20bc0 | 2021-11-07 | Chris Schubert | Fixing shader includes and automatic references for resources |
+
+
+ ## Tag: `v0.2.0`
+| Hash | Date | Author | Changes |
+|------|------|--------|---------|
+| c17432f528719218fcb3d0bd800fe7f374f68ceb | 2021-11-06 | Chris Schubert | Updating changelog and releaselog |
 | 6b211133925cfb2ff3d1ee85a4aa11e338d117d9 | 2021-11-06 | Chris Schubert | Updating changelog and releaselog |
 | 6b52edbbc8a716efdd37f938a183e5ca69b1e6a0 | 2021-11-06 | Chris Schubert | Updating changelog and releaselog |
 | 400ee4e4dcae797b48c4cfcd84f6b837a65379c7 | 2021-11-05 | Chris Schubert | Updating changelog and releaselog |
