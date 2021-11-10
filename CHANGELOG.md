@@ -14,6 +14,7 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| db49601279303f7028324342f8e2ca16a9c65a2d | 2021-11-09 | Chris Schubert | Updating changelog and releaselog |
 | b7b1f65a958cd9ba4346d4b329068057feb5712b | 2021-11-09 | Chris Schubert | Removing empty directories, adding some debugger passthroughs, and reformatting asmdefs |
 | 7d3a1602c1ccaf0267b0bac467d7527b58f65bfe | 2021-11-08 | Chris Schubert | Updating changelog and releaselog |
 | 09c172611ddb83d0a9a053acbd42c6bd63c68554 | 2021-11-08 | Chris Schubert | Blur effect and logging updates. |
