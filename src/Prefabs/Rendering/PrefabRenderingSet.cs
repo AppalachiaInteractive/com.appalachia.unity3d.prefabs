@@ -30,8 +30,6 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
-using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -39,12 +37,7 @@ using UnityEngine.Serialization;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
-    [Serializable]
-    [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
-    [InlineProperty]
-    [HideLabel]
-    [LabelWidth(0)]
-    public class PrefabRenderingSet : IdentifiableAppalachiaObject<PrefabRenderingSet>
+    public partial class PrefabRenderingSet : IdentifiableAppalachiaObject<PrefabRenderingSet>
     {
         private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
 
@@ -53,24 +46,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             return $"{prefab.name} - Prefab Render Set";
         }
 
-#region Base Class
-
-        private void OnEnable()
-        {
-            if (_externalParameters == null)
-            {
-                _externalParameters = new ExternalRenderingParametersLookup();
-                SetDirty();
-            }
-
-            _externalParameters.SetDirtyAction(SetDirty);
-
-            //_assetType = _assetType.CheckObsolete();
-        }
-
-        protected override bool ShowIDProperties => false;
-
-#endregion
 
 #region Fields & Properties
 
@@ -109,6 +84,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
 #endregion
 
+#if UNITY_EDITOR
         [VerticalGroup(_MAIN)]
         [SmartTitle(
             "$" + nameof(_stateLabel),
@@ -118,7 +94,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         )]
         [ToggleLeft]
         [SmartLabel]
-#if UNITY_EDITOR
         [InlineButton(nameof(Ping))]
         [InlineButton(nameof(Select))]
         [InlineButton(nameof(ModelType))]
@@ -130,25 +105,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         public bool renderingEnabled = true;
 
 #if UNITY_EDITOR
-        private void ModelType()
-        {
-            Selection.SetActiveObjectWithContext(modelOptions.typeOptions, this);
-        }
-        /*
-        private void PingType()
-        {
-            EditorGUIUtility.PingObject(options.ModelTypeOptions);
-        }
-        */
-
-        private void ContentType()
-        {
-            Selection.SetActiveObjectWithContext(contentOptions.typeOptions, this);
-        }
+        [UnityEditor.Callbacks.DidReloadScripts]
 #endif
-
-#if UNITY_EDITOR
-        [DidReloadScripts]
         private static void ReloadSoloAndMute()
         {
             var sets = PrefabRenderingSetCollection.instance.Sets;
@@ -223,8 +181,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
             ReloadSoloAndMute();
         }
-#endif
-
+        
         private static bool _anySolo;
 
         public static bool AnySolo
@@ -277,14 +234,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         [TabGroup(_TABS, _META)]
         [SmartLabel]
-        [SerializeField]
         [InlineProperty]
+        [SerializeField]
         private PrefabContentType_OVERRIDE _contentType;
 
         [TabGroup(_TABS, _META)]
         [SmartLabel]
-        [SerializeField]
         [InlineProperty]
+        [SerializeField]
         private PrefabModelType_OVERRIDE _modelType;
 
         public PrefabContentType contentType
@@ -358,51 +315,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SerializeField]
         public PrefabRenderingSetLocations locations;
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        private void SetRenderingLocations()
-        {
-            if (locations == null)
-            {
-                locations = PrefabRenderingSetLocations.LoadOrCreateNew(name);
-            }
-
-            locations.SetFromInstance(this);
-        }
-
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [Button]
-        private void BuryMeshes()
-        {
-            //MeshBurialManagementProcessor.EnqueuePrefabRenderingSet(this);
-        }
-
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [Button]
-        private void ResetBurials()
-        {
-            //MeshBurialAdjustmentCollection.instance.GetByPrefab(prefab).Reset();
-        }
-
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [Button]
-        private void ResetInstances()
-        {
-            TearDown(PrefabRenderingManager.instance.gpui);
-        }
-
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [Button]
-        private void DefaultPositions()
-        {
-            useLocations = false;
-            ResetInstances();
-        }
-
         [ListDrawerSettings(
             Expanded = true,
             DraggableItems = false,
@@ -444,9 +356,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 if (_externalParameters == null)
                 {
                     _externalParameters = new ExternalRenderingParametersLookup();
+#if UNITY_EDITOR
                     SetDirty();
 
                     _externalParameters.SetDirtyAction(SetDirty);
+#endif
                 }
 
                 return _externalParameters;
@@ -516,10 +430,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             get
             {
+#if UNITY_EDITOR
                 if (_modelOptions == null)
                 {
                     _modelOptions = PrefabModelTypeOptionsSetData.LoadOrCreateNew(prefab.name);
                 }
+#endif
 
                 return _modelOptions;
             }
@@ -537,10 +453,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             get
             {
+#if UNITY_EDITOR
                 if (_contentOptions == null)
                 {
                     _contentOptions = PrefabContentTypeOptionsSetData.LoadOrCreateNew(prefab.name);
                 }
+#endif
 
                 return _contentOptions;
             }
@@ -573,10 +491,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 prototypeMetadata = pp;
 
+#if UNITY_EDITOR
                 if (locations == null)
                 {
                     locations = PrefabRenderingSetLocations.LoadOrCreateNew(name);
                 }
+#endif
 
                 if (modifications == null)
                 {
@@ -587,7 +507,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 Refresh();
 
+#if UNITY_EDITOR
                 SetDirty();
+#endif
             }
         }
 
@@ -597,12 +519,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_Refresh.Auto())
             {
+#if UNITY_EDITOR
                 var labelsArray = AssetDatabaseManager.GetLabels(prefab);
                 labels = labelsArray.ToAppaSet<string, AppaSet_string, AppaList_string>();
 
                 //AssetType = AssetType.CheckObsolete();
 
                 AssignPrefabTypes();
+#endif
 
                 if (_instanceManager == null)
                 {
@@ -612,9 +536,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 if (_externalParameters == null)
                 {
                     _externalParameters = new ExternalRenderingParametersLookup();
+#if UNITY_EDITOR
                     SetDirty();
 
                     _externalParameters.SetDirtyAction(SetDirty);
+#endif
                 }
 
                 bounds = prefab.GetEncompassingBounds();
@@ -651,22 +577,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                         if (!cheapestMesh.isReadable)
                         {
-                            if (Application.isPlaying)
-                            {
-                                throw new NotSupportedException(
-                                    $"Mesh [{cheapestMesh.name}] must be readable!"
-                                );
-                            }
-
+#if UNITY_EDITOR
                             var meshImporter =
-                                AssetImporter.GetAtPath(AssetDatabaseManager.GetAssetPath(cheapestMesh)) as
-                                    ModelImporter;
+                                UnityEditor.AssetImporter.GetAtPath(AssetDatabaseManager.GetAssetPath(cheapestMesh)) as
+                                    UnityEditor.ModelImporter;
 
                             meshImporter.isReadable = true;
 
                             meshImporter.SaveAndReimport();
 
                             cheapestMesh = cheapestMeshFilter.sharedMesh;
+#else
+                            throw new NotSupportedException(
+                                    $"Mesh [{cheapestMesh.name}] must be readable!"
+                                );
+#endif
                         }
 
                         if (cheapestMeshVerts == null)
@@ -688,26 +613,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 PrefabReplacementCollection.instance.State.TryGet(prefab, out replacement);
             }
-        }
-
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [Button]
-        public void AssignPrefabTypes()
-        {
-            if (!_modelType.overrideEnabled || (modelType == PrefabModelType.None))
-            {
-                modelType = PrefabModelTypeOptionsLookup.instance.GetPrefabType(labels);
-            }
-
-            modelOptions.type = modelType;
-
-            if (!_contentType.overrideEnabled || (contentType == PrefabContentType.None))
-            {
-                contentType = PrefabContentTypeOptionsLookup.instance.GetPrefabType(labels);
-            }
-
-            contentOptions.type = contentType;
         }
 
         private static readonly ProfilerMarker _PRF_UpdatePrototypeSettings =

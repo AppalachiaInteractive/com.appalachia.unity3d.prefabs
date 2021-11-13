@@ -2,52 +2,63 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.CI.Integration;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Scriptables;
 using Appalachia.Simulation.Core;
+using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
-
-#if UNITY_EDITOR
-
-#endif
 
 #endregion
 
 namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 {
     [Serializable]
-    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject<
-        GPUInstancerPrototypeMetadata>
+    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject<GPUInstancerPrototypeMetadata>
     {
+        #region Profiling And Tracing Markers
+
         private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadata) + ".";
 
+#if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary =
             new(_PRF_PFX + nameof(CreatePrototypeIfNecessary));
 
         private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary_PrototypeLookup =
             new(_PRF_PFX + nameof(CreatePrototypeIfNecessary) + ".PrototypeLookup");
+#endif
+
+        #endregion
+        public bool hasRigidBody;
+
+        public RigidbodyData rigidbodyData;
 
         [SerializeField] private GameObject _originalPrefab;
 
         [SerializeField] private GameObject _updatedPrefab;
 
-        [SerializeField] private string _prefabHashForNoGoGeneration;
-
         [SerializeField] private GPUInstancerPrefabPrototype _prototype;
 
-        public bool hasRigidBody;
-        public RigidbodyData rigidbodyData;
-
-        public GPUInstancerPrefabPrototype prototype => _prototype;
+        [SerializeField] private string _prefabHashForNoGoGeneration;
         public GameObject originalPrefab => _originalPrefab;
         public GameObject updatedPrefab => _updatedPrefab;
 
+        public GPUInstancerPrefabPrototype prototype => _prototype;
+
+        public void SetPrefab(GameObject original)
+        {
+            _originalPrefab = original;
+        }
+
+        public void SetPrototype(GPUInstancerPrefabPrototype proto)
+        {
+            _prototype = proto;
+        }
+
+#if UNITY_EDITOR
         public void CreatePrototypeIfNecessary(
             GameObject ogPF,
             GPUInstancerPrefabManager gpui,
@@ -79,7 +90,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                     AssetDatabaseManager.TryGetGUIDAndLocalFileIdentifier(
                         _originalPrefab,
                         out _prefabHashForNoGoGeneration,
-                        out long _
+                        out var _
                     );
                 }
                 else
@@ -87,7 +98,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                     AssetDatabaseManager.TryGetGUIDAndLocalFileIdentifier(
                         _originalPrefab,
                         out var guid,
-                        out long _
+                        out var _
                     );
 
                     if (guid != _prefabHashForNoGoGeneration)
@@ -137,18 +148,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             }
         }
 
-        public void SetPrefab(GameObject original)
-        {
-            _originalPrefab = original;
-        }
-
-        public void SetPrototype(GPUInstancerPrefabPrototype proto)
-        {
-            _prototype = proto;
-        }
-
-#if UNITY_EDITOR
-
         private static readonly ProfilerMarker _PRF_CreateNOGOPrefab =
             new(_PRF_PFX + nameof(CreateNOGOPrefab));
 
@@ -156,7 +155,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
         {
             using (_PRF_CreateNOGOPrefab.Auto())
             {
-                var modified = PrefabUtility.InstantiatePrefab(_originalPrefab) as GameObject;
+                var modified = UnityEditor.PrefabUtility.InstantiatePrefab(_originalPrefab) as GameObject;
 
                 if (modified == null)
                 {
@@ -224,7 +223,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 
                 var newPath = $"{subDirectory}/{fileName}_NGO{extension}";
 
-                var result = PrefabUtility.SaveAsPrefabAsset(modified, newPath);
+                var result = UnityEditor.PrefabUtility.SaveAsPrefabAsset(modified, newPath);
 
                 modified.DestroySafely();
 

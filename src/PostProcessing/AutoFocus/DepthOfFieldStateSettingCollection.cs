@@ -33,6 +33,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         protected override void OnEnable()
         {
+#if UNITY_EDITOR
             var values = EnumValueManager.GetAllValues<DepthOfFieldState>();
 
             if (settings == null)
@@ -91,6 +92,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
                     setting.SetDirty();
                 }
             }
+#endif
         }
 
         [Button]

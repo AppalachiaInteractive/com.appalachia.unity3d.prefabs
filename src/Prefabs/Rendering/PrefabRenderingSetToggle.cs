@@ -3,7 +3,6 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -27,6 +26,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private string _label => set.renderingEnabled ? "Enabled" : "Disabled";
 
+#if UNITY_EDITOR
         [SmartLabel]
         [SmartInlineButton(nameof(PingType),   bold: true, color: nameof(_normalColor))]
         [SmartInlineButton(nameof(SelectType), bold: true, color: nameof(_normalColor))]
@@ -39,6 +39,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             label: "$" + nameof(_label)
         )]
         [ShowInInspector]
+#endif
         public GameObject prefab
         {
             get => set.prefab;
@@ -69,12 +70,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
         private void PingType()
         {
-            EditorGUIUtility.PingObject(set);
+            UnityEditor.EditorGUIUtility.PingObject(set);
         }
 
         private void SelectType()
         {
-            Selection.SetActiveObjectWithContext(set, set);
+            UnityEditor.Selection.SetActiveObjectWithContext(set, set);
         }
 #endif
     }

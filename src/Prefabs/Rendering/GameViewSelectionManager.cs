@@ -1,15 +1,15 @@
+#if UNITY_EDITOR
+
 #region
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Extensions;
 using Appalachia.Core.Preferences;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Utility.Colors;
 using Appalachia.Utility.Extensions;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,14 +19,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public class GameViewSelectionManager
     {
-#if UNITY_EDITOR
-
-        public GameViewSelectionManager(int hitDepth = 16, int minFrameInterval = 10)
-        {
-            _hitDepth = hitDepth;
-            _minFrameInterval = minFrameInterval;
-            _lastHitIndex = -1;
-        }
+        #region Profiling And Tracing Markers
 
         private const string _PRF_PFX = nameof(GameViewSelectionManager) + ".";
 
@@ -36,85 +29,37 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_TrySelect = new(_PRF_PFX + nameof(TrySelect));
         private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
+        #endregion
+
+        public GameViewSelectionManager(int hitDepth = 16, int minFrameInterval = 10)
+        {
+            _hitDepth = hitDepth;
+            _minFrameInterval = minFrameInterval;
+            _lastHitIndex = -1;
+        }
+
+        #region Preferences
+
+        private static PREF<Color> gizmoColor;
+
         private static PREF<float> rayDuration;
         private static PREF<float> rayIndexResetDistance;
-        private static PREF<Color> gizmoColor;
+
+        #endregion
 
         private readonly int _hitDepth;
         private readonly int _minFrameInterval;
 
-        [NonSerialized] private RaycastHit[] _rayHits;
-
         [NonSerialized] private Dictionary<Camera, int> _cameraFrames;
-        [NonSerialized] private Ray _lastRay;
-        [NonSerialized] private int _lastHitIndex;
         [NonSerialized] private float _lastRayAge;
+        [NonSerialized] private int _debugStep;
+        [NonSerialized] private int _lastHitIndex;
+        [NonSerialized] private Ray _lastRay;
+
+        [NonSerialized] private RaycastHit[] _rayHits;
+        [NonSerialized] private Vector2 _lastMouseClickPosition = Vector2.zero;
 
         [NonSerialized] private Vector2 _mouseClickPosition = Vector2.zero;
-        [NonSerialized] private Vector2 _lastMouseClickPosition = Vector2.zero;
-        [NonSerialized] private int _debugStep;
-
-        private void Initialize()
-        {
-            using (_PRF_Initialize.Auto())
-            {
-                if ((_rayHits == null) || (_rayHits.Length != _hitDepth))
-                {
-                    _rayHits = new RaycastHit[_hitDepth];
-                }
-
-                if (gizmoColor == null)
-                {
-                    gizmoColor = PREFS.REG(PKG.Prefs.Gizmos.GameView, nameof(gizmoColor), Colors.Cyan);
-                }
-
-                if (rayDuration == null)
-                {
-                    rayDuration = PREFS.REG(PKG.Prefs.Gizmos.GameView, nameof(rayDuration), 2f, .1f, 10f);
-                }
-
-                if (rayIndexResetDistance == null)
-                {
-                    rayIndexResetDistance = PREFS.REG(
-                        PKG.Prefs.Gizmos.GameView,
-                        nameof(rayIndexResetDistance),
-                        25f,
-                        5f,
-                        250f
-                    );
-                }
-            }
-        }
-
-        private void DrawRayGizmo()
-        {
-            _lastRayAge += Time.deltaTime;
-
-            var rayTime = 1.0f - math.clamp(_lastRayAge / rayDuration.v, 0f, 1f);
-            var rayColor = gizmoColor.v;
-            rayColor.a *= rayTime;
-
-            SmartHandles.DrawRay(_lastRay, rayColor);
-        }
-
-        private bool ShouldExecute(Camera c)
-        {
-            var frame = Time.frameCount;
-
-            if (_cameraFrames == null)
-            {
-                _cameraFrames = new Dictionary<Camera, int>();
-            }
-
-            if (!_cameraFrames.ContainsKey(c))
-            {
-                _cameraFrames.Add(c, 0);
-            }
-
-            var lastFrame = _cameraFrames[c];
-
-            return (lastFrame + _minFrameInterval) <= frame;
-        }
 
         public bool TryGameViewSelection(
             Camera camera,
@@ -134,15 +79,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     return false;
                 }
 
-                return TrySelect(
-                    camera,
-                    null,
-                    false,
-                    layerMask,
-                    maxDistance,
-                    queryTriggerInteraction,
-                    out c
-                );
+                return TrySelect(camera, null, false, layerMask, maxDistance, queryTriggerInteraction, out c);
             }
         }
 
@@ -176,6 +113,68 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
+        private void DrawRayGizmo()
+        {
+            _lastRayAge += Time.deltaTime;
+
+            var rayTime = 1.0f - math.clamp(_lastRayAge / rayDuration.v, 0f, 1f);
+            var rayColor = gizmoColor.v;
+            rayColor.a *= rayTime;
+
+            SmartHandles.DrawRay(_lastRay, rayColor);
+        }
+
+        private void Initialize()
+        {
+            using (_PRF_Initialize.Auto())
+            {
+                if ((_rayHits == null) || (_rayHits.Length != _hitDepth))
+                {
+                    _rayHits = new RaycastHit[_hitDepth];
+                }
+
+                if (gizmoColor == null)
+                {
+                    gizmoColor = PREFS.REG(PKG.Prefs.Gizmos.GameView, nameof(gizmoColor), Colors.Cyan);
+                }
+
+                if (rayDuration == null)
+                {
+                    rayDuration = PREFS.REG(PKG.Prefs.Gizmos.GameView, nameof(rayDuration), 2f, .1f, 10f);
+                }
+
+                if (rayIndexResetDistance == null)
+                {
+                    rayIndexResetDistance = PREFS.REG(
+                        PKG.Prefs.Gizmos.GameView,
+                        nameof(rayIndexResetDistance),
+                        25f,
+                        5f,
+                        250f
+                    );
+                }
+            }
+        }
+
+        private bool ShouldExecute(Camera c)
+        {
+            var frame = Time.frameCount;
+
+            if (_cameraFrames == null)
+            {
+                _cameraFrames = new Dictionary<Camera, int>();
+            }
+
+            if (!_cameraFrames.ContainsKey(c))
+            {
+                _cameraFrames.Add(c, 0);
+            }
+
+            var lastFrame = _cameraFrames[c];
+
+            return (lastFrame + _minFrameInterval) <= frame;
+        }
+
         private bool TrySelect(
             Camera camera,
             IEnumerable<Collider> explicitColliders,
@@ -188,7 +187,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             using (_PRF_TrySelect.Auto())
             {
                 var mouseDown = Mouse.current.leftButton.isPressed;
-                var focusedWindow = EditorWindow.focusedWindow;
+                var focusedWindow = UnityEditor.EditorWindow.focusedWindow;
 
                 if (focusedWindow != null)
                 {
@@ -238,8 +237,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                                 break;
                             }
 
-                            if ((collider != null) &&
-                                collider.Raycast(_lastRay, out var hit, maxDistance))
+                            if ((collider != null) && collider.Raycast(_lastRay, out var hit, maxDistance))
                             {
                                 _rayHits[hitCount] = hit;
                                 hitCount += 1;
@@ -285,6 +283,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             return false;
         }
     }
+}
 
 #endif
-}

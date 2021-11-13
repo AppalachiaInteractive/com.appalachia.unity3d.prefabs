@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
 using Appalachia.Core.Extensions;
@@ -5,7 +6,6 @@ using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Logging;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
-using UnityEditor;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
@@ -36,7 +36,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     Object.DestroyImmediate(occlusionBakeObjects.transform.GetChild(i).gameObject);
                 }
 
-               AppaLog.Warning("Ensuring lightmap scales are set to 0.");
+                AppaLog.Warn("Ensuring lightmap scales are set to 0.");
 
                 //var systemCount = manager.VegetationSystemList.Count;
                 var cellCount = manager.VegetationSystemList.Sum(s => s.VegetationCellList.Count);
@@ -60,7 +60,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                             if (!Application.isPlaying)
                             {
                                 cancellation = cancellation ||
-                                               EditorUtility.DisplayCancelableProgressBar(
+                                               UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                                    "Setting lightmap scales: " + info.Name,
                                                    $"{infoSum}/{infoCount}",
                                                    infoSum / (float) infoCount
@@ -69,7 +69,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                             if (cancellation)
                             {
-                                EditorUtility.ClearProgressBar();
+                                UnityEditor.EditorUtility.ClearProgressBar();
                                 return;
                             }
 
@@ -85,7 +85,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     }
                 }
 
-               AppaLog.Warning("Building matrix lookup from storage.");
+                AppaLog.Warn("Building matrix lookup from storage.");
 
                 var instances =
                     new Dictionary<VegetationItemInfoPro, (GameObject prefab, HashSet<Matrix4x4>
@@ -121,7 +121,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                         if (!Application.isPlaying)
                         {
                             cancellation = cancellation ||
-                                           EditorUtility.DisplayCancelableProgressBar(
+                                           UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                                "Getting matrices from storage: Cell [" +
                                                cellSum +
                                                "]",
@@ -132,7 +132,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                         if (cancellation)
                         {
-                            EditorUtility.ClearProgressBar();
+                            UnityEditor.EditorUtility.ClearProgressBar();
                             return;
                         }
 
@@ -193,7 +193,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                             if (!Application.isPlaying)
                             {
                                 cancellation = cancellation ||
-                                               EditorUtility.DisplayCancelableProgressBar(
+                                               UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                                    "Getting matrices from spawn settings: " +
                                                    info.Name,
                                                    $"{infoSum}/{infoCount}",
@@ -203,7 +203,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                             if (cancellation)
                             {
-                                EditorUtility.ClearProgressBar();
+                                UnityEditor.EditorUtility.ClearProgressBar();
                                 return;
                             }
 
@@ -254,7 +254,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 var instanceCount = instances.Sum(i => i.Value.matrices.Count);
                 var instanceSum = 0;
 
-               AppaLog.Warning("Deploying instances to scene.");
+                AppaLog.Warn("Deploying instances to scene.");
 
                 var layerID = LayerMask.NameToLayer(OcclusionProbes.OcclusionBake);
 
@@ -271,7 +271,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                         if (!Application.isPlaying && ((instanceSum % logThreshold) == 0))
                         {
-                            cancellation = EditorUtility.DisplayCancelableProgressBar(
+                            cancellation = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                 "Deploying instances to scene: [" +
                                 instance.Value.prefab.name +
                                 "]",
@@ -282,7 +282,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                         if (cancellation)
                         {
-                            EditorUtility.ClearProgressBar();
+                            UnityEditor.EditorUtility.ClearProgressBar();
                             return;
                         }
 
@@ -290,7 +290,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                         if (instantiated == null)
                         {
-                            instantiated = PrefabUtility.InstantiatePrefab(
+                            instantiated = UnityEditor.PrefabUtility.InstantiatePrefab(
                                 prefab,
                                 occlusionBakeObjects.transform
                             ) as GameObject;
@@ -306,7 +306,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     }
                 }
 
-               AppaLog.Warning("Enabling occlusion components.");
+                AppaLog.Warn("Enabling occlusion components.");
 
                 var transforms = occlusionBakeObjects.GetComponentsInChildren<Transform>();
 
@@ -316,7 +316,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                     if (!Application.isPlaying && ((i % logThreshold) == 0))
                     {
-                        cancellation = EditorUtility.DisplayCancelableProgressBar(
+                        cancellation = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                             "Setting occlusion bake layers: [" + item.gameObject.name + "]",
                             $"{i}/{transforms.Length}",
                             i / (float) transforms.Length
@@ -325,7 +325,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                     if (cancellation)
                     {
-                        EditorUtility.ClearProgressBar();
+                        UnityEditor.EditorUtility.ClearProgressBar();
                         return;
                     }
 
@@ -358,17 +358,17 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                 occlusionBakeObjects.MoveToLayerRecursive(layerID);
 
-               AppaLog.Warning("Occlusion bake deployment completed.");
+                AppaLog.Warn("Occlusion bake deployment completed.");
             }
             finally
             {
-                EditorUtility.ClearProgressBar();
+                UnityEditor.EditorUtility.ClearProgressBar();
             }
         }
 
         public static void BakeCompleted(GameObject occlusionBakeObjects)
         {
-           AppaLog.Warning("Removing deployed instances.");
+            AppaLog.Warn("Removing deployed instances.");
 
             try
             {
@@ -382,7 +382,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     {
                         if (!Application.isPlaying)
                         {
-                            EditorUtility.DisplayProgressBar(
+                            UnityEditor.EditorUtility.DisplayProgressBar(
                                 "Deleting occlusion bake items",
                                 $"Spawn cell {i}/{children}",
                                 i / (float) children
@@ -395,8 +395,10 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             }
             finally
             {
-                EditorUtility.ClearProgressBar();
+                UnityEditor.EditorUtility.ClearProgressBar();
             }
         }
     }
 }
+
+#endif

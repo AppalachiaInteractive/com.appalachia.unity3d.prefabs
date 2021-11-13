@@ -3,6 +3,7 @@
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Extensions;
 using Appalachia.Simulation.Core;
+using Appalachia.Utility.Extensions;
 using Unity.Profiling;
 using UnityEngine;
 

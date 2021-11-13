@@ -33,11 +33,13 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 
         private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
 
+#if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_OnDrawGizmos =
             new(_PRF_PFX + nameof(OnDrawGizmos));
 
         private static readonly ProfilerMarker _PRF_CreateNewSettings =
             new(_PRF_PFX + nameof(CreateNewSettings));
+#endif
 
         [InlineProperty]
         [InlineEditor]
@@ -133,6 +135,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
+#if UNITY_EDITOR
         private void OnDrawGizmos()
         {
             using (_PRF_OnDrawGizmos.Auto())
@@ -146,6 +149,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
                 SmartHandles.DrawWireCube(rigidbodyManager.bounds, Color.cyan);
             }
         }
+#endif
 
         [Button]
         [ButtonGroup("Spawning/B")]

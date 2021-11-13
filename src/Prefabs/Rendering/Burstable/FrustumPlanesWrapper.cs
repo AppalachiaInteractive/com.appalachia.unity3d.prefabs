@@ -10,7 +10,6 @@ using Appalachia.Utility.Reflection.Delegated;
 using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -38,8 +37,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Burstable
         private static readonly ProfilerMarker _PRF_GetFrustumCornersAt =
             new(_PRF_PFX + nameof(GetFrustumCornersAt));
 
+#if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_DrawFrustumGizmo =
             new(_PRF_PFX + nameof(DrawFrustumGizmo));
+#endif
 
         [SerializeField] public float fieldOfView;
 
@@ -235,22 +236,24 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Burstable
             }
         }
 
+#if UNITY_EDITOR
         public void DrawFrustumGizmo(Color c)
         {
             using (_PRF_DrawFrustumGizmo.Auto())
             {
-                var orgColor = Handles.color;
-                Handles.color = c;
+                var orgColor = UnityEditor.Handles.color;
+                UnityEditor.Handles.color = c;
                 for (var i = 0; i < 4; ++i)
                 {
-                    Handles.DrawLine(cornersNear[i], cornersNear[(i + 1) % 4]);
-                    Handles.DrawLine(cornersFar[i],  cornersFar[(i + 1) % 4]);
-                    Handles.DrawLine(cornersNear[i], cornersFar[i]);
+                    UnityEditor.Handles.DrawLine(cornersNear[i], cornersNear[(i + 1) % 4]);
+                    UnityEditor.Handles.DrawLine(cornersFar[i],  cornersFar[(i + 1) % 4]);
+                    UnityEditor.Handles.DrawLine(cornersNear[i], cornersFar[i]);
                 }
 
-                Handles.color = orgColor;
+                UnityEditor.Handles.color = orgColor;
             }
         }
+#endif
 
 #region ToString
 

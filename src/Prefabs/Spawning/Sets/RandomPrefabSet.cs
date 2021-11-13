@@ -27,7 +27,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 
         [HideInInspector] public ProbabilitySet probabilities = new();
 
+#if UNITY_EDITOR
         protected override bool ShowIDProperties => false;
+#endif
 
         private bool _canAdd => (addPrefabs?.Count ?? 0) > 0;
 

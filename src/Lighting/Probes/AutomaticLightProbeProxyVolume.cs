@@ -1,13 +1,10 @@
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.NonSerialized;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-#if UNITY_EDITOR
 
-#endif
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
@@ -166,7 +163,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                         continue;
                     }
 
-                    GameObjectUtility.SetStaticEditorFlags(r.go, StaticEditorFlags.ContributeGI);
+                    UnityEditor.GameObjectUtility.SetStaticEditorFlags(r.go, UnityEditor.StaticEditorFlags.ContributeGI);
                     r.mr.receiveGI = ReceiveGI.LightProbes;
                     r.mr.lightProbeUsage = LightProbeUsage.UseProxyVolume;
                     r.mr.lightProbeProxyVolumeOverride = volume.gameObject;

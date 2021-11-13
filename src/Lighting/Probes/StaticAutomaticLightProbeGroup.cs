@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using Appalachia.Core.Collections;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
-#if UNITY_EDITOR
 
-#endif
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
@@ -43,9 +40,9 @@ namespace Appalachia.Rendering.Lighting.Probes
             {
                 if (cullingMask == (cullingMask | (1 << go.gameObject.layer)))
                 {
-                    var flags = GameObjectUtility.GetStaticEditorFlags(go.gameObject);
+                    var flags = UnityEditor.GameObjectUtility.GetStaticEditorFlags(go.gameObject);
 
-                    if (flags.HasFlag(StaticEditorFlags.ContributeGI))
+                    if (flags.HasFlag(UnityEditor.StaticEditorFlags.ContributeGI))
                     {
                         var mr = go.GetComponent<MeshRenderer>();
                         var mf = go.GetComponent<MeshFilter>();
@@ -78,7 +75,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             // if meshes are selected, spawn at their vertex positions and above them.
             foreach (var mf in hash_meshFilters)
             {
-                canceled = EditorUtility.DisplayCancelableProgressBar(
+                canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                     $"AutoProbe: Generating Light Probes ({gameObject.name})",
                     $"Adding points for mesh [{mf.name}]:  Total [{mf.sharedMesh.vertexCount}]",
                     count / (float) hash_meshFilters.Count
@@ -88,7 +85,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                 if (canceled)
                 {
-                    EditorUtility.ClearProgressBar();
+                    UnityEditor.EditorUtility.ClearProgressBar();
                     return;
                 }
 

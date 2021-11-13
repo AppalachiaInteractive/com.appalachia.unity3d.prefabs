@@ -7,6 +7,7 @@ using Appalachia.Core.Extensions;
 using Appalachia.Core.ObjectPooling;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
+using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Unity.Collections;
 using Unity.Mathematics;

@@ -30,6 +30,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
 
         protected override bool _anyMuted => PrefabContentTypeOptions.AnyMute;
 
+#if UNITY_EDITOR
         protected override void InitializeState()
         {
             for (var i = 0; i < _types.Length; i++)
@@ -99,5 +100,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
                 }
             }
         }
+#endif
     }
 }

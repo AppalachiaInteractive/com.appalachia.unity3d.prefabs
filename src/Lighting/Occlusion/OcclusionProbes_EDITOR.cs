@@ -3,10 +3,7 @@ using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Debugging;
-using Appalachia.Editing.Debugging;
 using Appalachia.Utility.Logging;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -69,27 +66,27 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
         private void AddLightmapperCallbacks()
         {
-            Lightmapping.bakeStarted += Started;
-            Lightmapping.bakeCompleted += Completed;
+            UnityEditor.Lightmapping.bakeStarted += Started;
+            UnityEditor.Lightmapping.bakeCompleted += Completed;
         }
 
         private void RemoveLightmapperCallbacks()
         {
-            Lightmapping.bakeStarted -= Started;
-            Lightmapping.bakeCompleted -= Completed;
+            UnityEditor.Lightmapping.bakeStarted -= Started;
+            UnityEditor.Lightmapping.bakeCompleted -= Completed;
         }
 
         private void Started()
         {
-            if (!Lightmapping.bakedGI)
+            if (!UnityEditor.Lightmapping.bakedGI)
             {
-               AppaLog.Warning(
+               AppaLog.Warn(
                     "Lightmapping started.  Occlusion probes will not bake as Baked GI is not enabled."
                 );
                 return;
             }
 
-           AppaLog.Warning("Lightmapping & occlusion probes baking started.");
+           AppaLog.Warn("Lightmapping & occlusion probes baking started.");
 
             VegetationStudioOcclusionProbeIntegration.BakeStarted(occlusionBakeObjects);
 
@@ -228,22 +225,22 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
         private void Completed()
         {
-            if (!Lightmapping.bakedGI)
+            if (!UnityEditor.Lightmapping.bakedGI)
             {
-               AppaLog.Warning(
+               AppaLog.Warn(
                     "Lightmapping completed.  Occlusion probes did not bake as Baked GI is not enabled."
                 );
                 return;
             }
 
-           AppaLog.Warning("Lightmapping & occlusion probes baking completed.");
+           AppaLog.Warn("Lightmapping & occlusion probes baking completed.");
 
             VegetationStudioOcclusionProbeIntegration.BakeCompleted(occlusionBakeObjects);
 
             var count = m_CountBaked.x * m_CountBaked.y * m_CountBaked.z;
             if (count == 0)
             {
-               AppaLog.Warning("No occlusion probes baked.");
+               AppaLog.Warn("No occlusion probes baked.");
                 return;
             }
 
@@ -252,7 +249,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 count += c.x * c.y * c.z;
             }
 
-           AppaLog.Warning($"Baked {count} occlusion probes.");
+           AppaLog.Warn($"Baked {count} occlusion probes.");
 
             var results = new Vector4[count];
 
@@ -262,7 +259,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 return;
             }
 
-           AppaLog.Warning($"Retrieved {count} custom baking results.");
+           AppaLog.Warn($"Retrieved {count} custom baking results.");
 
             var dataPath = SceneToOcclusionProbeDataPath(gameObject.scene, "OcclusionProbeData");
 
@@ -273,7 +270,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             if (m_Data == null)
             {
                 // Assigning a new asset, dirty the scene that contains it, so that the user knows to save it.
-                EditorSceneManager.MarkSceneDirty(gameObject.scene);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
                 m_Data = ScriptableObject.CreateInstance<OcclusionProbeData>();
                 AssetDatabaseManager.CreateAsset(m_Data, dataPath);
             }
@@ -346,7 +343,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             AssetDatabaseManager.SaveAssets();
 
             m_CountBaked = new Vector3i(0, 0, 0);
-            Lightmapping.bakedGI = false;
+            UnityEditor.Lightmapping.bakedGI = false;
         }
 
         private static Texture3D CreateOcclusionTexture(
@@ -399,8 +396,8 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             if ((m_AmbientProbeData == null) || (m_AmbientProbeData != oldData))
             {
                 // Assigning a new asset, dirty the scene that contains it, so that the user knows to save it.
-                EditorUtility.SetDirty(this);
-                EditorSceneManager.MarkSceneDirty(gameObject.scene);
+                UnityEditor.EditorUtility.SetDirty(this);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
             }
 
             if (m_AmbientProbeData == null)
@@ -414,7 +411,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
             // LightProbes.GetShaderConstantsFromNormalizedSH(ref ambientProbe, m_AmbientProbeData.sh);
             GetShaderConstantsFromNormalizedSH(ref ambientProbe, m_AmbientProbeData.sh);
-            EditorUtility.SetDirty(m_AmbientProbeData);
+            UnityEditor.EditorUtility.SetDirty(m_AmbientProbeData);
         }
 
         private string SceneToOcclusionProbeDataPath(Scene scene, string name)

@@ -58,7 +58,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Data
                 _locations[i] = matrix;
             }
 
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
     }
 }

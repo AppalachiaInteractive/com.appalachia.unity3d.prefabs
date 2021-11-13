@@ -70,8 +70,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         public abstract bool UpdateForValidity();
 
-#if UNITY_EDITOR
-
         private static void ReloadSoloAndMute()
         {
             var sets =
@@ -151,6 +149,5 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
             ReloadSoloAndMute();
         }
-#endif
     }
 }

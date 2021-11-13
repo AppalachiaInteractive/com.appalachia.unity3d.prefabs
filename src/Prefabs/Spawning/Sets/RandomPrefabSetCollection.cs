@@ -14,6 +14,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
         public List<RandomPrefabSetElement> prefabSets = new();
 
         public List<RandomPrefabSpawnSource> spawners = new();
+#if UNITY_EDITOR
         protected override bool ShowIDProperties => false;
+#endif
     }
 }

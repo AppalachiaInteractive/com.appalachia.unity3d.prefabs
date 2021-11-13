@@ -34,10 +34,12 @@ namespace Appalachia.Rendering.Prefabs.Core.Collections
                 RenderingStateReasonCode.GPUI_PREFAB_MANAGER_NULL,
                 "GPUI Prefab Manager Is Not Set"
             );
+#if UNITY_EDITOR
             AddOrUpdate(
                 RenderingStateReasonCode.GPUI_SIMULATOR_NULL,
                 "GPUI Editor Simulator Is Not Created"
             );
+#endif
             AddOrUpdate(RenderingStateReasonCode.STATE_INVALID, "Pending State Was Invalid");
             AddOrUpdate(
                 RenderingStateReasonCode.NOT_ENABLED,
@@ -51,10 +53,12 @@ namespace Appalachia.Rendering.Prefabs.Core.Collections
                 RenderingStateReasonCode.NOT_ACTIVE_HIERARCHY,
                 "Prefab Rendering Manager Is Not Active In Hierarchy(Game Object)"
             );
+#if UNITY_EDITOR
             AddOrUpdate(
                 RenderingStateReasonCode.NOT_SIMULATING,
                 "Editor Simulation Is Not Started"
             );
+#endif
             AddOrUpdate(
                 RenderingStateReasonCode.PREVENT_OPTIONS,
                 "Execution Options Prohibit Rendering"

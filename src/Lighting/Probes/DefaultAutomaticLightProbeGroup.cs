@@ -1,12 +1,9 @@
 using System.Collections.Generic;
 using Appalachia.Core.Collections;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
-#if UNITY_EDITOR
 
-#endif
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
@@ -101,7 +98,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             {
                 if ((count % logStep) == 0)
                 {
-                    canceled = EditorUtility.DisplayCancelableProgressBar(
+                    canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                         $"AutoProbe: Generating Light Probes ({gameObject.name})",
                         $"Adding points for mesh [{mf.name}]:  Total [{mf.sharedMesh.vertexCount}]",
                         count / (float) hash_meshFilters.Count
@@ -112,7 +109,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                 if (canceled)
                 {
-                    EditorUtility.ClearProgressBar();
+                    UnityEditor.EditorUtility.ClearProgressBar();
                     return;
                 }
 

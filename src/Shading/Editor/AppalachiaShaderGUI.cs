@@ -51,7 +51,7 @@ public class AppalachiaShaderGUI : ShaderGUI
                 {
                     if (UIUtils.IsUnityNativeShader(material.shader))
                     {
-                        AppaLog.Warning($"Action not allowed. Attempting to load the native {material.shader.name} shader into Text Editor");
+                        AppaLog.Warn($"Action not allowed. Attempting to load the native {material.shader.name} shader into Text Editor");
                     }
                     else
                     {

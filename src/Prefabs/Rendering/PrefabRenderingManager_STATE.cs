@@ -13,7 +13,6 @@ using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -423,6 +422,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     return;
                 }
 
+#if UNITY_EDITOR
                 if (!Application.isPlaying &&
                     (currentState == RenderingState.Rendering) &&
                     !IsEditorSimulating)
@@ -431,6 +431,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _stateReasonCode = RenderingStateReasonCode.NOT_SIMULATING;
                     return;
                 }
+#endif
 
                 if (!RenderingOptions.execution.allowUpdates)
                 {
@@ -483,10 +484,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                                 {
                                     ChangeRuntimeRenderingState(true);
                                 }
+#if UNITY_EDITOR
                                 else
                                 {
                                     ChangeEditorSimulationState(true);
                                 }
+#endif
 
                                 currentState = RenderingState.Rendering;
                                 break;
@@ -516,12 +519,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                                 {
                                     ChangeRuntimeRenderingState(false);
                                 }
+#if UNITY_EDITOR
                                 else
                                 {
                                     ChangeEditorSimulationState(false);
                                 }
 
                                 SetSceneDirty();
+#endif
                                 currentState = RenderingState.NotRendering;
                                 break;
                             }
@@ -556,14 +561,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     break;
                 case RenderingStateReasonCode.PREFAB_RENDER_SET_NULL:
                     renderingSets = PrefabRenderingSetCollection.instance;
+#if UNITY_EDITOR
                     renderingSets.SetDirty();
+#endif
                     break;
                 case RenderingStateReasonCode.PREFAB_RENDER_SET_EMPTY:
                     PrefabRenderingManagerInitializer.InitializeAllPrefabRenderingSets();
                     break;
                 case RenderingStateReasonCode.DISTANCE_REFERENCE_NULL:
                 case RenderingStateReasonCode.GPUI_PREFAB_MANAGER_NULL:
+#if UNITY_EDITOR
                 case RenderingStateReasonCode.GPUI_SIMULATOR_NULL:
+#endif
                     PrefabRenderingManagerInitializer.CheckNulls();
                     break;
                 case RenderingStateReasonCode.STATE_INVALID:
@@ -576,9 +585,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 case RenderingStateReasonCode.NOT_ACTIVE_HIERARCHY:
                     gameObject.SetActive(true);
                     break;
+#if UNITY_EDITOR
                 case RenderingStateReasonCode.NOT_SIMULATING:
                     ChangeEditorSimulationState(true);
                     break;
+#endif
                 case RenderingStateReasonCode.PREVENT_OPTIONS:
                 case RenderingStateReasonCode.PREVENT_ERROR:
                     renderingOptions.execution.allowUpdates = true;
@@ -587,7 +598,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     throw new ArgumentOutOfRangeException();
             }
 
+#if UNITY_EDITOR
             renderingOptions.SetDirty();
+#endif
             nextState = RenderingState.Rendering;
         }
 
@@ -607,21 +620,27 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 var state = AssetModelTypeLookup.State.at[i];
                 state.Mute(false);
+#if UNITY_EDITOR
                 state.SetDirty();
+#endif
             }
 
             for (var i = 0; i < renderingSets.Sets.Count; i++)
             {
                 var set = renderingSets.Sets.at[i];
                 set.Muted = false;
+#if UNITY_EDITOR
                 set.SetDirty();
+#endif
             }
 
             PrefabRenderingSet.AnyMute = false;
             PrefabModelTypeOptions.AnyMute = false;
 
+#if UNITY_EDITOR
             renderingSets.SetDirty();
             AssetModelTypeLookup.SetDirty();
+#endif
         }
 
         private void UnsoloAll()
@@ -630,21 +649,27 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 var state = AssetModelTypeLookup.State.at[i];
                 state.Solo(false);
+#if UNITY_EDITOR
                 state.SetDirty();
+#endif
             }
 
             for (var i = 0; i < renderingSets.Sets.Count; i++)
             {
                 var set = renderingSets.Sets.at[i];
                 set.Soloed = false;
+#if UNITY_EDITOR
                 set.SetDirty();
+#endif
             }
 
             PrefabRenderingSet.AnySolo = false;
             PrefabModelTypeOptions.AnySolo = false;
 
+#if UNITY_EDITOR
             renderingSets.SetDirty();
             AssetModelTypeLookup.SetDirty();
+#endif
         }
 
 #if UNITY_EDITOR
@@ -698,38 +723,38 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private bool _queueToggleSimulation;
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.Enable.Base,
             true,
             priority = PKG.Menu.Appalachia.Tools.Enable.Priority
         )]
         private static bool _M_ENABLE_VALIDATE()
         {
-            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Enable.Base, instance.enabled);
+            UnityEditor.Menu.SetChecked(PKG.Menu.Appalachia.Tools.Enable.Base, instance.enabled);
             return true;
         }
 
-        [MenuItem(PKG.Menu.Appalachia.Tools.Enable.Base, priority = PKG.Menu.Appalachia.Tools.Enable.Priority)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Enable.Base, priority = PKG.Menu.Appalachia.Tools.Enable.Priority)]
         private static void _M_ENABLE()
         {
             instance.enabled = !instance.enabled;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.RuntimeRendering.Base,
             true,
             priority = PKG.Menu.Appalachia.Tools.RuntimeRendering.Priority
         )]
         private static bool _M_RUNTIME_VALIDATE()
         {
-            Menu.SetChecked(
+            UnityEditor.Menu.SetChecked(
                 PKG.Menu.Appalachia.Tools.RuntimeRendering.Base,
                 instance.currentState == RenderingState.Rendering
             );
             return instance.enabled;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.RuntimeRendering.Base,
             priority = PKG.Menu.Appalachia.Tools.RuntimeRendering.Priority
         )]
@@ -740,18 +765,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 : RenderingState.Rendering;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.Simulate.Base,
             true,
             priority = PKG.Menu.Appalachia.Tools.Simulate.Priority
         )]
         private static bool _M_SIMULATE_VALIDATE()
         {
-            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Simulate.Base, instance.IsEditorSimulating);
+            UnityEditor.Menu.SetChecked(PKG.Menu.Appalachia.Tools.Simulate.Base, instance.IsEditorSimulating);
             return instance.enabled;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.Simulate.Base,
             priority = PKG.Menu.Appalachia.Tools.Simulate.Priority
         )]
@@ -762,21 +787,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 : RenderingState.Rendering;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.AllowUpdates.Base,
             true,
             priority = PKG.Menu.Appalachia.Tools.AllowUpdates.Priority
         )]
         private static bool _M_UPDATES_VALIDATE()
         {
-            Menu.SetChecked(
+            UnityEditor.Menu.SetChecked(
                 PKG.Menu.Appalachia.Tools.AllowUpdates.Base,
                 instance.RenderingOptions.execution.allowUpdates
             );
             return instance.enabled;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.AllowUpdates.Base,
             priority = PKG.Menu.Appalachia.Tools.AllowUpdates.Priority
         )]
@@ -786,7 +811,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 !instance.RenderingOptions.execution.allowUpdates;
         }
 
-        [MenuItem(
+        [UnityEditor.MenuItem(
             PKG.Menu.Appalachia.Tools.Bounce.Base,
             true,
             priority = PKG.Menu.Appalachia.Tools.Bounce.Priority
@@ -796,7 +821,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             return instance.enabled && (instance.nextState != RenderingState.BounceState);
         }
 
-        [MenuItem(PKG.Menu.Appalachia.Tools.Bounce.Base, priority = PKG.Menu.Appalachia.Tools.Bounce.Priority)]
+        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Bounce.Base, priority = PKG.Menu.Appalachia.Tools.Bounce.Priority)]
         private static void _M_BOUNCE()
         {
             instance.nextState = RenderingState.BounceState;

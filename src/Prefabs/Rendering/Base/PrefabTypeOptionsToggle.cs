@@ -4,7 +4,6 @@ using System;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -51,6 +50,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         private string _label => options.options.isEnabled ? "Enabled" : "Disabled";
 
+#if UNITY_EDITOR
         [SmartLabel]
         [SmartInlineButton(nameof(PingType),   bold: true, color: nameof(_normalColor))]
         [SmartInlineButton(nameof(SelectType), bold: true, color: nameof(_normalColor))]
@@ -63,6 +63,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             label: "$" + nameof(_label)
         )]
         [ShowInInspector]
+#endif
         public TE type
         {
             get => options.type;
@@ -91,14 +92,16 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             options.Mute(!options.options.Muted);
         }
 
+#if UNITY_EDITOR
         private void PingType()
         {
-            EditorGUIUtility.PingObject(options);
+            UnityEditor.EditorGUIUtility.PingObject(options);
         }
 
         private void SelectType()
         {
-            Selection.SetActiveObjectWithContext(options, options);
+            UnityEditor.Selection.SetActiveObjectWithContext(options, options);
         }
+#endif
     }
 }

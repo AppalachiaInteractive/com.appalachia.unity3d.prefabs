@@ -57,8 +57,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
+#if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_GetPrefabType =
             new(_PRF_PFX + nameof(GetPrefabType));
+#endif
 
         private static readonly ProfilerMarker _PRF_GetTypeOptions =
             new(_PRF_PFX + nameof(GetTypeOptions));
@@ -126,9 +128,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 if (_state == null)
                 {
                     _state = new TI();
+#if UNITY_EDITOR
                     SetDirty();
 
                     _state.SetDirtyAction(SetDirty);
+#endif
                 }
 
                 return _state;
@@ -150,10 +154,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Enable(true);
+#if UNITY_EDITOR
                 _state.at[i].SetDirty();
+#endif
             }
 
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         [ResponsiveButtonGroup(_QUICK_A)]
@@ -165,10 +173,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Enable(false);
+#if UNITY_EDITOR
                 _state.at[i].SetDirty();
+#endif
             }
 
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         [ResponsiveButtonGroup(_QUICK_A)]
@@ -180,10 +192,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Solo(false);
+#if UNITY_EDITOR
                 _state.at[i].SetDirty();
+#endif
             }
 
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         [ResponsiveButtonGroup(_QUICK_A)]
@@ -195,10 +211,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Mute(false);
+#if UNITY_EDITOR
                 _state.at[i].SetDirty();
+#endif
             }
 
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         protected override void WhenEnabled()
@@ -214,18 +234,26 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 {
                     _state = new TI();
 
+#if UNITY_EDITOR
                     SetDirty();
+#endif
                 }
 
+#if UNITY_EDITOR
                 _state.SetDirtyAction(SetDirty);
+#endif
 
                 if (_toggles == null)
                 {
                     _toggles = new TOGI();
+#if UNITY_EDITOR
                     SetDirty();
+#endif
                 }
 
+#if UNITY_EDITOR
                 _toggles.SetDirtyAction(SetDirty);
+#endif
 
                 for (var i = _state.Count - 1; i >= 0; i--)
                 {
@@ -234,7 +262,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     if (!Enum.IsDefined(typeof(TE), value.type))
                     {
                         _state.RemoveAt(i);
+#if UNITY_EDITOR
                         SetDirty();
+#endif
                     }
                 }
 
@@ -243,7 +273,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     return;
                 }
 
+#if UNITY_EDITOR
                 InitializeState();
+#endif
 
                 _toggles.Clear();
 
@@ -256,10 +288,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     _toggles.Add(s.type, toggle);
                 }
 
+
+#if UNITY_EDITOR
                 SetDirty();
+#endif
             }
         }
 
+#if UNITY_EDITOR
         protected abstract void InitializeState();
 
         public TE GetPrefabType(IEnumerable<string> labels)
@@ -276,7 +312,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     }
                 }
 
-               AppaLog.Warning("Could not find match...now logging.");
+                AppaLog.Warn("Could not find match...now logging.");
 
                 Initialize();
 
@@ -293,6 +329,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 return default;
             }
         }
+#endif
 
         public TW GetTypeOptions(TE type)
         {

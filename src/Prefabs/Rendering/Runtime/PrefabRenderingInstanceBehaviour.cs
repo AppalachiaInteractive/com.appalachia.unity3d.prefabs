@@ -13,7 +13,6 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -126,7 +125,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     return;
                 }
 
-                var selections = Selection.gameObjects;
+                var selections = UnityEditor.Selection.gameObjects;
 
                 var gizmoOptions = PrefabRenderingManager.instance.RenderingOptions.gizmos;
 
@@ -202,8 +201,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     var ct = cam.transform;
                     _cameraPosition = ct.position;
 
-                    Handles.PositionHandle(_cameraPosition, ct.rotation);
-                    Handles.Label(_cameraPosition, "Camera");
+                   UnityEditor.Handles.PositionHandle(_cameraPosition, ct.rotation);
+                   UnityEditor.Handles.Label(_cameraPosition, "Camera");
 
                     var frustum = options.GetFrustum(
                         gpui.cameraData.mainCamera,
@@ -249,7 +248,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     _drawCount += 1;
                 }
 
-                Handles.PositionHandle(p, r);
+               UnityEditor.Handles.PositionHandle(p, r);
 
                 if ((ltw != _stored) || (Math.Abs(_increment - gizmoIncrement.v) > float.Epsilon))
                 {
@@ -372,10 +371,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     var labelOffset = offsetDirection * 0.2f;
                     labelOffset.y -= .2f;
 
-                    Handles.Label(_points[1] + labelOffset, $"Physx: {physx}");
-                    Handles.Label(_points[2] + labelOffset, $"Inter: {inter}");
-                    Handles.Label(_points[3] + labelOffset, $"Rendr: {rend}");
-                    Handles.Label(lastPoint + labelOffset,  $"State: {isc}");
+                   UnityEditor.Handles.Label(_points[1] + labelOffset, $"Physx: {physx}");
+                   UnityEditor.Handles.Label(_points[2] + labelOffset, $"Inter: {inter}");
+                   UnityEditor.Handles.Label(_points[3] + labelOffset, $"Rendr: {rend}");
+                   UnityEditor.Handles.Label(lastPoint + labelOffset,  $"State: {isc}");
                 }
             }
         }

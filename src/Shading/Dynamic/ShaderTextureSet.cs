@@ -290,10 +290,12 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
         }
 
+#if UNITY_EDITOR
         [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(ShaderTextureSet), priority = PKG.Menu.Assets.Priority)]
         public static void CreateAsset()
         {
             CreateNew();
         }
+#endif
     }
 }

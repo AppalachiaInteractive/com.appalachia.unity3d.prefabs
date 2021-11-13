@@ -57,7 +57,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [HideInInspector]
         protected TW _typeOptions;
 
+#if UNITY_EDITOR
         protected override bool ShowIDProperties { get; } = false;
+#endif
 
         public TW typeOptions
         {

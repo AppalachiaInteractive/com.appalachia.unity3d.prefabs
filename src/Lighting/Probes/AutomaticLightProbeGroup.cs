@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Appalachia.CI.Integration;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Attributes.Editing;
@@ -9,7 +8,6 @@ using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Spatial.Terrains.Utilities;
 using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 #if UNITY_EDITOR
@@ -143,9 +141,9 @@ namespace Appalachia.Rendering.Lighting.Probes
         [SmartLabel]
         [SuffixLabel("MB")]
         public float dataLength =>
-            Lightmapping.lightingDataAsset == null
+            UnityEditor.Lightmapping.lightingDataAsset == null
                 ? 0.0f
-                : new AppaFileInfo(AssetDatabaseManager.GetAssetPath(Lightmapping.lightingDataAsset)).Length /
+                : new AppaFileInfo(AssetDatabaseManager.GetAssetPath(UnityEditor.Lightmapping.lightingDataAsset)).Length /
                   1024.0f /
                   1024.0f;
 
@@ -321,7 +319,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                 {
                     if (anyRealColliders)
                     {
-                        EditorUtility.DisplayDialog(
+                        UnityEditor.EditorUtility.DisplayDialog(
                             "Enabled Constraint Colliders Error (" + gameObject.name + ")",
                             "Do not enable the colliders under AutoProbe.  Leave them disabled, so they do not affect your scene's collision.",
                             "I Promise To Fix It"
@@ -329,7 +327,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     }
                     else
                     {
-                        EditorUtility.DisplayDialog(
+                        UnityEditor.EditorUtility.DisplayDialog(
                             "No Constraint Colliders Error (" + gameObject.name + ")",
                             "You must keep at least one disabled child collider under AutoProbe to limit light probe generation.",
                             "I Promise To Fix It"
@@ -698,7 +696,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     probePositions = lpg.probePositions;
 
                     lpgDering = lpg.dering;
-                    Undo.DestroyObjectImmediate(lpg);
+                    UnityEditor.Undo.DestroyObjectImmediate(lpg);
                 }
 
                 RecreateTargetList();
@@ -718,7 +716,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     AddToSpatialHash(wsPos);
                     if ((i % logStep) == 0)
                     {
-                        canceled = EditorUtility.DisplayCancelableProgressBar(
+                        canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                             $"Generating Light Probes ({gameObject.name})",
                             "Transforming Points",
                             i / (float) positions.Count
@@ -726,7 +724,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                         if (canceled)
                         {
-                            EditorUtility.ClearProgressBar();
+                            UnityEditor.EditorUtility.ClearProgressBar();
                             return 0;
                         }
                     }
@@ -780,7 +778,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                 {
                     if ((progress % logStep) == 0)
                     {
-                        canceled = EditorUtility.DisplayCancelableProgressBar(
+                        canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                             $"Generating Light Probes ({gameObject.name})",
                             $"Raymarching... Active [{active.Count}]  Total [{positions.Count}]",
                             progress / (float) progressTotal
@@ -789,7 +787,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                     if (canceled)
                     {
-                        EditorUtility.ClearProgressBar();
+                        UnityEditor.EditorUtility.ClearProgressBar();
                         return 0;
                     }
 
@@ -944,7 +942,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     positions[i] = transform.InverseTransformPoint(positions[i]);
                     if ((i % logStep) == 0)
                     {
-                        EditorUtility.DisplayProgressBar(
+                        UnityEditor.EditorUtility.DisplayProgressBar(
                             "Generating Light Probes (" + gameObject.name + ")",
                             "Transforming Points",
                             i / (float) positions.Count
@@ -952,14 +950,14 @@ namespace Appalachia.Rendering.Lighting.Probes
                     }
                 }
 
-                lpg = Undo.AddComponent<LightProbeGroup>(gameObject);
-                Undo.RecordObject(lpg, "Generate Light Probes");
+                lpg = UnityEditor.Undo.AddComponent<LightProbeGroup>(gameObject);
+                UnityEditor.Undo.RecordObject(lpg, "Generate Light Probes");
                 lpg.probePositions = positions.ToArray();
 
                 lpg.dering = lpgDering;
 
-                Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-                Undo.SetCurrentGroupName("Generate Light Probes");
+                UnityEditor.Undo.CollapseUndoOperations(UnityEditor.Undo.GetCurrentGroup());
+                UnityEditor.Undo.SetCurrentGroupName("Generate Light Probes");
                 var newProbes = positions.Count - probePositions.Length;
                 return newProbes;
             }
@@ -969,7 +967,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
             finally
             {
-                EditorUtility.ClearProgressBar();
+                UnityEditor.EditorUtility.ClearProgressBar();
             }
 
             return 0;
@@ -993,12 +991,12 @@ namespace Appalachia.Rendering.Lighting.Probes
                         probePositions = lpg.probePositions; // Grab all the light probe positions
 
                         lpgDering = lpg.dering;
-                        Undo.DestroyObjectImmediate(lpg);
+                        UnityEditor.Undo.DestroyObjectImmediate(lpg);
                     }
                 }
 
                 // move them from local space to world space
-                EditorUtility.DisplayProgressBar(
+                UnityEditor.EditorUtility.DisplayProgressBar(
                     "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                     "Moving to world space",
                     0.0f
@@ -1014,7 +1012,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     probePositions[i] = wsPos;
                     if ((i % logStep) == 0)
                     {
-                        EditorUtility.DisplayProgressBar(
+                        UnityEditor.EditorUtility.DisplayProgressBar(
                             "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                             "Moving to world space",
                             i / (float) initialProbes
@@ -1022,7 +1020,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     }
                 }
 
-                EditorUtility.DisplayProgressBar(
+                UnityEditor.EditorUtility.DisplayProgressBar(
                     "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                     "Moving to world space",
                     1.0f
@@ -1034,7 +1032,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     int[] tetraIndices;
                     Vector3[] positions;
 
-                    EditorUtility.DisplayCancelableProgressBar(
+                    UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                         "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                         "Generating tetrahedrons... Probes [" +
                         initialProbes +
@@ -1044,7 +1042,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                         totalRemoved / (float) initialProbes
                     );
 
-                    Lightmapping.Tetrahedralize(probePositions, out tetraIndices, out positions);
+                    UnityEditor.Lightmapping.Tetrahedralize(probePositions, out tetraIndices, out positions);
                     if (positions.Length != p.Count) // copy back the proper positions to be used
                     {
                         p.RemoveRange(positions.Length, p.Count - positions.Length);
@@ -1100,7 +1098,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     for (var i = 0; i < positions.Length; i++)
                     {
                         if (((i % logStep) == 0) &&
-                            EditorUtility.DisplayCancelableProgressBar(
+                            UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                 "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                                 "Interpolating baked light probes... Probes [" +
                                 initialProbes +
@@ -1142,7 +1140,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                 // compute new tetrahedrons from a small set of points, not including the one we're testing						
                                 int[] tetraIndices2;
                                 Vector3[] positions2;
-                                Lightmapping.Tetrahedralize(
+                                UnityEditor.Lightmapping.Tetrahedralize(
                                     testPoints,
                                     out tetraIndices2,
                                     out positions2
@@ -1267,7 +1265,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                 }
 
                 // Move all world space points back to local space and assign to light probe group.
-                EditorUtility.DisplayProgressBar(
+                UnityEditor.EditorUtility.DisplayProgressBar(
                     "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                     "Moving to object space",
                     0.0f
@@ -1277,7 +1275,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     probePositions[i] = transform.InverseTransformPoint(probePositions[i]);
                     if ((i % logStep) == 0)
                     {
-                        EditorUtility.DisplayProgressBar(
+                        UnityEditor.EditorUtility.DisplayProgressBar(
                             "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                             "Moving to world space",
                             i / (float) probePositions.Length
@@ -1285,7 +1283,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     }
                 }
 
-                EditorUtility.DisplayProgressBar(
+                UnityEditor.EditorUtility.DisplayProgressBar(
                     "AutoProbe: Optimizing Light Probes (" + gameObject.name + ")",
                     "Moving to world space",
                     1.0f
@@ -1293,13 +1291,13 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                 // force the update of the inspector
                 {
-                    lpg = Undo.AddComponent<LightProbeGroup>(gameObject);
-                    Undo.RecordObject(lpg, "Optimize Probes");
+                    lpg = UnityEditor.Undo.AddComponent<LightProbeGroup>(gameObject);
+                    UnityEditor.Undo.RecordObject(lpg, "Optimize Probes");
                     lpg.probePositions = probePositions;
                     lpg.dering = lpgDering;
                 }
-                Undo.CollapseUndoOperations(Undo.GetCurrentGroup());
-                Undo.SetCurrentGroupName("Optimize Probes");
+                UnityEditor.Undo.CollapseUndoOperations(UnityEditor.Undo.GetCurrentGroup());
+                UnityEditor.Undo.SetCurrentGroupName("Optimize Probes");
                 return totalRemoved;
             }
             catch (Exception e)
@@ -1308,7 +1306,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
             finally
             {
-                EditorUtility.ClearProgressBar();
+                UnityEditor.EditorUtility.ClearProgressBar();
             }
 
             return 0;

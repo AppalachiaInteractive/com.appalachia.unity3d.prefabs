@@ -3,11 +3,8 @@ using GPUInstancer;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Globals.Serialization.ScriptableObjects;
 using Appalachia.Core.Profiling;
-using UnityEditor;
 using UnityEngine;
-#if UNITY_EDITOR
 
-#endif
 
 namespace Appalachia.Core.Rendering.Metadata.GPUI
 {

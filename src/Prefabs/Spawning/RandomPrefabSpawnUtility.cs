@@ -1,7 +1,6 @@
 #region
 
 using Appalachia.Rendering.Prefabs.Spawning.Data;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -17,7 +16,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             GameObject prefab)
         {
 #if UNITY_EDITOR
-            var realInstance = PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
+            var realInstance = UnityEditor.PrefabUtility.InstantiatePrefab(prefab, parent) as GameObject;
 #else
             var realInstance = Object.Instantiate(prefab, parent);
 #endif

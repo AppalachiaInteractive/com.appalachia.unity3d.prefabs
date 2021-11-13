@@ -14,7 +14,6 @@ using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Collections.NonSerialized;
 using Appalachia.Core.Execution.RateLimiting;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Jobs.Concurrency;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
@@ -33,16 +32,9 @@ using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Object = UnityEngine.Object;
-
-#if UNITY_EDITOR
-
-#endif
 
 #endregion
 
@@ -53,6 +45,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [ExecutionOrder(-10000)]
     public partial class PrefabRenderingManager : SingletonAppalachiaBehaviour<PrefabRenderingManager>
     {
+        #region Profiling And Tracing Markers
+
+        private const string _PRF_PFX = nameof(PrefabRenderingManager) + ".";
+
         private static readonly ProfilerMarker _PRF_RenderingOptions =
             new(_PRF_PFX + nameof(RenderingOptions));
 
@@ -67,6 +63,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_GetInstanceRootForPrefab =
             new(_PRF_PFX + nameof(GetInstanceRootForPrefab));
 
+        private static readonly ProfilerMarker _PRF_AddDistanceReferenceObject =
+            new(_PRF_PFX + nameof(AddDistanceReferenceObject));
+
+        private static readonly ProfilerMarker _PRF_RemoveDistanceReferenceObject =
+            new(_PRF_PFX + nameof(RemoveDistanceReferenceObject));
+
         /*
         [Button, DisableIf(nameof(IsEditorSimulating))]
         private void ResetRenderingSets()
@@ -78,17 +80,93 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }*/
 
-        private static readonly ProfilerMarker _PRF_AddDistanceReferenceObject =
-            new(_PRF_PFX + nameof(AddDistanceReferenceObject));
+        #endregion
 
-        private static readonly ProfilerMarker _PRF_RemoveDistanceReferenceObject =
-            new(_PRF_PFX + nameof(RemoveDistanceReferenceObject));
+        #region Properties
 
-        private static readonly ProfilerMarker _PRF_SetSceneDirty =
-            new(_PRF_PFX + nameof(SetSceneDirty));
+        public RuntimeRenderingOptions RenderingOptions
+        {
+            get
+            {
+                using (_PRF_RenderingOptions.Auto())
+                {
+                    if (renderingOptions == null)
+                    {
+                        renderingOptions = RuntimeRenderingOptions.instance;
+                    }
 
-        private static readonly ProfilerMarker _PRF_ManageNewPrefabRegistration =
-            new(_PRF_PFX + nameof(ManageNewPrefabRegistration));
+                    return renderingOptions;
+                }
+            }
+            set
+            {
+                using (_PRF_RenderingOptions.Auto())
+                {
+                    renderingOptions = value;
+                }
+            }
+        }
+
+        #endregion
+
+        public void AddDistanceReferenceObject(GameObject go)
+        {
+            using (_PRF_AddDistanceReferenceObject.Auto())
+            {
+                _additionalReferences.AddOrUpdate(go.GetInstanceID(), go);
+            }
+        }
+
+        public GameObject GetInstanceRootForPrefab(GameObject prefab)
+        {
+            using (_PRF_GetInstanceRootForPrefab.Auto())
+            {
+                if (structure == null)
+                {
+                    PrefabRenderingManagerInitializer.InitializeStructure();
+                }
+
+                if (structure == null)
+                {
+                    throw new NotSupportedException();
+                }
+
+                return structure.FindRootForPrefab(prefab);
+            }
+        }
+
+        public void InitializeStructureInPlace(PrefabRenderingRuntimeStructure s)
+        {
+            using (_PRF_InitializeStructureInPlace.Auto())
+            {
+                for (var i = transform.childCount - 1; i >= 0; i--)
+                {
+                    var child = transform.GetChild(i);
+
+                    child.gameObject.DestroySafely();
+                }
+
+                s.instanceRoot = new GameObject("Runtime Instances");
+                s.instanceRoot.transform.SetParent(transform, false);
+            }
+        }
+
+        public void RemoveDistanceReferenceObject(GameObject go)
+        {
+            using (_PRF_RemoveDistanceReferenceObject.Auto())
+            {
+                _additionalReferences.RemoveByKey(go.GetInstanceID());
+            }
+        }
+
+        private void Bounce()
+        {
+            using (_PRF_Bounce.Auto())
+            {
+                HandleDisableLogic(true);
+                HandleEnableLogic(true);
+            }
+        }
 
         private void UpdateReferencePositions(int index)
         {
@@ -145,147 +223,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-        private void Bounce()
-        {
-            using (_PRF_Bounce.Auto())
-            {
-                HandleDisableLogic(true);
-                HandleEnableLogic(true);
-            }
-        }
-
-        public void InitializeStructureInPlace(PrefabRenderingRuntimeStructure s)
-        {
-            using (_PRF_InitializeStructureInPlace.Auto())
-            {
-                for (var i = transform.childCount - 1; i >= 0; i--)
-                {
-                    var child = transform.GetChild(i);
-
-                    child.gameObject.DestroySafely();
-                }
-
-                s.instanceRoot = new GameObject("Runtime Instances");
-                s.instanceRoot.transform.SetParent(transform, false);
-            }
-        }
-
-        public GameObject GetInstanceRootForPrefab(GameObject prefab)
-        {
-            using (_PRF_GetInstanceRootForPrefab.Auto())
-            {
-                if (structure == null)
-                {
-                    PrefabRenderingManagerInitializer.InitializeStructure();
-                }
-
-                if (structure == null)
-                {
-                    throw new NotSupportedException();
-                }
-
-                return structure.FindRootForPrefab(prefab);
-            }
-        }
-
-        public void AddDistanceReferenceObject(GameObject go)
-        {
-            using (_PRF_AddDistanceReferenceObject.Auto())
-            {
-                _additionalReferences.AddOrUpdate(go.GetInstanceID(), go);
-            }
-        }
-
-        public void RemoveDistanceReferenceObject(GameObject go)
-        {
-            using (_PRF_RemoveDistanceReferenceObject.Auto())
-            {
-                _additionalReferences.RemoveByKey(go.GetInstanceID());
-            }
-        }
-
-        public void SetSceneDirty()
-        {
-            using (_PRF_SetSceneDirty.Auto())
-            {
-#if UNITY_EDITOR
-                if (!Application.isPlaying)
-                {
-                    EditorSceneManager.MarkSceneDirty(gameObject.scene);
-                }
-#endif
-            }
-        }
-
-        public PrefabRenderingSet ManageNewPrefabRegistration(GameObject prefab)
-        {
-            using (_PRF_ManageNewPrefabRegistration.Auto())
-            {
-                if (renderingSets.Sets.ContainsKey(prefab))
-                {
-                    return renderingSets.Sets[prefab];
-                }
-
-                var prototypeLookup =
-                    new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
-
-                for (var i = 0; i < gpui.prototypeList.Count; i++)
-                {
-                    var prototype = gpui.prototypeList[i] as GPUInstancerPrefabPrototype;
-
-                    if (prototype == null)
-                    {
-                        throw new NotSupportedException($"Prototype at index {i} was null.");
-                    }
-                    
-                    if (prototypeLookup.ContainsKey(prototype))
-                    {
-                        continue;
-                    }
-
-                    var registeredPrefabsData = gpui.registeredPrefabInstances.Get(prototype);
-
-                    prototypeLookup.Add(prototype, registeredPrefabsData);
-                }
-
-                var set = PrefabRenderingSet.LoadOrCreateNew($"{prefab.name}", true, false);
-
-                set.Initialize(prefab, metadatas.FindOrCreate(prefab, gpui, prototypeLookup));
-
-                renderingSets.Sets.AddOrUpdate(prefab, set);
-
-                return set;
-            }
-        }
-
-#region Properties
-
-        public RuntimeRenderingOptions RenderingOptions
-        {
-            get
-            {
-                using (_PRF_RenderingOptions.Auto())
-                {
-                    if (renderingOptions == null)
-                    {
-                        renderingOptions = RuntimeRenderingOptions.instance;
-                    }
-
-                    return renderingOptions;
-                }
-            }
-            set
-            {
-                using (_PRF_RenderingOptions.Auto())
-                {
-                    renderingOptions = value;
-                }
-            }
-        }
-
-#endregion
-
-#region Fields
+        #region Fields
 
         private const string _HIDETABS = nameof(hideTabs);
         private const string _TABGROUP = _HIDETABS + "/TABS";
@@ -367,10 +305,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
         [TabGroup(_TABGROUP, _SETTINGS, Order = 4)]
         [SmartLabel]
         [SerializeField]
-        [InlineEditor(
-            Expanded = true,
-            ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden
-        )]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden)]
         [InlineProperty]
         private RuntimeRenderingOptions renderingOptions;
 
@@ -431,10 +366,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
         [TabGroup(_TABGROUP, _PREFABS, Order = 10)]
         [SmartLabel]
-        [InlineEditor(
-            Expanded = true,
-            ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden
-        )]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden)]
         [InlineProperty]
         [ShowInInspector]
         public PrefabRenderingSetCollection renderingSets
@@ -451,9 +383,9 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             set => _renderingSets = value;
         }
 
-#endregion
+        #endregion
 
-#region Unity Events
+        #region Unity Events
 
         private static readonly ProfilerMarker _PRF_OnAwake = new(_PRF_PFX + nameof(OnAwake));
 
@@ -490,10 +422,10 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #if UNITY_EDITOR
             if (!bouncing &&
                 !Application.isPlaying &&
-                !ProfilerDriver.enabled &&
+                !UnityEditorInternal.ProfilerDriver.enabled &&
                 RenderingOptions.profiling.enableProfilingOnStart)
             {
-                ProfilerDriver.enabled = true;
+                UnityEditorInternal.ProfilerDriver.enabled = true;
             }
 #endif
             using (_PRF_HandleEnableLogic.Auto())
@@ -516,10 +448,10 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #if UNITY_EDITOR
             if (!bouncing &&
                 !Application.isPlaying &&
-                ProfilerDriver.enabled &&
+                UnityEditorInternal.ProfilerDriver.enabled &&
                 RenderingOptions.profiling.disableProfilingAfterInitializationLoop)
             {
-                ProfilerDriver.enabled = false;
+                UnityEditorInternal.ProfilerDriver.enabled = false;
             }
 #endif
         }
@@ -558,8 +490,8 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #if UNITY_EDITOR
                 SetSceneDirty();
                 if (!bouncing &&
-                    !EditorApplication.isCompiling &&
-                    !EditorApplication.isPlayingOrWillChangePlaymode &&
+                    !UnityEditor.EditorApplication.isCompiling &&
+                    !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode &&
                     !Application.isPlaying)
                 {
                     RateLimiter.DoXTimesEvery(
@@ -661,7 +593,9 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 if (RenderingOptions.profiling.disableProfilingAfterUpdateLoop &&
                     (_updateLoopCount > RenderingOptions.profiling.updateLoopProfilingCount))
                 {
-                    if (!Application.isPlaying && ProfilerDriver.enabled && !_updateLoopStopped)
+                    if (!Application.isPlaying &&
+                        UnityEditorInternal.ProfilerDriver.enabled &&
+                        !_updateLoopStopped)
                     {
                         PROFILING.Profiling_Disable();
                         _updateLoopStopped = true;
@@ -717,9 +651,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                     var prefabCount = renderingSets.Sets.Count;
 
                     var exeo = renderingOptions.execution;
-                    var setUpdateLimit = exeo.useExplicitFrameCounts
-                        ? exeo.setUpdatesPerFrame
-                        : prefabCount;
+                    var setUpdateLimit = exeo.useExplicitFrameCounts ? exeo.setUpdatesPerFrame : prefabCount;
 
                     using (_PRF_Update_ProcessingLoop.Auto())
                     {
@@ -922,9 +854,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                     var prefabCount = renderingSets.Sets.Count;
 
                     var exeo = renderingOptions.execution;
-                    var setUpdateLimit = exeo.useExplicitFrameCounts
-                        ? exeo.setUpdatesPerFrame
-                        : prefabCount;
+                    var setUpdateLimit = exeo.useExplicitFrameCounts ? exeo.setUpdatesPerFrame : prefabCount;
 
                     using (_PRF_LateUpdate_ProcessingLoop.Auto())
                     {
@@ -983,9 +913,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                             AppaLog.Exception(ex);
                         }
 
-                        JobTracker.CompleteAll(
-                            PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES
-                        );
+                        JobTracker.CompleteAll(PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES);
 
                         var lateI = 0;
                         try
@@ -1004,18 +932,14 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                         }
                         catch (InvalidOperationException iox)
                         {
-                            AppaLog.Error(
-                                $"Exception while pushing GPUI matrices for index {lateI}."
-                            );
+                            AppaLog.Error($"Exception while pushing GPUI matrices for index {lateI}.");
                             AppaLog.Exception(iox);
                             renderingOptions.execution.allowUpdates = false;
                             stoppedDueToErrors = true;
                         }
                         catch (Exception ex)
                         {
-                            AppaLog.Error(
-                                $"Exception while pushing GPUI matrices for index {lateI}."
-                            );
+                            AppaLog.Error($"Exception while pushing GPUI matrices for index {lateI}.");
                             AppaLog.Exception(ex);
                         }
                         finally
@@ -1109,6 +1033,6 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-#endregion
+        #endregion
     }
 }

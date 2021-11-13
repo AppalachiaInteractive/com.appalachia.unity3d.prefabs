@@ -1,12 +1,9 @@
 using System.Linq;
 using Appalachia.Utility.Constants;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
-#if UNITY_EDITOR
 
-#endif
 
 namespace Appalachia.Rendering.PostProcessing
 {
@@ -131,7 +128,7 @@ namespace Appalachia.Rendering.PostProcessing
         public static bool ToggleGameViewAutoUpdateValidate()
         {
             var gameView = EditorWindow.
-            Menu.SetChecked("Tools/Enviro/Time/Paused", GameView.GetWindow<GameView>());
+            UnityEditor.Menu.SetChecked("Tools/Enviro/Time/Paused", GameView.GetWindow<GameView>());
             return true;
         }
 
@@ -229,7 +226,7 @@ namespace Appalachia.Rendering.PostProcessing
         public static bool TogglePostProcessingMonitorLightMeterValidate()
         {
             Initialize();
-            Menu.SetChecked("Tools/Post Processing/Monitors/Light Meter", lightMeter);
+            UnityEditor.Menu.SetChecked("Tools/Post Processing/Monitors/Light Meter", lightMeter);
             return _debug != null;
         }
 
@@ -246,7 +243,7 @@ namespace Appalachia.Rendering.PostProcessing
         public static bool TogglePostProcessingMonitorHistogramValidate()
         {
             Initialize();
-            Menu.SetChecked("Tools/Post Processing/Monitors/Histogram", histogram);
+            UnityEditor.Menu.SetChecked("Tools/Post Processing/Monitors/Histogram", histogram);
             return _debug != null;
         }
 
@@ -263,7 +260,7 @@ namespace Appalachia.Rendering.PostProcessing
         public static bool TogglePostProcessingMonitorWaveformValidate()
         {
             Initialize();
-            Menu.SetChecked("Tools/Post Processing/Monitors/Waveform", waveform);
+            UnityEditor.Menu.SetChecked("Tools/Post Processing/Monitors/Waveform", waveform);
             return _debug != null;
         }
 
@@ -277,7 +274,7 @@ namespace Appalachia.Rendering.PostProcessing
         public static bool TogglePostProcessingMonitorVectorscopeValidate()
         {
             Initialize();
-            Menu.SetChecked("Tools/Post Processing/Monitors/Vectorscope", vectorscope);
+            UnityEditor.Menu.SetChecked("Tools/Post Processing/Monitors/Vectorscope", vectorscope);
             return _debug != null;
         }
 

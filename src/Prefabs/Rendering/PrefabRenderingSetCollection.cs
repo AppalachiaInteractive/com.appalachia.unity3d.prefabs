@@ -100,9 +100,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     if (_state == null)
                     {
                         _state = new PrefabRenderingSetLookup();
+#if UNITY_EDITOR
                         SetDirty();
 
                         _state.SetDirtyAction(SetDirty);
+#endif
                     }
 
                     return _state;
@@ -203,10 +205,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Mute(false);
+#if UNITY_EDITOR
                 _state.at[i].SetDirty();
+#endif
             }
         }
 
+#if UNITY_EDITOR
         [ResponsiveButtonGroup(_QUICK_A)]
         [GUIColor(nameof(_baseColor))]
         [PropertyOrder(-10)]
@@ -218,6 +223,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 _state.at[i].SetDirty();
             }
         }
+#endif
 
         protected override void WhenEnabled()
         {
@@ -226,20 +232,28 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 if (_state == null)
                 {
                     _state = new PrefabRenderingSetLookup();
+#if UNITY_EDITOR
                     SetDirty();
+#endif
                 }
 
+#if UNITY_EDITOR
                 _state.SetDirtyAction(SetDirty);
+#endif
 
                 if (_toggles == null)
                 {
                     _toggles = new PrefabRenderingSetToggleLookup();
+#if UNITY_EDITOR
                     SetDirty();
+#endif
                 }
 
                 RebuildToggleList();
 
+#if UNITY_EDITOR
                 _toggles.SetDirtyAction(SetDirty);
+#endif
             }
         }
 
@@ -257,7 +271,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                 }
 
+#if UNITY_EDITOR
                 SetDirty();
+#endif
             }
         }
 

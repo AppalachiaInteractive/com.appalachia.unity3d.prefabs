@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Labels;
 using Appalachia.Editing.Labels;
@@ -114,3 +115,5 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         }
     }
 }
+
+#endif

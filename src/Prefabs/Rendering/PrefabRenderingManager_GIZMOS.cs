@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 #region
 
 using Appalachia.Core.Debugging;
@@ -7,29 +9,34 @@ using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 using Appalachia.Spatial.MeshBurial.Processing;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
 
-#endregion
+    #endregion
 
     public partial class PrefabRenderingManager
     {
-#if UNITY_EDITOR
+        #region Profiling And Tracing Markers
+
 
         private static PREF<float> gizmoRayShowTime;
 
-        private Vector3[] points;
-        private int[] indexPairs;
+        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + nameof(OnDrawGizmos));
+
+        #endregion
+
+        #region Preferences
+
+        #endregion
 
         private GameViewSelectionManager _selectionManager;
+        private int[] indexPairs;
 
-        private const string _PRF_PFX = nameof(PrefabRenderingManager) + ".";
+        private Vector3[] points;
 
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos =
-            new(_PRF_PFX + nameof(OnDrawGizmos));
+        #region Event Functions
 
         private void OnDrawGizmos()
         {
@@ -45,11 +52,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 if (options.gizmos.burialGizmosEnabled)
                 {
                     var b = MeshBurialExecutionManager.bounds;
-                    SmartHandles.DrawWireCube(
-                        b.center,
-                        b.size,
-                        ColorPrefs.Instance.MeshBurialBounds.v
-                    );
+                    SmartHandles.DrawWireCube(b.center, b.size, ColorPrefs.Instance.MeshBurialBounds.v);
                 }
 
                 if (gizmoRayShowTime == null)
@@ -87,8 +90,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                     if (parent != null)
                     {
-                        var comp =
-                            parent.GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
+                        var comp = parent.GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
 
                         if (comp == null)
                         {
@@ -96,20 +98,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (parent != null)
                             {
-                                comp = parent
-                                   .GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
+                                comp = parent.GetComponentInChildren<PrefabRenderingInstanceBehaviour>();
                             }
                         }
 
                         if (comp != null)
                         {
-                            Selection.SetActiveObjectWithContext(comp.gameObject, this);
+                            UnityEditor.Selection.SetActiveObjectWithContext(comp.gameObject, this);
                         }
                     }
                 }
             }
         }
 
-#endif
+        #endregion
     }
 }
+
+#endif

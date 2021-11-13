@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -19,7 +18,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         public AmbientProbeData m_AmbientProbeData;
 
 #if UNITY_EDITOR
-        public bool BakeDisabled => (m_Data != null) && !Lightmapping.bakedGI;
+        public bool BakeDisabled => (m_Data != null) && !UnityEditor.Lightmapping.bakedGI;
 #endif
 
         public static OcclusionProbes Instance { get; private set; }
@@ -27,7 +26,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         private void OnEnable()
         {
 #if UNITY_EDITOR
-            Lightmapping.bakedGI = true;
+            UnityEditor.Lightmapping.bakedGI = true;
 
             if (!BakeDisabled)
             {

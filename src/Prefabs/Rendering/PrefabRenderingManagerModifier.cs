@@ -52,7 +52,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                 }
 
+#if UNITY_EDITOR
                 manager.SetSceneDirty();
+#endif
             }
         }
 

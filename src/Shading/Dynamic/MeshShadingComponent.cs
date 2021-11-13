@@ -5,18 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Behaviours;
-using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 
 #endregion
-
-#if UNITY_EDITOR
-
-#endif
 
 namespace Appalachia.Rendering.Shading.Dynamic
 {
@@ -66,7 +60,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 {
                     if (componentData == null)
                     {
-                        if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
+                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
                         {
                             var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
 
@@ -78,7 +72,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
                                 prefabAssetPath =
-                                    PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(this);
+                                    UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(this);
                             }
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
@@ -104,9 +98,9 @@ namespace Appalachia.Rendering.Shading.Dynamic
                                             "Mesh Shading Component Data"
                                         );
 
-                                PrefabUtility.ApplyPrefabInstance(
+                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
                                     gameObject,
-                                    InteractionMode.AutomatedAction
+                                    UnityEditor.InteractionMode.AutomatedAction
                                 );
                             }
                         }

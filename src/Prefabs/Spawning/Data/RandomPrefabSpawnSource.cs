@@ -4,13 +4,12 @@ using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Utility.Extensions;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using Sirenix.OdinInspector;
-using UnityEditor;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -163,19 +162,40 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             _pendingReset = true;
         }
 
+        private const string _PRF_PFX = nameof(RandomPrefabSpawnSource) + ".";
+
+        private static readonly ProfilerMarker _PRF_GetSpawnPointCount = new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPointCount));
+        
         public int GetSpawnPointCount()
         {
-            switch (spawnerType)
+            using (_PRF_GetSpawnPointCount.Auto())
             {
-                case RandomPrefabSpawnerType.Prefab:
+                switch (spawnerType)
                 {
-                    if (prefab == null)
+                    case RandomPrefabSpawnerType.Prefab:
                     {
-                        return 0;
-                    }
+                        if (prefab == null)
+                        {
+                            return 0;
+                        }
 
-                    var sum = 0;
-                    var path = AssetDatabaseManager.GetAssetPath(prefab);
+                        var sum = 0;
+
+                        var target = prefab.GetComponentInChildren<PrefabSpawnMarker>();
+                    
+                        var instances = GameObject.FindObjectsOfType<PrefabSpawnMarker>();
+
+                        for (var i = 0; i < instances.Length; i++)
+                        {
+                            var instance = instances[i];
+
+                            if (instance.identifier == target.identifier)
+                            {
+                                sum += 1;
+                            } 
+                        }
+                    
+                        /*var path = AssetDatabaseManager.GetAssetPath(prefab);
 
                     for (var i = 0; i < SceneManager.sceneCount; i++)
                     {
@@ -187,187 +207,249 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                         {
                             sum += GetPrefabInstanceCountsRecursive(root, path);
                         }
+                    }*/
+
+                        return sum;
                     }
-
-                    return sum;
-                }
-                case RandomPrefabSpawnerType.SceneObject:
-                {
-                    if (sceneObject == null)
+                    case RandomPrefabSpawnerType.SceneObject:
                     {
-                        return 0;
-                    }
-
-                    return 1;
-                }
-                case RandomPrefabSpawnerType.VegetationPackage:
-                {
-                    if (vegetationPackage == null)
-                    {
-                        return 0;
-                    }
-
-                    var system = GetVegetationSystem();
-
-                    var sum = 0;
-
-                    var packageIndex = -1;
-
-                    for (var i = 0; i < system.VegetationPackageProList.Count; i++)
-                    {
-                        if (vegetationPackage == system.VegetationPackageProList[i])
+                        if (sceneObject == null)
                         {
-                            packageIndex = i;
-                            break;
+                            return 0;
                         }
+
+                        return 1;
                     }
-
-                    if (packageIndex == -1)
+                    case RandomPrefabSpawnerType.VegetationPackage:
                     {
-                        return 0;
-                    }
-
-                    for (var i = 0; i < system.VegetationCellList.Count; i++)
-                    {
-                        var cell = system.VegetationCellList[i];
-
-                        var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
-
-                        var matrixLists = packageInstances.VegetationItemMatrixList;
-
-                        for (var k = 0; k < matrixLists.Count; k++)
+                        if (vegetationPackage == null)
                         {
-                            var matrixList = matrixLists[k];
+                            return 0;
+                        }
+
+                        var system = GetVegetationSystem();
+
+                        var sum = 0;
+
+                        var packageIndex = -1;
+
+                        for (var i = 0; i < system.VegetationPackageProList.Count; i++)
+                        {
+                            if (vegetationPackage == system.VegetationPackageProList[i])
+                            {
+                                packageIndex = i;
+                                break;
+                            }
+                        }
+
+                        if (packageIndex == -1)
+                        {
+                            return 0;
+                        }
+
+                        for (var i = 0; i < system.VegetationCellList.Count; i++)
+                        {
+                            var cell = system.VegetationCellList[i];
+
+                            var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
+
+                            var matrixLists = packageInstances.VegetationItemMatrixList;
+
+                            for (var k = 0; k < matrixLists.Count; k++)
+                            {
+                                var matrixList = matrixLists[k];
+
+                                sum += matrixList.Length;
+                            }
+                        }
+
+                        return sum;
+                    }
+                    case RandomPrefabSpawnerType.VegetationItem:
+                    {
+                        if (vegetationPackage == null)
+                        {
+                            return 0;
+                        }
+
+                        var system = GetVegetationSystem();
+
+                        var sum = 0;
+
+                        var packageIndex = -1;
+                        var veggieIndex = -1;
+
+                        for (var i = 0; i < system.VegetationPackageProList.Count; i++)
+                        {
+                            if (vegetationPackage == system.VegetationPackageProList[i])
+                            {
+                                packageIndex = i;
+
+                                for (var j = 0; j < vegetationPackage.VegetationInfoList.Count; j++)
+                                {
+                                    if (vegetationItemID ==
+                                        vegetationPackage.VegetationInfoList[j].VegetationItemID)
+                                    {
+                                        veggieIndex = j;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            }
+                        }
+
+                        if ((packageIndex == -1) || (veggieIndex == -1))
+                        {
+                            return 0;
+                        }
+
+                        for (var i = 0; i < system.VegetationCellList.Count; i++)
+                        {
+                            var cell = system.VegetationCellList[i];
+
+                            var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
+
+                            var matrixList = packageInstances.VegetationItemMatrixList[veggieIndex];
 
                             sum += matrixList.Length;
                         }
+
+                        return sum;
                     }
-
-                    return sum;
-                }
-                case RandomPrefabSpawnerType.VegetationItem:
-                {
-                    if (vegetationPackage == null)
+                    case RandomPrefabSpawnerType.PrefabRenderingSet:
                     {
-                        return 0;
-                    }
-
-                    var system = GetVegetationSystem();
-
-                    var sum = 0;
-
-                    var packageIndex = -1;
-                    var veggieIndex = -1;
-
-                    for (var i = 0; i < system.VegetationPackageProList.Count; i++)
-                    {
-                        if (vegetationPackage == system.VegetationPackageProList[i])
+                        if (prefabRenderingSet == null)
                         {
-                            packageIndex = i;
-
-                            for (var j = 0; j < vegetationPackage.VegetationInfoList.Count; j++)
-                            {
-                                if (vegetationItemID ==
-                                    vegetationPackage.VegetationInfoList[j].VegetationItemID)
-                                {
-                                    veggieIndex = j;
-                                    break;
-                                }
-                            }
-
-                            break;
+                            return 0;
                         }
+
+                        return prefabRenderingSet.instanceManager.element.Count;
                     }
-
-                    if ((packageIndex == -1) || (veggieIndex == -1))
-                    {
-                        return 0;
-                    }
-
-                    for (var i = 0; i < system.VegetationCellList.Count; i++)
-                    {
-                        var cell = system.VegetationCellList[i];
-
-                        var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
-
-                        var matrixList = packageInstances.VegetationItemMatrixList[veggieIndex];
-
-                        sum += matrixList.Length;
-                    }
-
-                    return sum;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-                case RandomPrefabSpawnerType.PrefabRenderingSet:
-                {
-                    if (prefabRenderingSet == null)
-                    {
-                        return 0;
-                    }
-
-                    return prefabRenderingSet.instanceManager.element.Count;
-                }
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
+        private static readonly ProfilerMarker _PRF_GetSpawnPoints = new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPoints));
+        
         public IEnumerable<Vector3> GetSpawnPoints()
         {
-            switch (spawnerType)
+            using (_PRF_GetSpawnPoints.Auto())
             {
-                case RandomPrefabSpawnerType.Prefab:
+                switch (spawnerType)
                 {
-                    var path = AssetDatabaseManager.GetAssetPath(prefab);
+                    case RandomPrefabSpawnerType.Prefab:
+                    {                    
+                        var target = prefab.GetComponentInChildren<PrefabSpawnMarker>();
+                    
+                        var instances = GameObject.FindObjectsOfType<PrefabSpawnMarker>();
 
-                    for (var i = 0; i < SceneManager.sceneCount; i++)
-                    {
-                        var scene = SceneManager.GetSceneAt(i);
-
-                        var roots = scene.GetRootGameObjects();
-
-                        foreach (var root in roots)
+                        for (var i = 0; i < instances.Length; i++)
                         {
-                            var rootInstances = GetPrefabInstancesRecursive(root, path);
+                            var instance = instances[i];
 
-                            foreach (var rootInstance in rootInstances)
+                            if (instance.identifier == target.identifier)
                             {
-                                yield return rootInstance;
+                                yield return instance.gameObject.transform.position;
+                            } 
+                        }
+                        
+                        /*var path = AssetDatabaseManager.GetAssetPath(prefab);
+
+                        for (var i = 0; i < SceneManager.sceneCount; i++)
+                        {
+                            var scene = SceneManager.GetSceneAt(i);
+
+                            var roots = scene.GetRootGameObjects();
+
+                            foreach (var root in roots)
+                            {
+                                var rootInstances = GetPrefabInstancesRecursive(root, path);
+
+                                foreach (var rootInstance in rootInstances)
+                                {
+                                    yield return rootInstance;
+                                }
+                            }
+                        }*/
+                    }
+                        break;
+                    case RandomPrefabSpawnerType.SceneObject:
+                    {
+                        yield return sceneObject.transform.position;
+                    }
+                        break;
+                    case RandomPrefabSpawnerType.VegetationPackage:
+                    {
+                        var system = GetVegetationSystem();
+
+                        var packageIndex = -1;
+
+                        for (var i = 0; i < system.VegetationPackageProList.Count; i++)
+                        {
+                            if (vegetationPackage == system.VegetationPackageProList[i])
+                            {
+                                packageIndex = i;
+                                break;
+                            }
+                        }
+
+                        for (var i = 0; i < system.VegetationCellList.Count; i++)
+                        {
+                            var cell = system.VegetationCellList[i];
+
+                            var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
+
+                            var matrixLists = packageInstances.VegetationItemMatrixList;
+
+                            for (var k = 0; k < matrixLists.Count; k++)
+                            {
+                                var matrixList = matrixLists[k];
+
+                                for (var l = 0; l < matrixList.Length; l++)
+                                {
+                                    yield return matrixList[l].Matrix.GetPositionFromMatrix();
+                                }
                             }
                         }
                     }
-                }
-                    break;
-                case RandomPrefabSpawnerType.SceneObject:
-                {
-                    yield return sceneObject.transform.position;
-                }
-                    break;
-                case RandomPrefabSpawnerType.VegetationPackage:
-                {
-                    var system = GetVegetationSystem();
-
-                    var packageIndex = -1;
-
-                    for (var i = 0; i < system.VegetationPackageProList.Count; i++)
+                        break;
+                    case RandomPrefabSpawnerType.VegetationItem:
                     {
-                        if (vegetationPackage == system.VegetationPackageProList[i])
+                        var system = GetVegetationSystem();
+
+                        var packageIndex = -1;
+                        var veggieIndex = -1;
+
+                        for (var i = 0; i < system.VegetationPackageProList.Count; i++)
                         {
-                            packageIndex = i;
-                            break;
+                            if (vegetationPackage == system.VegetationPackageProList[i])
+                            {
+                                packageIndex = i;
+
+                                for (var j = 0; j < vegetationPackage.VegetationInfoList.Count; j++)
+                                {
+                                    if (vegetationItemID ==
+                                        vegetationPackage.VegetationInfoList[j].VegetationItemID)
+                                    {
+                                        veggieIndex = j;
+                                        break;
+                                    }
+                                }
+
+                                break;
+                            }
                         }
-                    }
 
-                    for (var i = 0; i < system.VegetationCellList.Count; i++)
-                    {
-                        var cell = system.VegetationCellList[i];
-
-                        var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
-
-                        var matrixLists = packageInstances.VegetationItemMatrixList;
-
-                        for (var k = 0; k < matrixLists.Count; k++)
+                        for (var i = 0; i < system.VegetationCellList.Count; i++)
                         {
-                            var matrixList = matrixLists[k];
+                            var cell = system.VegetationCellList[i];
+
+                            var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
+
+                            var matrixList = packageInstances.VegetationItemMatrixList[veggieIndex];
 
                             for (var l = 0; l < matrixList.Length; l++)
                             {
@@ -375,62 +457,20 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                             }
                         }
                     }
-                }
-                    break;
-                case RandomPrefabSpawnerType.VegetationItem:
-                {
-                    var system = GetVegetationSystem();
-
-                    var packageIndex = -1;
-                    var veggieIndex = -1;
-
-                    for (var i = 0; i < system.VegetationPackageProList.Count; i++)
+                        break;
+                    case RandomPrefabSpawnerType.PrefabRenderingSet:
                     {
-                        if (vegetationPackage == system.VegetationPackageProList[i])
+                        for (var i = 0;
+                            i < prefabRenderingSet.instanceManager.element.positions.Length;
+                            i++)
                         {
-                            packageIndex = i;
-
-                            for (var j = 0; j < vegetationPackage.VegetationInfoList.Count; j++)
-                            {
-                                if (vegetationItemID ==
-                                    vegetationPackage.VegetationInfoList[j].VegetationItemID)
-                                {
-                                    veggieIndex = j;
-                                    break;
-                                }
-                            }
-
-                            break;
+                            yield return prefabRenderingSet.instanceManager.element.positions[i];
                         }
                     }
-
-                    for (var i = 0; i < system.VegetationCellList.Count; i++)
-                    {
-                        var cell = system.VegetationCellList[i];
-
-                        var packageInstances = cell.VegetationPackageInstancesList[packageIndex];
-
-                        var matrixList = packageInstances.VegetationItemMatrixList[veggieIndex];
-
-                        for (var l = 0; l < matrixList.Length; l++)
-                        {
-                            yield return matrixList[l].Matrix.GetPositionFromMatrix();
-                        }
-                    }
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
-                    break;
-                case RandomPrefabSpawnerType.PrefabRenderingSet:
-                {
-                    for (var i = 0;
-                        i < prefabRenderingSet.instanceManager.element.positions.Length;
-                        i++)
-                    {
-                        yield return prefabRenderingSet.instanceManager.element.positions[i];
-                    }
-                }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -486,12 +526,13 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
             return _vegetationSystem;
         }
+/*#if UNITY_EDITOR
 
         private int GetPrefabInstanceCountsRecursive(GameObject root, string assetSearch)
         {
-            if (PrefabUtility.IsAnyPrefabInstanceRoot(root))
+            if (UnityEditor.PrefabUtility.IsAnyPrefabInstanceRoot(root))
             {
-                var asset = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(root);
+                var asset = UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(root);
 
                 if (asset == assetSearch)
                 {
@@ -514,9 +555,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             GameObject root,
             string assetSearch)
         {
-            if (PrefabUtility.IsAnyPrefabInstanceRoot(root))
+            if (UnityEditor.PrefabUtility.IsAnyPrefabInstanceRoot(root))
             {
-                var asset = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(root);
+                var asset = UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(root);
 
                 if (asset == assetSearch)
                 {
@@ -535,5 +576,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 }
             }
         }
+#endif*/
     }
 }

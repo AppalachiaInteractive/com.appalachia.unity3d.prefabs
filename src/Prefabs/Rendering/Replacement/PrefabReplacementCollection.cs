@@ -34,9 +34,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
                 if (_state == null)
                 {
                     _state = new GameObjectReplacementLookup();
+#if UNITY_EDITOR
                     SetDirty();
 
                     _state.SetDirtyAction(SetDirty);
+#endif
                 }
 
                 return _state;
@@ -48,10 +50,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
             if (_state == null)
             {
                 _state = new GameObjectReplacementLookup();
+#if UNITY_EDITOR
                 SetDirty();
+#endif
             }
 
+#if UNITY_EDITOR
             _state.SetDirtyAction(SetDirty);
+#endif
         }
     }
 }

@@ -7,7 +7,6 @@ using Appalachia.Core.Scriptables;
 using Appalachia.Editing.Labels;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -59,6 +58,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [SerializeField]
         protected TO _options;
 
+#if UNITY_EDITOR
         [FoldoutGroup("$" + nameof(LabelHeader))]
         [PropertyOrder(1000)]
         [InlineProperty]
@@ -66,6 +66,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [LabelWidth(0)]
         [SerializeField]
         public LabelSearchSet labels = new();
+#endif
 
         [SerializeField]
         [HideInInspector]
@@ -88,7 +89,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         public abstract string Title { get; }
         public abstract string Subtitle { get; }
 
+#if UNITY_EDITOR
         public virtual string LabelHeader => labels?.DisplayName ?? "Labels (None)";
+#endif
 
         public bool Enabled => options.isEnabled;
         public bool Soloed => options.Soloed;
@@ -99,7 +102,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [PropertyOrder(-100)]
         public void SelectPrefabRenderingManager()
         {
-            Selection.objects = new Object[] {PrefabRenderingManager.instance};
+            UnityEditor.Selection.objects = new Object[] {PrefabRenderingManager.instance};
         }
 #endif
         protected virtual void ConfirmValidity()
@@ -142,30 +145,38 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         public void Enable(bool enabled)
         {
             options.Enable(enabled);
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         public void Solo(bool soloed)
         {
             options.Solo(soloed);
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         public void Mute(bool muted)
         {
             options.Mute(muted);
+#if UNITY_EDITOR
             SetDirty();
+#endif
         }
 
         public void Refresh()
         {
             using (_PRF_Refresh.Auto())
             {
+#if UNITY_EDITOR
                 if (labels == null)
                 {
                     labels = new LabelSearchSet();
                     SetDirty();
                 }
+#endif
 
                 ConfirmValidity();
             }

@@ -34,10 +34,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             if (_state == null)
             {
                 _state = new GPUInstancerPrototypeMetadataLookup();
+#if UNITY_EDITOR
                 SetDirty();
+#endif
             }
 
+#if UNITY_EDITOR
             _state.SetDirtyAction(SetDirty);
+#endif
         }
 
         public void ConfirmPrototype(GPUInstancerPrototypeMetadata metadata)

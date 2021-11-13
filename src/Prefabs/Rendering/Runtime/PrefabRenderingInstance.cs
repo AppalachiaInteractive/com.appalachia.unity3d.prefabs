@@ -4,7 +4,6 @@ using System;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Extensions;
-using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Filtering;
 using Appalachia.Core.Labels;
 using Appalachia.Core.Layers;
@@ -19,7 +18,6 @@ using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -512,7 +510,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 }
 
 #if UNITY_EDITOR
-                if (Selection.activeTransform == transform)
+                if (UnityEditor.Selection.activeTransform == transform)
                 {
                     instancesStateCode = InstanceStateCode.DelayedBySelection;
                     return true;

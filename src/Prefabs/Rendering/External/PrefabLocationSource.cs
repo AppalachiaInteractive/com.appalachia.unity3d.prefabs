@@ -15,9 +15,7 @@ using UnityEngine;
 
 #endregion
 
-#if UNITY_EDITOR
 
-#endif
 
 namespace Appalachia.Rendering.Prefabs.Rendering.External
 {
@@ -77,8 +75,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                 GetRenderingParametersFromVegetationStudio(existing);
 
+#if UNITY_EDITOR
                 ExternalRenderingParameters.UpdateAllIDs();
-
+                
+#endif
                 return existing.Values.ToList();
             }
         }
@@ -106,18 +106,20 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                                 continue;
                             }
 
+#if UNITY_EDITOR
                             var prefab = info.VegetationPrefab;
 
                             var labels = AssetDatabaseManager.GetLabels(prefab);
 
                             if (labels.Length == 0)
                             {
-                               AppaLog.Warning(
+                                AppaLog.Warn(
                                     $"No labels for asset [{prefab.name}]. Setting it as a test prefab."
                                 );
                                 info.TestOnly = true;
                                 continue;
                             }
+#endif
 
                             CreateParametersForPrefab(
                                 prefabs,
@@ -188,6 +190,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
             {
                 ExternalRenderingParameters erp;
 
+#if UNITY_EDITOR
                 if (!prefabs.ContainsKey(identifyingKey))
                 {
                     erp = ExternalRenderingParameters.LoadOrCreateNew(
@@ -199,6 +202,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                     prefabs.Add(identifyingKey, erp);
                 }
                 else
+#endif
                 {
                     erp = prefabs[identifyingKey];
                 }

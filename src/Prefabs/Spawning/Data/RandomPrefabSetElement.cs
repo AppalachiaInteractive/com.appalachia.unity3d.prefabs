@@ -32,10 +32,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
         [HideInInspector] public Transform setTransform;
 
+#if UNITY_EDITOR
         [Button]
         public void CreateNew()
         {
             set = RandomPrefabSet.CreateNew();
         }
+#endif
     }
 }

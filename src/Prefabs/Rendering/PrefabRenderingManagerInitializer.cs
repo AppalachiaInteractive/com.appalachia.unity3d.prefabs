@@ -20,7 +20,6 @@ using Pathfinding;
 using Pathfinding.Voxels;
 using Unity.Mathematics;
 using Unity.Profiling;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
@@ -447,7 +446,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (sharedRendererMaterial == null)
                             {
-                               AppaLog.Warning(
+                               AppaLog.Warn(
                                     $"Missing a material for renderer {renderer.name}!",
                                     renderer
                                 );
@@ -560,7 +559,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                         using (_PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes.Auto())
                         {
-                            PrefabRenderingSet renderingSet;
+                            PrefabRenderingSet renderingSet = null;
 
                             if (manager.renderingSets.Sets.ContainsKey(renderingParameter.prefab))
                             {
@@ -591,11 +590,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                                 }
 #endif
 
+#if UNITY_EDITOR
                                 renderingSet.prototypeMetadata.CreatePrototypeIfNecessary(
                                     renderingParameter.prefab,
                                     manager.gpui,
                                     prototypeLookup
                                 );
+#endif
                             }
 #if UNITY_EDITOR
                             else
@@ -629,7 +630,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (renderingSet == null)
                             {
-                               AppaLog.Warning(
+                               AppaLog.Warn(
                                     $"No render set for [{renderingParameter.prefab}].",
                                     manager
                                 );
@@ -659,7 +660,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                         if (renderingSet.modelType == PrefabModelType.None)
                         {
-                           AppaLog.Warning(
+                           AppaLog.Warn(
                                 $"Could not assign a prefab type for object [{renderingSet.prefab.name}].",
                                 renderingSet.prefab
                             );
@@ -675,7 +676,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);
 #endif
             }
         }

@@ -5,7 +5,6 @@ using Appalachia.Core.Extensions;
 using Appalachia.Core.Globals.Serialization.ScriptableObjects;
 using Appalachia.Core.Profiling;
 using Sirenix.OdinInspector;
-using UnityEditor;
 using UnityEngine;
 
 namespace Appalachia.Core.Rendering.Metadata.GPUI

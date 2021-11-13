@@ -16,7 +16,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 var manager = PrefabRenderingManager.instance;
                 set.instanceManager.TearDownInstances(manager.gpui, set.prototypeMetadata);
 
+#if UNITY_EDITOR
                 manager.SetSceneDirty();
+#endif
             }
         }
 

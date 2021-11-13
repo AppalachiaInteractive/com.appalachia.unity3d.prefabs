@@ -33,6 +33,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         protected override bool _anyMuted => PrefabModelTypeOptions.AnyMute;
 
+#if UNITY_EDITOR
         protected override void InitializeState()
         {
             for (var i = 0; i < _types.Length; i++)
@@ -344,5 +345,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 }
             }
         }
+#endif
     }
 }

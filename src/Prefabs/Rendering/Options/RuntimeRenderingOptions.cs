@@ -36,6 +36,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
         [InlineProperty]
         public RuntimeRenderingProfilerOptions profiling = new();
 
+#if UNITY_EDITOR
         [FoldoutGroup("Gizmos")]
         [InlineProperty]
         [HideLabel]
@@ -47,6 +48,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
         [HideLabel]
         [LabelWidth(0)]
         public EditorRenderingOptions editor = new();
+#endif
 
         private void Awake()
         {
@@ -67,6 +69,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
                     profiling = new RuntimeRenderingProfilerOptions();
                 }
 
+#if UNITY_EDITOR
                 if (gizmos == null)
                 {
                     gizmos = new RuntimeRenderingGizmoOptions();
@@ -76,6 +79,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
                 {
                     editor = new EditorRenderingOptions();
                 }
+#endif
             }
         }
     }

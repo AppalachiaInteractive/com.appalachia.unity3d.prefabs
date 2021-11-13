@@ -10,6 +10,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
     [Serializable]
     public class RuntimeRenderingGizmoOptions
     {
+#if UNITY_EDITOR
         [ToggleLeft] public bool burialGizmosEnabled = true;
 
         [ToggleLeft] public bool gizmosEnabled;
@@ -56,5 +57,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
                 return _gizmoSelectionIDs;
             }
         }
+#endif
     }
 }

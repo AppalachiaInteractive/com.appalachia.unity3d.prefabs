@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Scriptables;
-using UnityEditor;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -197,7 +196,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         public class PlatformTextureOverride
         {
 #if UNITY_EDITOR
-            public BuildTarget platform = BuildTarget.StandaloneWindows;
+            public UnityEditor.BuildTarget platform = UnityEditor.BuildTarget.StandaloneWindows;
 #endif
             public InternalTextureArraySettingsGroup settings = new();
         }
@@ -238,10 +237,12 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
         }
 
+#if UNITY_EDITOR
         [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(AppalachiaTextureArrayConfig), priority = PKG.Menu.Assets.Priority)]
         public static void CreateAsset()
         {
             CreateNew();
         }
+#endif
     }
 }
