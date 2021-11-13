@@ -14,6 +14,15 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| 54f395ee7c4ef4e4f1dc5600e5256c81016ca0dc | 2021-11-13 | Chris Schubert | EXR to gitlfs |
+| 10a13a7a975a7a4850e5cb180f6ed6b0e8ca076a | 2021-11-13 | Chris Schubert | Editor exlusions fro runtime build |
+| 019b47136957366e881d96ecabc33c7a65833965 | 2021-11-13 | Chris Schubert | Editor exclusions for runtime build. |
+
+
+ ## Tag: `v0.2.0`
+| Hash | Date | Author | Changes |
+|------|------|--------|---------|
+| f0fe83ab8093e5fa529cb6f16d7550ff6541a558 | 2021-11-09 | Chris Schubert | Updating changelog and releaselog |
 | db49601279303f7028324342f8e2ca16a9c65a2d | 2021-11-09 | Chris Schubert | Updating changelog and releaselog |
 | b7b1f65a958cd9ba4346d4b329068057feb5712b | 2021-11-09 | Chris Schubert | Removing empty directories, adding some debugger passthroughs, and reformatting asmdefs |
 | 7d3a1602c1ccaf0267b0bac467d7527b58f65bfe | 2021-11-08 | Chris Schubert | Updating changelog and releaselog |
