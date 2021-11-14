@@ -1,6 +1,6 @@
 ```
 C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
- Let's go!  
+Let's go!  
  ________   ___  ___   ________   ________    ________   _______    ________      
 |\   ____\ |\  \|\  \ |\   __  \ |\   ___  \ |\   ____\ |\  ___ \  |\   ____\     
 \ \  \___| \ \  \\\  \\ \  \|\  \\ \  \\ \  \\ \  \___| \ \   __/| \ \  \___|_    
@@ -14,6 +14,7 @@ C:/Users/Chris/com.appalachia/unity3d/appa/Assets/Appalachia.Rendering
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| db0b83aece7837c453f1db215f4401d5cb440bad | 2021-11-13 | Chris Schubert | Updating changelog and releaselog |
 | 73f092fbd25cfdc0a1473ca0280c841b14767bf5 | 2021-11-13 | Chris Schubert | Updating changelog and releaselog |
 | 54f395ee7c4ef4e4f1dc5600e5256c81016ca0dc | 2021-11-13 | Chris Schubert | EXR to gitlfs |
 | 10a13a7a975a7a4850e5cb180f6ed6b0e8ca076a | 2021-11-13 | Chris Schubert | Editor exlusions fro runtime build |
