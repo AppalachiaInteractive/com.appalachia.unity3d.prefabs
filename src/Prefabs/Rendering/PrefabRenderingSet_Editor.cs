@@ -27,8 +27,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #region Event Functions
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
             if (_externalParameters == null)
             {
                 _externalParameters = new ExternalRenderingParametersLookup();

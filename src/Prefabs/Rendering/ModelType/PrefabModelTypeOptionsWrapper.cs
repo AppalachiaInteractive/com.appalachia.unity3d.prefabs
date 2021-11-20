@@ -66,10 +66,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         //public string Subtitle => $"{prefabCount} prefabs | {instanceCounts.total} instances";
         public override string Subtitle => $"{prefabCount} prefabs | {instanceCounts.ToString()}";
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             using (_PRF_OnEnable.Auto())
             {
+                base.OnEnable();
                 var ranges = _options.rangeSettings;
 
                 if ((ranges == null) || (ranges.Length <= 0))

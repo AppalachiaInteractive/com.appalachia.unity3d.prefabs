@@ -50,10 +50,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
         public EditorRenderingOptions editor = new();
 #endif
 
-        private void Awake()
+        protected override void Awake()
         {
             using (_PRF_Awake.Auto())
             {
+                base.Awake();
                 if (global == null)
                 {
                     global = new GlobalRenderingOptions();

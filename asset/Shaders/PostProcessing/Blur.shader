@@ -2,6 +2,7 @@ Shader "Hidden/Appalachia/Blur"
 {
 	HLSLINCLUDE
 	#include "Assets/Resources/CGIncludes/unity/StdLib.hlsl"
+	
 	#include "Assets/Resources/CGIncludes/unity/Sampling.hlsl"
 
 	TEXTURE2D_SAMPLER2D(_MainTex, sampler_MainTex);

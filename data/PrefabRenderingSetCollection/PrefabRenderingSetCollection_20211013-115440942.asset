@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PrefabRenderingSetCollection_20211013-115440942
   m_EditorClassIdentifier: 
   _initializationData:
+    _nonSerializedTags: []
     _tags: []
     _resetToken: 
   _cachedName: 

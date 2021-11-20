@@ -108,8 +108,9 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
         [HideInInspector] public List<InternalTextureEntry> sourceTextures = new();
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             sAllConfigs.Add(this);
         }
 
