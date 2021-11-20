@@ -60,7 +60,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Burstable
 
         [SerializeField] public FrustumPlanesBurst planes;
 
-        [SerializeField] public Plane[] planesArray;
+        [NonSerialized] public Plane[] planesArray;
 
         // Returns near- and far-corners in this order: leftBottom, leftTop, rightTop, rightBottom
         // Assumes input arrays are of length 4 (if allocated)

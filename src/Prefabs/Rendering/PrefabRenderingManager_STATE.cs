@@ -42,7 +42,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             "$" + nameof(_title),
             "$" + nameof(_title),
             "$" + nameof(_stateReason),
-            TitleAlignment.Split,
             titleColor: nameof(_stateColor)
         )]
 
@@ -83,7 +82,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SmartTitle(
             "$" + nameof(_cycleTitle),
             "$" + nameof(_cycleSubtitle),
-            TitleAlignment.Split,
             titleColor: nameof(_cycleColor),
             below: true
         )]

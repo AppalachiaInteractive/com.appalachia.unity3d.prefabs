@@ -71,8 +71,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SmartTitle(
             "$" + nameof(_stateLabel),
             "$" + nameof(_substateLabel),
-            TitleColor = nameof(_stateColor),
-            Alignment = TitleAlignment.Split
+            TitleColor = nameof(_stateColor)
         )]
         [ToggleLeft]
         [SmartLabel]
