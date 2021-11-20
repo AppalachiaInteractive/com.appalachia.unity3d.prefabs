@@ -17,7 +17,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 {
     [Serializable]
-    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject<GPUInstancerPrototypeMetadata>
+    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject
     {
         #region Profiling And Tracing Markers
 

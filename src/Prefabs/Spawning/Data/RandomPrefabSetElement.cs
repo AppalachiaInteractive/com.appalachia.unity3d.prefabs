@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
         [Button]
         public void CreateNew()
         {
-            set = RandomPrefabSet.CreateNew();
+            set = AppalachiaObject.CreateNew<RandomPrefabSet>();
         }
 #endif
     }

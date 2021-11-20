@@ -1,19 +1,45 @@
 // ReSharper disable All
 // DO NOT MODIFY: START
 
+using System.Resources;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+
 using Appalachia.Utility.Constants;
 
+[assembly: AssemblyTitle("Appalachia.Rendering.Prefabs.Rendering")]
+[assembly: AssemblyDescription("Prefab rendering and spawning for Unity3D.")]
+[assembly: AssemblyCompany("Appalachia Interactive")]
+[assembly: AssemblyProduct("Keepers Of Creation")]
+[assembly: AssemblyCopyright("Copyright © Appalachia Interactive 2021")]
+[assembly: AssemblyTrademark("Keepers Of Creation")]
+[assembly: AssemblyCulture("")]
+[assembly: NeutralResourcesLanguage("en")]
+[assembly: AssemblyVersion("0.2.0.0")]
+[assembly: AssemblyFileVersion("0.2.0.0")]
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
     internal static partial class PKG
     {
-        public const int Priority = -298000;
+        public const string AssemblyTitle = "Appalachia.Rendering.Prefabs.Rendering";
+        public const string AssemblyDescription = "Prefab rendering and spawning for Unity3D.";
+        public const string AssemblyCompany = "Appalachia Interactive";
+        public const string AssemblyProduct = "Keepers Of Creation";
+        public const string AssemblyCopyright = "Copyright © Appalachia Interactive 2021";
+        public const string AssemblyTrademark = "Keepers Of Creation";
+        public const string AssemblyCulture = "";
+        public const string NeutralResourcesLanguage = "en";
+        public const string AssemblyVersion = "0.2.0.0";
+        public const string AssemblyFileVersion = "0.2.0.0";
+        public const int Priority = -287000;
         public const string Name = "Rendering/Prefabs/Rendering";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";
         public const string Version = "0.2.0";
-        public const string BuildDate = "2021-11-12T21:38:46.7706658Z";
+        public const int VersionInt = 2000;
+        public const string BuildDate = "2021-11-19T00:01:28.8238180Z";
         
         public static partial class Prefs
         {
@@ -198,7 +224,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         }
 
 // DO NOT MODIFY: END
-// MODIFICATIONS ALLOWED: START
+#region User Modifiable
         public static partial class Menu
         {
             public static partial class Appalachia
@@ -210,19 +236,19 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         public const string Base = Tools.Base + "Runtime Rendering" + SHC.CTRL_ALT_2;
                         public const int Priority = PKG.Priority + 10;
                     }
-                    
+                            
                     public static class Simulate
                     {
                         public const string Base = Tools.Base + "Simulate" + SHC.CTRL_ALT_3;
                         public const int Priority = PKG.Priority + 20;
                     }
-                    
+                            
                     public static class AllowUpdates
                     {
                         public const string Base = Tools.Base + "Allow Updates" + SHC.CTRL_ALT_4;
                         public const int Priority = PKG.Priority + 30;
                     }
-                    
+                            
                     public static class Bounce
                     {
                         public const string Base = Tools.Base + "Bounce" + SHC.CTRL_ALT_5;
@@ -231,6 +257,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
             }
         }
+        
         public static partial class Prefs
         {
             public static partial class Gizmos
@@ -240,8 +267,55 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
             public const string Instance = Group + "Instance/";
         }
-// MODIFICATIONS ALLOWED: END
-// DO NOT MODIFY: START        
+#endregion // User Modifiable
+
+// DO NOT MODIFY: START       
+
+        internal static int ConvertFromVersion(string version)
+        {
+            using (_PRF_ConvertFromVersion.Auto())
+            {
+                var parts = version.Split('.');
+
+                var majorString = parts[0];
+                var minorString = parts[1];
+                var patchString = parts[2];
+
+                var major = int.Parse(majorString);
+                var minor = int.Parse(minorString);
+                var patch = int.Parse(patchString);
+
+                var result = (major * 1_000_000) + (minor * 1_000) + patch;
+
+                return result;
+            }
+        }
+
+        internal static string ConvertToVersion(int version)
+        {
+            using (_PRF_ConvertToVersion.Auto())
+            {
+                var majorInt = version / 1_000_000;
+                var minorInt = (version / 1_000) % 1_000;
+                var patchInt = version % 1_000; 
+
+                var result = $"{majorInt}.{minorInt}.{patchInt}";
+
+                return result;
+            }
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PKG) + ".";
+
+        private static readonly Unity.Profiling.ProfilerMarker _PRF_ConvertToVersion =
+            new Unity.Profiling.ProfilerMarker(_PRF_PFX + nameof(ConvertToVersion));
+
+        private static readonly Unity.Profiling.ProfilerMarker _PRF_ConvertFromVersion =
+            new Unity.Profiling.ProfilerMarker(_PRF_PFX + nameof(ConvertFromVersion));
+
+        #endregion 
     }
 }
 // DO NOT MODIFY: END

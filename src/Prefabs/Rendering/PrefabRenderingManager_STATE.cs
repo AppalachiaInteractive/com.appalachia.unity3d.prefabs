@@ -2,7 +2,6 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Extensions;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core.States;
@@ -21,23 +20,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
-        #region Profiling And Tracing Markers
+        #region Static Fields and Autoproperties
 
         private static RenderingStateReasonCodeLookup _reasonCodes = new();
 
-        private static readonly ProfilerMarker _PRF_IsEditorSimulating =
-            new(_PRF_PFX + nameof(IsEditorSimulating));
-
-        private static readonly ProfilerMarker _PRF_ConfirmExecutionState =
-            new(_PRF_PFX + nameof(ConfirmExecutionState));
-
-        private static readonly ProfilerMarker _PRF_ExecuteNecessaryStateChanges =
-            new(_PRF_PFX + nameof(ExecuteNecessaryStateChanges));
-
-        private static readonly ProfilerMarker _PRF_ChangeRuntimeRenderingState =
-            new(_PRF_PFX + nameof(ChangeRuntimeRenderingState));
-
         #endregion
+
+        #region Fields and Autoproperties
 
         [HideInInspector] public bool hideButtons;
 
@@ -51,9 +40,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SmartLabel(Text = "State")]
         [SmartTitleGroup(
             "$" + nameof(_title),
+            "$" + nameof(_title),
             "$" + nameof(_stateReason),
-            TitleAlignments.Split,
-            color: nameof(_stateColor)
+            TitleAlignment.Split,
+            titleColor: nameof(_stateColor)
         )]
 
         //[HorizontalGroup("$"+nameof(_title)+"/A", .7f)]
@@ -93,8 +83,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SmartTitle(
             "$" + nameof(_cycleTitle),
             "$" + nameof(_cycleSubtitle),
-            TitleAlignments.Split,
-            color: nameof(_cycleColor),
+            TitleAlignment.Split,
+            titleColor: nameof(_cycleColor),
             below: true
         )]
         public RenderingState nextState;
@@ -126,6 +116,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private int _editorCheckFrame;
 
         private RenderingStateReasonCode _stateReasonCode;
+
+        #endregion
 
         private bool _canChangeState => string.IsNullOrEmpty(_stateReason);
 
@@ -265,6 +257,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private string _stopText => "Stop";
 
         private string _title => currentState.ToString().SeperateWords();
+
+        #region Event Functions
+
+        private static readonly ProfilerMarker _PRF_Start = new ProfilerMarker(_PRF_PFX + nameof(Start));
+        
+        protected override void Start()
+        {
+            using (_PRF_Start.Auto())
+            {
+                base.Start();
+                
+                nextState = RenderingState.Rendering;
+            }
+        }
+
+        #endregion
 
         private void ChangeRuntimeRenderingState(bool enable)
         {
@@ -604,11 +612,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             nextState = RenderingState.Rendering;
         }
 
-        private void Start()
-        {
-            nextState = RenderingState.Rendering;
-        }
-
         private void Stop()
         {
             nextState = RenderingState.NotRendering;
@@ -672,6 +675,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #endif
         }
 
+        #region Profiling
+
+        private static readonly ProfilerMarker _PRF_IsEditorSimulating =
+            new(_PRF_PFX + nameof(IsEditorSimulating));
+
+        private static readonly ProfilerMarker _PRF_ConfirmExecutionState =
+            new(_PRF_PFX + nameof(ConfirmExecutionState));
+
+        private static readonly ProfilerMarker _PRF_ExecuteNecessaryStateChanges =
+            new(_PRF_PFX + nameof(ExecuteNecessaryStateChanges));
+
+        private static readonly ProfilerMarker _PRF_ChangeRuntimeRenderingState =
+            new(_PRF_PFX + nameof(ChangeRuntimeRenderingState));
+
+        #endregion
+
 #if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_ChangeEditorSimulationState =
             new(_PRF_PFX + nameof(ChangeEditorSimulationState));
@@ -734,7 +753,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             return true;
         }
 
-        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Enable.Base, priority = PKG.Menu.Appalachia.Tools.Enable.Priority)]
+        [UnityEditor.MenuItem(
+            PKG.Menu.Appalachia.Tools.Enable.Base,
+            priority = PKG.Menu.Appalachia.Tools.Enable.Priority
+        )]
         private static void _M_ENABLE()
         {
             instance.enabled = !instance.enabled;
@@ -821,7 +843,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             return instance.enabled && (instance.nextState != RenderingState.BounceState);
         }
 
-        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Bounce.Base, priority = PKG.Menu.Appalachia.Tools.Bounce.Priority)]
+        [UnityEditor.MenuItem(
+            PKG.Menu.Appalachia.Tools.Bounce.Base,
+            priority = PKG.Menu.Appalachia.Tools.Bounce.Priority
+        )]
         private static void _M_BOUNCE()
         {
             instance.nextState = RenderingState.BounceState;

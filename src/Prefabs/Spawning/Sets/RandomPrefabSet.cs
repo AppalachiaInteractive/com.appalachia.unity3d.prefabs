@@ -13,7 +13,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 {
-    public class RandomPrefabSet : AutonamedIdentifiableAppalachiaObject<RandomPrefabSet>
+    public class RandomPrefabSet : AutonamedIdentifiableAppalachiaObject
     {
         [ListDrawerSettings(Expanded = true)]
         [PropertyOrder(11)]

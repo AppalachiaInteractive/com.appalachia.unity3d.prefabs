@@ -184,10 +184,12 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             using (_PRF_OnEnable.Auto())
             {
+                base.OnEnable();
+                
 #if UNITY_EDITOR
                 try
                 {
@@ -251,9 +253,13 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
-        private void Start()
+        protected override void Start()
         {
-            AssignWindMetadata(false);
+            using (_PRF_Start.Auto())
+            {
+                base.Start();
+                AssignWindMetadata(false);
+            }
         }
 
         private static readonly Dictionary<Material, MeshWindMetadata.MeshWindMaterialMatchGroup>
@@ -264,7 +270,10 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         [Button]
         public void AssignWindMetadata()
         {
-            AssignWindMetadata(true);
+            using (_PRF_AssignWindMetadata.Auto())
+            {
+                AssignWindMetadata(true);
+            }
         }
 
         private static readonly ProfilerMarker _PRF_AssignWindMetadata =

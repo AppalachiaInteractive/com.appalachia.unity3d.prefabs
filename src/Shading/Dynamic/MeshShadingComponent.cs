@@ -43,18 +43,21 @@ namespace Appalachia.Rendering.Shading.Dynamic
         [HideReferenceObjectPicker]
         public MeshShadingComponentData componentData;
 
-        private void Start()
+        protected override void Start()
         {
             using (_PRF_Start.Auto())
             {
+                base.Start();
+                
                 AssignShadingMetadata();
             }
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             using (_PRF_OnEnable.Auto())
             {
+                base.OnEnable();
 #if UNITY_EDITOR
                 try
                 {

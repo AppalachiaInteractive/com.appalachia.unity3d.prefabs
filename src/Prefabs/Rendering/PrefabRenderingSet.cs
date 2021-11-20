@@ -1,6 +1,5 @@
 #region
 
-using System;
 using System.Diagnostics;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
@@ -8,7 +7,6 @@ using Appalachia.Core.Collections.Extensions;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Sets;
 using Appalachia.Core.Collections.Interfaces;
-using Appalachia.Core.Extensions;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
@@ -37,60 +35,44 @@ using UnityEngine.Serialization;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
-    public partial class PrefabRenderingSet : IdentifiableAppalachiaObject<PrefabRenderingSet>
+    public partial class PrefabRenderingSet : IdentifiableAppalachiaObject
     {
-        private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
-
-        [DebuggerStepThrough] public override string ToString()
-        {
-            return $"{prefab.name} - Prefab Render Set";
-        }
-
-
-#region Fields & Properties
-
-#region UI
+        #region Constants and Static Readonly
 
         private const string _MAIN = "MAIN";
         private const string _MAIN_COLS = _MAIN + "/COLS";
         private const string _MAIN_COLS_1 = _MAIN_COLS + "/1";
         private const string _MAIN_COLS_2 = _MAIN_COLS + "/2";
-        private const string _TABS = _MAIN_COLS_1 + "/TABS";
         private const string _META = "Metadata";
         private const string _META_ = _TABS + "/" + _META;
-        private const string _REPLACE = "Replacements";
         private const string _OPTS = "Option Overrides";
+        private const string _REPLACE = "Replacements";
         private const string _RUN = "Runtime";
+        private const string _TABS = _MAIN_COLS_1 + "/TABS";
 
-        public Color _stateColor =>
-            renderingEnabled
-                ? _instanceManager?.currentState == RuntimeStateCode.Enabled
-                    ? ColorPrefs.Instance.Enabled.v
-                    : _instanceManager?.currentState == RuntimeStateCode.Disabled
-                        ? ColorPrefs.Instance.DisabledImportant.v
-                        : ColorPrefs.Instance.Pending.v
-                : ColorPrefs.Instance.DisabledImportant.v;
+        #endregion
 
-        private string _stateLabel =>
-            renderingEnabled
-                ? _instanceManager?.currentState == RuntimeStateCode.Disabled
-                    ? "Disabled Elsewhere"
-                    : _instanceManager?.currentState.ToString().SeperateWords() ?? string.Empty
-                : _instanceManager?.currentState.ToString().SeperateWords() ?? string.Empty;
+        #region Static Fields and Autoproperties
 
-        private string _substateLabel =>
-            _instanceManager?.currentSupplementalStateCode.ToString().SeperateWords() ??
-            string.Empty;
+        private static bool _anyMute;
 
-#endregion
+        private static bool _anySolo;
+
+        #endregion
+
+        #region Fields and Autoproperties
+
+        [HideInInspector]
+        [SerializeField]
+        public AppaSet_string labels;
 
 #if UNITY_EDITOR
         [VerticalGroup(_MAIN)]
         [SmartTitle(
             "$" + nameof(_stateLabel),
             "$" + nameof(_substateLabel),
-            Color = nameof(_stateColor),
-            Alignment = TitleAlignments.Split
+            TitleColor = nameof(_stateColor),
+            Alignment = TitleAlignment.Split
         )]
         [ToggleLeft]
         [SmartLabel]
@@ -104,119 +86,116 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SerializeField]
         public bool renderingEnabled = true;
 
-#if UNITY_EDITOR
-        [UnityEditor.Callbacks.DidReloadScripts]
-#endif
-        private static void ReloadSoloAndMute()
-        {
-            var sets = PrefabRenderingSetCollection.instance.Sets;
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        [EnableIf(nameof(_canUseLocations))]
+        public bool useLocations;
 
-            _anySolo = false;
-            _anyMute = false;
+        [ToggleLeft]
+        [TabGroup(_TABS, _REPLACE)]
+        [SmartLabel]
+        [EnableIf(nameof(replacementEligible))]
+        [SerializeField]
+        public bool useReplacement;
 
-            for (var i = 0; i < sets.Count; i++)
-            {
-                var set = sets.at[i];
+        [HideInInspector]
+        [SerializeField]
+        public Bounds bounds;
 
-                if (set._soloed)
-                {
-                    _anySolo = true;
-                }
+        [HorizontalGroup(_MAIN_COLS, 100f)]
+        [LabelWidth(0)]
+        [HideLabel]
+        [VerticalGroup(_MAIN_COLS_2)]
+        [PreviewField(ObjectFieldAlignment.Right, Height = 96f)]
+        [SerializeField]
+        public GameObject prefab;
 
-                if (set._muted)
-                {
-                    _anyMute = true;
-                }
-            }
-        }
+        [SmartLabel]
+        [TabGroup(_TABS, _REPLACE)]
+        [SerializeField]
+        public GameObject replacement;
 
-        public Color _soloColor =>
-            _soloed
-                ? ColorPrefs.Instance.SoloEnabled.v
-                : _anySolo
-                    ? ColorPrefs.Instance.SoloAny.v
-                    : ColorPrefs.Instance.SoloDisabled.v;
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public GPUInstancerPrototypeMetadata prototypeMetadata;
 
-        public Color _muteColor =>
-            _muted
-                ? ColorPrefs.Instance.MuteEnabled.v
-                : _anyMute
-                    ? ColorPrefs.Instance.MuteAny.v
-                    : ColorPrefs.Instance.MuteDisabled.v;
+        [HideInInspector]
+        [SerializeField]
+        public int[] cheapestMeshTris;
 
-        public void Enable(bool e)
-        {
-            renderingEnabled = e;
-        }
+        [HideInInspector]
+        [SerializeField]
+        public Mesh cheapestMesh;
 
-        public void Solo(bool s)
-        {
-            _soloed = s;
+        [HideInInspector]
+        [SerializeField]
+        public MeshFilter cheapestMeshFilter;
 
-            ReloadSoloAndMute();
-        }
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public PrefabRenderingSetLocationModificationLookup modifications;
 
-        public void Mute(bool m)
-        {
-            _muted = m;
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public PrefabRenderingSetLocations locations;
 
-            ReloadSoloAndMute();
-        }
+        public RendererLightData[] originalRendererLighting;
 
-        public void Enable()
-        {
-            renderingEnabled = !renderingEnabled;
-        }
+        [HideInInspector]
+        [SerializeField]
+        public Vector3[] cheapestMeshVerts;
 
-        public void Solo()
-        {
-            _soloed = !_soloed;
-
-            ReloadSoloAndMute();
-        }
-
-        public void Mute()
-        {
-            _muted = !_muted;
-
-            ReloadSoloAndMute();
-        }
-        
-        private static bool _anySolo;
-
-        public static bool AnySolo
-        {
-            get => _anySolo;
-            set => _anySolo = value;
-        }
-
-        private static bool _anyMute;
-
-        public static bool AnyMute
-        {
-            get => _anyMute;
-            set => _anyMute = value;
-        }
-
-        public bool Soloed
-        {
-            get => _soloed;
-            set => _soloed = value;
-        }
+        [SerializeField]
+        [HideInInspector]
+        private bool _muted;
 
         [SerializeField]
         [HideInInspector]
         private bool _soloed;
 
-        public bool Muted
-        {
-            get => _muted;
-            set => _muted = value;
-        }
-
+        [ListDrawerSettings(
+            Expanded = true,
+            DraggableItems = false,
+            HideAddButton = true,
+            HideRemoveButton = true,
+            NumberOfItemsPerPage = 6
+        )]
         [SerializeField]
-        [HideInInspector]
-        private bool _muted;
+        [DisableIf(nameof(useLocations))]
+        private ExternalRenderingParametersLookup _externalParameters;
+
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [InlineProperty]
+        [SerializeField]
+        private PrefabContentType_OVERRIDE _contentType;
+
+        [TabGroup(_TABS, _OPTS)]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        [SerializeField]
+        private PrefabContentTypeOptionsSetData _contentOptions;
+
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [InlineProperty]
+        [SerializeField]
+        private PrefabModelType_OVERRIDE _modelType;
+
+        [FormerlySerializedAs("_options")]
+        [TabGroup(_TABS, _OPTS)]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        [SerializeField]
+        private PrefabModelTypeOptionsSetData _modelOptions;
 
         [HorizontalGroup(_MAIN_COLS)]
         [LabelWidth(0)]
@@ -228,21 +207,129 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SerializeField]
         private PrefabRenderingInstanceManager _instanceManager;
 
-        public PrefabRenderingInstanceManager instanceManager => _instanceManager;
+        private string _setName;
+
+        #endregion
+
+        public static bool AnyMute
+        {
+            get => _anyMute;
+            set => _anyMute = value;
+        }
+
+        public static bool AnySolo
+        {
+            get => _anySolo;
+            set => _anySolo = value;
+        }
 
         public bool gpuMatrixPushPending => _instanceManager.gpuMatrixPushPending;
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [InlineProperty]
-        [SerializeField]
-        private PrefabContentType_OVERRIDE _contentType;
+        [ToggleLeft]
+        [TabGroup(_TABS, _REPLACE)]
+        [ShowInInspector]
+        public bool replacementEligible => replacement != null;
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [InlineProperty]
-        [SerializeField]
-        private PrefabModelType_OVERRIDE _modelType;
+        public Color _muteColor =>
+            _muted
+                ? ColorPrefs.Instance.MuteEnabled.v
+                : _anyMute
+                    ? ColorPrefs.Instance.MuteAny.v
+                    : ColorPrefs.Instance.MuteDisabled.v;
+
+        public Color _soloColor =>
+            _soloed
+                ? ColorPrefs.Instance.SoloEnabled.v
+                : _anySolo
+                    ? ColorPrefs.Instance.SoloAny.v
+                    : ColorPrefs.Instance.SoloDisabled.v;
+
+        public Color _stateColor =>
+            renderingEnabled
+                ? _instanceManager?.currentState == RuntimeStateCode.Enabled
+                    ? ColorPrefs.Instance.Enabled.v
+                    : _instanceManager?.currentState == RuntimeStateCode.Disabled
+                        ? ColorPrefs.Instance.DisabledImportant.v
+                        : ColorPrefs.Instance.Pending.v
+                : ColorPrefs.Instance.DisabledImportant.v;
+
+        public IAppaLookup<string, ExternalRenderingParameters, AppaList_ExternalRenderingParameters>
+            ExternalParameters
+        {
+            get
+            {
+                if (_externalParameters == null)
+                {
+                    _externalParameters = new ExternalRenderingParametersLookup();
+#if UNITY_EDITOR
+                    SetDirty();
+
+                    _externalParameters.SetDirtyAction(SetDirty);
+#endif
+                }
+
+                return _externalParameters;
+            }
+        }
+
+        public PrefabContentTypeOptionsSetData contentOptions
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (_contentOptions == null)
+                {
+                    _contentOptions = AppalachiaObject.LoadOrCreateNew<PrefabContentTypeOptionsSetData>(prefab.name);
+                }
+#endif
+
+                return _contentOptions;
+            }
+        }
+
+        public PrefabModelTypeOptionsSetData modelOptions
+        {
+            get
+            {
+#if UNITY_EDITOR
+                if (_modelOptions == null)
+                {
+                    _modelOptions = AppalachiaObject.LoadOrCreateNew<PrefabModelTypeOptionsSetData>(prefab.name);
+                }
+#endif
+
+                return _modelOptions;
+            }
+        }
+
+        public PrefabRenderingInstanceManager instanceManager => _instanceManager;
+
+        public string setName
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(_setName))
+                {
+                    return _setName;
+                }
+
+                _setName = prefab == null ? $"MISSING PREFAB [{_suffix}]" : $"{prefab.name} [{_suffix}]";
+
+                return _setName;
+            }
+        }
+
+        public bool Muted
+        {
+            get => _muted;
+            set => _muted = value;
+        }
+
+        public bool Soloed
+        {
+            get => _soloed;
+            set => _soloed = value;
+        }
 
         public PrefabContentType contentType
         {
@@ -294,194 +381,41 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public GPUInstancerPrototypeMetadata prototypeMetadata;
-
         private bool _canUseLocations =>
-            (locations != null) &&
-            (locations.locations != null) &&
-            (locations.locations.Length > 0);
+            (locations != null) && (locations.locations != null) && (locations.locations.Length > 0);
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [SerializeField]
-        [EnableIf(nameof(_canUseLocations))]
-        public bool useLocations;
+        private string _stateLabel =>
+            renderingEnabled
+                ? _instanceManager?.currentState == RuntimeStateCode.Disabled
+                    ? "Disabled Elsewhere"
+                    : _instanceManager?.currentState.ToString().SeperateWords() ?? string.Empty
+                : _instanceManager?.currentState.ToString().SeperateWords() ?? string.Empty;
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public PrefabRenderingSetLocations locations;
+        private string _substateLabel =>
+            _instanceManager?.currentSupplementalStateCode.ToString().SeperateWords() ?? string.Empty;
 
-        [ListDrawerSettings(
-            Expanded = true,
-            DraggableItems = false,
-            HideAddButton = true,
-            HideRemoveButton = true,
-            NumberOfItemsPerPage = 6
-        )]
-        [SerializeField]
-        [DisableIf(nameof(useLocations))]
-        private ExternalRenderingParametersLookup _externalParameters;
+        private string _suffix => $"{_modelType.value.ToString()} / {_contentType.value.ToString()}";
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public PrefabRenderingSetLocationModificationLookup modifications;
-
-        [ToggleLeft]
-        [TabGroup(_TABS, _REPLACE)]
-        [ShowInInspector]
-        public bool replacementEligible => replacement != null;
-
-        [ToggleLeft]
-        [TabGroup(_TABS, _REPLACE)]
-        [SmartLabel]
-        [EnableIf(nameof(replacementEligible))]
-        [SerializeField]
-        public bool useReplacement;
-
-        [SmartLabel]
-        [TabGroup(_TABS, _REPLACE)]
-        [SerializeField]
-        public GameObject replacement;
-
-        public IAppaLookup<string, ExternalRenderingParameters,
-            AppaList_ExternalRenderingParameters> ExternalParameters
+        [DebuggerStepThrough]
+        public override string ToString()
         {
-            get
-            {
-                if (_externalParameters == null)
-                {
-                    _externalParameters = new ExternalRenderingParametersLookup();
-#if UNITY_EDITOR
-                    SetDirty();
-
-                    _externalParameters.SetDirtyAction(SetDirty);
-#endif
-                }
-
-                return _externalParameters;
-            }
+            return $"{prefab.name} - Prefab Render Set";
         }
 
-        [HideInInspector]
-        [SerializeField]
-        public AppaSet_string labels;
-
-        [HideInInspector]
-        [SerializeField]
-        public Bounds bounds;
-
-        [HideInInspector]
-        [SerializeField]
-        public MeshFilter cheapestMeshFilter;
-
-        [HideInInspector]
-        [SerializeField]
-        public Mesh cheapestMesh;
-
-        [HideInInspector]
-        [SerializeField]
-        public Vector3[] cheapestMeshVerts;
-
-        [HideInInspector]
-        [SerializeField]
-        public int[] cheapestMeshTris;
-
-        [HideInInspector]
-        [SerializeField]
-        public RendererLightData[] originalRendererLighting;
-
-        private string _setName;
-
-        private string _suffix =>
-            $"{_modelType.value.ToString()} / {_contentType.value.ToString()}";
-
-        public string setName
+        public void Enable(bool e)
         {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(_setName))
-                {
-                    return _setName;
-                }
-
-                _setName = prefab == null
-                    ? $"MISSING PREFAB [{_suffix}]"
-                    : $"{prefab.name} [{_suffix}]";
-
-                return _setName;
-            }
+            renderingEnabled = e;
         }
 
-        [FormerlySerializedAs("_options")]
-        [TabGroup(_TABS, _OPTS)]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        [SerializeField]
-        private PrefabModelTypeOptionsSetData _modelOptions;
-
-        public PrefabModelTypeOptionsSetData modelOptions
+        public void Enable()
         {
-            get
-            {
-#if UNITY_EDITOR
-                if (_modelOptions == null)
-                {
-                    _modelOptions = PrefabModelTypeOptionsSetData.LoadOrCreateNew(prefab.name);
-                }
-#endif
-
-                return _modelOptions;
-            }
+            renderingEnabled = !renderingEnabled;
         }
-
-        [TabGroup(_TABS, _OPTS)]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        [SerializeField]
-        private PrefabContentTypeOptionsSetData _contentOptions;
-
-        public PrefabContentTypeOptionsSetData contentOptions
-        {
-            get
-            {
-#if UNITY_EDITOR
-                if (_contentOptions == null)
-                {
-                    _contentOptions = PrefabContentTypeOptionsSetData.LoadOrCreateNew(prefab.name);
-                }
-#endif
-
-                return _contentOptions;
-            }
-        }
-
-        [HorizontalGroup(_MAIN_COLS, 100f)]
-        [LabelWidth(0)]
-        [HideLabel]
-        [VerticalGroup(_MAIN_COLS_2)]
-        [PreviewField(ObjectFieldAlignment.Right, Height = 96f)]
-        [SerializeField]
-        public GameObject prefab;
 
         public GameObject GetPrefab()
         {
             return prefab;
         }
-
-#endregion
-
-#region Metadata Methods
-
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
 
         public void Initialize(GameObject pf, GPUInstancerPrototypeMetadata pp)
         {
@@ -494,7 +428,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                 if (locations == null)
                 {
-                    locations = PrefabRenderingSetLocations.LoadOrCreateNew(name);
+                    locations = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSetLocations>(name);
                 }
 #endif
 
@@ -513,7 +447,106 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
+        public void Mute(bool m)
+        {
+            _muted = m;
+
+            ReloadSoloAndMute();
+        }
+
+        public void Mute()
+        {
+            _muted = !_muted;
+
+            ReloadSoloAndMute();
+        }
+
+        public bool OnLateUpdate(
+            GPUInstancerPrefabManager gpui,
+            RuntimeRenderingOptions globalRenderingOptions)
+        {
+            using (_PRF_OnLateUpdate.Auto())
+            {
+                if (!instanceManager.ShouldProcess)
+                {
+                    return true;
+                }
+
+                if (instanceManager.initializationStarted && !instanceManager.initializationCompleted)
+                {
+                    instanceManager.OnLateUpdate_Initialize(this, gpui);
+                }
+                else if (instanceManager.initializationCompleted)
+                {
+                    if (!instanceManager.OnLateUpdate_Execute(
+                        this,
+                        globalRenderingOptions.global,
+                        globalRenderingOptions.execution
+                    ))
+                    {
+                        AppaLog.Error($"Instance validation for [{prefab.name}] producing continued errors.");
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        public bool OnUpdate(
+            GPUInstancerPrefabManager gpui,
+            PrefabLocationSource prefabSource,
+            NativeList<float3> referencePoints,
+            Camera camera,
+            Camera frustumCamera,
+            RuntimeRenderingOptions globalRenderingOptions,
+            out JobHandle handle)
+        {
+            using (_PRF_OnUpdate.Auto())
+            {
+                SyncExternalParameters(prefabSource);
+
+                instanceManager.UpdateNextState(this);
+
+                if (!instanceManager.ShouldProcess)
+                {
+                    handle = default;
+                    return true;
+                }
+
+                if (!instanceManager.initializationStarted)
+                {
+                    handle = instanceManager.OnUpdate_Initialize(
+                        this,
+                        gpui,
+                        prefabSource,
+                        referencePoints,
+                        globalRenderingOptions
+                    );
+                    return true;
+                }
+
+                UpdatePrototypeSettings();
+
+                return instanceManager.OnUpdate_Execute(
+                    this,
+                    gpui,
+                    camera,
+                    frustumCamera,
+                    referencePoints,
+                    globalRenderingOptions.execution,
+                    out handle
+                );
+            }
+        }
+
+        public void PushAllGPUMatrices()
+        {
+            using (_PRF_PushAllGPUMatrices.Auto())
+            {
+                instanceManager.PushAllGPUMatrices();
+            }
+        }
 
         public void Refresh()
         {
@@ -579,8 +612,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         {
 #if UNITY_EDITOR
                             var meshImporter =
-                                UnityEditor.AssetImporter.GetAtPath(AssetDatabaseManager.GetAssetPath(cheapestMesh)) as
-                                    UnityEditor.ModelImporter;
+                                UnityEditor.AssetImporter.GetAtPath(
+                                    AssetDatabaseManager.GetAssetPath(cheapestMesh)
+                                ) as UnityEditor.ModelImporter;
 
                             meshImporter.isReadable = true;
 
@@ -615,8 +649,48 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_UpdatePrototypeSettings =
-            new(_PRF_PFX + nameof(UpdatePrototypeSettings));
+        public void Solo(bool s)
+        {
+            _soloed = s;
+
+            ReloadSoloAndMute();
+        }
+
+        public void Solo()
+        {
+            _soloed = !_soloed;
+
+            ReloadSoloAndMute();
+        }
+
+        public void SyncExternalParameters(PrefabLocationSource prefabSource)
+        {
+            using (_PRF_SyncExternalParameters.Auto())
+            {
+                for (var i = 0; i < _externalParameters.Count; i++)
+                {
+                    var external = _externalParameters.at[i];
+
+                    if (external.veggie == null)
+                    {
+                        prefabSource.UpdateRuntimeRenderingParameters(
+                            external,
+                            out _,
+                            out _,
+                            out external.veggie
+                        );
+                    }
+                }
+            }
+        }
+
+        public void TearDown(GPUInstancerPrefabManager gpui)
+        {
+            using (_PRF_TearDown.Auto())
+            {
+                instanceManager.TearDownInstances(gpui, prototypeMetadata);
+            }
+        }
 
         public void UpdatePrototypeSettings()
         {
@@ -659,8 +733,31 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        private static readonly ProfilerMarker _PRF_UpdatePrototypeShadowMap =
-            new(_PRF_PFX + nameof(UpdatePrototypeShadowMap));
+#if UNITY_EDITOR
+        [UnityEditor.Callbacks.DidReloadScripts]
+#endif
+        private static void ReloadSoloAndMute()
+        {
+            var sets = PrefabRenderingSetCollection.instance.Sets;
+
+            _anySolo = false;
+            _anyMute = false;
+
+            for (var i = 0; i < sets.Count; i++)
+            {
+                var set = sets.at[i];
+
+                if (set._soloed)
+                {
+                    _anySolo = true;
+                }
+
+                if (set._muted)
+                {
+                    _anyMute = true;
+                }
+            }
+        }
 
         private static void UpdatePrototypeShadowMap(GPUInstancerPrefabPrototype prototype)
         {
@@ -689,8 +786,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         var meshFilter = renderer.GetComponent<MeshFilter>();
                         var mesh = meshFilter.sharedMesh;
 
-                        if ((mesh.vertexCount >= vertexMinimum) &&
-                            (mesh.vertexCount < minVertexCount))
+                        if ((mesh.vertexCount >= vertexMinimum) && (mesh.vertexCount < minVertexCount))
                         {
                             minVertexCount = mesh.vertexCount;
                             minIndex = index;
@@ -713,142 +809,31 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
+
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+
+        private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
+
+        private static readonly ProfilerMarker _PRF_UpdatePrototypeSettings =
+            new(_PRF_PFX + nameof(UpdatePrototypeSettings));
+
+        private static readonly ProfilerMarker _PRF_UpdatePrototypeShadowMap =
+            new(_PRF_PFX + nameof(UpdatePrototypeShadowMap));
+
         private static readonly ProfilerMarker _PRF_SyncExternalParameters =
             new(_PRF_PFX + nameof(SyncExternalParameters));
 
-        public void SyncExternalParameters(PrefabLocationSource prefabSource)
-        {
-            using (_PRF_SyncExternalParameters.Auto())
-            {
-                for (var i = 0; i < _externalParameters.Count; i++)
-                {
-                    var external = _externalParameters.at[i];
-
-                    if (external.veggie == null)
-                    {
-                        prefabSource.UpdateRuntimeRenderingParameters(
-                            external,
-                            out _,
-                            out _,
-                            out external.veggie
-                        );
-                    }
-                }
-            }
-        }
-
-#endregion
-
-#region Runtime Methods
-
         private static readonly ProfilerMarker _PRF_OnUpdate = new(_PRF_PFX + nameof(OnUpdate));
-
-        public bool OnUpdate(
-            GPUInstancerPrefabManager gpui,
-            PrefabLocationSource prefabSource,
-            NativeList<float3> referencePoints,
-            Camera camera,
-            Camera frustumCamera,
-            RuntimeRenderingOptions globalRenderingOptions,
-            out JobHandle handle)
-        {
-            using (_PRF_OnUpdate.Auto())
-            {
-                SyncExternalParameters(prefabSource);
-
-                instanceManager.UpdateNextState(this);
-
-                if (!instanceManager.ShouldProcess)
-                {
-                    handle = default;
-                    return true;
-                }
-
-                if (!instanceManager.initializationStarted)
-                {
-                    handle = instanceManager.OnUpdate_Initialize(
-                        this,
-                        gpui,
-                        prefabSource,
-                        referencePoints,
-                        globalRenderingOptions
-                    );
-                    return true;
-                }
-
-                UpdatePrototypeSettings();
-
-                return instanceManager.OnUpdate_Execute(
-                    this,
-                    gpui,
-                    camera,
-                    frustumCamera,
-                    referencePoints,
-                    globalRenderingOptions.execution,
-                    out handle
-                );
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate =
-            new(_PRF_PFX + nameof(OnLateUpdate));
-
-        public bool OnLateUpdate(
-            GPUInstancerPrefabManager gpui,
-            RuntimeRenderingOptions globalRenderingOptions)
-        {
-            using (_PRF_OnLateUpdate.Auto())
-            {
-                if (!instanceManager.ShouldProcess)
-                {
-                    return true;
-                }
-
-                if (instanceManager.initializationStarted &&
-                    !instanceManager.initializationCompleted)
-                {
-                    instanceManager.OnLateUpdate_Initialize(this, gpui);
-                }
-                else if (instanceManager.initializationCompleted)
-                {
-                    if (!instanceManager.OnLateUpdate_Execute(
-                        this,
-                        globalRenderingOptions.global,
-                        globalRenderingOptions.execution
-                    ))
-                    {
-                        AppaLog.Error(
-                            $"Instance validation for [{prefab.name}] producing continued errors."
-                        );
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
+        private static readonly ProfilerMarker _PRF_OnLateUpdate = new(_PRF_PFX + nameof(OnLateUpdate));
 
         private static readonly ProfilerMarker _PRF_PushAllGPUMatrices =
             new(_PRF_PFX + nameof(PushAllGPUMatrices));
 
-        public void PushAllGPUMatrices()
-        {
-            using (_PRF_PushAllGPUMatrices.Auto())
-            {
-                instanceManager.PushAllGPUMatrices();
-            }
-        }
-
         private static readonly ProfilerMarker _PRF_TearDown = new(_PRF_PFX + nameof(TearDown));
 
-        public void TearDown(GPUInstancerPrefabManager gpui)
-        {
-            using (_PRF_TearDown.Auto())
-            {
-                instanceManager.TearDownInstances(gpui, prototypeMetadata);
-            }
-        }
-
-#endregion
+        #endregion
     }
 }

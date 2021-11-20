@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
-    public class MeshWindMetadata : AppalachiaObject<MeshWindMetadata>
+    public class MeshWindMetadata  : AppalachiaObject
     {
         [Range(0f, 1f)] public float generalMotionXZInfluence = .35f;
 
@@ -49,7 +49,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(MeshWindMetadata), priority = PKG.Menu.Assets.Priority)]
         public static void CreateAsset()
         {
-            CreateNew();
+            CreateNew<MeshWindMetadata>();
         }
 #endif
     }

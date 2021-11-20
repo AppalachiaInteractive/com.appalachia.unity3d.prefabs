@@ -13,7 +13,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options.Rendering
 #if UNITY_EDITOR
 
     [Serializable]
-    public class EditorRenderingOptions : RenderingOptionsBase<EditorRenderingOptions>
+    public class EditorRenderingOptions : RenderingOptionsBase
     {
         public enum EditorRenderCamera
         {

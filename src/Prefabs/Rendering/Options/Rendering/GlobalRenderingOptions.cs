@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options.Rendering
 {
     [Serializable]
-    public class GlobalRenderingOptions : RenderingOptionsBase<GlobalRenderingOptions>
+    public class GlobalRenderingOptions : RenderingOptionsBase
     {
         private const string _PRF_PFX = nameof(GlobalRenderingOptions) + ".";
 

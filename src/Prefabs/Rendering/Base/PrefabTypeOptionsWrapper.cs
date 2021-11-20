@@ -16,7 +16,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
     public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
-                                                   IL_TW, IL_TT> : AppalachiaObject<TW>
+                                                   IL_TW, IL_TT>  : AppalachiaObject
         where TE : Enum
         where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
         new()

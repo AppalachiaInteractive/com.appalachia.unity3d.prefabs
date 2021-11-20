@@ -33,7 +33,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingInstanceManager : AppalachiaBase<PrefabRenderingInstanceManager>,
+    public class PrefabRenderingInstanceManager : AppalachiaBase,
                                                   IDisposable
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstanceManager) + ".";

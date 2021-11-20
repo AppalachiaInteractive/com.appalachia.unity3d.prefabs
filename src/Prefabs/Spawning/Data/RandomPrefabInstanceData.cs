@@ -13,7 +13,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class RandomPrefabInstanceData : AppalachiaBase<RandomPrefabInstanceData>
+    public class RandomPrefabInstanceData : AppalachiaBase
     {
         private const string _PRF_PFX = nameof(RandomPrefabInstanceData) + ".";
 

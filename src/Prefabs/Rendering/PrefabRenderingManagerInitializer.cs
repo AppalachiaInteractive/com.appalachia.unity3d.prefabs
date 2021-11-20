@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Appalachia.Core.Extensions.Helpers;
+using Appalachia.Core.Scriptables;
 using Appalachia.Editing.Core;
 using Appalachia.Globals.Shading;
 using Appalachia.Rendering.Prefabs.Core;
@@ -601,7 +602,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                             else
                             {
-                                renderingSet = PrefabRenderingSet.LoadOrCreateNew(
+                                renderingSet = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSet>(
                                     $"{renderingParameter.prefab.name}",
                                     true,
                                     false

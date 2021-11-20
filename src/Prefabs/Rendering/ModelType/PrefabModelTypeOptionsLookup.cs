@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
@@ -45,7 +46,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                     (_state[value].options.rangeSettings == null) ||
                     (_state[value].options.rangeSettings.Length == 0))
                 {
-                    var options = PrefabModelTypeOptionsWrapper.LoadOrCreateNew(value.ToString());
+                    var options = AppalachiaObject.LoadOrCreateNew<PrefabModelTypeOptionsWrapper>(value.ToString());
 
                     switch (value)
                     {

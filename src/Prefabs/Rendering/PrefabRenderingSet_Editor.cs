@@ -4,6 +4,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
@@ -22,7 +23,24 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [LabelWidth(0)]
     public partial class PrefabRenderingSet
     {
-        #region Metadata Methods
+        protected override bool ShowIDProperties => false;
+
+        #region Event Functions
+
+        private void OnEnable()
+        {
+            if (_externalParameters == null)
+            {
+                _externalParameters = new ExternalRenderingParametersLookup();
+                SetDirty();
+            }
+
+            _externalParameters.SetDirtyAction(SetDirty);
+
+            //_assetType = _assetType.CheckObsolete();
+        }
+
+        #endregion
 
         [TabGroup(_TABS, _META)]
         [SmartLabel]
@@ -44,32 +62,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             contentOptions.type = contentType;
         }
 
-        #endregion
-
-        #region Base Class
-
-        private void OnEnable()
+        [TabGroup(_TABS, _META)]
+        [SmartLabel]
+        [Button]
+        private void BuryMeshes()
         {
-            if (_externalParameters == null)
-            {
-                _externalParameters = new ExternalRenderingParametersLookup();
-                SetDirty();
-            }
-
-            _externalParameters.SetDirtyAction(SetDirty);
-
-            //_assetType = _assetType.CheckObsolete();
-        }
-
-        protected override bool ShowIDProperties => false;
-
-        #endregion
-
-        #region Fields & Properties
-
-        private void ModelType()
-        {
-            UnityEditor.Selection.SetActiveObjectWithContext(modelOptions.typeOptions, this);
+            //MeshBurialManagementProcessor.EnqueuePrefabRenderingSet(this);
         }
 
         /*
@@ -87,22 +85,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [TabGroup(_TABS, _META)]
         [SmartLabel]
         [Button]
-        private void SetRenderingLocations()
+        private void DefaultPositions()
         {
-            if (locations == null)
-            {
-                locations = PrefabRenderingSetLocations.LoadOrCreateNew(name);
-            }
-
-            locations.SetFromInstance(this);
+            useLocations = false;
+            ResetInstances();
         }
 
-        [TabGroup(_TABS, _META)]
-        [SmartLabel]
-        [Button]
-        private void BuryMeshes()
+        private void ModelType()
         {
-            //MeshBurialManagementProcessor.EnqueuePrefabRenderingSet(this);
+            UnityEditor.Selection.SetActiveObjectWithContext(modelOptions.typeOptions, this);
         }
 
         [TabGroup(_TABS, _META)]
@@ -124,13 +115,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [TabGroup(_TABS, _META)]
         [SmartLabel]
         [Button]
-        private void DefaultPositions()
+        private void SetRenderingLocations()
         {
-            useLocations = false;
-            ResetInstances();
-        }
+            if (locations == null)
+            {
+                locations = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSetLocations>(name);
+            }
 
-        #endregion
+            locations.SetFromInstance(this);
+        }
     }
 }
 

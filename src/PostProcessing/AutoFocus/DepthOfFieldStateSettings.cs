@@ -8,26 +8,23 @@ using UnityEngine;
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldStateSettings : AutonamedIdentifiableAppalachiaObject<
-        DepthOfFieldStateSettings>
+    public class DepthOfFieldStateSettings : AutonamedIdentifiableAppalachiaObject
     {
+        #region Fields and Autoproperties
+
         [SerializeField]
         [SmartLabel]
         public DepthOfFieldState state;
 
-        [BoxGroup("Movement")]
-        [PropertyTooltip("Movement velocity at which these settings enable.")]
-        [PropertyRange(0.1f, 6f)]
-        [HideIf(nameof(hideVelocityThreshold))]
-        [SmartLabel]
-        public float velocityThreshold = 3.0f;
+        [TabGroup("Planes", "Far Plane")]
+        [InlineProperty]
+        [HideLabel]
+        public DepthOfFieldStatePlaneSettings farPlane;
 
-        [BoxGroup("Movement")]
-        [PropertyTooltip("Movement velocity at which these settings enable.")]
-        [PropertyRange(0.1f, 2f)]
-        [HideIf(nameof(hideVelocityThreshold))]
-        [SmartLabel]
-        public float velocityFadeRange = 1.0f;
+        [TabGroup("Planes", "Near Plane")]
+        [InlineProperty]
+        [HideLabel]
+        public DepthOfFieldStatePlaneSettings nearPlane;
 
         [BoxGroup("Focus")]
         [PropertyTooltip("Sets the focus distance when nothing is explicitly targeted.")]
@@ -40,29 +37,23 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         [SmartLabel]
         public float maxFocusDistance = 75.0f;
 
-        [TabGroup("Planes", "Near Plane")]
-        [InlineProperty]
-        [HideLabel]
-        public DepthOfFieldStatePlaneSettings nearPlane;
+        [BoxGroup("Movement")]
+        [PropertyTooltip("Movement velocity at which these settings enable.")]
+        [PropertyRange(0.1f, 2f)]
+        [HideIf(nameof(hideVelocityThreshold))]
+        [SmartLabel]
+        public float velocityFadeRange = 1.0f;
 
-        [TabGroup("Planes", "Far Plane")]
-        [InlineProperty]
-        [HideLabel]
-        public DepthOfFieldStatePlaneSettings farPlane;
+        [BoxGroup("Movement")]
+        [PropertyTooltip("Movement velocity at which these settings enable.")]
+        [PropertyRange(0.1f, 6f)]
+        [HideIf(nameof(hideVelocityThreshold))]
+        [SmartLabel]
+        public float velocityThreshold = 3.0f;
+
+        #endregion
 
         private bool hideVelocityThreshold => state == DepthOfFieldState.Standing;
-
-        public void Set(DepthOfFieldStateSettings a)
-        {
-            state = a.state;
-            velocityThreshold = a.velocityThreshold;
-            velocityFadeRange = a.velocityFadeRange;
-            defaultFocusDistance = a.defaultFocusDistance;
-            maxFocusDistance = a.maxFocusDistance;
-
-            nearPlane.Set(a.nearPlane);
-            farPlane.Set(a.farPlane);
-        }
 
         public void Lerp(DepthOfFieldStateSettings a, DepthOfFieldStateSettings b, float t)
         {
@@ -74,6 +65,18 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
             nearPlane.Lerp(a.nearPlane, b.farPlane, t);
             farPlane.Lerp(a.farPlane, b.nearPlane, t);
+        }
+
+        public void Set(DepthOfFieldStateSettings a)
+        {
+            state = a.state;
+            velocityThreshold = a.velocityThreshold;
+            velocityFadeRange = a.velocityFadeRange;
+            defaultFocusDistance = a.defaultFocusDistance;
+            maxFocusDistance = a.maxFocusDistance;
+
+            nearPlane.Set(a.nearPlane);
+            farPlane.Set(a.farPlane);
         }
     }
 }

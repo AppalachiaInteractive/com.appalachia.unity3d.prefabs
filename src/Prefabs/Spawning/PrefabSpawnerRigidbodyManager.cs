@@ -18,7 +18,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning
 {
     [Serializable]
-    public class PrefabSpawnerRigidbodyManager : AppalachiaBase<PrefabSpawnerRigidbodyManager>
+    public class PrefabSpawnerRigidbodyManager : AppalachiaBase
     {
         private const string _PRF_PFX = nameof(PrefabSpawnerRigidbodyManager) + ".";
 

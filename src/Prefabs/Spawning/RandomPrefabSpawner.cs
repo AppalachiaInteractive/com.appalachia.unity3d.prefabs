@@ -1,9 +1,11 @@
 #region
 
 using System;
+using System.Linq;
 using Appalachia.Core.Assets;
 using Appalachia.Core.Behaviours;
 using Appalachia.Core.Debugging;
+using Appalachia.Core.Scriptables;
 using Appalachia.Editing.Debugging;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Spawning.Data;
@@ -119,14 +121,16 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
             using (_PRF_OnEnable.Auto())
             {
+                base.OnEnable();
+                
 #if UNITY_EDITOR
-                PrefabSpawnSettings.UpdateAllIDs();
-                RandomPrefabSetCollection.UpdateAllIDs();
-                RandomPrefabSet.UpdateAllIDs();
+                settings.UpdateAllIDs();
+                state.collection.UpdateAllIDs();
+                state.collection.prefabSets?.FirstOrDefault()?.set?.UpdateAllIDs();
 #endif
                 if (rigidbodyManager == null)
                 {
@@ -195,7 +199,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_CreateNewSettings.Auto())
             {
-                settings = PrefabSpawnSettings.CreateNew();
+                settings = AppalachiaObject.CreateNew<PrefabSpawnSettings>();
                 AssetDatabaseSaveManager.SaveAssetsNextFrame();
             }
         }
@@ -209,7 +213,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_CreateNewState.Auto())
             {
-                var collection = RandomPrefabSetCollection.CreateNew();
+                var collection = AppalachiaObject.CreateNew<RandomPrefabSetCollection>();
                 RandomPrefabMasterCollection.instance.collections.Add(collection);
                 state = new RandomPrefabSetCollectionState(transform, collection);
                 AssetDatabaseSaveManager.SaveAssetsNextFrame();

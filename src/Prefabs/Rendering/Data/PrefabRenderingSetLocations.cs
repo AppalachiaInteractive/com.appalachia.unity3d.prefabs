@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Data
 {
     public class
-        PrefabRenderingSetLocations : AppalachiaObject<PrefabRenderingSetLocations>
+        PrefabRenderingSetLocations  : AppalachiaObject
     {
         [SerializeField] private float4x4[] _locations;
 

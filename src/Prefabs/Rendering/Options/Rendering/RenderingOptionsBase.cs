@@ -5,10 +5,9 @@ using Unity.Profiling;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options.Rendering
 {
     [Serializable]
-    public class RenderingOptionsBase<T> : AppalachiaBase<T>
-        where T : AppalachiaBase<T>
+    public class RenderingOptionsBase : AppalachiaBase
     {
-        private const string _PRF_PFX = nameof(RenderingOptionsBase<T>) + ".";
+        private const string _PRF_PFX = nameof(RenderingOptionsBase) + ".";
 
         private static readonly ProfilerMarker _PRF_MarkDirty = new(_PRF_PFX + nameof(MarkDirty));
 

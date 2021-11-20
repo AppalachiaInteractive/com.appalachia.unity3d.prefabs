@@ -11,8 +11,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     [Serializable]
     public class
-        ExternalRenderingParameters : IdentifiableAppalachiaObject<
-            ExternalRenderingParameters>
+        ExternalRenderingParameters : IdentifiableAppalachiaObject
     {
         [HideInInspector] public string identifyingKey;
 

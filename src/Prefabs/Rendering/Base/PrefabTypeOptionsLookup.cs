@@ -226,10 +226,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             Initialize();
         }
 
-        public void Initialize()
+        public override void Initialize()
         {
             using (_PRF_Initialize.Auto())
             {
+                base.Initialize();
+                
                 if (_state == null)
                 {
                     _state = new TI();

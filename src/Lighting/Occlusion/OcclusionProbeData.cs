@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
-    public class OcclusionProbeData : AppalachiaObject<OcclusionProbeData>
+    public class OcclusionProbeData :AppalachiaObject
     {
         [Header("Baked Results")]
         [Tooltip("Affects grass occlusion as well.")]

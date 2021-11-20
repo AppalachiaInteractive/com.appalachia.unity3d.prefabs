@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Scriptables;
 using GPUInstancer;
 using Unity.Profiling;
 using UnityEngine;
@@ -64,7 +65,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     prototypeLookup.Add(prototype, registeredPrefabsData);
                 }
 
-                var set = PrefabRenderingSet.LoadOrCreateNew($"{prefab.name}", true, false);
+                var set = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSet>($"{prefab.name}", true, false);
 
                 set.Initialize(prefab, metadatas.FindOrCreate(prefab, gpui, prototypeLookup));
 

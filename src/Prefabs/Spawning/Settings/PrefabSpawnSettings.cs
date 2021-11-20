@@ -7,7 +7,7 @@ using Sirenix.OdinInspector;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Settings
 {
-    public class PrefabSpawnSettings : IdentifiableAppalachiaObject<PrefabSpawnSettings>
+    public class PrefabSpawnSettings : IdentifiableAppalachiaObject
     {
         [BoxGroup("Timing")]
         [HideLabel]

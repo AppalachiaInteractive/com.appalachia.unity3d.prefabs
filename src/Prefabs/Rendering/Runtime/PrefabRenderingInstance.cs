@@ -28,7 +28,7 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingInstance : AppalachiaBase<PrefabRenderingInstance>, IDisposable
+    public class PrefabRenderingInstance : AppalachiaBase, IDisposable
     {
         private const string _PRF_PFX = nameof(PrefabRenderingInstance) + ".";
 

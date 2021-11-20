@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Dynamic
 {
-    public class ShaderTextureSet : AppalachiaObject<ShaderTextureSet>
+    public class ShaderTextureSet  : AppalachiaObject
     {
 /*#if UNITY_EDITOR
         [FoldoutGroup("Arrays", expanded: true)]
@@ -294,7 +294,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(ShaderTextureSet), priority = PKG.Menu.Assets.Priority)]
         public static void CreateAsset()
         {
-            CreateNew();
+            CreateNew<ShaderTextureSet>();
         }
 #endif
     }

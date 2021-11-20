@@ -6,6 +6,7 @@ using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Debugging;
+using Appalachia.Core.Scriptables;
 using Appalachia.Editing.Debugging;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Spatial.Octree;
@@ -98,7 +99,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
         [Button]
         public void CreateNewMetadata()
         {
-            metadata = VegetationPrefabCollisionRemovalMetadata.CreateNew();
+            metadata = AppalachiaObject.CreateNew<VegetationPrefabCollisionRemovalMetadata>();
         }
 #endif
 

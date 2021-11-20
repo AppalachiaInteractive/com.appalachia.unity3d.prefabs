@@ -1,14 +1,15 @@
-//using System.Linq;
 
 #region
 
 using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
+using Appalachia.CI.Integration.Attributes;
 using Appalachia.Core.Aspects.Profiling;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Behaviours;
+using Appalachia.Core.Collections.Extensions;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Collections.NonSerialized;
@@ -43,6 +44,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [ExecuteAlways]
     [DisallowMultipleComponent]
     [ExecutionOrder(-10000)]
+    [InspectorIcon(Icons.Squirrel.Red)]
     public partial class PrefabRenderingManager : SingletonAppalachiaBehaviour<PrefabRenderingManager>
     {
         #region Profiling And Tracing Markers
@@ -223,7 +225,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-        #region Fields
+        
 
         private const string _HIDETABS = nameof(hideTabs);
         private const string _TABGROUP = _HIDETABS + "/TABS";
@@ -383,16 +385,18 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             set => _renderingSets = value;
         }
 
-        #endregion
+     
 
         #region Unity Events
 
-        private static readonly ProfilerMarker _PRF_OnAwake = new(_PRF_PFX + nameof(OnAwake));
+        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
 
-        protected override void OnAwake()
+        protected override void Awake()
         {
-            using (_PRF_OnAwake.Auto())
+            using (_PRF_Awake.Auto())
             {
+                base.Awake();
+                
                 currentState = RenderingState.NotRendering;
 
                 nextState = Application.isPlaying
@@ -409,9 +413,16 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-        private void OnEnable()
+        private static readonly ProfilerMarker _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
+        
+        protected override void OnEnable()
         {
-            HandleEnableLogic(false);
+            using (_PRF_OnEnable.Auto())
+            {
+                base.OnEnable();
+            
+                HandleEnableLogic(false);
+            }
         }
 
         private static readonly ProfilerMarker _PRF_HandleEnableLogic =
@@ -456,9 +467,15 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #endif
         }
 
-        private void OnDisable()
+        private static readonly ProfilerMarker _PRF_OnDisable = new ProfilerMarker(_PRF_PFX + nameof(OnDisable));
+        protected override void OnDisable()
         {
-            HandleDisableLogic(false);
+            using (_PRF_OnDisable.Auto())
+            {
+                base.OnDisable();
+                
+                HandleDisableLogic(false);
+            }
         }
 
         private static readonly ProfilerMarker _PRF_HandleDisableLogic =
@@ -479,8 +496,8 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #if UNITY_EDITOR
                 if (!bouncing && !Application.isPlaying)
                 {
-                    PrefabRenderingSet.UpdateAllIDs();
-                    GPUInstancerPrototypeMetadata.UpdateAllIDs();
+                    _renderingSets.Sets?.FirstOrDefault().UpdateAllIDs();
+                    metadatas.State.FirstOrDefault().UpdateAllIDs();
                 }
 #endif
 

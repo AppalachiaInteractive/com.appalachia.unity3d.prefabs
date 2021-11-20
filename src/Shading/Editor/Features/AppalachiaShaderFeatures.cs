@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using Appalachia.CI.Integration;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Scriptables;
@@ -14,158 +13,12 @@ namespace Appalachia.Rendering.Shading.Features
 {
     public class AppalachiaShaderFeatures : SingletonAppalachiaObject<AppalachiaShaderFeatures>
     {
+        #region Fields and Autoproperties
+
         public List<AppalachiaShaderFeature> features = new List<AppalachiaShaderFeature>();
 
-        [Button(Name = "Compile")]
-        private void InjectShaderFeature()
-        {
-            UpdateAllShaders();
+        #endregion
 
-            EditorUtility.SetDirty(this);
-        }
-
-        public void UpdateAllShaders()
-        {
-            //var build = new StringBuilder();
-            //var build_Append = new StringBuilder();
-
-            var paths = new List<string>();
-
-            foreach (var feature in features)
-            {
-                foreach (var shader in feature.shaders)
-                {
-                    //UpdateShader(feature, shader, paths, build, build_Append);
-                    UpdateShader(feature, shader, paths);
-                }
-            }
-
-            ReimportShaders(paths);
-        }
-
-        public void ReimportShaders(List<string> paths)
-        {
-            AssetDatabaseManager.Refresh();
-
-            foreach (var shaderPath in paths)
-            {
-                AssetDatabaseManager.ImportAsset(shaderPath);
-            }
-        }
-
-        public void UpdateShader(
-            AppalachiaShaderFeature feature,
-            Shader shader,
-            List<string> paths)
-        {
-            if ((feature == null) || (shader == null))
-            {
-                return;
-            }
-
-            if (paths == null)
-            {
-                paths = new List<string>();
-            }
-
-            var build = new StringBuilder();
-
-            var shaderAssetPath = AssetDatabaseManager.GetAssetPath(shader);
-            paths.Add(shaderAssetPath);
-
-            var state = 0;
-
-            using (var reader = new StreamReader(shaderAssetPath))
-            {
-                while (!reader.EndOfStream)
-                {
-                    var line = reader.ReadLine();
-
-                    if (line == null)
-                    {
-                        continue;
-                    }
-
-                    if (state == 0)
-                    {
-                        if (line.Contains(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_START_searchterm))
-                        {
-                            state = 1;
-
-                            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_START);
-
-                            if (feature.compatibility == AppalachiaShaderFeatureCompatability.GPUInstancer)
-                            {
-                                AddGPUICompatability(build);
-                            }
-                            else if (feature.compatibility == AppalachiaShaderFeatureCompatability.VegetationStudioPro)
-                            {
-                                AddVSPCompatability(shader, build);
-                            }
-                            else if (feature.compatibility ==
-                                AppalachiaShaderFeatureCompatability.GPUInstancerAndVegetationStudioPro)
-                            {
-                                AddVSPAndGPUICompatability(shader, build);
-                            }
-
-                            if (feature.lodFade == AppalachiaShaderFeatureLODStyle.Dither)
-                            {
-                                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_LODFADE_DITHER);
-                            }
-                            else if (feature.lodFade == AppalachiaShaderFeatureLODStyle.Scale)
-                            {
-                                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_LODFADE_SCALE);
-                            }
-
-                            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_END);
-                        }
-                        else
-                        {
-                            build.AppendLine(line);
-                        }
-                    }
-                    else if (state == 1)
-                    {
-                        if (line.Contains(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_END_searchterm))
-                        {
-                            state = 0;
-                        }
-                    }
-                }
-            }
-
-           AppaFile.WriteAllText(shaderAssetPath, build.ToString());
-        }
-
-        private void AddGPUICompatability(StringBuilder build)
-        {
-            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_GPU_INSTANCER);
-        }
-        
-        private void AddVSPCompatability(Shader shader, StringBuilder build)
-        {
-            var shaderName = shader.name.ToLower();
-
-            if (shaderName.Contains("grass") || shaderName.Contains("plant"))
-            {
-                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_VEGETATION_STUDIO_FOLIAGE);
-            }
-            else
-            {
-                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_VEGETATION_STUDIO_GENERAL);
-            }
-        }
-        
-        
-        private void AddVSPAndGPUICompatability(Shader shader, StringBuilder build)
-        {
-            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_VEGETATION_STUDIO_ENABLED_IFDEF);
-            AddVSPCompatability(shader, build);
-            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.ELSE);
-            AddGPUICompatability(build);
-            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.ENDIF);
-        }
-        
         /*public void UpdateShader(
             AppalachiaShaderFeature feature,
             Shader shader,
@@ -308,6 +161,155 @@ namespace Appalachia.Rendering.Shading.Features
             return lookup;
         }
 
+        public void ReimportShaders(List<string> paths)
+        {
+            AssetDatabaseManager.Refresh();
+
+            foreach (var shaderPath in paths)
+            {
+                AssetDatabaseManager.ImportAsset(shaderPath);
+            }
+        }
+
+        public void UpdateAllShaders()
+        {
+            //var build = new StringBuilder();
+            //var build_Append = new StringBuilder();
+
+            var paths = new List<string>();
+
+            foreach (var feature in features)
+            {
+                foreach (var shader in feature.shaders)
+                {
+                    //UpdateShader(feature, shader, paths, build, build_Append);
+                    UpdateShader(feature, shader, paths);
+                }
+            }
+
+            ReimportShaders(paths);
+        }
+
+        public void UpdateShader(AppalachiaShaderFeature feature, Shader shader, List<string> paths)
+        {
+            if ((feature == null) || (shader == null))
+            {
+                return;
+            }
+
+            if (paths == null)
+            {
+                paths = new List<string>();
+            }
+
+            var build = new StringBuilder();
+
+            var shaderAssetPath = AssetDatabaseManager.GetAssetPath(shader);
+            paths.Add(shaderAssetPath);
+
+            var state = 0;
+
+            using (var reader = new StreamReader(shaderAssetPath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+
+                    if (line == null)
+                    {
+                        continue;
+                    }
+
+                    if (state == 0)
+                    {
+                        if (line.Contains(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_START_searchterm))
+                        {
+                            state = 1;
+
+                            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_START);
+
+                            if (feature.compatibility == AppalachiaShaderFeatureCompatability.GPUInstancer)
+                            {
+                                AddGPUICompatability(build);
+                            }
+                            else if (feature.compatibility ==
+                                     AppalachiaShaderFeatureCompatability.VegetationStudioPro)
+                            {
+                                AddVSPCompatability(shader, build);
+                            }
+                            else if (feature.compatibility ==
+                                     AppalachiaShaderFeatureCompatability.GPUInstancerAndVegetationStudioPro)
+                            {
+                                AddVSPAndGPUICompatability(shader, build);
+                            }
+
+                            if (feature.lodFade == AppalachiaShaderFeatureLODStyle.Dither)
+                            {
+                                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_LODFADE_DITHER);
+                            }
+                            else if (feature.lodFade == AppalachiaShaderFeatureLODStyle.Scale)
+                            {
+                                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_LODFADE_SCALE);
+                            }
+
+                            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_END);
+                        }
+                        else
+                        {
+                            build.AppendLine(line);
+                        }
+                    }
+                    else if (state == 1)
+                    {
+                        if (line.Contains(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_END_searchterm))
+                        {
+                            state = 0;
+                        }
+                    }
+                }
+            }
+
+            AppaFile.WriteAllText(shaderAssetPath, build.ToString());
+        }
+
+        private void AddGPUICompatability(StringBuilder build)
+        {
+            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_GPU_INSTANCER);
+        }
+
+        private void AddVSPAndGPUICompatability(Shader shader, StringBuilder build)
+        {
+            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_VEGETATION_STUDIO_ENABLED_IFDEF);
+            AddVSPCompatability(shader, build);
+            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.ELSE);
+            AddGPUICompatability(build);
+            build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.ENDIF);
+        }
+
+        private void AddVSPCompatability(Shader shader, StringBuilder build)
+        {
+            var shaderName = shader.name.ToLower();
+
+            if (shaderName.Contains("grass") || shaderName.Contains("plant"))
+            {
+                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_VEGETATION_STUDIO_FOLIAGE);
+            }
+            else
+            {
+                build.Append(APPALACHIA_SHADER_FEATURE_CONSTANTS.FEATURE_VEGETATION_STUDIO_GENERAL);
+            }
+        }
+
+        [Button(Name = "Compile")]
+        private void InjectShaderFeature()
+        {
+            UpdateAllShaders();
+
+            EditorUtility.SetDirty(this);
+        }
+
+        #region Menu Items
+
         /*private void InjectShaderFeature()
         {
             var build = new StringBuilder();
@@ -413,10 +415,15 @@ namespace Appalachia.Rendering.Shading.Features
             }
         }*/
 
-        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(AppalachiaShaderFeatures), priority = PKG.Menu.Assets.Priority)]
+        [MenuItem(
+            PKG.Menu.Assets.Base + nameof(AppalachiaShaderFeatures),
+            priority = PKG.Menu.Assets.Priority
+        )]
         public static void CreateAsset()
         {
-            CreateNew();
+            CreateNew<AppalachiaShaderFeatures>();
         }
+
+        #endregion
     }
 }

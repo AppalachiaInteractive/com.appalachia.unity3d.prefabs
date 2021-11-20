@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Utility.Enums;
@@ -42,7 +43,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
                     (_state[value].type == PrefabContentType.None) ||
                     (_state[value].options == default))
                 {
-                    var options = PrefabContentTypeOptionsWrapper.LoadOrCreateNew(value.ToString());
+                    var options = LoadOrCreateNew<PrefabContentTypeOptionsWrapper>(value.ToString());
 
                     options.type = value;
 

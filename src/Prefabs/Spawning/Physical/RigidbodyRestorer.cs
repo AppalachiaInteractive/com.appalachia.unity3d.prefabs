@@ -25,10 +25,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
         public Rigidbody rb;
         public RigidbodyData originalData;
 
-        public void Awake()
+        protected override void Awake()
         {
             using (_PRF_Awake.Auto())
             {
+                base.Awake();
+                
                 if (rb != null)
                 {
                     return;

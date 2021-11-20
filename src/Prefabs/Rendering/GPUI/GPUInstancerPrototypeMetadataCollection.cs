@@ -29,9 +29,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
         )]
         private GPUInstancerPrototypeMetadataLookup _state;
 
+        internal GPUInstancerPrototypeMetadataLookup State => _state;
+
         protected override void WhenEnabled()
         {
-            if (_state == null)
+            if (State == null)
             {
                 _state = new GPUInstancerPrototypeMetadataLookup();
 #if UNITY_EDITOR
@@ -40,13 +42,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             }
 
 #if UNITY_EDITOR
-            _state.SetDirtyAction(SetDirty);
+            State.SetDirtyAction(SetDirty);
 #endif
         }
 
         public void ConfirmPrototype(GPUInstancerPrototypeMetadata metadata)
         {
-            _state.AddIfKeyNotPresent(metadata.prototype.prefabObject.name, metadata);
+            State.AddIfKeyNotPresent(metadata.prototype.prefabObject.name, metadata);
         }
 
 #if UNITY_EDITOR
@@ -60,15 +62,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
         {
             using (_PRF_FindOrCreate.Auto())
             {
-                if (_state.ContainsKey(gameObject.name))
+                if (State.ContainsKey(gameObject.name))
                 {
-                    var metadata = _state[gameObject.name];
+                    var metadata = State[gameObject.name];
 
                     metadata.CreatePrototypeIfNecessary(gameObject, gpui, prototypeLookup);
                     return metadata;
                 }
 
-                var newPrototypePair = GPUInstancerPrototypeMetadata.LoadOrCreateNew(
+                var newPrototypePair = AppalachiaObject.LoadOrCreateNew<GPUInstancerPrototypeMetadata>(
                     gameObject.name,
                     true,
                     false
@@ -76,7 +78,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 
                 newPrototypePair.CreatePrototypeIfNecessary(gameObject, gpui, prototypeLookup);
 
-                _state.AddOrUpdate(gameObject.name, newPrototypePair);
+                State.AddOrUpdate(gameObject.name, newPrototypePair);
 
                 newPrototypePair.SetDirty();
                 SetDirty();

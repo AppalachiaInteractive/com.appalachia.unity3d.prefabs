@@ -1,18 +1,39 @@
 using System;
 using Appalachia.Core.Behaviours;
+using Unity.Profiling;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     public class PrefabSpawnMarker : AppalachiaBehaviour
     {
+        #region Fields and Autoproperties
+
         public string identifier;
 
-        private void Awake()
+        #endregion
+
+        #region Event Functions
+
+        protected override void Awake()
         {
-            if (identifier == null)
+            using (_PRF_Awake.Auto())
             {
-                identifier = Guid.NewGuid().ToString("D");
+                base.Awake();
+
+                if (identifier == null)
+                {
+                    identifier = Guid.NewGuid().ToString("D");
+                }
             }
         }
+
+        #endregion
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabSpawnMarker) + ".";
+        private static readonly ProfilerMarker _PRF_Awake = new ProfilerMarker(_PRF_PFX + nameof(Awake));
+
+        #endregion
     }
 }

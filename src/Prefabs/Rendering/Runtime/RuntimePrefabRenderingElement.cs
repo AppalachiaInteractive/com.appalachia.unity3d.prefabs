@@ -19,7 +19,7 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
-    public class RuntimePrefabRenderingElement : AppalachiaBase<RuntimePrefabRenderingElement>,
+    public class RuntimePrefabRenderingElement : AppalachiaBase,
                                                  IDisposable
     {
         private const string _PRF_PFX = nameof(RuntimePrefabRenderingElement) + ".";

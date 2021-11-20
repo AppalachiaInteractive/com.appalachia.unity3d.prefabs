@@ -10,12 +10,13 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
     public class DepthOfFieldStateSettingCollection : AutonamedIdentifiableAppalachiaObject
-        <DepthOfFieldStateSettingCollection>
     {
+        #region Fields and Autoproperties
+
         [FoldoutGroup("Defaults")]
-        [PropertyRange(0.01f, 1.0f)]
+        [PropertyRange(0.0f, 128.0f)]
         [SmartLabel]
-        public float velocitySmoothing = .2f;
+        public float aperture = 16f;
 
         [FoldoutGroup("Defaults")]
         [PropertyRange(0.1f, 50.0f)]
@@ -23,13 +24,17 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         public float focusDistance = 15f;
 
         [FoldoutGroup("Defaults")]
-        [PropertyRange(0.0f, 128.0f)]
+        [PropertyRange(0.01f, 1.0f)]
         [SmartLabel]
-        public float aperture = 16f;
+        public float velocitySmoothing = .2f;
 
         [InlineEditor] public List<DepthOfFieldStateSettings> settings;
 
         private IComparer<DepthOfFieldStateSettings> _comparison;
+
+        #endregion
+
+        #region Event Functions
 
         protected override void OnEnable()
         {
@@ -46,7 +51,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             {
                 var targetname = $"{name}_{values[settings.Count]}";
 
-                settings.Add(DepthOfFieldStateSettings.LoadOrCreateNew(targetname));
+                settings.Add(LoadOrCreateNew<DepthOfFieldStateSettings>(targetname));
                 SetDirty();
             }
 
@@ -59,9 +64,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             if (_comparison == null)
             {
                 _comparison =
-                    new ComparisonWrapper<DepthOfFieldStateSettings>(
-                        (a, b) => a.state.CompareTo(b.state)
-                    );
+                    new ComparisonWrapper<DepthOfFieldStateSettings>((a, b) => a.state.CompareTo(b.state));
             }
 
             settings.Sort(_comparison);
@@ -94,6 +97,8 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             }
 #endif
         }
+
+        #endregion
 
         [Button]
         private void Refresh()
