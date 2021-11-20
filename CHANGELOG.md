@@ -14,6 +14,8 @@ Let's go!
 ## Releasing
 | Hash | Date | Author | Changes |
 |------|------|--------|---------|
+| 473ac04c3fdd920238c607f9e79c1541e5b7a75b | 2021-11-20 | Chris Schubert | Code cleanup and base class refactoring |
+| dc08e7bd5b8083e5c13fadf308c982f38fa7cefb | 2021-11-14 | Chris Schubert | Updating changelog and releaselog |
 | db0b83aece7837c453f1db215f4401d5cb440bad | 2021-11-13 | Chris Schubert | Updating changelog and releaselog |
 | 73f092fbd25cfdc0a1473ca0280c841b14767bf5 | 2021-11-13 | Chris Schubert | Updating changelog and releaselog |
 | 54f395ee7c4ef4e4f1dc5600e5256c81016ca0dc | 2021-11-13 | Chris Schubert | EXR to gitlfs |
