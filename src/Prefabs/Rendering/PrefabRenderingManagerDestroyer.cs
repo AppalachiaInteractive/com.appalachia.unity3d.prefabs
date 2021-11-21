@@ -35,6 +35,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     manager.renderingSets.TearDown(
                         manager.gpui,
+                        // ReSharper disable once AccessToDisposedClosure
                         value => bar.Increment1AndShowProgress(value)
                     );
                 }
