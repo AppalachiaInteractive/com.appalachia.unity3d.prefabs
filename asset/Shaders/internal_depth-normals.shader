@@ -185,6 +185,7 @@ Shader "Hidden/appalachia/depth-normals"
         }
     }
     
+    
     SubShader
     {
         Tags { "RenderType" = "TreeBark" }

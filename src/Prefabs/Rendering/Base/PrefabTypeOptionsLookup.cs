@@ -8,6 +8,7 @@ using Appalachia.Core.Collections.Interfaces;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Core.Scriptables;
 using Appalachia.Utility.Enums;
+using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -129,9 +130,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 {
                     _state = new TI();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 
-                    _state.SetDirtyAction(SetDirty);
+                    _state.SetMarkModifiedAction(this.MarkAsModified);
 #endif
                 }
 
@@ -155,12 +156,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 _state.at[i].Enable(true);
 #if UNITY_EDITOR
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
 #endif
             }
 
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -174,12 +175,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 _state.at[i].Enable(false);
 #if UNITY_EDITOR
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
 #endif
             }
 
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -193,12 +194,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 _state.at[i].Solo(false);
 #if UNITY_EDITOR
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
 #endif
             }
 
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -212,12 +213,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 _state.at[i].Mute(false);
 #if UNITY_EDITOR
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
 #endif
             }
 
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -226,7 +227,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             Initialize();
         }
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             using (_PRF_Initialize.Auto())
             {
@@ -237,24 +238,24 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     _state = new TI();
 
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 #endif
                 }
 
 #if UNITY_EDITOR
-                _state.SetDirtyAction(SetDirty);
+                _state.SetMarkModifiedAction(this.MarkAsModified);
 #endif
 
                 if (_toggles == null)
                 {
                     _toggles = new TOGI();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 #endif
                 }
 
 #if UNITY_EDITOR
-                _toggles.SetDirtyAction(SetDirty);
+                _toggles.SetMarkModifiedAction(this.MarkAsModified);
 #endif
 
                 for (var i = _state.Count - 1; i >= 0; i--)
@@ -265,7 +266,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     {
                         _state.RemoveAt(i);
 #if UNITY_EDITOR
-                        SetDirty();
+                       this.MarkAsModified();
 #endif
                     }
                 }
@@ -292,7 +293,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
 
 #if UNITY_EDITOR
-                SetDirty();
+               this.MarkAsModified();
 #endif
             }
         }

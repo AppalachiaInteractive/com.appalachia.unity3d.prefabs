@@ -7,6 +7,7 @@ using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -101,9 +102,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     {
                         _state = new PrefabRenderingSetLookup();
 #if UNITY_EDITOR
-                        SetDirty();
+                       this.MarkAsModified();
 
-                        _state.SetDirtyAction(SetDirty);
+                        _state.SetMarkModifiedAction(this.MarkAsModified);
 #endif
                     }
 
@@ -166,7 +167,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Enable(true);
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
             }
         }
 
@@ -179,7 +180,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Enable(false);
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
             }
         }
 
@@ -192,7 +193,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].Solo(false);
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
             }
         }
 
@@ -206,7 +207,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 _state.at[i].Mute(false);
 #if UNITY_EDITOR
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
 #endif
             }
         }
@@ -220,7 +221,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             for (var i = 0; i < _state.Count; i++)
             {
                 _state.at[i].AssignPrefabTypes();
-                _state.at[i].SetDirty();
+                _state.at[i].MarkAsModified();
             }
         }
 #endif
@@ -233,26 +234,26 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     _state = new PrefabRenderingSetLookup();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 #endif
                 }
 
 #if UNITY_EDITOR
-                _state.SetDirtyAction(SetDirty);
+                _state.SetMarkModifiedAction(this.MarkAsModified);
 #endif
 
                 if (_toggles == null)
                 {
                     _toggles = new PrefabRenderingSetToggleLookup();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 #endif
                 }
 
                 RebuildToggleList();
 
 #if UNITY_EDITOR
-                _toggles.SetDirtyAction(SetDirty);
+                _toggles.SetMarkModifiedAction(this.MarkAsModified);
 #endif
             }
         }
@@ -272,7 +273,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                SetDirty();
+               this.MarkAsModified();
 #endif
             }
         }

@@ -50,7 +50,6 @@ Shader "GPUInstancer/appalachia/impostors/tree_runtime"
 
 		Pass
 		{
-			
 			ZWrite On
 			Name "ForwardBase"
 			Tags { "LightMode"="ForwardBase" }

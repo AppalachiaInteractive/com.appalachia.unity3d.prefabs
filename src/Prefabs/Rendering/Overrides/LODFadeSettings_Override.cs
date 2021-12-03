@@ -10,21 +10,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class
-        LODFadeSettings_OVERRIDE : Overridable<LODFadeSettings, LODFadeSettings_OVERRIDE>
+        OverridableLODFadeSettings : Overridable<LODFadeSettings, OverridableLODFadeSettings>
     {
-        public LODFadeSettings_OVERRIDE() : base(false, default)
+        public OverridableLODFadeSettings() : base(false, default)
         {
         }
 
-        public LODFadeSettings_OVERRIDE(
+        public OverridableLODFadeSettings(
             bool isOverridingAllowed,
             bool overrideEnabled,
             LODFadeSettings value) : base(overrideEnabled, value)
         {
         }
 
-        public LODFadeSettings_OVERRIDE(
-            Overridable<LODFadeSettings, LODFadeSettings_OVERRIDE> value) : base(value)
+        public OverridableLODFadeSettings(
+            Overridable<LODFadeSettings, OverridableLODFadeSettings> value) : base(value)
         {
         }
     }

@@ -1,10 +1,11 @@
+using Appalachia.Core.Behaviours;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
     [ExecuteAlways]
-    public partial class OcclusionProbes : MonoBehaviour
+    public partial class OcclusionProbes: AppalachiaBehaviour
     {
         private static Vector4[] ms_AmbientProbeSC;
         private static Texture3D ms_White;
@@ -23,8 +24,10 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
         public static OcclusionProbes Instance { get; private set; }
 
-        private void OnEnable()
+        protected override void OnEnable()
         {
+            base.OnEnable();
+            
 #if UNITY_EDITOR
             UnityEditor.Lightmapping.bakedGI = true;
 
@@ -44,8 +47,10 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             Camera.onPreRender += CameraPreRender;
         }
 
-        private void OnDisable()
+        protected override void OnDisable()
         {
+            base.OnDisable();
+            
 #if UNITY_EDITOR
             RemoveLightmapperCallbacks();
 #endif
@@ -61,8 +66,10 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             }
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+            
             if (Application.isPlaying)
             {
                 Destroy(ms_White);

@@ -4,6 +4,7 @@ using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Comparisons;
 using Appalachia.Core.Scriptables;
 using Appalachia.Utility.Enums;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
@@ -44,7 +45,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             if (settings == null)
             {
                 settings = new List<DepthOfFieldStateSettings>();
-                SetDirty();
+               this.MarkAsModified();
             }
 
             while (settings.Count < values.Length)
@@ -52,13 +53,13 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
                 var targetname = $"{name}_{values[settings.Count]}";
 
                 settings.Add(LoadOrCreateNew<DepthOfFieldStateSettings>(targetname));
-                SetDirty();
+               this.MarkAsModified();
             }
 
             while (settings.Count > values.Length)
             {
                 settings.RemoveAt(settings.Count - 1);
-                SetDirty();
+               this.MarkAsModified();
             }
 
             if (_comparison == null)
@@ -86,13 +87,13 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
                 if (setting.nearPlane == null)
                 {
                     setting.nearPlane = new DepthOfFieldStatePlaneSettings();
-                    setting.SetDirty();
+                    setting.MarkAsModified();
                 }
 
                 if (setting.farPlane == null)
                 {
                     setting.farPlane = new DepthOfFieldStatePlaneSettings();
-                    setting.SetDirty();
+                    setting.MarkAsModified();
                 }
             }
 #endif

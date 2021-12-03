@@ -5,6 +5,7 @@ using System.Diagnostics;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Scriptables;
 using Appalachia.Editing.Labels;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -79,7 +80,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 if (_options == null)
                 {
                     _options = new TO();
-                    SetDirty();
+                   this.MarkAsModified();
                 }
 
                 return _options;
@@ -111,11 +112,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 if (_baseEnabledState && !options.isEnabled)
                 {
-                    SetDirty();
+                   this.MarkAsModified();
                 }
                 else if (!_baseEnabledState && options.isEnabled)
                 {
-                    SetDirty();
+                   this.MarkAsModified();
                 }
 
                 _options.type = type;
@@ -146,7 +147,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         {
             options.Enable(enabled);
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -154,7 +155,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         {
             options.Solo(soloed);
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -162,7 +163,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         {
             options.Mute(muted);
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
 
@@ -174,7 +175,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 if (labels == null)
                 {
                     labels = new LabelSearchSet();
-                    SetDirty();
+                   this.MarkAsModified();
                 }
 #endif
 

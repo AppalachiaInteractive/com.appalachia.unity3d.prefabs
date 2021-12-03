@@ -3,6 +3,7 @@
 using System;
 using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core.States;
+using Appalachia.Utility.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -59,7 +60,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Data
             }
 
 #if UNITY_EDITOR
-            SetDirty();
+           this.MarkAsModified();
 #endif
         }
     }

@@ -20,7 +20,6 @@ Shader "appalachia/tree-shadows_LOD0"
 		[HideInInspector] _texcoord( "", 2D ) = "white" {}
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
-
 	
 	SubShader
 	{

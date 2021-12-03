@@ -536,8 +536,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     manager.gpui.prototypeList.Clear();
 
-                    PrefabModelTypeOptionsLookup.instance.Initialize();
-                    PrefabContentTypeOptionsLookup.instance.Initialize();
+                    PrefabModelTypeOptionsLookup.instance.InitializeExternal();
+                    PrefabContentTypeOptionsLookup.instance.InitializeExternal();
 
                     var prototypeLookup =
                         new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();

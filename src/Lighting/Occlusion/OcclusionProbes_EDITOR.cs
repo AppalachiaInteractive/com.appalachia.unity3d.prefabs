@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Debugging;
+using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Logging;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -396,7 +397,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             if ((m_AmbientProbeData == null) || (m_AmbientProbeData != oldData))
             {
                 // Assigning a new asset, dirty the scene that contains it, so that the user knows to save it.
-                UnityEditor.EditorUtility.SetDirty(this);
+                this.MarkAsModified();
                 UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
             }
 
@@ -411,7 +412,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
             // LightProbes.GetShaderConstantsFromNormalizedSH(ref ambientProbe, m_AmbientProbeData.sh);
             GetShaderConstantsFromNormalizedSH(ref ambientProbe, m_AmbientProbeData.sh);
-            UnityEditor.EditorUtility.SetDirty(m_AmbientProbeData);
+            m_AmbientProbeData.MarkAsModified();
         }
 
         private string SceneToOcclusionProbeDataPath(Scene scene, string name)

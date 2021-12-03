@@ -10,22 +10,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class
-        AssetCullingSettings_OVERRIDE : Overridable<AssetCullingSettings,
-            AssetCullingSettings_OVERRIDE>
+        OverridableAssetCullingSettings : Overridable<AssetCullingSettings,
+            OverridableAssetCullingSettings>
     {
-        public AssetCullingSettings_OVERRIDE() : base(false, default)
+        public OverridableAssetCullingSettings() : base(false, default)
         {
         }
 
-        public AssetCullingSettings_OVERRIDE(
+        public OverridableAssetCullingSettings(
             bool isOverridingAllowed,
             bool overrideEnabled,
             AssetCullingSettings value) : base(overrideEnabled, value)
         {
         }
 
-        public AssetCullingSettings_OVERRIDE(
-            Overridable<AssetCullingSettings, AssetCullingSettings_OVERRIDE> value) : base(value)
+        public OverridableAssetCullingSettings(
+            Overridable<AssetCullingSettings, OverridableAssetCullingSettings> value) : base(value)
         {
         }
     }

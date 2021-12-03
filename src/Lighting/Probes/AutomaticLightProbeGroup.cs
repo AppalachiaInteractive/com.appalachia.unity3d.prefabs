@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Spatial.Terrains.Utilities;
@@ -18,7 +19,7 @@ using Random = UnityEngine.Random;
 namespace Appalachia.Rendering.Lighting.Probes
 {
     [ExecuteAlways]
-    public abstract class AutomaticLightProbeGroup : MonoBehaviour
+    public abstract class AutomaticLightProbeGroup: AppalachiaBehaviour
     {
 #if UNITY_EDITOR
 
@@ -199,8 +200,10 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private float ooResolution = 1.0f;
 
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             if (lpg == null)
             {
                 lpg = GetComponent<LightProbeGroup>();

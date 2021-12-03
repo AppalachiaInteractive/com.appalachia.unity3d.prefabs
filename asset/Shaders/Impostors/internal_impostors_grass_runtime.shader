@@ -51,7 +51,6 @@ Shader "appalachia/impostors/grass-runtime"
 
 		Pass
 		{
-			
 			ZWrite On
 			Name "ForwardBase"
 			Tags { "LightMode"="ForwardBase" }

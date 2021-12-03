@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
+using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -37,12 +38,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             {
                 _state = new GPUInstancerPrototypeMetadataLookup();
 #if UNITY_EDITOR
-                SetDirty();
+               this.MarkAsModified();
 #endif
             }
 
 #if UNITY_EDITOR
-            State.SetDirtyAction(SetDirty);
+            State.SetMarkModifiedAction(this.MarkAsModified);
 #endif
         }
 
@@ -80,8 +81,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 
                 State.AddOrUpdate(gameObject.name, newPrototypePair);
 
-                newPrototypePair.SetDirty();
-                SetDirty();
+                newPrototypePair.MarkAsModified();
+               this.MarkAsModified();
 
                 return newPrototypePair;
             }

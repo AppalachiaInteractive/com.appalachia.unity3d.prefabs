@@ -568,7 +568,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 case RenderingStateReasonCode.PREFAB_RENDER_SET_NULL:
                     renderingSets = PrefabRenderingSetCollection.instance;
 #if UNITY_EDITOR
-                    renderingSets.SetDirty();
+                    renderingSets.MarkAsModified();
 #endif
                     break;
                 case RenderingStateReasonCode.PREFAB_RENDER_SET_EMPTY:
@@ -605,7 +605,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
 
 #if UNITY_EDITOR
-            renderingOptions.SetDirty();
+            renderingOptions.MarkAsModified();
 #endif
             nextState = RenderingState.Rendering;
         }
@@ -622,7 +622,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 var state = AssetModelTypeLookup.State.at[i];
                 state.Mute(false);
 #if UNITY_EDITOR
-                state.SetDirty();
+                state.MarkAsModified();
 #endif
             }
 
@@ -631,7 +631,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 var set = renderingSets.Sets.at[i];
                 set.Muted = false;
 #if UNITY_EDITOR
-                set.SetDirty();
+                set.MarkAsModified();
 #endif
             }
 
@@ -639,8 +639,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             PrefabModelTypeOptions.AnyMute = false;
 
 #if UNITY_EDITOR
-            renderingSets.SetDirty();
-            AssetModelTypeLookup.SetDirty();
+            renderingSets.MarkAsModified();
+            AssetModelTypeLookup.MarkAsModified();
 #endif
         }
 
@@ -651,7 +651,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 var state = AssetModelTypeLookup.State.at[i];
                 state.Solo(false);
 #if UNITY_EDITOR
-                state.SetDirty();
+                state.MarkAsModified();
 #endif
             }
 
@@ -660,7 +660,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 var set = renderingSets.Sets.at[i];
                 set.Soloed = false;
 #if UNITY_EDITOR
-                set.SetDirty();
+                set.MarkAsModified();
 #endif
             }
 
@@ -668,8 +668,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             PrefabModelTypeOptions.AnySolo = false;
 
 #if UNITY_EDITOR
-            renderingSets.SetDirty();
-            AssetModelTypeLookup.SetDirty();
+            renderingSets.MarkAsModified();
+            AssetModelTypeLookup.MarkAsModified();
 #endif
         }
 

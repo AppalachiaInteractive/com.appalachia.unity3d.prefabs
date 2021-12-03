@@ -171,7 +171,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SmartLabel]
         [InlineProperty]
         [SerializeField]
-        private PrefabContentType_OVERRIDE _contentType;
+        private OverridablePrefabContentType _contentType;
 
         [TabGroup(_TABS, _OPTS)]
         [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Hidden)]
@@ -185,7 +185,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [SmartLabel]
         [InlineProperty]
         [SerializeField]
-        private PrefabModelType_OVERRIDE _modelType;
+        private OverridablePrefabModelType _modelType;
 
         [FormerlySerializedAs("_options")]
         [TabGroup(_TABS, _OPTS)]
@@ -261,9 +261,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     _externalParameters = new ExternalRenderingParametersLookup();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 
-                    _externalParameters.SetDirtyAction(SetDirty);
+                    _externalParameters.SetMarkModifiedAction(this.MarkAsModified);
 #endif
                 }
 
@@ -336,7 +336,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (_contentType == null)
                 {
-                    _contentType = new PrefabContentType_OVERRIDE();
+                    _contentType = new OverridablePrefabContentType();
                 }
 
                 return _contentType.value;
@@ -345,7 +345,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (_contentType == null)
                 {
-                    _contentType = new PrefabContentType_OVERRIDE();
+                    _contentType = new OverridablePrefabContentType();
                 }
 
                 if (!_contentType.overrideEnabled)
@@ -361,7 +361,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (_modelType == null)
                 {
-                    _modelType = new PrefabModelType_OVERRIDE();
+                    _modelType = new OverridablePrefabModelType();
                 }
 
                 return _modelType.value;
@@ -370,7 +370,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (_modelType == null)
                 {
-                    _modelType = new PrefabModelType_OVERRIDE();
+                    _modelType = new OverridablePrefabModelType();
                 }
 
                 if (!_modelType.overrideEnabled)
@@ -441,7 +441,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 Refresh();
 
 #if UNITY_EDITOR
-                SetDirty();
+               this.MarkAsModified();
 #endif
             }
         }
@@ -569,9 +569,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     _externalParameters = new ExternalRenderingParametersLookup();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 
-                    _externalParameters.SetDirtyAction(SetDirty);
+                    _externalParameters.SetMarkModifiedAction(this.MarkAsModified);
 #endif
                 }
 

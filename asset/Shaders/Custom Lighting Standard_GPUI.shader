@@ -33,7 +33,6 @@ Shader "GPUInstancer/appalachia/Standard"
 		[HideInInspector] __dirty( "", Int ) = 1
 	}
 	
-
 	SubShader
 	{
 		Tags{ "RenderType" = "Opaque"  "Queue" = "Geometry+0" "IsEmissive" = "true"  }

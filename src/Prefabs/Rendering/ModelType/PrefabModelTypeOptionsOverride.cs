@@ -28,24 +28,24 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [SerializeField]
         [InlineProperty]
         [SmartLabel]
-        public float_OVERRIDE minimumRenderingDistance;
+        public OverridableFloat minimumRenderingDistance;
 
         [SerializeField]
         [InlineProperty]
         [SmartLabel]
-        public float_OVERRIDE maximumRenderingDistance;
+        public OverridableFloat maximumRenderingDistance;
 
         [TabGroup("Runtime")]
         [SerializeField]
         [InlineProperty]
         [SmartLabel]
-        public LayerSelection_OVERRIDE layer;
+        public OverridableLayerSelection layer;
 
         /*
         [TabGroup("Frustum")]
         [SerializeField]
         [InlineProperty, HideLabel, LabelWidth(0)]
-        public FrustumSettings_OVERRIDE frustum;
+        public OverridableFrustumSettings frustum;
         */
 
         [TabGroup("Ranges")]
@@ -54,7 +54,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public AssetRangeSettingsArray_OVERRIDE rangeSettings;
+        public OverridableAssetRangeSettingsArray rangeSettings;
 
         [TabGroup("Light")]
         [Title("Mesh Rendering")]
@@ -62,7 +62,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public AssetLightingSettings_OVERRIDE normalLighting;
+        public OverridableAssetLightingSettings normalLighting;
 
         [TabGroup("Light")]
         [Title("Instancing")]
@@ -70,42 +70,41 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public AssetLightingSettings_OVERRIDE instancedLighting;
+        public OverridableAssetLightingSettings instancedLighting;
 
         [TabGroup("Cull")]
         [SerializeField]
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public AssetCullingSettings_OVERRIDE cullingSettings;
+        public OverridableAssetCullingSettings cullingSettings;
 
         [TabGroup("Falloff")]
         [SerializeField]
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public DistanceFalloffSettings_OVERRIDE distanceFalloffSettings;
+        public OverridableDistanceFalloffSettings distanceFalloffSettings;
 
         [TabGroup("LOD")]
         [SerializeField]
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public LODFadeSettings_OVERRIDE lodFadeSettings;
+        public OverridableLODFadeSettings lodFadeSettings;
 
         [TabGroup("Burial")]
         [SerializeField]
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public AssetBurialOptions_OVERRIDE burialOptions;
+        public OverridableAssetBurialOptions burialOptions;
 
         public override void Initialize(PrefabModelTypeOptions options)
         {
             if (minimumRenderingDistance == null)
             {
-                minimumRenderingDistance = new float_OVERRIDE(
-                    true,
+                minimumRenderingDistance = new OverridableFloat(
                     false,
                     options.minimumRenderingDistance
                 );
@@ -113,8 +112,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (maximumRenderingDistance == null)
             {
-                maximumRenderingDistance = new float_OVERRIDE(
-                    true,
+                maximumRenderingDistance = new OverridableFloat(
                     false,
                     options.maximumRenderingDistance
                 );
@@ -122,17 +120,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (layer == null)
             {
-                layer = new LayerSelection_OVERRIDE(true, false, options.layer);
+                layer = new OverridableLayerSelection(true, false, options.layer);
             }
 
             /*if (frustum == null)
             {
-                frustum = new FrustumSettings_OVERRIDE(true, false, options.frustum);
+                frustum = new OverridableFrustumSettings(true, false, options.frustum);
             }*/
 
             if (rangeSettings == null)
             {
-                rangeSettings = new AssetRangeSettingsArray_OVERRIDE(
+                rangeSettings = new OverridableAssetRangeSettingsArray(
                     true,
                     false,
                     options.rangeSettings
@@ -141,7 +139,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (normalLighting == null)
             {
-                normalLighting = new AssetLightingSettings_OVERRIDE(
+                normalLighting = new OverridableAssetLightingSettings(
                     true,
                     false,
                     options.normalLighting
@@ -150,7 +148,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (instancedLighting == null)
             {
-                instancedLighting = new AssetLightingSettings_OVERRIDE(
+                instancedLighting = new OverridableAssetLightingSettings(
                     true,
                     false,
                     options.instancedLighting
@@ -159,7 +157,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (cullingSettings == null)
             {
-                cullingSettings = new AssetCullingSettings_OVERRIDE(
+                cullingSettings = new OverridableAssetCullingSettings(
                     true,
                     false,
                     options.cullingSettings
@@ -168,7 +166,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (distanceFalloffSettings == null)
             {
-                distanceFalloffSettings = new DistanceFalloffSettings_OVERRIDE(
+                distanceFalloffSettings = new OverridableDistanceFalloffSettings(
                     true,
                     false,
                     options.distanceFalloffSettings
@@ -177,7 +175,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (lodFadeSettings == null)
             {
-                lodFadeSettings = new LODFadeSettings_OVERRIDE(
+                lodFadeSettings = new OverridableLODFadeSettings(
                     true,
                     false,
                     options.lodFadeSettings
@@ -186,7 +184,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (burialOptions == null)
             {
-                burialOptions = new AssetBurialOptions_OVERRIDE(true, false, options.burialOptions);
+                burialOptions = new OverridableAssetBurialOptions(true, false, options.burialOptions);
             }
         }
 

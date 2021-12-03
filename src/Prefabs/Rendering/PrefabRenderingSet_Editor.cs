@@ -10,6 +10,7 @@ using Appalachia.Rendering.Prefabs.Rendering.Collections;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.Data;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -33,10 +34,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             if (_externalParameters == null)
             {
                 _externalParameters = new ExternalRenderingParametersLookup();
-                SetDirty();
+               this.MarkAsModified();
             }
 
-            _externalParameters.SetDirtyAction(SetDirty);
+            _externalParameters.SetMarkModifiedAction(this.MarkAsModified);
 
             //_assetType = _assetType.CheckObsolete();
         }

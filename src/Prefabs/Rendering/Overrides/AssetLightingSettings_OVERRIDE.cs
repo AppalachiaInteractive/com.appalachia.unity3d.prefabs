@@ -10,22 +10,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class
-        AssetLightingSettings_OVERRIDE : Overridable<AssetLightingSettings,
-            AssetLightingSettings_OVERRIDE>
+        OverridableAssetLightingSettings : Overridable<AssetLightingSettings,
+            OverridableAssetLightingSettings>
     {
-        public AssetLightingSettings_OVERRIDE() : base(false, default)
+        public OverridableAssetLightingSettings() : base(false, default)
         {
         }
 
-        public AssetLightingSettings_OVERRIDE(
+        public OverridableAssetLightingSettings(
             bool isOverridingAllowed,
             bool overrideEnabled,
             AssetLightingSettings value) : base(overrideEnabled, value)
         {
         }
 
-        public AssetLightingSettings_OVERRIDE(
-            Overridable<AssetLightingSettings, AssetLightingSettings_OVERRIDE> value) : base(value)
+        public OverridableAssetLightingSettings(
+            Overridable<AssetLightingSettings, OverridableAssetLightingSettings> value) : base(value)
         {
         }
     }

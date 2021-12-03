@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 201d4e8d139c43c0998a754073aac928, type: 3}
   m_Name: PrefabModelTypeOptionsLookup_20211015-105948812
   m_EditorClassIdentifier: 
-  _niceName: 
+  _initializationData:
+    _nonSerializedTags: []
+    _tags: []
+    _resetToken: 
   _cachedName: 
+  _niceName: 
   _toggles:
     initializerCount: 64
     values:

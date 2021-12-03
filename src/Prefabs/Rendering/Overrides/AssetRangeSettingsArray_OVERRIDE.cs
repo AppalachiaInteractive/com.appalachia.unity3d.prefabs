@@ -10,22 +10,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class
-        AssetRangeSettingsArray_OVERRIDE : Overridable<AssetRangeSettings[],
-            AssetRangeSettingsArray_OVERRIDE>
+        OverridableAssetRangeSettingsArray : Overridable<AssetRangeSettings[],
+            OverridableAssetRangeSettingsArray>
     {
-        public AssetRangeSettingsArray_OVERRIDE() : base(false, default)
+        public OverridableAssetRangeSettingsArray() : base(false, default)
         {
         }
 
-        public AssetRangeSettingsArray_OVERRIDE(
+        public OverridableAssetRangeSettingsArray(
             bool isOverridingAllowed,
             bool overrideEnabled,
             AssetRangeSettings[] value) : base(overrideEnabled, value)
         {
         }
 
-        public AssetRangeSettingsArray_OVERRIDE(
-            Overridable<AssetRangeSettings[], AssetRangeSettingsArray_OVERRIDE> value) : base(value)
+        public OverridableAssetRangeSettingsArray(
+            Overridable<AssetRangeSettings[], OverridableAssetRangeSettingsArray> value) : base(value)
         {
         }
     }

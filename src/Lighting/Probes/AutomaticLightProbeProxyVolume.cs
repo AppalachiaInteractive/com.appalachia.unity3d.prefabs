@@ -1,3 +1,4 @@
+using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.NonSerialized;
 using Sirenix.OdinInspector;
@@ -9,7 +10,7 @@ using UnityEngine.Rendering;
 namespace Appalachia.Rendering.Lighting.Probes
 {
     [ExecuteAlways]
-    public class AutomaticLightProbeProxyVolume : MonoBehaviour
+    public class AutomaticLightProbeProxyVolume: AppalachiaBehaviour
     {
 #if UNITY_EDITOR
 
@@ -63,8 +64,10 @@ namespace Appalachia.Rendering.Lighting.Probes
             gameObject.name = string.Format(LightProbeGroupName, volumeName);
         }
 
-        public void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+            
             Validate();
         }
 

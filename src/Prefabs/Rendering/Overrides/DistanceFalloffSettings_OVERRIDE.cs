@@ -10,22 +10,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class
-        DistanceFalloffSettings_OVERRIDE : Overridable<DistanceFalloffSettings,
-            DistanceFalloffSettings_OVERRIDE>
+        OverridableDistanceFalloffSettings : Overridable<DistanceFalloffSettings,
+            OverridableDistanceFalloffSettings>
     {
-        public DistanceFalloffSettings_OVERRIDE() : base(false, default)
+        public OverridableDistanceFalloffSettings() : base(false, default)
         {
         }
 
-        public DistanceFalloffSettings_OVERRIDE(
+        public OverridableDistanceFalloffSettings(
             bool isOverridingAllowed,
             bool overrideEnabled,
             DistanceFalloffSettings value) : base(overrideEnabled, value)
         {
         }
 
-        public DistanceFalloffSettings_OVERRIDE(
-            Overridable<DistanceFalloffSettings, DistanceFalloffSettings_OVERRIDE> value) : base(
+        public OverridableDistanceFalloffSettings(
+            Overridable<DistanceFalloffSettings, OverridableDistanceFalloffSettings> value) : base(
             value
         )
         {

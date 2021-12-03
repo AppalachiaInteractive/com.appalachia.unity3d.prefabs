@@ -11,6 +11,7 @@ using Appalachia.Rendering.Prefabs.Rendering.Burstable;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Positioning;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -163,7 +164,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 {
                     set.useLocations = true;
                     set.locations.SetFromInstance(set);
-                    set.SetDirty();
+                    set.MarkAsModified();
                 }
             );
         }

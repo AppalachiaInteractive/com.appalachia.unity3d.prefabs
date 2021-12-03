@@ -10,21 +10,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
     public sealed class
-        FrustumSettings_OVERRIDE : Overridable<FrustumSettings, FrustumSettings_OVERRIDE>
+        OverridableFrustumSettings : Overridable<FrustumSettings, OverridableFrustumSettings>
     {
-        public FrustumSettings_OVERRIDE() : base(false, default)
+        public OverridableFrustumSettings() : base(false, default)
         {
         }
 
-        public FrustumSettings_OVERRIDE(
+        public OverridableFrustumSettings(
             bool isOverridingAllowed,
             bool overrideEnabled,
             FrustumSettings value) : base(overrideEnabled, value)
         {
         }
 
-        public FrustumSettings_OVERRIDE(
-            Overridable<FrustumSettings, FrustumSettings_OVERRIDE> value) : base(value)
+        public OverridableFrustumSettings(
+            Overridable<FrustumSettings, OverridableFrustumSettings> value) : base(value)
         {
         }
     }

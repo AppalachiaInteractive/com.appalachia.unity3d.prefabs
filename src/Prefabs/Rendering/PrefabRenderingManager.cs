@@ -43,7 +43,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    [ExecutionOrder(-10000)]
+    [ExecutionOrder(ExecutionOrders.PrefabRenderingManager)]
     [InspectorIcon(Icons.Squirrel.Red)]
     public partial class PrefabRenderingManager : SingletonAppalachiaBehaviour<PrefabRenderingManager>
     {

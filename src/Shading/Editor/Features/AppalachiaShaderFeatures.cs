@@ -5,6 +5,7 @@ using System.Text;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -305,7 +306,7 @@ namespace Appalachia.Rendering.Shading.Features
         {
             UpdateAllShaders();
 
-            EditorUtility.SetDirty(this);
+            this.MarkAsModified();
         }
 
         #region Menu Items

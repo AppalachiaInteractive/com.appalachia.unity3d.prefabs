@@ -1309,7 +1309,6 @@ Shader "appalachia/impostors/tree-runtime"
 		Pass
 		{
 			
-
 			Name "Deferred"
 			Tags { "LightMode"="Deferred" }
 

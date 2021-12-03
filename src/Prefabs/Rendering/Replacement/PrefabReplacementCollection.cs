@@ -5,6 +5,7 @@ using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Interfaces;
 using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Extensions;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -35,9 +36,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
                 {
                     _state = new GameObjectReplacementLookup();
 #if UNITY_EDITOR
-                    SetDirty();
+                   this.MarkAsModified();
 
-                    _state.SetDirtyAction(SetDirty);
+                    _state.SetMarkModifiedAction(this.MarkAsModified);
 #endif
                 }
 
@@ -51,12 +52,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
             {
                 _state = new GameObjectReplacementLookup();
 #if UNITY_EDITOR
-                SetDirty();
+               this.MarkAsModified();
 #endif
             }
 
 #if UNITY_EDITOR
-            _state.SetDirtyAction(SetDirty);
+            _state.SetMarkModifiedAction(this.MarkAsModified);
 #endif
         }
     }

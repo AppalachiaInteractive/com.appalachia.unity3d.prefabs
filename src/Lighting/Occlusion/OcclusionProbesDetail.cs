@@ -1,11 +1,12 @@
 #if UNITY_EDITOR
+using Appalachia.Core.Behaviours;
 using Appalachia.Core.Debugging;
 using Appalachia.Editing.Debugging;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
-    public class OcclusionProbesDetail : MonoBehaviour
+    public class OcclusionProbesDetail: AppalachiaBehaviour
     {
         [Header("Resolution")] public int m_XCount = 10;
 

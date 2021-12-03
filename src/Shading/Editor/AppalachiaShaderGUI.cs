@@ -1,7 +1,9 @@
 ﻿using System;
 using AmplifyShaderEditor;
+using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Extensions;
 using Appalachia.Core.Shading;
+using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Logging;
 using UnityEditor;
 using UnityEngine;
@@ -55,7 +57,7 @@ public class AppalachiaShaderGUI : ShaderGUI
                     }
                     else
                     {
-                        AssetDatabase.OpenAsset(material.shader, 1);
+                        AssetDatabaseManager.OpenAsset(material.shader, 1);
                     }
                 }
             }
@@ -90,7 +92,7 @@ public class AppalachiaShaderGUI : ShaderGUI
                     }
 
                     material.SetFloat(Cutoff, cutoff);
-                    EditorUtility.SetDirty(material);
+                    material.MarkAsModified();
                 }
             }
 
@@ -102,7 +104,7 @@ public class AppalachiaShaderGUI : ShaderGUI
                 if ((surface == null) && (metallic != null))
                 {
                     material.SetTexture(SurfaceMap, metallic);
-                    EditorUtility.SetDirty(material);
+                    material.MarkAsModified();
                 }
             }
 

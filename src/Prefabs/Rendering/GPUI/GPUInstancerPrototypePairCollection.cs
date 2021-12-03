@@ -42,8 +42,8 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 //_prototypePairs.AddOrUpdate(assetGUID, newPrototypePair);
                 _prototypePairs.AddOrUpdate(gameObject.name, newPrototypePair);
 
-                newPrototypePair.SetDirty();
-                SetDirty();
+                newPrototypePair.MarkAsModified();
+               this.MarkAsModified();
                 
 #if UNITY_EDITOR
                 if (!Application.isPlaying)

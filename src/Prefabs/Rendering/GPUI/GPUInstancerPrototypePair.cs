@@ -25,12 +25,12 @@ namespace Appalachia.Core.Rendering.Metadata.GPUI
             if (_gameObject == null)
             {
                 _gameObject = new GPUInstancerPrototypeMetadata();
-                SetDirty();
+               this.MarkAsModified();
             }
             if (_noGameObject == null)
             {
                 _noGameObject = new GPUInstancerPrototypeMetadata();
-                SetDirty();
+               this.MarkAsModified();
             }
         }
 
@@ -73,7 +73,7 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 }
             }
             
-            SetDirty();
+           this.MarkAsModified();
         }
         
         private void AssignExistingPrototypes(GPUInstancerPrefabManager gpui)
@@ -94,7 +94,7 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 }
             }
             
-            SetDirty();
+           this.MarkAsModified();
         }
 
         private GameObject CreateNOGOPrefab()

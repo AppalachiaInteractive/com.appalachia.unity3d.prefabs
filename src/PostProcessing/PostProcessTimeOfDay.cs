@@ -1,3 +1,4 @@
+using Appalachia.Core.Behaviours;
 using Appalachia.Globals.Environment;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine.Serialization;
 namespace Appalachia.Rendering.PostProcessing
 {
     [ExecuteAlways]
-    public class PostProcessTimeOfDay : MonoBehaviour
+    public class PostProcessTimeOfDay: AppalachiaBehaviour
     {
         public PostProcessVolume morning;
         public PostProcessVolume daytime;

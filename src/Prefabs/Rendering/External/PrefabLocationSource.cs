@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Logging;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationSystem;
@@ -209,7 +210,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                 erp.identifyingKey = identifyingKey;
 
-                erp.SetDirty();
+                erp.MarkAsModified();
             }
         }
 

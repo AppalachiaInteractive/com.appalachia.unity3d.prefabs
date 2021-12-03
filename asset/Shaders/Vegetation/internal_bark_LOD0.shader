@@ -89,9 +89,6 @@ Shader "appalachia/bark_LOD0"
 		 
 
 
-
-
-
 		// INTERNAL_SHADER_FEATURE_START
 
 		// FEATURE_GPU_INSTANCER

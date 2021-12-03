@@ -9,21 +9,21 @@ namespace Appalachia.Rendering.Prefabs.Core
 {
     [Serializable]
     public class
-        PrefabContentType_OVERRIDE : Overridable<PrefabContentType, PrefabContentType_OVERRIDE>
+        OverridablePrefabContentType : Overridable<PrefabContentType, OverridablePrefabContentType>
     {
-        public PrefabContentType_OVERRIDE(bool overrideEnabled, PrefabContentType value) : base(
+        public OverridablePrefabContentType(bool overrideEnabled, PrefabContentType value) : base(
             overrideEnabled,
             value
         )
         {
         }
 
-        public PrefabContentType_OVERRIDE(
-            Overridable<PrefabContentType, PrefabContentType_OVERRIDE> value) : base(value)
+        public OverridablePrefabContentType(
+            Overridable<PrefabContentType, OverridablePrefabContentType> value) : base(value)
         {
         }
 
-        public PrefabContentType_OVERRIDE() : base(false, default)
+        public OverridablePrefabContentType() : base(false, default)
         {
         }
     }

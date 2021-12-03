@@ -83,14 +83,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                     if (!ranges[i].showRangeLimit)
                     {
                         ranges[i].showRangeLimit = true;
-                        SetDirty();
+                       this.MarkAsModified();
                     }
                 }
 
                 if (ranges[ranges.Length - 1].showRangeLimit)
                 {
                     ranges[ranges.Length - 1].showRangeLimit = false;
-                    SetDirty();
+                   this.MarkAsModified();
                 }
             }
         }

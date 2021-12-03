@@ -8,21 +8,21 @@ using Appalachia.Core.Overrides;
 namespace Appalachia.Rendering.Prefabs.Core
 {
     [Serializable]
-    public class PrefabModelType_OVERRIDE : Overridable<PrefabModelType, PrefabModelType_OVERRIDE>
+    public class OverridablePrefabModelType : Overridable<PrefabModelType, OverridablePrefabModelType>
     {
-        public PrefabModelType_OVERRIDE(bool overrideEnabled, PrefabModelType value) : base(
+        public OverridablePrefabModelType(bool overrideEnabled, PrefabModelType value) : base(
             overrideEnabled,
             value
         )
         {
         }
 
-        public PrefabModelType_OVERRIDE(
-            Overridable<PrefabModelType, PrefabModelType_OVERRIDE> value) : base(value)
+        public OverridablePrefabModelType(
+            Overridable<PrefabModelType, OverridablePrefabModelType> value) : base(value)
         {
         }
 
-        public PrefabModelType_OVERRIDE() : base(false, default)
+        public OverridablePrefabModelType() : base(false, default)
         {
         }
     }
