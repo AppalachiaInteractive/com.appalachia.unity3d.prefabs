@@ -60,7 +60,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             nameof(Enable),
             bold: true,
             color: nameof(_stateColor),
-            label: "$" + nameof(_label)
+            label: nameof(_label)
         )]
         [ShowInInspector]
 #endif

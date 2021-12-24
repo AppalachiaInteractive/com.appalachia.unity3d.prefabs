@@ -1,17 +1,34 @@
 #if UNITY_EDITOR
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Extensions;
+using Appalachia.CI.Constants;
+using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
     public static class VegetationStudioOcclusionProbeIntegration
     {
+        [NonSerialized] private static AppaContext _context;
+
+        private static AppaContext Context
+        {
+            get
+            {
+                if (_context == null)
+                {
+                    _context = new AppaContext(typeof(VegetationStudioOcclusionProbeIntegration));
+                }
+
+                return _context;
+            }
+        }
         //private static List<GameObject> destroyOnComplete;
 
         private const int logThreshold = 25;
@@ -36,7 +53,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     Object.DestroyImmediate(occlusionBakeObjects.transform.GetChild(i).gameObject);
                 }
 
-                AppaLog.Warn("Ensuring lightmap scales are set to 0.");
+                Context.Log.Warn("Ensuring lightmap scales are set to 0.");
 
                 //var systemCount = manager.VegetationSystemList.Count;
                 var cellCount = manager.VegetationSystemList.Sum(s => s.VegetationCellList.Count);
@@ -57,12 +74,12 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                         {
                             infoSum += 1;
 
-                            if (!Application.isPlaying)
+                            if (!AppalachiaApplication.IsPlayingOrWillPlay)
                             {
                                 cancellation = cancellation ||
                                                UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                                    "Setting lightmap scales: " + info.Name,
-                                                   $"{infoSum}/{infoCount}",
+                                                   ZString.Format("{0}/{1}", infoSum, infoCount),
                                                    infoSum / (float) infoCount
                                                );
                             }
@@ -85,7 +102,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     }
                 }
 
-                AppaLog.Warn("Building matrix lookup from storage.");
+                Context.Log.Warn("Building matrix lookup from storage.");
 
                 var instances =
                     new Dictionary<VegetationItemInfoPro, (GameObject prefab, HashSet<Matrix4x4>
@@ -118,14 +135,14 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                         cellSum += 1;
 
-                        if (!Application.isPlaying)
+                        if (!AppalachiaApplication.IsPlayingOrWillPlay)
                         {
                             cancellation = cancellation ||
                                            UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                                "Getting matrices from storage: Cell [" +
                                                cellSum +
                                                "]",
-                                               $"{cellSum}/{cellCount}",
+                                               ZString.Format("{0}/{1}", cellSum, cellCount),
                                                cellSum / (float) cellCount
                                            );
                         }
@@ -190,13 +207,13 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                             var info = package.VegetationInfoList[infoIndex];
                             infoSum += 1;
 
-                            if (!Application.isPlaying)
+                            if (!AppalachiaApplication.IsPlayingOrWillPlay)
                             {
                                 cancellation = cancellation ||
                                                UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                                    "Getting matrices from spawn settings: " +
                                                    info.Name,
-                                                   $"{infoSum}/{infoCount}",
+                                                   ZString.Format("{0}/{1}", infoSum, infoCount),
                                                    infoSum / (float) infoCount
                                                );
                             }
@@ -254,7 +271,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 var instanceCount = instances.Sum(i => i.Value.matrices.Count);
                 var instanceSum = 0;
 
-                AppaLog.Warn("Deploying instances to scene.");
+                Context.Log.Warn("Deploying instances to scene.");
 
                 var layerID = LayerMask.NameToLayer(OcclusionProbes.OcclusionBake);
 
@@ -269,13 +286,13 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     {
                         instanceSum += 1;
 
-                        if (!Application.isPlaying && ((instanceSum % logThreshold) == 0))
+                        if (!AppalachiaApplication.IsPlayingOrWillPlay && ((instanceSum % logThreshold) == 0))
                         {
                             cancellation = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                                 "Deploying instances to scene: [" +
                                 instance.Value.prefab.name +
                                 "]",
-                                $"{instanceSum}/{instanceCount}",
+                                ZString.Format("{0}/{1}", instanceSum, instanceCount),
                                 instanceSum / (float) instanceCount
                             );
                         }
@@ -306,7 +323,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                     }
                 }
 
-                AppaLog.Warn("Enabling occlusion components.");
+                Context.Log.Warn("Enabling occlusion components.");
 
                 var transforms = occlusionBakeObjects.GetComponentsInChildren<Transform>();
 
@@ -314,11 +331,11 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 {
                     var item = transforms[i];
 
-                    if (!Application.isPlaying && ((i % logThreshold) == 0))
+                    if (!AppalachiaApplication.IsPlayingOrWillPlay && ((i % logThreshold) == 0))
                     {
                         cancellation = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
                             "Setting occlusion bake layers: [" + item.gameObject.name + "]",
-                            $"{i}/{transforms.Length}",
+                            ZString.Format("{0}/{1}", i, transforms.Length),
                             i / (float) transforms.Length
                         );
                     }
@@ -358,7 +375,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
                 occlusionBakeObjects.MoveToLayerRecursive(layerID);
 
-                AppaLog.Warn("Occlusion bake deployment completed.");
+                Context.Log.Warn("Occlusion bake deployment completed.");
             }
             finally
             {
@@ -368,7 +385,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
         public static void BakeCompleted(GameObject occlusionBakeObjects)
         {
-            AppaLog.Warn("Removing deployed instances.");
+            Context.Log.Warn("Removing deployed instances.");
 
             try
             {
@@ -380,11 +397,11 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 {
                     if ((i % logThreshold) == 0)
                     {
-                        if (!Application.isPlaying)
+                        if (!AppalachiaApplication.IsPlayingOrWillPlay)
                         {
                             UnityEditor.EditorUtility.DisplayProgressBar(
                                 "Deleting occlusion bake items",
-                                $"Spawn cell {i}/{children}",
+                                ZString.Format("Spawn cell {0}/{1}", i, children),
                                 i / (float) children
                             );
                         }

@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
 using Sirenix.OdinInspector;
 using Unity.Profiling;

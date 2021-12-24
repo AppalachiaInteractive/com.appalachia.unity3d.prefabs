@@ -3,7 +3,10 @@
 using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Initialization;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
+using Appalachia.Utility.Strings;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -13,6 +16,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
 {
     public class AppalachiaTextureArrayConfig  : AppalachiaObject
     {
+        
+        
         public enum AllTextureChannel
         {
             R = 0,
@@ -108,14 +113,17 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
         [HideInInspector] public List<InternalTextureEntry> sourceTextures = new();
 
-        protected override void Awake()
+        protected override async AppaTask Initialize(Initializer initializer)
         {
-            base.Awake();
+            await base.Initialize(initializer);
+      
             sAllConfigs.Add(this);
         }
 
-        private void OnDestroy()
+        protected override async AppaTask WhenDestroyed()
         {
+            await base.WhenDestroyed();
+            
             sAllConfigs.Remove(this);
         }
 
@@ -125,7 +133,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         {
             var assets = new List<T>();
             var guids = AssetDatabaseManager.FindAssets(
-                $"t:{typeof(T).ToString().Replace("UnityEngine.", "")}"
+                ZString.Format("t:{0}", typeof(T).ToString().Replace("UnityEngine.", ""))
             );
             for (var i = 0; i < guids.Length; i++)
             {
@@ -162,7 +170,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         }
 
         [Serializable]
-        public class InternalTextureArraySettings
+        public class InternalTextureArraySettings : AppalachiaSimpleBase
         {
             public TextureSize textureSize;
             public Compression compression;
@@ -184,7 +192,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         }
 
         [Serializable]
-        public class InternalTextureArraySettingsGroup
+        public class InternalTextureArraySettingsGroup : AppalachiaSimpleBase
         {
             public InternalTextureArraySettings diffuseSettings =
                 new(TextureSize.k1024, Compression.AutomaticCompressed, FilterMode.Bilinear);
@@ -194,7 +202,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         }
 
         [Serializable]
-        public class PlatformTextureOverride
+        public class PlatformTextureOverride : AppalachiaSimpleBase
         {
 #if UNITY_EDITOR
             public UnityEditor.BuildTarget platform = UnityEditor.BuildTarget.StandaloneWindows;
@@ -203,7 +211,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         }
 
         [Serializable]
-        public class InternalTextureEntry
+        public class InternalTextureEntry : AppalachiaSimpleBase
         {
             public Texture2D diffuse;
             public Texture2D height;

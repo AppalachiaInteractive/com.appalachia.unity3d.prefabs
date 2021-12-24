@@ -455,7 +455,7 @@ Shader "appalachia/terrain-first-pass"
 
 	Dependency "BaseMapShader "="ASESampleShaders/TerrainBase"
 	Fallback "Diffuse"
-	CustomEditor "ASEMaterialInspector"
+	CustomEditor "AppalachiaShaderGUI"
 }
 /*ASEBEGIN
 Version=17500

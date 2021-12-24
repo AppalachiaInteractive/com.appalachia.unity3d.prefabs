@@ -3,8 +3,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Extensions.Helpers;
-using Appalachia.Core.Scriptables;
+using Appalachia.CI.Constants;
+using Appalachia.Core.Attributes;
 using Appalachia.Editing.Core;
 using Appalachia.Globals.Shading;
 using Appalachia.Rendering.Prefabs.Core;
@@ -14,7 +14,7 @@ using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 using Appalachia.Spatial.Terrains.Utilities;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding;
@@ -29,11 +29,38 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
+    [CallStaticConstructorInEditor]
     public static class PrefabRenderingManagerInitializer
     {
+        #region Constants and Static Readonly
+
         private static readonly PassType[] _ptEnum =
             Enum.GetValues(typeof(PassType)).Cast<PassType>().ToArray();
 
+        #endregion
+
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabRenderingManagerInitializer()
+        {
+            GPUInstancerPrototypeMetadataCollection.InstanceAvailable +=
+                i => _GPUInstancerPrototypeMetadataCollection = i;
+            PrefabLocationSource.InstanceAvailable += i => _prefabLocationSource = i;
+            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
+            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            GSR.InstanceAvailable += i => _GSR = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        [NonSerialized] private static AppaContext _context;
+
+        private static GPUInstancerPrototypeMetadataCollection _GPUInstancerPrototypeMetadataCollection;
+        private static GSR _GSR;
+        private static PrefabContentTypeOptionsLookup _prefabContentTypeOptionsLookup;
+        private static PrefabLocationSource _prefabLocationSource;
+        private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
+        private static PrefabRenderingManager _prefabRenderingManager;
         private static readonly ProfilerMarker _PRF_OnAwake = new(_PRF_PFX + nameof(OnAwake));
         private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
         private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
@@ -82,16 +109,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_InitializeGPUIInitializationTracking =
             new(_PRF_PFX + nameof(InitializeGPUIInitializationTracking));
 
-        private static readonly ProfilerMarker _PRF_WarmUpShaders =
-            new(_PRF_PFX + nameof(WarmUpShaders));
+        private static readonly ProfilerMarker _PRF_WarmUpShaders = new(_PRF_PFX + nameof(WarmUpShaders));
 
         private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets =
             new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets));
 
-        private static readonly ProfilerMarker
-            _PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes = new(_PRF_PFX +
-                nameof(InitializeAllPrefabRenderingSets) +
-                ".UpdatePrototypes");
+        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes =
+            new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets) + ".UpdatePrototypes");
 
         private static readonly ProfilerMarker _PRF_InitializeOptions =
             new(_PRF_PFX + nameof(InitializeOptions));
@@ -100,14 +124,359 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private static Terrain[] _terrains;
 
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_Terrains =
-            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".Terrains");
+        #endregion
 
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_GetTerrainBounds =
-            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".GetTerrainBounds");
+        private static AppaContext Context
+        {
+            get
+            {
+                if (_context == null)
+                {
+                    _context = new AppaContext(typeof(PrefabRenderingManagerInitializer));
+                }
 
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_EncapsulateBounds =
-            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".EncapsulateBounds");
+                return _context;
+            }
+        }
+
+        public static void CheckNulls()
+        {
+            using (_PRF_CheckNulls.Auto())
+            {
+                var mainCamera = Camera.main;
+
+                using (_PRF_CheckNulls_UpdateMetadata.Auto())
+                {
+                    if (_prefabRenderingManager.metadatas == null)
+                    {
+                        _prefabRenderingManager.metadatas = _GPUInstancerPrototypeMetadataCollection;
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdateReferencePoints.Auto())
+                {
+                    if ((_prefabRenderingManager.distanceReferencePoint == null) && (mainCamera != null))
+                    {
+                        _prefabRenderingManager.distanceReferencePoint = mainCamera.gameObject;
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdatePrefabSource.Auto())
+                {
+                    if (_prefabRenderingManager.prefabSource == null)
+                    {
+                        _prefabRenderingManager.prefabSource = _prefabLocationSource;
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdateVSP.Auto())
+                {
+                    if (_prefabRenderingManager.vegetationSystem == null)
+                    {
+                        _prefabRenderingManager.vegetationSystem =
+                            Object.FindObjectOfType<VegetationSystemPro>();
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdateShaderVariants.Auto())
+                {
+                    if (_prefabRenderingManager.shaderVariants == null)
+                    {
+                        _prefabRenderingManager.shaderVariants = _GSR.shaderVariants;
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdateGPUI.Auto())
+                {
+                    if (_prefabRenderingManager.gpui == null)
+                    {
+                        _prefabRenderingManager.gpui = Object.FindObjectOfType<GPUInstancerPrefabManager>();
+
+                        if (_prefabRenderingManager.gpui == null)
+                        {
+                            var go = new GameObject("GPUI Prefab Manager");
+                            _prefabRenderingManager.gpui = go.AddComponent<GPUInstancerPrefabManager>();
+                            _prefabRenderingManager.gpui.OnEnable();
+                            _prefabRenderingManager.gpui.Awake();
+                        }
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdateFrustum.Auto())
+                {
+                    if (_prefabRenderingManager.frustumCamera == null)
+                    {
+                        var child = _prefabRenderingManager.transform.Find("Frustum");
+
+                        if (child == null)
+                        {
+                            child = new GameObject("Frustum").transform;
+                            child.SetParent(_prefabRenderingManager.transform);
+                        }
+
+                        _prefabRenderingManager.frustumCamera = child.GetComponent<Camera>();
+
+                        if (_prefabRenderingManager.frustumCamera == null)
+                        {
+                            _prefabRenderingManager.frustumCamera = child.gameObject.AddComponent<Camera>();
+                        }
+                    }
+
+                    _prefabRenderingManager.frustumCamera.enabled = false;
+                    _prefabRenderingManager.frustumCamera.depth = -100;
+                }
+
+                using (_PRF_CheckNulls_UpdatePathfinder.Auto())
+                {
+                    if (_prefabRenderingManager.pathFinder == null)
+                    {
+                        _prefabRenderingManager.pathFinder = Object.FindObjectOfType<AstarPath>();
+                    }
+                    else if (!graphAssigned)
+                    {
+                        graphAssigned = true;
+                        RecastGraph.OnCollectSceneMeshes -= RecastGraphOnOnCollectSceneMeshes;
+                        RecastGraph.OnCollectSceneMeshes += RecastGraphOnOnCollectSceneMeshes;
+                    }
+                }
+
+                using (_PRF_CheckNulls_UpdateSimulator.Auto())
+                {
+#if UNITY_EDITOR
+                    var simulator = _prefabRenderingManager.gpui.gpuiSimulator;
+
+                    if (simulator == null)
+                    {
+                        _prefabRenderingManager.gpui.gpuiSimulator = new GPUInstancerEditorSimulator(
+                            _prefabRenderingManager.gpui,
+                            "MainCamera",
+                            true
+                        );
+                    }
+                    else
+                    {
+                        _prefabRenderingManager.RenderingOptions.editor.ApplyTo(simulator);
+                    }
+#endif
+                }
+            }
+        }
+
+        public static void InitializeAllPrefabRenderingSets()
+        {
+            using (_PRF_InitializeAllPrefabRenderingSets.Auto())
+            {
+                _prefabRenderingManager.renderingSets.RemoveInvalid();
+
+                var existingParameters = new Dictionary<string, ExternalRenderingParameters>();
+
+                var setCount = _prefabRenderingManager.renderingSets.Sets.Count;
+
+                for (var i = 0; i < setCount; i++)
+                {
+                    var prefabs = _prefabRenderingManager.renderingSets;
+                    var prefabsCount = prefabs.Sets.Count;
+
+                    for (var j = 0; j < prefabsCount; j++)
+                    {
+                        var prefab = prefabs.Sets.at[j];
+
+                        for (var k = prefab.ExternalParameters.Count - 1; k >= 0; k--)
+                        {
+                            var pfep = prefab.ExternalParameters.at[k];
+
+                            if (pfep == null)
+                            {
+                                prefab.ExternalParameters.RemoveAt(k);
+                                continue;
+                            }
+
+                            if (existingParameters.ContainsKey(pfep.identifyingKey))
+                            {
+                                continue;
+                            }
+
+                            existingParameters.Add(pfep.identifyingKey, pfep);
+                        }
+                    }
+                }
+
+                var externalParameters =
+                    _prefabRenderingManager.prefabSource.GetRenderingParameters(existingParameters);
+
+                using (var bar = new EditorOnlyProgressBar(
+                           "Initializing Prefab Rendering Parameters",
+                           externalParameters.Count,
+                           false
+                       ))
+                {
+                    _prefabRenderingManager.gpui.prototypeList.Clear();
+
+                    var prototypeLookup =
+                        new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
+
+                    for (var rpi = externalParameters.Count - 1; rpi >= 0; rpi--)
+                    {
+                        var renderingParameter = externalParameters[rpi];
+                        bar.Increment1AndShowProgress(ZString.Format("{0}", renderingParameter.prefab.name));
+
+                        if (bar.Cancelled)
+                        {
+                            break;
+                        }
+
+                        if (renderingParameter.prefab == null)
+                        {
+                            externalParameters.RemoveAt(rpi);
+                            continue;
+                        }
+
+                        using (_PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes.Auto())
+                        {
+                            PrefabRenderingSet renderingSet = null;
+
+                            if (_prefabRenderingManager.renderingSets.Sets.ContainsKey(
+                                    renderingParameter.prefab
+                                ))
+                            {
+                                renderingSet =
+                                    _prefabRenderingManager.renderingSets.Sets[renderingParameter.prefab];
+
+                                renderingSet.ExternalParameters.AddOrUpdate(
+                                    renderingParameter.identifyingKey,
+                                    renderingParameter
+                                );
+
+#if UNITY_EDITOR
+                                if (renderingSet.prototypeMetadata == null)
+                                {
+                                    renderingSet.prototypeMetadata =
+                                        _prefabRenderingManager.metadatas.FindOrCreate(
+                                            renderingParameter.prefab,
+                                            _prefabRenderingManager.gpui,
+                                            prototypeLookup
+                                        );
+                                }
+                                else
+                                {
+#endif
+                                    _prefabRenderingManager.metadatas.ConfirmPrototype(
+                                        renderingSet.prototypeMetadata
+                                    );
+#if UNITY_EDITOR
+                                }
+#endif
+
+#if UNITY_EDITOR
+                                renderingSet.prototypeMetadata.CreatePrototypeIfNecessary(
+                                    renderingParameter.prefab,
+                                    _prefabRenderingManager.gpui,
+                                    prototypeLookup
+                                );
+#endif
+                            }
+#if UNITY_EDITOR
+                            else
+                            {
+                                renderingSet = PrefabRenderingSet.LoadOrCreateNew(
+                                    ZString.Format("{0}", renderingParameter.prefab.name),
+                                    true,
+                                    false
+                                );
+
+                                renderingSet.ExternalParameters.AddOrUpdate(
+                                    renderingParameter.identifyingKey,
+                                    renderingParameter
+                                );
+
+                                renderingSet.Initialize(
+                                    renderingParameter.prefab,
+                                    _prefabRenderingManager.metadatas.FindOrCreate(
+                                        renderingParameter.prefab,
+                                        _prefabRenderingManager.gpui,
+                                        prototypeLookup
+                                    )
+                                );
+
+                                _prefabRenderingManager.renderingSets.Sets.AddOrUpdate(
+                                    renderingSet.prefab,
+                                    renderingSet
+                                );
+                            }
+#endif
+
+                            if (renderingSet == null)
+                            {
+                                Context.Log.Warn(
+                                    ZString.Format("No render set for [{0}].", renderingParameter.prefab),
+                                    _prefabRenderingManager
+                                );
+                            }
+                        }
+                    }
+                }
+
+                using (var bar = new EditorOnlyProgressBar(
+                           "Updating Prefab Render Sets",
+                           _prefabRenderingManager.renderingSets.Sets.Count,
+                           false
+                       ))
+                {
+                    for (var setIndex = 0;
+                         setIndex < _prefabRenderingManager.renderingSets.Sets.Count;
+                         setIndex++)
+                    {
+                        var renderingSet = _prefabRenderingManager.renderingSets.Sets.at[setIndex];
+
+                        bar.Increment1AndShowProgress(ZString.Format("{0}", renderingSet.prefab.name));
+
+                        if (bar.Cancelled)
+                        {
+                            break;
+                        }
+
+                        renderingSet.Refresh();
+
+                        if (renderingSet.modelType == PrefabModelType.None)
+                        {
+                            Context.Log.Warn(
+                                ZString.Format(
+                                    "Could not assign a prefab type for object [{0}].",
+                                    renderingSet.prefab.name
+                                ),
+                                renderingSet.prefab
+                            );
+                        }
+
+                        renderingSet.UpdatePrototypeSettings();
+                    }
+                }
+
+                if (_prefabRenderingManager.renderingSets.Sets.Count > 0)
+                {
+                    PrefabRenderingManagerDestroyer.ResetExistingRuntimeStateInstances();
+                }
+
+#if UNITY_EDITOR
+                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(
+                    _prefabRenderingManager.gameObject.scene
+                );
+#endif
+            }
+        }
+
+        public static void InitializeStructure()
+        {
+            using (_PRF_InitializeStructure.Auto())
+            {
+                if (_prefabRenderingManager.structure == null)
+                {
+                    _prefabRenderingManager.structure = new PrefabRenderingRuntimeStructure();
+                }
+
+                _prefabRenderingManager.InitializeStructureInPlace(_prefabRenderingManager.structure);
+            }
+        }
 
         public static void OnAwake()
         {
@@ -146,8 +515,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_ExecuteInitialization.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
-
                 if (checkNulls)
                 {
                     CheckNulls();
@@ -165,7 +532,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (initializeOptions)
                 {
-                    InitializeOptions(manager.transform.position);
+                    InitializeOptions(_prefabRenderingManager.transform.position);
                 }
 
                 if (renderingBounds)
@@ -180,7 +547,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (wakeGPUI)
                 {
-                    manager.gpui.Awake();
+                    _prefabRenderingManager.gpui.Awake();
                 }
 
                 if (renderingSets)
@@ -195,166 +562,68 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        public static void CheckNulls()
+        private static void InitializeGPUIInitializationTracking(bool forceClear)
         {
-            using (_PRF_CheckNulls.Auto())
+            using (_PRF_InitializeGPUIInitializationTracking.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
-
-                using (_PRF_CheckNulls_UpdateMetadata.Auto())
+                if (!_prefabRenderingManager.gpuiRuntimeBuffersInitialized)
                 {
-                    if (manager.metadatas == null)
+                    if (forceClear || (_prefabRenderingManager.gpui.runtimeDataDictionary == null))
                     {
-                        manager.metadatas = GPUInstancerPrototypeMetadataCollection.instance;
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdateReferencePoints.Auto())
-                {
-                    if (manager.distanceReferencePoint == null)
-                    {
-                        manager.distanceReferencePoint = Camera.main.gameObject;
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdatePrefabSource.Auto())
-                {
-                    if (manager.prefabSource == null)
-                    {
-                        manager.prefabSource = PrefabLocationSource.instance;
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdateVSP.Auto())
-                {
-                    if (manager.vegetationSystem == null)
-                    {
-                        manager.vegetationSystem = Object.FindObjectOfType<VegetationSystemPro>();
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdateShaderVariants.Auto())
-                {
-                    if (manager.shaderVariants == null)
-                    {
-                        manager.shaderVariants = GSR.instance.shaderVariants;
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdateGPUI.Auto())
-                {
-                    if (manager.gpui == null)
-                    {
-                        manager.gpui = Object.FindObjectOfType<GPUInstancerPrefabManager>();
-
-                        if (manager.gpui == null)
-                        {
-                            var go = new GameObject("GPUI Prefab Manager");
-                            manager.gpui = go.AddComponent<GPUInstancerPrefabManager>();
-                            manager.gpui.OnEnable();
-                            manager.gpui.Awake();
-                        }
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdateFrustum.Auto())
-                {
-                    if (manager.frustumCamera == null)
-                    {
-                        var child = manager.transform.Find("Frustum");
-
-                        if (child == null)
-                        {
-                            child = new GameObject("Frustum").transform;
-                            child.SetParent(manager.transform);
-                        }
-
-                        manager.frustumCamera = child.GetComponent<Camera>();
-
-                        if (manager.frustumCamera == null)
-                        {
-                            manager.frustumCamera = child.gameObject.AddComponent<Camera>();
-                        }
+                        _prefabRenderingManager.gpui.isInitialized = false;
                     }
 
-                    manager.frustumCamera.enabled = false;
-                    manager.frustumCamera.depth = -100;
-                }
-
-                using (_PRF_CheckNulls_UpdatePathfinder.Auto())
-                {
-                    if (manager.pathFinder == null)
-                    {
-                        manager.pathFinder = Object.FindObjectOfType<AstarPath>();
-                    }
-                    else if (!graphAssigned)
-                    {
-                        graphAssigned = true;
-                        RecastGraph.OnCollectSceneMeshes -= RecastGraphOnOnCollectSceneMeshes;
-                        RecastGraph.OnCollectSceneMeshes += RecastGraphOnOnCollectSceneMeshes;
-                    }
-                }
-
-                using (_PRF_CheckNulls_UpdateSimulator.Auto())
-                {
-#if UNITY_EDITOR
-                    var simulator = manager.gpui.gpuiSimulator;
-
-                    if (simulator == null)
-                    {
-                        manager.gpui.gpuiSimulator = new GPUInstancerEditorSimulator(
-                            manager.gpui,
-                            "MainCamera",
-                            true
-                        );
-                    }
-                    else
-                    {
-                        manager.RenderingOptions.editor.ApplyTo(simulator);
-                    }
-#endif
+                    _prefabRenderingManager.gpui.InitializeRuntimeDataAndBuffers();
+                    _prefabRenderingManager.gpuiRuntimeBuffersInitialized = true;
                 }
             }
         }
 
-        private static void RecastGraphOnOnCollectSceneMeshes(
-            List<RasterizationMesh> meshes,
-            LayerMask mask,
-            List<string> tags,
-            Bounds pathBounds)
+        private static void InitializeOptions(Vector3 referencePosition)
         {
-            PrefabRenderingManager.instance.RecastGraphOnOnCollectSceneMeshes(
-                meshes,
-                mask,
-                tags,
-                pathBounds
-            );
+            using (_PRF_InitializeOptions.Auto())
+            {
+                if (_prefabRenderingManager.RenderingOptions.global.defaultSettings.proxyVolume == null)
+                {
+                    var probes = Object.FindObjectsOfType<LightProbeProxyVolume>();
+
+                    LightProbeProxyVolume volume = null;
+                    var minDistance = float.MaxValue;
+
+                    for (var i = 0; i < probes.Length; i++)
+                    {
+                        var probe = probes[i];
+                        var probe_transform = probe.transform;
+
+                        var distance = math.distance(probe_transform.position, referencePosition);
+
+                        if (distance < minDistance)
+                        {
+                            volume = probe;
+                            minDistance = distance;
+                        }
+                    }
+
+                    _prefabRenderingManager.RenderingOptions.global.defaultSettings.proxyVolume = volume;
+                }
+
+                if (_prefabRenderingManager.RenderingOptions.global.shadowSettings.proxyVolume == null)
+                {
+                    _prefabRenderingManager.RenderingOptions.global.shadowSettings.proxyVolume =
+                        _prefabRenderingManager.RenderingOptions.global.defaultSettings.proxyVolume;
+                }
+            }
         }
 
         private static void InitializeTransform()
         {
             using (_PRF_InitializeTransform.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
-                manager.name = "Prefab Rendering Manager";
-                var t = manager.transform;
+                _prefabRenderingManager.name = "Prefab Rendering Manager";
+                var t = _prefabRenderingManager.transform;
                 t.position = Vector3.zero;
                 t.rotation = Quaternion.identity;
                 t.localScale = Vector3.one;
-            }
-        }
-
-        public static void InitializeStructure()
-        {
-            using (_PRF_InitializeStructure.Auto())
-            {
-                var manager = PrefabRenderingManager.instance;
-                if (manager.structure == null)
-                {
-                    manager.structure = new PrefabRenderingRuntimeStructure();
-                }
-
-                manager.InitializeStructureInPlace(manager.structure);
             }
         }
 
@@ -362,8 +631,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_RecalculateRenderingBounds.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
-
                 using (_PRF_RecalculateRenderingBounds_Terrains.Auto())
                 {
                     if (_terrains == null)
@@ -386,47 +653,35 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                     using (_PRF_RecalculateRenderingBounds_EncapsulateBounds.Auto())
                     {
-                        if (manager.renderingBounds == default)
+                        if (_prefabRenderingManager.renderingBounds == default)
                         {
-                            manager.renderingBounds = bounds;
+                            _prefabRenderingManager.renderingBounds = bounds;
                         }
                         else
                         {
-                            manager.renderingBounds.Encapsulate(bounds);
+                            _prefabRenderingManager.renderingBounds.Encapsulate(bounds);
                         }
                     }
                 }
             }
         }
 
-        private static void InitializeGPUIInitializationTracking(bool forceClear)
+        private static void RecastGraphOnOnCollectSceneMeshes(
+            List<RasterizationMesh> meshes,
+            LayerMask mask,
+            List<string> tags,
+            Bounds pathBounds)
         {
-            using (_PRF_InitializeGPUIInitializationTracking.Auto())
-            {
-                var manager = PrefabRenderingManager.instance;
-
-                if (!manager.gpuiRuntimeBuffersInitialized)
-                {
-                    if (forceClear || (manager.gpui.runtimeDataDictionary == null))
-                    {
-                        manager.gpui.isInitialized = false;
-                    }
-
-                    manager.gpui.InitializeRuntimeDataAndBuffers();
-                    manager.gpuiRuntimeBuffersInitialized = true;
-                }
-            }
+            _prefabRenderingManager.RecastGraphOnOnCollectSceneMeshes(meshes, mask, tags, pathBounds);
         }
 
         private static void WarmUpShaders()
         {
             using (_PRF_WarmUpShaders.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
-
                 var materialHash = new HashSet<Material>();
 
-                var renderingSets = manager.renderingSets;
+                var renderingSets = _prefabRenderingManager.renderingSets;
 
                 for (var i = 0; i < renderingSets.Sets.Count; i++)
                 {
@@ -447,8 +702,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             if (sharedRendererMaterial == null)
                             {
-                               AppaLog.Warn(
-                                    $"Missing a material for renderer {renderer.name}!",
+                                Context.Log.Warn(
+                                    ZString.Format("Missing a material for renderer {0}!", renderer.name),
                                     renderer
                                 );
                             }
@@ -474,256 +729,34 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                             passType = passType, keywords = keywords, shader = shader
                         };
 
-                        if (!manager.shaderVariants.Contains(variant))
+                        if (!_prefabRenderingManager.shaderVariants.Contains(variant))
                         {
-                            manager.shaderVariants.Add(variant);
+                            _prefabRenderingManager.shaderVariants.Add(variant);
                         }
                     }
                 }
 
-                manager.shaderVariants.WarmUp();
+                _prefabRenderingManager.shaderVariants.WarmUp();
             }
         }
 
-        public static void InitializeAllPrefabRenderingSets()
-        {
-            using (_PRF_InitializeAllPrefabRenderingSets.Auto())
-            {
-                var manager = PrefabRenderingManager.instance;
-                manager.renderingSets.RemoveInvalid();
+        #region Profiling
 
-                var existingParameters = new Dictionary<string, ExternalRenderingParameters>();
-
-                var setCount = manager.renderingSets.Sets.Count;
-
-                for (var i = 0; i < setCount; i++)
-                {
-                    var prefabs = manager.renderingSets;
-                    var prefabsCount = prefabs.Sets.Count;
-
-                    for (var j = 0; j < prefabsCount; j++)
-                    {
-                        var prefab = prefabs.Sets.at[j];
-
-                        for (var k = prefab.ExternalParameters.Count - 1; k >= 0; k--)
-                        {
-                            var pfep = prefab.ExternalParameters.at[k];
-
-                            if (pfep == null)
-                            {
-                                prefab.ExternalParameters.RemoveAt(k);
-                                continue;
-                            }
-
-                            if (existingParameters.ContainsKey(pfep.identifyingKey))
-                            {
-                                continue;
-                            }
-
-                            existingParameters.Add(pfep.identifyingKey, pfep);
-                        }
-                    }
-                }
-
-                var externalParameters =
-                    manager.prefabSource.GetRenderingParameters(existingParameters);
-
-                using (var bar = new EditorOnlyProgressBar(
-                    "Initializing Prefab Rendering Parameters",
-                    externalParameters.Count,
-                    false
-                ))
-                {
-                    manager.gpui.prototypeList.Clear();
-
-                    PrefabModelTypeOptionsLookup.instance.InitializeExternal();
-                    PrefabContentTypeOptionsLookup.instance.InitializeExternal();
-
-                    var prototypeLookup =
-                        new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
-
-                    for (var rpi = externalParameters.Count - 1; rpi >= 0; rpi--)
-                    {
-                        var renderingParameter = externalParameters[rpi];
-                        bar.Increment1AndShowProgress($"{renderingParameter.prefab.name}");
-
-                        if (bar.Cancelled)
-                        {
-                            break;
-                        }
-
-                        if (renderingParameter.prefab == null)
-                        {
-                            externalParameters.RemoveAt(rpi);
-                            continue;
-                        }
-
-                        using (_PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes.Auto())
-                        {
-                            PrefabRenderingSet renderingSet = null;
-
-                            if (manager.renderingSets.Sets.ContainsKey(renderingParameter.prefab))
-                            {
-                                renderingSet =
-                                    manager.renderingSets.Sets[renderingParameter.prefab];
-
-                                renderingSet.ExternalParameters.AddOrUpdate(
-                                    renderingParameter.identifyingKey,
-                                    renderingParameter
-                                );
-
-#if UNITY_EDITOR
-                                if (renderingSet.prototypeMetadata == null)
-                                {
-                                    renderingSet.prototypeMetadata = manager.metadatas.FindOrCreate(
-                                        renderingParameter.prefab,
-                                        manager.gpui,
-                                        prototypeLookup
-                                    );
-                                }
-                                else
-                                {
-#endif
-                                    manager.metadatas.ConfirmPrototype(
-                                        renderingSet.prototypeMetadata
-                                    );
-#if UNITY_EDITOR
-                                }
-#endif
-
-#if UNITY_EDITOR
-                                renderingSet.prototypeMetadata.CreatePrototypeIfNecessary(
-                                    renderingParameter.prefab,
-                                    manager.gpui,
-                                    prototypeLookup
-                                );
-#endif
-                            }
-#if UNITY_EDITOR
-                            else
-                            {
-                                renderingSet = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSet>(
-                                    $"{renderingParameter.prefab.name}",
-                                    true,
-                                    false
-                                );
-
-                                renderingSet.ExternalParameters.AddOrUpdate(
-                                    renderingParameter.identifyingKey,
-                                    renderingParameter
-                                );
-
-                                renderingSet.Initialize(
-                                    renderingParameter.prefab,
-                                    manager.metadatas.FindOrCreate(
-                                        renderingParameter.prefab,
-                                        manager.gpui,
-                                        prototypeLookup
-                                    )
-                                );
-
-                                manager.renderingSets.Sets.AddOrUpdate(
-                                    renderingSet.prefab,
-                                    renderingSet
-                                );
-                            }
-#endif
-
-                            if (renderingSet == null)
-                            {
-                               AppaLog.Warn(
-                                    $"No render set for [{renderingParameter.prefab}].",
-                                    manager
-                                );
-                            }
-                        }
-                    }
-                }
-
-                using (var bar = new EditorOnlyProgressBar(
-                    "Updating Prefab Render Sets",
-                    manager.renderingSets.Sets.Count,
-                    false
-                ))
-                {
-                    for (var setIndex = 0; setIndex < manager.renderingSets.Sets.Count; setIndex++)
-                    {
-                        var renderingSet = manager.renderingSets.Sets.at[setIndex];
-
-                        bar.Increment1AndShowProgress($"{renderingSet.prefab.name}");
-
-                        if (bar.Cancelled)
-                        {
-                            break;
-                        }
-
-                        renderingSet.Refresh();
-
-                        if (renderingSet.modelType == PrefabModelType.None)
-                        {
-                           AppaLog.Warn(
-                                $"Could not assign a prefab type for object [{renderingSet.prefab.name}].",
-                                renderingSet.prefab
-                            );
-                        }
-
-                        renderingSet.UpdatePrototypeSettings();
-                    }
-                }
-
-                if (manager.renderingSets.Sets.Count > 0)
-                {
-                    PrefabRenderingManagerDestroyer.ResetExistingRuntimeStateInstances();
-                }
-
-#if UNITY_EDITOR
-                UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(manager.gameObject.scene);
-#endif
-            }
-        }
-
-        private static void InitializeOptions(Vector3 referencePosition)
-        {
-            using (_PRF_InitializeOptions.Auto())
-            {
-                var manager = PrefabRenderingManager.instance;
-
-                if (manager.RenderingOptions.global.defaultSettings.proxyVolume == null)
-                {
-                    var probes = Object.FindObjectsOfType<LightProbeProxyVolume>();
-
-                    LightProbeProxyVolume volume = null;
-                    var minDistance = float.MaxValue;
-
-                    for (var i = 0; i < probes.Length; i++)
-                    {
-                        var probe = probes[i];
-                        var probe_transform = probe.transform;
-
-                        var distance = math.distance(probe_transform.position, referencePosition);
-
-                        if (distance < minDistance)
-                        {
-                            volume = probe;
-                            minDistance = distance;
-                        }
-                    }
-
-                    manager.RenderingOptions.global.defaultSettings.proxyVolume = volume;
-                }
-
-                if (manager.RenderingOptions.global.shadowSettings.proxyVolume == null)
-                {
-                    manager.RenderingOptions.global.shadowSettings.proxyVolume =
-                        manager.RenderingOptions.global.defaultSettings.proxyVolume;
-                }
-            }
-        }
-
-#region ProfilerMarkers
+        #region ProfilerMarkers
 
         private const string _PRF_PFX = nameof(PrefabRenderingManagerInitializer) + ".";
 
-#endregion
+        #endregion
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_Terrains =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".Terrains");
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_GetTerrainBounds =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".GetTerrainBounds");
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_EncapsulateBounds =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".EncapsulateBounds");
+
+        #endregion
     }
 }

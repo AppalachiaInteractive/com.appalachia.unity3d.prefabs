@@ -1,6 +1,7 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -13,7 +14,8 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
     // ExecuteAlways needed to run OnDisable() after DoF made us allocate the buffer in edit mode.
     [DisallowMultipleComponent]
     [ExecuteAlways]
-    public class DepthOfFieldAutoFocus: AppalachiaBehaviour, IDepthOfFieldAutoFocus
+    public sealed class DepthOfFieldAutoFocus : AppalachiaBehaviour<DepthOfFieldAutoFocus>,
+                                                IDepthOfFieldAutoFocus
     {
         private const string _PRF_PFX = nameof(DepthOfFieldAutoFocus) + ".";
 
@@ -58,11 +60,12 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             }
         }
 
-        protected override void OnDisable()
+        protected override async AppaTask WhenDisabled()
+
         {
             using (_PRF_OnDisable.Auto())
             {
-                base.OnDisable();
+                await base.WhenDisabled();
                 
                 _currentSettings?.ReleaseBuffers();
             }

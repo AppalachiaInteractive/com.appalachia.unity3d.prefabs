@@ -4,7 +4,7 @@ using System;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -146,7 +146,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
             if (subRoot == null)
             {
-                AppaLog.Info($"{root.name}  ::  {element.set.profileName}");
+                Context.Log.Info(ZString.Format("{0}  ::  {1}", root.name, element.set.profileName));
 
                 subRoot = new GameObject(element.set.profileName).transform;
 

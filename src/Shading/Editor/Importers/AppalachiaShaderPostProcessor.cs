@@ -1,45 +1,40 @@
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using Appalachia.CI.Integration;
 using Appalachia.CI.Integration.FileSystem;
+using Appalachia.Core.Attributes;
 using Appalachia.Rendering.Shading.Features;
 using UnityEditor;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Importers
 {
+    [CallStaticConstructorInEditor]
     public sealed class AppalachiaShaderPostProcessor : AssetPostprocessor
     {
+        #region Constants and Static Readonly
+
         private const string NAME = "Shader Feature Compilation";
+
+        #endregion
+
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static AppalachiaShaderPostProcessor()
+        {
+            AppalachiaShaderFeatures.InstanceAvailable += i => _appalachiaShaderFeatures = i;
+        }
+
+        #region Static Fields and Autoproperties
+
         public static bool enabled = true;
+
+        private static AppalachiaShaderFeatures _appalachiaShaderFeatures;
 
         private static Dictionary<string, byte[]> processed = new Dictionary<string, byte[]>();
         private static HashAlgorithm _hasher;
 
-        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, true)]
-        public static bool ToggleShaderFeatureCompilationValidate()
-        {
-            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Base + NAME, enabled);
-            return true;
-        }
+        #endregion
 
-        [UnityEditor.MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, priority = PKG.Menu.Appalachia.Tools.Priority)]
-        public static void ToggleShaderFeatureCompilation()
-        {
-            SetEnabled(!enabled);
-        }
-
-        private static void SetEnabled(bool e)
-        {
-            if (e && !enabled)
-            {
-                enabled = true;
-            }
-            else if (!e && enabled)
-            {
-                enabled = false;
-            }
-        }
+        #region Event Functions
 
         private static void OnPostprocessAllAssets(
             string[] importedAssets,
@@ -62,7 +57,7 @@ namespace Appalachia.Rendering.Shading.Importers
                 _hasher = HashAlgorithm.Create();
             }
 
-            var features = AppalachiaShaderFeatures.instance;
+            var features = _appalachiaShaderFeatures;
             var lookup = features.GetShaderLookup();
             var paths = new List<string>();
 
@@ -82,13 +77,13 @@ namespace Appalachia.Rendering.Shading.Importers
 
                 byte[] hash;
 
-                using (var stream =AppaFile.OpenRead(fullPath))
+                using (var stream = AppaFile.OpenRead(fullPath))
                 {
                     hash = _hasher.ComputeHash(stream);
                 }
 
                 var process = false;
-                
+
                 if (processed.ContainsKey(importedAsset))
                 {
                     var existingHash = processed[importedAsset];
@@ -126,8 +121,8 @@ namespace Appalachia.Rendering.Shading.Importers
                 var fullPath = asset.Replace("Assets", Application.dataPath);
 
                 byte[] hash;
-                
-                using (var stream =AppaFile.OpenRead(fullPath))
+
+                using (var stream = AppaFile.OpenRead(fullPath))
                 {
                     hash = _hasher.ComputeHash(stream);
                 }
@@ -142,5 +137,36 @@ namespace Appalachia.Rendering.Shading.Importers
                 }
             }
         }
+
+        #endregion
+
+        private static void SetEnabled(bool e)
+        {
+            if (e && !enabled)
+            {
+                enabled = true;
+            }
+            else if (!e && enabled)
+            {
+                enabled = false;
+            }
+        }
+
+        #region Menu Items
+
+        [MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, priority = PKG.Menu.Appalachia.Tools.Priority)]
+        public static void ToggleShaderFeatureCompilation()
+        {
+            SetEnabled(!enabled);
+        }
+
+        [MenuItem(PKG.Menu.Appalachia.Tools.Base + NAME, true)]
+        public static bool ToggleShaderFeatureCompilationValidate()
+        {
+            Menu.SetChecked(PKG.Menu.Appalachia.Tools.Base + NAME, enabled);
+            return true;
+        }
+
+        #endregion
     }
 }

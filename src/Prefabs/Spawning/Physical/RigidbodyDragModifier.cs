@@ -1,6 +1,6 @@
 #region
 
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Objects.Root;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 {
-    public class RigidbodyDragModifier : AppalachiaBehaviour
+    public sealed class RigidbodyDragModifier : AppalachiaBehaviour<RigidbodyDragModifier>
     {
         private const string _PRF_PFX = nameof(RigidbodyDragModifier) + ".";
 

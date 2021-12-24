@@ -1,15 +1,16 @@
 #region
 
 using System;
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Debugging;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences;
 using Appalachia.Core.Preferences.Globals;
-using Appalachia.Editing.Debugging;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -21,25 +22,45 @@ using UnityEngine.Serialization;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [ExecuteAlways]
-    public class PrefabRenderingInstanceBehaviour : AppalachiaBehaviour
+    [CallStaticConstructorInEditor]
+    public sealed class
+        PrefabRenderingInstanceBehaviour : AppalachiaBehaviour<PrefabRenderingInstanceBehaviour>
     {
-        private const string _PRF_PFX = nameof(PrefabRenderingInstanceBehaviour) + ".";
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabRenderingInstanceBehaviour()
+        {
+            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
+        }
 
-        private static PREF<float> gizmoRadius;
+        #region Preferences
+
+        private static PREF<bool> drawHandleLabels;
         private static PREF<float> gizmoIncrement;
         private static PREF<int> gizmoLimit;
-        private static PREF<bool> drawHandleLabels;
+
+        private static PREF<float> gizmoRadius;
         private static PREF<float> handleRadius;
+
+        #endregion
+
+        #region Static Fields and Autoproperties
+
         private static int _cachedFrame;
 
+        private static int _cachedFrameLocal;
+
         private static int _drawCount;
+
+        private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
 
         //private static int _lastDrawCount;
         //private static int _additiveRadius;
         //private static bool _brokeEarly;
         private static Vector3 _cameraPosition;
 
-        private static int _cachedFrameLocal;
+        #endregion
+
+        #region Fields and Autoproperties
 
         [TabGroup("Data")]
         [InlineProperty]
@@ -93,6 +114,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         private Vector3 s;
         private Transform t;
 
+        #endregion
+
         /*private void OnDrawGizmos()
         {
             var t = transform;
@@ -111,6 +134,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         public void Sleep()
         {
         }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabRenderingInstanceBehaviour) + ".";
+
+        #endregion
+
 #if UNITY_EDITOR
 
         private static readonly ProfilerMarker _PRF_OnDrawGizmosSelected =
@@ -192,7 +222,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     _drawCount = 0;
 
                     var gpui = PrefabRenderingManager.instance.gpui;
-                    var options = PrefabModelTypeOptionsLookup.instance.State[set.modelType];
+                    var options = _prefabModelTypeOptionsLookup.State[set.modelType];
 
                     var cam = gpui.cameraData.mainCamera;
 
@@ -201,8 +231,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     var ct = cam.transform;
                     _cameraPosition = ct.position;
 
-                   UnityEditor.Handles.PositionHandle(_cameraPosition, ct.rotation);
-                   UnityEditor.Handles.Label(_cameraPosition, "Camera");
+                    UnityEditor.Handles.PositionHandle(_cameraPosition, ct.rotation);
+                    UnityEditor.Handles.Label(_cameraPosition, "Camera");
 
                     var frustum = options.GetFrustum(
                         gpui.cameraData.mainCamera,
@@ -248,7 +278,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     _drawCount += 1;
                 }
 
-               UnityEditor.Handles.PositionHandle(p, r);
+                UnityEditor.Handles.PositionHandle(p, r);
 
                 if ((ltw != _stored) || (Math.Abs(_increment - gizmoIncrement.v) > float.Epsilon))
                 {
@@ -316,11 +346,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                 var iscColor = isc switch
                 {
-                    InstanceStateCode.NotSet                       => ColorPrefs.Instance.PRIIC_NotSet,
-                    InstanceStateCode.OutsideOfMaximumChangeRadius => ColorPrefs.Instance.PRIIC_OutsideOfMaximumChangeRadius,
-                    InstanceStateCode.Delayed                      => ColorPrefs.Instance.PRIIC_Delayed,
-                    InstanceStateCode.ForceDisabled                => ColorPrefs.Instance.PRIIC_ForceDisabled,
-                    _ => ColorPrefs.Instance.PRIIC_Normal
+                    InstanceStateCode.NotSet => ColorPrefs.Instance.PRIIC_NotSet,
+                    InstanceStateCode.OutsideOfMaximumChangeRadius => ColorPrefs.Instance
+                       .PRIIC_OutsideOfMaximumChangeRadius,
+                    InstanceStateCode.Delayed       => ColorPrefs.Instance.PRIIC_Delayed,
+                    InstanceStateCode.ForceDisabled => ColorPrefs.Instance.PRIIC_ForceDisabled,
+                    _                               => ColorPrefs.Instance.PRIIC_Normal
                 };
 
                 var sz = s.magnitude * _radius;
@@ -371,10 +402,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     var labelOffset = offsetDirection * 0.2f;
                     labelOffset.y -= .2f;
 
-                   UnityEditor.Handles.Label(_points[1] + labelOffset, $"Physx: {physx}");
-                   UnityEditor.Handles.Label(_points[2] + labelOffset, $"Inter: {inter}");
-                   UnityEditor.Handles.Label(_points[3] + labelOffset, $"Rendr: {rend}");
-                   UnityEditor.Handles.Label(lastPoint + labelOffset,  $"State: {isc}");
+                    UnityEditor.Handles.Label(_points[1] + labelOffset, ZString.Format("Physx: {0}", physx));
+                    UnityEditor.Handles.Label(_points[2] + labelOffset, ZString.Format("Inter: {0}", inter));
+                    UnityEditor.Handles.Label(_points[3] + labelOffset, ZString.Format("Rendr: {0}", rend));
+                    UnityEditor.Handles.Label(lastPoint + labelOffset,  ZString.Format("State: {0}", isc));
                 }
             }
         }

@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Spatial.Terrains;
 using Appalachia.Spatial.Terrains.Utilities;
 using Sirenix.OdinInspector;
@@ -16,7 +17,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
     [InlineProperty]
     [HideLabel]
     [LabelWidth(0)]
-    public class RandomTransformData
+    public class RandomTransformData : AppalachiaSimpleBase
     {
         private const float MinScaleComponent = .8f;
         private const float MaxScaleComponent = 1.2f;
@@ -166,8 +167,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             out float force,
             out Vector3 direction)
         {
-            TerrainMetadataManager.Initialize();
-
             var position = GetPosition(root, out var terrainData);
 
             var rotation = GetRotation(position, terrainData);
@@ -206,11 +205,11 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
             var position = root + additive;
 
-            terrainData = TerrainMetadataManager.GetTerrainAt(position);
+            terrainData = TerrainMetadataManager.instance.GetTerrainAt(position);
 
             if (terrainData == null)
             {
-                terrainData = TerrainMetadataManager.GetTerrainAt(root);
+                terrainData = TerrainMetadataManager.instance.GetTerrainAt(root);
                 position = root;
             }
 

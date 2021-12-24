@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
-using Appalachia.Core.Scriptables;
-using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Strings;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Collections;
@@ -20,6 +19,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
     [Serializable]
     public class PrefabLocationSource : SingletonAppalachiaObject<PrefabLocationSource>
     {
+        
         #region Fields and Autoproperties
 
         public bool sourceFromActiveVegetationSystems = true;
@@ -196,7 +196,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 #if UNITY_EDITOR
                 if (!prefabs.ContainsKey(identifyingKey))
                 {
-                    erp = LoadOrCreateNew<ExternalRenderingParameters>(identifyingKey, true, false);
+                    erp = ExternalRenderingParameters.LoadOrCreateNew(identifyingKey, true, false);
 
                     prefabs.Add(identifyingKey, erp);
                 }
@@ -242,8 +242,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                             if (labels.Length == 0)
                             {
-                                AppaLog.Warn(
-                                    $"No labels for asset [{prefab.name}]. Setting it as a test prefab."
+                                Context.Log.Warn(
+                                    ZString.Format(
+                                        "No labels for asset [{0}]. Setting it as a test prefab.",
+                                        prefab.name
+                                    )
                                 );
                                 info.TestOnly = true;
                                 continue;
@@ -252,7 +255,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                             CreateParametersForPrefab(
                                 prefabs,
-                                $"{info.Name}_{info.VegetationItemID}",
+                                ZString.Format("{0}_{1}", info.Name, info.VegetationItemID),
                                 inst => inst.SetVegetationItemInfoPro(info)
                             );
                         }
@@ -299,7 +302,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
                                     CreateParametersForPrefab(
                                         prefabs,
-                                        $"{info.Name}_{storageItem.VegetationItemID}_STORAGE",
+                                        ZString.Format(
+                                            "{0}_{1}_STORAGE",
+                                            info.Name,
+                                            storageItem.VegetationItemID
+                                        ),
                                         inst => inst.SetVegetationItemInfoPro(info)
                                     );
                                 }

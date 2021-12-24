@@ -2,8 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Rendering.Prefabs.Spawning.Physical;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
@@ -18,7 +16,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning
 {
     [Serializable]
-    public class PrefabSpawnerRigidbodyManager : AppalachiaBase
+    public class PrefabSpawnerRigidbodyManager
     {
         private const string _PRF_PFX = nameof(PrefabSpawnerRigidbodyManager) + ".";
 

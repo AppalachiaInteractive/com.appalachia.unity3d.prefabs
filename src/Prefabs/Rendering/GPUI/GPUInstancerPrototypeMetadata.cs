@@ -4,10 +4,11 @@ using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
-using Appalachia.Core.Extensions;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Scriptables;
 using Appalachia.Simulation.Core;
+using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using GPUInstancer;
 using Unity.Profiling;
 using UnityEngine;
@@ -17,7 +18,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 {
     [Serializable]
-    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject
+    public class GPUInstancerPrototypeMetadata : IdentifiableAppalachiaObject<GPUInstancerPrototypeMetadata>
     {
         #region Profiling And Tracing Markers
 
@@ -72,7 +73,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                 {
                     var prototypeName = _prototype == null ? "UNNAMED" : _prototype.name;
 
-                    throw new NotSupportedException($"Prototype [{prototypeName}] has no prefab!");
+                    throw new NotSupportedException(
+                        ZString.Format("Prototype [{0}] has no prefab!", prototypeName)
+                    );
                 }
 
                 var rigidbody = _originalPrefab.GetComponent<Rigidbody>();
@@ -176,7 +179,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                     }
                     else
                     {
-                        if (Application.isPlaying)
+                        if (AppalachiaApplication.IsPlayingOrWillPlay)
                         {
                             Destroy(component);
                         }
@@ -217,11 +220,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                 var directory = AppaPath.GetDirectoryName(existingPath);
                 var extension = AppaPath.GetExtension(existingPath);
 
-                var subDirectory = $"{directory}_NGO";
+                var subDirectory = ZString.Format("{0}_NGO", directory);
 
                 AppaDirectory.CreateDirectory(subDirectory);
 
-                var newPath = $"{subDirectory}/{fileName}_NGO{extension}";
+                var newPath = ZString.Format("{0}/{1}_NGO{2}", subDirectory, fileName, extension);
 
                 var result = UnityEditor.PrefabUtility.SaveAsPrefabAsset(modified, newPath);
 

@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Scriptables;
 using AwesomeTechnologies.VegetationSystem;
 using UnityEngine;
 
@@ -10,8 +10,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
     [Serializable]
-    public class
-        ExternalRenderingParameters : IdentifiableAppalachiaObject
+    public class ExternalRenderingParameters : IdentifiableAppalachiaObject<ExternalRenderingParameters>
     {
         [HideInInspector] public string identifyingKey;
 

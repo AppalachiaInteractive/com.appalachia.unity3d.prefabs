@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Attributes;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Utility.Enums;
 using Unity.Profiling;
@@ -11,31 +12,80 @@ using Unity.Profiling;
 namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
+    [CallStaticConstructorInEditor]
     public abstract class PrefabTypeCounts<TE>
         where TE : Enum
     {
-        private const string _PRF_PFX = nameof(PrefabTypeCounts<TE>) + ".";
+        #region Constants and Static Readonly
 
         protected static readonly EnumValuesCollection<TE> _enumValues = new(false);
 
-        protected Dictionary<TE, int> _typeCounts;
+        #endregion
+
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabTypeCounts()
+        {
+            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
+
+        #endregion
+
+        #region Fields and Autoproperties
+
         protected Dictionary<TE, InstanceStateCounts> _typeInstanceCounts;
+
+        protected Dictionary<TE, int> _typeCounts;
 
         private int _typeSum;
 
-        private void InitializeCollectionsIfNull()
+        #endregion
+
+        public InstanceStateCounts GetInstanceCount(TE type)
         {
-            using (_PRF_InitializeCollectionsIfNull.Auto())
+            using (_PRF_GetInstanceCount.Auto())
             {
-                if (_typeCounts == null)
+                if ((_typeInstanceCounts == null) || (_typeInstanceCounts.Count == 0))
                 {
-                    _typeCounts = new Dictionary<TE, int>();
+                    ResetRuntimeCountCollections();
                 }
 
-                if (_typeInstanceCounts == null)
+                if (!_typeInstanceCounts.ContainsKey(type))
                 {
-                    _typeInstanceCounts = new Dictionary<TE, InstanceStateCounts>();
+                    _typeInstanceCounts.Add(type, default);
                 }
+
+                return _typeInstanceCounts[type];
+            }
+        }
+
+        public int GetPrefabTypeCount(TE type)
+        {
+            using (_PRF_GetPrefabTypeCount.Auto())
+            {
+                if ((_typeCounts == null) || (_typeCounts.Count == 0))
+                {
+                    ResetRuntimeCountCollections();
+                }
+
+                if (!_typeCounts.ContainsKey(type))
+                {
+                    _typeCounts.Add(type, 0);
+                }
+
+                return _typeCounts[type];
+            }
+        }
+
+        public void RefreshRuntimeCounts()
+        {
+            using (_PRF_RefreshRuntimeCounts.Auto())
+            {
+                ResetRuntimeCountCollections();
+                UpdatePrefabTypeCounts();
             }
         }
 
@@ -63,13 +113,31 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 
+        protected abstract TE FromPrefabSet(PrefabRenderingSet set);
+
+        private void InitializeCollectionsIfNull()
+        {
+            using (_PRF_InitializeCollectionsIfNull.Auto())
+            {
+                if (_typeCounts == null)
+                {
+                    _typeCounts = new Dictionary<TE, int>();
+                }
+
+                if (_typeInstanceCounts == null)
+                {
+                    _typeInstanceCounts = new Dictionary<TE, InstanceStateCounts>();
+                }
+            }
+        }
+
         private void UpdatePrefabTypeCounts()
         {
             using (_PRF_PrefabTypeCounts.Auto())
             {
                 InitializeCollectionsIfNull();
 
-                var sets = PrefabRenderingSetCollection.instance.Sets;
+                var sets = _prefabRenderingSetCollection.Sets;
 
                 if (sets.Count != _typeSum)
                 {
@@ -102,54 +170,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 
-        protected abstract TE FromPrefabSet(PrefabRenderingSet set);
+        #region Profiling
 
-        public int GetPrefabTypeCount(TE type)
-        {
-            using (_PRF_GetPrefabTypeCount.Auto())
-            {
-                if ((_typeCounts == null) || (_typeCounts.Count == 0))
-                {
-                    ResetRuntimeCountCollections();
-                }
+        private const string _PRF_PFX = nameof(PrefabTypeCounts<TE>) + ".";
 
-                if (!_typeCounts.ContainsKey(type))
-                {
-                    _typeCounts.Add(type, 0);
-                }
+        #endregion
 
-                return _typeCounts[type];
-            }
-        }
-
-        public InstanceStateCounts GetInstanceCount(TE type)
-        {
-            using (_PRF_GetInstanceCount.Auto())
-            {
-                if ((_typeInstanceCounts == null) || (_typeInstanceCounts.Count == 0))
-                {
-                    ResetRuntimeCountCollections();
-                }
-
-                if (!_typeInstanceCounts.ContainsKey(type))
-                {
-                    _typeInstanceCounts.Add(type, default);
-                }
-
-                return _typeInstanceCounts[type];
-            }
-        }
-
-        public void RefreshRuntimeCounts()
-        {
-            using (_PRF_RefreshRuntimeCounts.Auto())
-            {
-                ResetRuntimeCountCollections();
-                UpdatePrefabTypeCounts();
-            }
-        }
-
-#region ProfilerMarkers
+        #region ProfilerMarkers
 
         private static readonly ProfilerMarker _PRF_InitializeCollectionsIfNull =
             new(_PRF_PFX + nameof(InitializeCollectionsIfNull));
@@ -169,6 +196,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         private static readonly ProfilerMarker _PRF_RefreshRuntimeCounts =
             new(_PRF_PFX + nameof(RefreshRuntimeCounts));
 
-#endregion
+        #endregion
     }
 }

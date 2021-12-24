@@ -3,15 +3,15 @@
 using System;
 using System.Linq;
 using Appalachia.Core.Assets;
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Debugging;
-using Appalachia.Core.Scriptables;
-using Appalachia.Editing.Debugging;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Spawning.Data;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Simulation.Core;
+using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -21,27 +21,22 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning
 {
     [ExecuteAlways]
-    public class RandomPrefabSpawner : AppalachiaBehaviour
+    [CallStaticConstructorInEditor]
+    public sealed class RandomPrefabSpawner : AppalachiaBehaviour<RandomPrefabSpawner>
     {
-        private const string _PRF_PFX = nameof(RandomPrefabSpawner) + ".";
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static RandomPrefabSpawner()
+        {
+            RandomPrefabMasterCollection.InstanceAvailable += i => _randomPrefabMasterCollection = i;
+        }
 
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+        #region Static Fields and Autoproperties
 
-        private static readonly ProfilerMarker _PRF_EnableSpawning =
-            new(_PRF_PFX + nameof(EnableSpawning));
+        private static RandomPrefabMasterCollection _randomPrefabMasterCollection;
 
-        private static readonly ProfilerMarker _PRF_DisableSpawning =
-            new(_PRF_PFX + nameof(DisableSpawning));
+        #endregion
 
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
-
-#if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos =
-            new(_PRF_PFX + nameof(OnDrawGizmos));
-
-        private static readonly ProfilerMarker _PRF_CreateNewSettings =
-            new(_PRF_PFX + nameof(CreateNewSettings));
-#endif
+        #region Fields and Autoproperties
 
         [InlineProperty]
         [InlineEditor]
@@ -59,10 +54,14 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 
         private Bounds previousBounds;
 
+        #endregion
+
         [BoxGroup("Spawning")]
         [ShowInInspector]
         [ReadOnly]
         public bool spawning => _spawning;
+
+        #region Event Functions
 
         private void Update()
         {
@@ -106,7 +105,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
                     return;
                 }
 
-                var count = Mathf.Max(1, (int) (Time.deltaTime * settings.timing.spawnsPerSecond));
+                var count = Mathf.Max(1, (int)(Time.deltaTime * settings.timing.spawnsPerSecond));
                 count = Mathf.Min(count, limit);
 
                 if (count > 0)
@@ -121,12 +120,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
             using (_PRF_OnEnable.Auto())
             {
-                base.OnEnable();
-                
+                await base.WhenEnabled();
+
 #if UNITY_EDITOR
                 settings.UpdateAllIDs();
                 state.collection.UpdateAllIDs();
@@ -155,6 +154,26 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         }
 #endif
 
+        #endregion
+
+        [Button]
+        [ButtonGroup("Spawning/B")]
+        [EnableIf(nameof(spawning))]
+        public void DisableSpawning()
+        {
+            using (_PRF_DisableSpawning.Auto())
+            {
+                _spawning = false;
+
+#if UNITY_EDITOR
+                if (PhysicsSimulator.IsSimulationActive)
+                {
+                    PhysicsSimulator.SetEnabled(false);
+                }
+#endif
+            }
+        }
+
         [Button]
         [ButtonGroup("Spawning/B")]
         [DisableIf(nameof(spawning))]
@@ -175,23 +194,26 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
-        [Button]
-        [ButtonGroup("Spawning/B")]
-        [EnableIf(nameof(spawning))]
-        public void DisableSpawning()
-        {
-            using (_PRF_DisableSpawning.Auto())
-            {
-                _spawning = false;
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(RandomPrefabSpawner) + ".";
+
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+
+        private static readonly ProfilerMarker _PRF_EnableSpawning = new(_PRF_PFX + nameof(EnableSpawning));
+
+        private static readonly ProfilerMarker _PRF_DisableSpawning = new(_PRF_PFX + nameof(DisableSpawning));
+
+        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
+
+        #endregion
 
 #if UNITY_EDITOR
-                if (PhysicsSimulator.IsSimulationActive)
-                {
-                    PhysicsSimulator.SetEnabled(false);
-                }
+        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + nameof(OnDrawGizmos));
+
+        private static readonly ProfilerMarker _PRF_CreateNewSettings =
+            new(_PRF_PFX + nameof(CreateNewSettings));
 #endif
-            }
-        }
 #if UNITY_EDITOR
         [Button]
         [ButtonGroup("A")]
@@ -199,13 +221,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_CreateNewSettings.Auto())
             {
-                settings = AppalachiaObject.CreateNew<PrefabSpawnSettings>();
+                settings = PrefabSpawnSettings.CreateNew();
                 AssetDatabaseSaveManager.SaveAssetsNextFrame();
             }
         }
 
-        private static readonly ProfilerMarker _PRF_CreateNewState =
-            new(_PRF_PFX + nameof(CreateNewState));
+        private static readonly ProfilerMarker _PRF_CreateNewState = new(_PRF_PFX + nameof(CreateNewState));
 
         [Button]
         [ButtonGroup("A")]
@@ -213,8 +234,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_CreateNewState.Auto())
             {
-                var collection = AppalachiaObject.CreateNew<RandomPrefabSetCollection>();
-                RandomPrefabMasterCollection.instance.collections.Add(collection);
+                var collection = RandomPrefabSetCollection.CreateNew();
+                _randomPrefabMasterCollection.collections.Add(collection);
                 state = new RandomPrefabSetCollectionState(transform, collection);
                 AssetDatabaseSaveManager.SaveAssetsNextFrame();
             }
@@ -301,7 +322,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         [BoxGroup("Spawning")]
         public LayerSelection spawnLayer;
         
-        private bool isRunning => Application.isPlaying;
+        private bool isRunning => AppalachiaApplication.IsPlayingOrWillPlay;
 
         [BoxGroup("Spawning")]
         public bool enableSpawnLimiting;
@@ -645,7 +666,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             spawned += 1;
         }
 
-        private bool showReset => Application.isPlaying;
+        private bool showReset => AppalachiaApplication.IsPlayingOrWillPlay;
         [Button, ShowIf(nameof(showReset))]
         public void Reset()
         {
@@ -657,7 +678,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             spawned = 0;
         }       
         
-        private bool showCombineReset => spawned > 0 && Application.isPlaying;
+        private bool showCombineReset => spawned > 0 && AppalachiaApplication.IsPlayingOrWillPlay;
 
         [ShowIf(nameof(showCombineReset))] public bool removeRigidbodiesWhileCombining = true;
         [ShowIf(nameof(showCombineReset))] public bool removeCollidersWhileCombining = true;

@@ -1,10 +1,9 @@
 #region
 
 using System;
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections.Native;
-using Appalachia.Core.Extensions;
 using Appalachia.Core.ObjectPooling;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Utility.Extensions;
@@ -19,7 +18,7 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
-    public class RuntimePrefabRenderingElement : AppalachiaBase,
+    public class RuntimePrefabRenderingElement : AppalachiaSimpleBase,
                                                  IDisposable
     {
         private const string _PRF_PFX = nameof(RuntimePrefabRenderingElement) + ".";

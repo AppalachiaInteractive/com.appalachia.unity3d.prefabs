@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using AwesomeTechnologies.VegetationSystem;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 {
     [Serializable]
-    public class VegetationPrefabCollisionRemovalInfo
+    public class VegetationPrefabCollisionRemovalInfo : AppalachiaSimpleBase
     {
         [HorizontalGroup("A", .66f)]
         [SmartLabel]

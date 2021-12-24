@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -8,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Appalachia.Rendering.Prefabs.Spawning.Settings
 {
     [Serializable]
-    public class PrefabSpawnPhysicsSettings
+    public class PrefabSpawnPhysicsSettings : AppalachiaSimpleBase
     {
         [BoxGroup("Advanced")] public bool showAdvanced;
 

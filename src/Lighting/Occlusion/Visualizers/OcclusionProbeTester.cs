@@ -1,5 +1,6 @@
 #if UNITY_EDITOR
 using Appalachia.Editing.Visualizers;
+using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -55,8 +56,10 @@ namespace Appalachia.Rendering.Lighting.Occlusion.Visualizers
             return bounds;
         }
 
-        protected override void WhenDisabled()
+        protected override async AppaTask WhenDisabled()
         {
+            await base.WhenDisabled();
+            
             probes = null;
         }
     }

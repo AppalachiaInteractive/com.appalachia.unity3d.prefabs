@@ -4,10 +4,10 @@ using System;
 using System.Collections.Generic;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -33,7 +33,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
 
         protected override string GetDisplaySubtitle(PrefabModelType key, List<GameObject> value)
         {
-            return $"{value.Count} Game Objects";
+            return ZString.Format("{0} Game Objects", value.Count);
         }
 
         protected override Color GetDisplayColor(PrefabModelType key, List<GameObject> value)

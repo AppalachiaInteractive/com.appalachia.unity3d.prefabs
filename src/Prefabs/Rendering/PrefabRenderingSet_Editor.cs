@@ -4,13 +4,10 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
-using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.Data;
-using Appalachia.Rendering.Prefabs.Rendering.ModelType;
-using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -24,20 +21,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [LabelWidth(0)]
     public partial class PrefabRenderingSet
     {
+
+
         protected override bool ShowIDProperties => false;
 
         #region Event Functions
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
-            base.OnEnable();
+            await base.WhenEnabled();
             if (_externalParameters == null)
             {
                 _externalParameters = new ExternalRenderingParametersLookup();
-               this.MarkAsModified();
+                MarkAsModified();
             }
 
-            _externalParameters.SetMarkModifiedAction(this.MarkAsModified);
+            _externalParameters.SetObjectOwnership(this);
 
             //_assetType = _assetType.CheckObsolete();
         }
@@ -51,14 +50,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             if (!_modelType.overrideEnabled || (modelType == PrefabModelType.None))
             {
-                modelType = PrefabModelTypeOptionsLookup.instance.GetPrefabType(labels);
+                modelType = _prefabModelTypeOptionsLookup.GetPrefabType(labels);
             }
 
             modelOptions.type = modelType;
 
             if (!_contentType.overrideEnabled || (contentType == PrefabContentType.None))
             {
-                contentType = PrefabContentTypeOptionsLookup.instance.GetPrefabType(labels);
+                contentType = _prefabContentTypeOptionsLookup.GetPrefabType(labels);
             }
 
             contentOptions.type = contentType;
@@ -103,7 +102,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [Button]
         private void ResetBurials()
         {
-            //MeshBurialAdjustmentCollection.instance.GetByPrefab(prefab).Reset();
+            //_meshBurialAdjustmentCollection.GetByPrefab(prefab).Reset();
         }
 
         [TabGroup(_TABS, _META)]
@@ -121,7 +120,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             if (locations == null)
             {
-                locations = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSetLocations>(name);
+                locations = PrefabRenderingSetLocations.LoadOrCreateNew(name);
             }
 
             locations.SetFromInstance(this);

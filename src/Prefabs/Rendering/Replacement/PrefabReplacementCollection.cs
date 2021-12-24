@@ -4,8 +4,7 @@ using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Interfaces;
-using Appalachia.Core.Scriptables;
-using Appalachia.Utility.Extensions;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -38,7 +37,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 #if UNITY_EDITOR
                    this.MarkAsModified();
 
-                    _state.SetMarkModifiedAction(this.MarkAsModified);
+                   _state.SetObjectOwnership(this);
 #endif
                 }
 
@@ -57,7 +56,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
             }
 
 #if UNITY_EDITOR
-            _state.SetMarkModifiedAction(this.MarkAsModified);
+            _state.SetObjectOwnership(this);
 #endif
         }
     }

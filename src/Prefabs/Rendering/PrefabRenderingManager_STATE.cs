@@ -6,8 +6,8 @@ using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -20,6 +20,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
+        
         #region Static Fields and Autoproperties
 
         private static RenderingStateReasonCodeLookup _reasonCodes = new();
@@ -148,7 +149,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                             return _simulationCache;
                         }
 
-                        if (!Application.isPlaying && gpui.gpuiSimulator.simulateAtEditor)
+                        if (!AppalachiaApplication.IsPlayingOrWillPlay && gpui.gpuiSimulator.simulateAtEditor)
                         {
                             _simulationCache = true;
                             _editorCheckFrame = frame;
@@ -243,6 +244,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _reasonCodes = new RenderingStateReasonCodeLookup();
                 }
 
+                _reasonCodes.SetObjectOwnership(this);
+                
                 if (_reasonCodes.Count == 0)
                 {
                     _reasonCodes.InitializeLookup();
@@ -278,7 +281,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (enable)
                 {
-                    AppaLog.Info("Attempting to start runtime rendering.", this);
+                    Context.Log.Info("Attempting to start runtime rendering.", this);
 
                     _updateLoopCount = 0;
                     _updateLoopStopped = false;
@@ -299,12 +302,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                     catch (Exception ex)
                     {
-                        AppaLog.Exception(ex, this);
+                        Context.Log.Error(ex, this);
                     }
                 }
                 else
                 {
-                    AppaLog.Info("Attempting to end runtime rendering.", this);
+                    Context.Log.Info("Attempting to end runtime rendering.", this);
 
                     gpui.enabled = false;
                 }
@@ -378,7 +381,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (currentState == RenderingState.BounceState)
                 {
-                    if (Application.isPlaying || IsEditorSimulating)
+                    if (AppalachiaApplication.IsPlayingOrWillPlay || IsEditorSimulating)
                     {
                         currentState = RenderingState.Rendering;
                     }
@@ -429,7 +432,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                if (!Application.isPlaying &&
+                if (!AppalachiaApplication.IsPlayingOrWillPlay &&
                     (currentState == RenderingState.Rendering) &&
                     !IsEditorSimulating)
                 {
@@ -486,7 +489,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         {
                             case RenderingState.Rendering:
                             {
-                                if (Application.isPlaying)
+                                if (AppalachiaApplication.IsPlayingOrWillPlay)
                                 {
                                     ChangeRuntimeRenderingState(true);
                                 }
@@ -521,7 +524,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         {
                             case RenderingState.NotRendering:
                             {
-                                if (Application.isPlaying)
+                                if (AppalachiaApplication.IsPlayingOrWillPlay)
                                 {
                                     ChangeRuntimeRenderingState(false);
                                 }
@@ -566,7 +569,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 case RenderingStateReasonCode.NONE:
                     break;
                 case RenderingStateReasonCode.PREFAB_RENDER_SET_NULL:
-                    renderingSets = PrefabRenderingSetCollection.instance;
+                    renderingSets = _prefabRenderingSetCollection;
 #if UNITY_EDITOR
                     renderingSets.MarkAsModified();
 #endif
@@ -699,7 +702,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (enable)
                 {
-                    AppaLog.Info("Attempting to start GPUI simulation.", this);
+                    Context.Log.Info("Attempting to start GPUI simulation.", this);
 
                     _updateLoopCount = 0;
                     _updateLoopStopped = false;
@@ -722,13 +725,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                     catch (Exception ex)
                     {
-                        AppaLog.Error("Failed to start simulation", this);
-                        AppaLog.Exception(ex, this);
+                        Context.Log.Error("Failed to start simulation", this);
+                        Context.Log.Error(ex,                           this);
                     }
                 }
                 else
                 {
-                    AppaLog.Info("Attempting to end GPUI simulation.", this);
+                    Context.Log.Info("Attempting to end GPUI simulation.", this);
 
                     GPUInstancerAPI.StopEditorSimulation(gpui);
                 }

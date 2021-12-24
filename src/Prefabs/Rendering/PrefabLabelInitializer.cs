@@ -1,12 +1,12 @@
 #if UNITY_EDITOR
-using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Labels;
 using Appalachia.Editing.Labels;
 using Appalachia.Rendering.Prefabs.Core;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
-    [EditorOnlyInitializeOnLoad]
+    [CallStaticConstructorInEditor]
     public static class PrefabLabelInitializer
     {
         public static void Ensure()

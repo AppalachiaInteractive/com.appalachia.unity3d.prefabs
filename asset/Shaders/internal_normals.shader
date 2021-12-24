@@ -112,7 +112,7 @@ Shader "internal_normals"
 			ENDCG
 		}
 	}
-	CustomEditor "ASEMaterialInspector"
+	CustomEditor "AppalachiaShaderGUI"
 	
 	
 }

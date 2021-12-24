@@ -19,8 +19,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Collections
         HideRemoveButton = true,
         NumberOfItemsPerPage = 5
     )]
-    public class PrefabSpawnPointCollectionLookup : AppaLookup<string, PrefabSpawnPointCollection,
-        AppaList_string, AppaList_PrefabSpawnPointCollection>
+    public class PrefabSpawnPointCollectionLookup : AppaLookup<string, PrefabSpawnPointCollection, stringList,
+        AppaList_PrefabSpawnPointCollection>
     {
         protected override string GetDisplayTitle(string key, PrefabSpawnPointCollection value)
         {

@@ -2,8 +2,8 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections.Native;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Jobs.Burstable;
 using Appalachia.Jobs.Concurrency;
 using Appalachia.Jobs.InitializeJob;
@@ -18,7 +18,7 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -33,9 +33,11 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingInstanceManager : AppalachiaBase,
+    public class PrefabRenderingInstanceManager : AppalachiaSimpleBase,
                                                   IDisposable
     {
+        
+        
         private const string _PRF_PFX = nameof(PrefabRenderingInstanceManager) + ".";
 
         private const int BaseSize = 1024;
@@ -1117,8 +1119,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                             if (errorCount >= 10)
                             {
-                                AppaLog.Error(
-                                    $"Skipping instancing validation for {renderingSet.prefab.name} as it reached the error limit of {errorCount}."
+                                Context.Log.Error(
+                                    ZString.Format(
+                                        "Skipping instancing validation for {0} as it reached the error limit of {1}.",
+                                        renderingSet.prefab.name,
+                                        errorCount
+                                    )
                                 );
 
                                 break;

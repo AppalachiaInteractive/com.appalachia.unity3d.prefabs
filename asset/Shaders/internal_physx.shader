@@ -118,7 +118,7 @@ Shader "internal_physx"
 
 		ENDCG
 	}
-	CustomEditor "ASEMaterialInspector"
+	CustomEditor "AppalachiaShaderGUI"
 }
 /*ASEBEGIN
 Version=17500

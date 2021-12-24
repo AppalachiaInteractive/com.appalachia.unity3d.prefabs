@@ -1,11 +1,11 @@
 #region
 
 using System;
-using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -38,6 +38,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
         public override string Title => type.ToString().SeperateWords();
 
         //public string Subtitle => $"{prefabCount} prefabs | {instanceCounts.total} instances";
-        public override string Subtitle => $"{prefabCount} prefabs | {instanceCounts.ToString()}";
+        public override string Subtitle =>
+            ZString.Format("{0} prefabs | {1}", prefabCount, instanceCounts.ToString());
     }
 }

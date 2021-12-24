@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -8,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class RuntimeRenderingGizmoOptions
+    public class RuntimeRenderingGizmoOptions : AppalachiaSimpleBase
     {
 #if UNITY_EDITOR
         [ToggleLeft] public bool burialGizmosEnabled = true;

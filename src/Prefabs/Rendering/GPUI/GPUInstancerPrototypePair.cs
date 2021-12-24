@@ -119,7 +119,7 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                     }
                     else
                     {
-                        if (Application.isPlaying)
+                        if (AppalachiaApplication.IsPlayingOrWillPlay)
                         {
                             Component.Destroy(component);
                         }
@@ -168,7 +168,7 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
                 var result = PrefabUtility.SaveAsPrefabAsset(modified, newPath);
 
-                if (Application.isPlaying)
+                if (AppalachiaApplication.IsPlayingOrWillPlay)
                 {
                     GameObject.Destroy(modified);
                 }

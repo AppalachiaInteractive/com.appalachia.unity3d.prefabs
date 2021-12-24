@@ -2,7 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -12,7 +12,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class RandomPrefabSetElement
+    public class RandomPrefabSetElement : AppalachiaSimpleBase
     {
         [ToggleLeft]
         [HorizontalGroup("A", .05f)]

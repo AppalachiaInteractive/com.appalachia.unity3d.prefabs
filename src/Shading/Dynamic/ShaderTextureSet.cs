@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using Appalachia.Core.Extensions.Helpers;
-using Appalachia.Core.Scriptables;
-using Appalachia.Utility.Logging;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -16,6 +15,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
 {
     public class ShaderTextureSet  : AppalachiaObject
     {
+        
+        
 /*#if UNITY_EDITOR
         [FoldoutGroup("Arrays", expanded: true)]
         [HorizontalGroup("Arrays/Division", 150), InlineProperty, SmartLabel]
@@ -97,8 +98,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
             catch (Exception ex)
             {
-                AppaLog.Error($"Error while updating image.");
-                AppaLog.Exception(ex);
+                Context.Log.Error("Error while updating image.");
+                Context.Log.Error(ex);
             }
 
             Shader.SetGlobalFloatArray(globalFloatArray, globalTextureConfiguration);
@@ -115,7 +116,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         }
 
         [Serializable]
-        public class TextureSet
+        public class TextureSet : AppalachiaSimpleBase
         {
             public string subsetName;
 
@@ -191,7 +192,9 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
                 return obj is ArrayElement other
                     ? CompareTo(other)
-                    : throw new ArgumentException($"Object must be of type {nameof(ArrayElement)}");
+                    : throw new ArgumentException(
+                        ZString.Format("Object must be of type {0}", nameof(ArrayElement))
+                    );
             }
 
             [DebuggerStepThrough] public int CompareTo(ArrayElement other)

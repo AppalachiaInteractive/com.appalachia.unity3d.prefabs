@@ -11,7 +11,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
 {
     [Serializable]
     public class ExternalRenderingParametersLookup : AppaLookup<string, ExternalRenderingParameters,
-        AppaList_string, AppaList_ExternalRenderingParameters>
+        stringList, AppaList_ExternalRenderingParameters>
     {
         protected override string GetDisplayTitle(string key, ExternalRenderingParameters value)
         {

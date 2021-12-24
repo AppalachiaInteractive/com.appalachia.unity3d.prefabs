@@ -1,4 +1,3 @@
-using Appalachia.Utility.Logging;
 using UnityEditor;
 using UnityEngine;
 
@@ -38,7 +37,7 @@ namespace Appalachia.Rendering.Shading.Importers
             }
         }
 
-        private static void OnPostprocessAllAssets(
+        /*private static void OnPostprocessAllAssets(
             string[] importedAssets,
             string[] deletedAssets,
             string[] movedAssets,
@@ -51,18 +50,18 @@ namespace Appalachia.Rendering.Shading.Importers
 
             foreach (var str in importedAssets)
             {
-                AppaLog.Info("Reimported Asset: " + str);
+                Context.Log.Info("Reimported Asset: " + str);
             }
 
             foreach (var str in deletedAssets)
             {
-                AppaLog.Info("Deleted Asset: " + str);
+                Context.Log.Info("Deleted Asset: " + str);
             }
 
             for (var i = 0; i < movedAssets.Length; i++)
             {
-                AppaLog.Info("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
+                Context.Log.Info("Moved Asset: " + movedAssets[i] + " from: " + movedFromAssetPaths[i]);
             }
-        }
+        }*/
     }
 }

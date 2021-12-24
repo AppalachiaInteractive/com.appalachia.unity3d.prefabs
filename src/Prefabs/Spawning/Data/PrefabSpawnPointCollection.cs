@@ -3,12 +3,11 @@
 using System;
 using System.Collections.Generic;
 using Appalachia.CI.Constants;
-using Appalachia.Core.Behaviours;
 using Appalachia.Rendering.Prefabs.Spawning.Collections;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Spatial.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -18,7 +17,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class PrefabSpawnPointCollection : AppalachiaBase
+    public class PrefabSpawnPointCollection
     {
         private const string _PRF_PFX = nameof(PrefabSpawnPointCollection) + ".";
 
@@ -180,7 +179,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
                 if (subRoot == null)
                 {
-                    AppaLog.Info($"{root.name}  ::  {pointString}");
+                    Context.Log.Info(ZString.Format("{0}  ::  {1}", root.name, pointString));
                     subRoot = new GameObject(pointString);
                     subRoot.transform.position = point;
                     subRoot.transform.SetParent(root, true);

@@ -1,12 +1,13 @@
 #region
 
 using System;
-using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Rendering.Prefabs.Rendering.Burstable;
+using Appalachia.Utility.Async;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -64,13 +65,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         public override string Title => type.ToString().SeperateWords();
 
         //public string Subtitle => $"{prefabCount} prefabs | {instanceCounts.total} instances";
-        public override string Subtitle => $"{prefabCount} prefabs | {instanceCounts.ToString()}";
+        public override string Subtitle =>
+            ZString.Format("{0} prefabs | {1}", prefabCount, instanceCounts.ToString());
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
             using (_PRF_OnEnable.Auto())
             {
-                base.OnEnable();
+                await base.WhenEnabled();
                 var ranges = _options.rangeSettings;
 
                 if ((ranges == null) || (ranges.Length <= 0))

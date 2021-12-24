@@ -2,8 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Extensions;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Utility.Extensions;
@@ -16,7 +14,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class PrefabSpawnPointState : AppalachiaBase
+    public class PrefabSpawnPointState
     {
         private const string _PRF_PFX = nameof(PrefabSpawnPointState) + ".";
 

@@ -1,5 +1,6 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine.Rendering.PostProcessing;
@@ -7,7 +8,7 @@ using UnityEngine.Rendering.PostProcessing;
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldStatePlaneSettings
+    public class DepthOfFieldStatePlaneSettings : AppalachiaSimpleBase
     {
         [BoxGroup("Sampling")]
         [HorizontalGroup("Sampling/A", .5f)]

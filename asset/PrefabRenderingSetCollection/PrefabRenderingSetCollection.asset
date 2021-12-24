@@ -10,34 +10,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a9687bd50f3003640a38f4413c5a6a9d, type: 3}
-  m_Name: PrefabRenderingSetCollection_20211109-065517060
+  m_Name: PrefabRenderingSetCollection
   m_EditorClassIdentifier: 
   _initializationData:
-    _nonSerializedTags: []
     _tags: []
     _resetToken: 
   _cachedName: 
   _niceName: 
   _toggles:
     initializerCount: 64
-    values:
+    _object: {fileID: 11400000}
+    keys:
       _capacityIncreaseMultiplier: 2
       _values: []
       noTracking: 0
       _count: 0
-    keys:
+    values:
       _capacityIncreaseMultiplier: 2
       _values: []
       noTracking: 0
       _count: 0
   _state:
     initializerCount: 64
-    values:
+    _object: {fileID: 11400000}
+    keys:
       _capacityIncreaseMultiplier: 2
       _values: []
       noTracking: 0
       _count: 0
-    keys:
+    values:
       _capacityIncreaseMultiplier: 2
       _values: []
       noTracking: 0

@@ -1,15 +1,14 @@
 #region
 
 using System;
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
-using UnityEngine;
 
 #endregion
 
 namespace Appalachia.Rendering.Prefabs.Rendering.MultiStage
 {
-    public abstract class MultiStageGPUInstancerPrefab<T>: AppalachiaBehaviour
+    public abstract class MultiStageGPUInstancerPrefab<T> : AppalachiaBehaviour<>
         where T : Enum
     {
         public MultiStagePrefabType prefabType;

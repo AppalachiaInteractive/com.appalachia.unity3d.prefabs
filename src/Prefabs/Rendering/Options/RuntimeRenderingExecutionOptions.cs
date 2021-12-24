@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Jobs;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class RuntimeRenderingExecutionOptions
+    public class RuntimeRenderingExecutionOptions : AppalachiaSimpleBase
     {
         [ToggleLeft]
         [SmartLabel]

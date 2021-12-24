@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     [Serializable]
     [HideReferenceObjectPicker]
-    public class PrefabRenderingSetToggle
+    public class PrefabRenderingSetToggle : AppalachiaSimpleBase
     {
         [HideInInspector]
         [SerializeField]
@@ -36,7 +37,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             nameof(Enable),
             bold: true,
             color: nameof(_stateColor),
-            label: "$" + nameof(_label)
+            label: nameof(_label)
         )]
         [ShowInInspector]
 #endif

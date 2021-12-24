@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Objects.Initialization;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Shading;
+using Appalachia.Utility.Async;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
+using Unity.Profiling;
 using UnityEngine;
 #if UNITY_EDITOR
 
@@ -12,46 +16,57 @@ using UnityEngine;
 namespace Appalachia.Rendering.Lighting.Probes
 {
     [ExecuteAlways]
-    public class AutomaticLightProbes: AppalachiaBehaviour
+    public sealed class AutomaticLightProbes : AppalachiaBehaviour<AutomaticLightProbes>
     {
+        #region Fields and Autoproperties
 
         [BoxGroup("Occlusion")]
         [OnValueChanged(nameof(SetOcclusion)), PropertyRange(0f, 1f)]
         public float occlusionProbeGlobal = 1.0f;
-        
+
         [BoxGroup("Occlusion")]
         [OnValueChanged(nameof(SetOcclusion)), PropertyRange(-.5f, .5f)]
         public float occlusionProbeTerrainOffset;
-        
+
         [BoxGroup("Occlusion")]
         [OnValueChanged(nameof(SetOcclusion)), PropertyRange(-.5f, .5f)]
         public float occlusionProbeTerrainBlendOffset;
 
+        #endregion
+
+        protected override async AppaTask Initialize(Initializer initializer)
+        {
+            using (_PRF_Initialize.Auto())
+            {
+                await base.Initialize(initializer);
+
+                SetOcclusion();
+
+#if UNITY_EDITOR
+                CheckExistingGroups();
+#endif
+            }
+        }
+
         private void SetOcclusion()
         {
-            Shader.SetGlobalFloat(GSC.OCCLUSION._OCCLUSION_PROBE_GLOBAL, occlusionProbeGlobal);
+            Shader.SetGlobalFloat(GSC.OCCLUSION._OCCLUSION_PROBE_GLOBAL,  occlusionProbeGlobal);
             Shader.SetGlobalFloat(GSC.OCCLUSION._OCCLUSION_PROBE_TERRAIN, occlusionProbeTerrainOffset);
-            Shader.SetGlobalFloat(GSC.OCCLUSION._OCCLUSION_PROBE_TERRAIN_BLEND, occlusionProbeTerrainBlendOffset);
+            Shader.SetGlobalFloat(
+                GSC.OCCLUSION._OCCLUSION_PROBE_TERRAIN_BLEND,
+                occlusionProbeTerrainBlendOffset
+            );
         }
 
-        protected override void OnEnable()
-        {
-            base.OnEnable();
-            
-            SetOcclusion();
-        }
+        #region Profiling
 
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            SetOcclusion();
-            
-#if UNITY_EDITOR
-            CheckExistingGroups();
-#endif
-        }
-        
+        private const string _PRF_PFX = nameof(AutomaticLightProbes) + ".";
+
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+
+        #endregion
+
 #if UNITY_EDITOR
 
         public List<AutomaticLightProbeGroup> groups;
@@ -61,16 +76,15 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Check State")]
         [Button, ButtonGroup("Check State/btn")]
         private void CheckExistingGroups()
-        {            
+        {
             groups = GetComponentsInChildren<AutomaticLightProbeGroup>().ToList();
         }
 
         [Button, ButtonGroup("Check State/btn")]
         private void CheckExistingVolumes()
-        {            
+        {
             proxyVolumes = GetComponentsInChildren<AutomaticLightProbeProxyVolume>().ToList();
         }
-        
 
         [TitleGroup("Add New")]
         [BoxGroup("Add New/Probe Groups")]
@@ -111,18 +125,18 @@ namespace Appalachia.Rendering.Lighting.Probes
         }
 
         private T AddGroup<T>()
-            where T: AutomaticLightProbeGroup
+            where T : AutomaticLightProbeGroup
         {
             var go = new GameObject();
             go.transform.SetParent(transform, false);
-            
+
             var lightProbeGroup = go.AddComponent<T>();
-            
+
             CheckExistingGroups();
 
             return lightProbeGroup;
         }
-        
+
         [BoxGroup("Add New/Proxy Volumes")]
         [Button, ButtonGroup("Add New/Proxy Volumes/btn")]
         public void AddProxyVolume()
@@ -130,15 +144,14 @@ namespace Appalachia.Rendering.Lighting.Probes
             AddProxyVolume_Internal();
         }
 
-        
         private AutomaticLightProbeProxyVolume AddProxyVolume_Internal()
         {
             var go = new GameObject();
             go.transform.SetParent(transform, false);
-            
+
             var lpg = go.AddComponent<AutomaticLightProbeProxyVolume>();
             lpg.volumeName = (proxyVolumes.Count + 1).ToString();
-            
+
             CheckExistingVolumes();
 
             return lpg;
@@ -147,9 +160,9 @@ namespace Appalachia.Rendering.Lighting.Probes
         private bool _enabled_deleteProbes =>
             (groups != null) &&
             (groups.Count > 0) &&
-            groups.Any(g => ((g != null) && (g.lpg != null) && (g.lpg.probePositions.Length > 0))) &&
+            groups.Any(g => (g != null) && (g.lpg != null) && (g.lpg.probePositions.Length > 0)) &&
             !UnityEditor.Lightmapping.isRunning;
-        
+
         [BoxGroup("Actions")]
         [Button, ButtonGroup("Actions/Buttons1")]
         [PropertyTooltip("Delete all probes in the group.")]
@@ -157,14 +170,14 @@ namespace Appalachia.Rendering.Lighting.Probes
         public void DeleteProbes()
         {
             ValidateGroups();
-            
+
             foreach (var group in groups)
             {
                 if (group.locked)
                 {
                     continue;
                 }
-                
+
                 if (group.lpg == null)
                 {
                     group.lpg = group.gameObject.GetComponent<LightProbeGroup>();
@@ -174,7 +187,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                 {
                     continue;
                 }
-                
+
                 // this takes a frame to actually delete, so it's NOT immediate.  Hence the delayCall.
                 UnityEditor.Undo.DestroyObjectImmediate(group.lpg);
             }
@@ -182,12 +195,12 @@ namespace Appalachia.Rendering.Lighting.Probes
             UnityEditor.EditorApplication.delayCall += () =>
             {
                 foreach (var group in groups)
-                {                    
+                {
                     if (group.locked)
                     {
                         continue;
                     }
-                    
+
                     group.lpg = UnityEditor.Undo.AddComponent<LightProbeGroup>(group.gameObject);
 
                     UnityEditor.Undo.RecordObject(group.lpg, "Delete Light Probes");
@@ -203,11 +216,9 @@ namespace Appalachia.Rendering.Lighting.Probes
                 UnityEditor.Undo.SetCurrentGroupName("Delete Light Probes");
             };
         }
-    
-        private bool _enabled_generateProbes => 
-            (groups != null) &&
-            (groups.Count > 0) &&
-            !UnityEditor.Lightmapping.isRunning;
+
+        private bool _enabled_generateProbes =>
+            (groups != null) && (groups.Count > 0) && !UnityEditor.Lightmapping.isRunning;
 
         [Button, ButtonGroup("Actions/Buttons1")]
         [PropertyTooltip("Generate a dense field of light probes.  Then click Bake Lights.")]
@@ -215,12 +226,12 @@ namespace Appalachia.Rendering.Lighting.Probes
         public void GenerateProbes()
         {
             ValidateGroups();
-            
-            UnityEditor.EditorApplication.delayCall += () => 
-            { 
-                int totalNewProbes = 0;
-                int totalProbes = 0;
-                long startTick = DateTime.UtcNow.Ticks;
+
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                var totalNewProbes = 0;
+                var totalProbes = 0;
+                var startTick = DateTime.UtcNow.Ticks;
 
                 foreach (var group in groups)
                 {
@@ -228,13 +239,13 @@ namespace Appalachia.Rendering.Lighting.Probes
                     {
                         continue;
                     }
-                    
+
                     if (group.locked)
                     {
                         totalProbes += group.lpg.probePositions.Length;
                         continue;
                     }
-                    
+
                     totalNewProbes += group.GenerateProbesInternal();
 
                     if (totalNewProbes > 0)
@@ -243,33 +254,39 @@ namespace Appalachia.Rendering.Lighting.Probes
                     }
                 }
 
-                long endTick = DateTime.UtcNow.Ticks;
-                TimeSpan duration = TimeSpan.FromTicks(endTick - startTick);
-                int minutes = Mathf.FloorToInt((float)duration.TotalSeconds/60.0f);
-                int secs = Mathf.FloorToInt((float)duration.TotalSeconds - (minutes*60));
-                
-                UnityEditor.EditorUtility.DisplayDialog("Probe Generation Complete!",
-                    $"It took {minutes}:{secs:D2} to place {totalNewProbes} new light probes. \nThere are {totalProbes} total.", "Yes!");
+                var endTick = DateTime.UtcNow.Ticks;
+                var duration = TimeSpan.FromTicks(endTick - startTick);
+                var minutes = Mathf.FloorToInt((float)duration.TotalSeconds / 60.0f);
+                var secs = Mathf.FloorToInt((float)duration.TotalSeconds - (minutes * 60));
+
+                UnityEditor.EditorUtility.DisplayDialog(
+                    "Probe Generation Complete!",
+                    ZString.Format(
+                        "It took {0}:{1:D2} to place {2} new light probes. \nThere are {3} total.",
+                        minutes,
+                        secs,
+                        totalNewProbes,
+                        totalProbes
+                    ),
+                    "Yes!"
+                );
             };
         }
 
-    
-        private bool _enabled_generateVolumes => 
-            (proxyVolumes != null) &&
-            (proxyVolumes.Count > 0) &&
-            !UnityEditor.Lightmapping.isRunning;
+        private bool _enabled_generateVolumes =>
+            (proxyVolumes != null) && (proxyVolumes.Count > 0) && !UnityEditor.Lightmapping.isRunning;
 
         [Button, ButtonGroup("Actions/Buttons3")]
         [PropertyTooltip("Generate proxy volumes.")]
         [EnableIf(nameof(_enabled_generateVolumes))]
         public void GenerateVolumes()
         {
-            UnityEditor.EditorApplication.delayCall += () => 
-            { 
-                int volumeCount = 0;
-                int volumeUpdateCount = 0;
-                
-                long startTick = DateTime.UtcNow.Ticks;
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                var volumeCount = 0;
+                var volumeUpdateCount = 0;
+
+                var startTick = DateTime.UtcNow.Ticks;
 
                 foreach (var volume in proxyVolumes)
                 {
@@ -277,39 +294,49 @@ namespace Appalachia.Rendering.Lighting.Probes
                     {
                         continue;
                     }
-                    
+
                     volumeCount += 1;
-                    
+
                     if (volume.locked)
                     {
                         continue;
                     }
 
                     volumeUpdateCount += 1;
-                    
+
                     volume.UpdateVolume();
                 }
 
-                long endTick = DateTime.UtcNow.Ticks;
-                TimeSpan duration = TimeSpan.FromTicks(endTick - startTick);
-                int minutes = Mathf.FloorToInt((float)duration.TotalSeconds/60.0f);
-                int secs = Mathf.FloorToInt((float)duration.TotalSeconds - (minutes*60));
-                
-                UnityEditor.EditorUtility.DisplayDialog("Proxy Volume Generation Complete!",
-                    $"It took {minutes}:{secs:D2} to update {volumeUpdateCount} light probe proxy volumes. \nThere are {volumeCount} total.", "Yes!");
+                var endTick = DateTime.UtcNow.Ticks;
+                var duration = TimeSpan.FromTicks(endTick - startTick);
+                var minutes = Mathf.FloorToInt((float)duration.TotalSeconds / 60.0f);
+                var secs = Mathf.FloorToInt((float)duration.TotalSeconds - (minutes * 60));
+
+                UnityEditor.EditorUtility.DisplayDialog(
+                    "Proxy Volume Generation Complete!",
+                    ZString.Format(
+                        "It took {0}:{1:D2} to update {2} light probe proxy volumes. \nThere are {3} total.",
+                        minutes,
+                        secs,
+                        volumeUpdateCount,
+                        volumeCount
+                    ),
+                    "Yes!"
+                );
             };
         }
 
-        
         private bool _enabled_bakeLightmaps =>
             (groups != null) &&
             (groups.Count > 0) &&
-            groups.Any(g => ((g != null) && (g.lpg != null) && (g.lpg.probePositions.Length > 0))) &&
+            groups.Any(g => (g != null) && (g.lpg != null) && (g.lpg.probePositions.Length > 0)) &&
             !UnityEditor.Lightmapping.isRunning &&
             (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.Iterative);
-        
+
         [Button, ButtonGroup("Actions/Buttons2")]
-        [PropertyTooltip("Bake lightmaps, which is necessary to create light probe data.  Then click Optimize.")]
+        [PropertyTooltip(
+            "Bake lightmaps, which is necessary to create light probe data.  Then click Optimize."
+        )]
         [EnableIf(nameof(_enabled_bakeLightmaps))]
         public void BakeLightmaps()
         {
@@ -321,7 +348,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         }
 
         private bool _enabled_cancelBake => UnityEditor.Lightmapping.isRunning;
-        
+
         [Button, ButtonGroup("Actions/Buttons2")]
         [PropertyTooltip("Cancels the executing bake.")]
         [EnableIf(nameof(_enabled_cancelBake))]
@@ -331,26 +358,27 @@ namespace Appalachia.Rendering.Lighting.Probes
             UnityEditor.Lightmapping.Cancel();
         }
 
-        private bool _enabled_optimizeSceneProbes => 
+        private bool _enabled_optimizeSceneProbes =>
             (groups != null) &&
             (groups.Count > 0) &&
-            groups.Any(g => ((g != null) && (g.lpg != null) && (g.lpg.probePositions.Length > 0))) &&
+            groups.Any(g => (g != null) && (g.lpg != null) && (g.lpg.probePositions.Length > 0)) &&
             !UnityEditor.Lightmapping.isRunning &&
             (UnityEditor.Lightmapping.giWorkflowMode != UnityEditor.Lightmapping.GIWorkflowMode.Iterative);
-        
+
         [Button, ButtonGroup("Actions/Buttons1")]
-        [PropertyTooltip("Remove redundant light probe positions based on baked runtime probe information. Note! You must re-render light probes to shrink the runtime LightingAsset.")]
+        [PropertyTooltip(
+            "Remove redundant light probe positions based on baked runtime probe information. Note! You must re-render light probes to shrink the runtime LightingAsset."
+        )]
         [EnableIf(nameof(_enabled_optimizeSceneProbes))]
         public void OptimizeSceneProbes()
         {
             ValidateGroups();
-            
-            UnityEditor.EditorApplication.delayCall += () => 
-            { 
-                int totalRemovedProbes = 0;
-                int totalProbes = 0;
-                long startTick = DateTime.UtcNow.Ticks;
 
+            UnityEditor.EditorApplication.delayCall += () =>
+            {
+                var totalRemovedProbes = 0;
+                var totalProbes = 0;
+                var startTick = DateTime.UtcNow.Ticks;
 
                 foreach (var group in groups)
                 {
@@ -358,33 +386,43 @@ namespace Appalachia.Rendering.Lighting.Probes
                     {
                         continue;
                     }
-                    
+
                     if (group.locked)
                     {
                         totalProbes += group.lpg.probePositions.Length;
                         continue;
                     }
-                    
+
                     // Only optimize if we are over our budget (we almost always are if optimization hasn't happened since generation)
-                    int initialProbes = group.lpg.probePositions.Length;
+                    var initialProbes = group.lpg.probePositions.Length;
                     if (initialProbes > group.probeBudget)
                     {
                         totalRemovedProbes += group.OptimizeProbesInternal();
                     }
-                    
+
                     totalProbes += group.lpg.probePositions.Length;
                 }
- 
 
-                long endTick = DateTime.UtcNow.Ticks;
-                TimeSpan duration = TimeSpan.FromTicks(endTick - startTick);
-                int minutes = Mathf.FloorToInt((float)duration.TotalSeconds/60.0f);
-                int secs = Mathf.FloorToInt((float)duration.TotalSeconds - (minutes*60));
+                var endTick = DateTime.UtcNow.Ticks;
+                var duration = TimeSpan.FromTicks(endTick - startTick);
+                var minutes = Mathf.FloorToInt((float)duration.TotalSeconds / 60.0f);
+                var secs = Mathf.FloorToInt((float)duration.TotalSeconds - (minutes * 60));
 
-                UnityEditor.EditorUtility.DisplayDialog("Optimization Complete!", "It took "+minutes+":"+secs.ToString("D2")+" to optimize away "+totalRemovedProbes+" light probes. \nThere are "+totalProbes+" probes remaining.\n", "Yes!");
+                UnityEditor.EditorUtility.DisplayDialog(
+                    "Optimization Complete!",
+                    "It took " +
+                    minutes +
+                    ":" +
+                    secs.ToString("D2") +
+                    " to optimize away " +
+                    totalRemovedProbes +
+                    " light probes. \nThere are " +
+                    totalProbes +
+                    " probes remaining.\n",
+                    "Yes!"
+                );
             };
         }
-
 
         private void ValidateGroups()
         {

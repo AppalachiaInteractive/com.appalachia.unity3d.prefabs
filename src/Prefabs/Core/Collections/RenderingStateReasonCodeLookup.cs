@@ -11,7 +11,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Core.Collections
 {
     public class RenderingStateReasonCodeLookup : AppaLookup<RenderingStateReasonCode, string,
-        AppaList_RenderingStateReasonCode, AppaList_string>
+        AppaList_RenderingStateReasonCode, stringList>
     {
         protected override bool NoTracking => true;
 

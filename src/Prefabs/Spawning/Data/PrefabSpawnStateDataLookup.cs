@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
-    public class PrefabSpawnStateDataLookup : AppaLookup<string, PrefabSpawnStateData,
-        AppaList_string, AppaList_PrefabSpawnStateData>
+    public class PrefabSpawnStateDataLookup : AppaLookup<string, PrefabSpawnStateData, stringList,
+        AppaList_PrefabSpawnStateData>
     {
         protected override string GetDisplayTitle(string key, PrefabSpawnStateData value)
         {

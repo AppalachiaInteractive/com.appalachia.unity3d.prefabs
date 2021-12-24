@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Appalachia.Utility.Strings;
 using Unity.Burst;
 
 #endregion
@@ -40,7 +41,7 @@ namespace Appalachia.Rendering.Prefabs.Core.States
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [DebuggerStepThrough] public override string ToString()
         {
-            return $"Interact {enabledCount} / {total}";
+            return ZString.Format("Interact {0} / {1}", enabledCount, total);
         }
 
         [BurstCompile]

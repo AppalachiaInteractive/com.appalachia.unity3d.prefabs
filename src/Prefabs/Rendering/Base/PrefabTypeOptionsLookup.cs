@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Interfaces;
+using Appalachia.Core.Objects.Initialization;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences.Globals;
-using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Async;
 using Appalachia.Utility.Enums;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -19,52 +20,41 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
-    [AlwaysInitializeOnLoad]
-    public abstract class PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
-                                                  IL_TW, IL_TT> :
-        SingletonAppalachiaObject<TL>
+    [CallStaticConstructorInEditor]
+    public abstract class PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+                                                  IL_TT> : SingletonAppalachiaObject<TL>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
-        new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
 
     {
-        private const string _PRF_PFX =
-            nameof(PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-                IL_TT>) +
-            ".";
+        #region Constants and Static Readonly
 
-        protected const string _TAB = "TAB";
+        protected const string _FULL = "Detailed";
         protected const string _QUICK = "Quick";
         protected const string _QUICK_ = _TAB + "/" + _QUICK;
         protected const string _QUICK_A = _QUICK_ + "/A";
-        protected const string _FULL = "Detailed";
+
+        protected const string _TAB = "TAB";
+
+        #endregion
+
+        #region Static Fields and Autoproperties
 
         [NonSerialized] protected static EnumValuesCollection<TE> _types;
 
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+        #endregion
 
-#if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_GetPrefabType =
-            new(_PRF_PFX + nameof(GetPrefabType));
-#endif
-
-        private static readonly ProfilerMarker _PRF_GetTypeOptions =
-            new(_PRF_PFX + nameof(GetTypeOptions));
+        #region Fields and Autoproperties
 
         [TabGroup(_TAB, _QUICK)]
         [SerializeField]
@@ -95,6 +85,30 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         )]
         protected TI _state;
 
+        #endregion
+
+        protected abstract bool _anyMuted { get; }
+
+        protected abstract bool _anySoloed { get; }
+
+        public IAppaLookup<TE, TW, IL_TW> State
+        {
+            get
+            {
+                if (_state == null)
+                {
+                    _state = new TI();
+#if UNITY_EDITOR
+                    MarkAsModified();
+
+                    _state.SetObjectOwnership(this);
+#endif
+                }
+
+                return _state;
+            }
+        }
+
         protected bool _anyDisabled
         {
             get { return _state.Any(s => !s.Enabled); }
@@ -105,44 +119,37 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             get { return _state.Any(s => s.Enabled); }
         }
 
-        protected abstract bool _anySoloed { get; }
-        protected abstract bool _anyMuted { get; }
-
-        protected Color _enabledColor =>
-            _anyDisabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.EnabledDisabled.v;
-
         protected Color _disabledColor =>
             _anyEnabled
                 ? ColorPrefs.Instance.DisabledImportant.v
                 : ColorPrefs.Instance.DisabledImportantDisabled.v;
 
-        protected Color _soloedColor =>
-            _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : ColorPrefs.Instance.SoloDisabled.v;
+        protected Color _enabledColor =>
+            _anyDisabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.EnabledDisabled.v;
 
         protected Color _mutedColor =>
             _anyMuted ? ColorPrefs.Instance.MuteEnabled.v : ColorPrefs.Instance.MuteDisabled.v;
 
-        public IAppaLookup<TE, TW, IL_TW> State
+        protected Color _soloedColor =>
+            _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : ColorPrefs.Instance.SoloDisabled.v;
+
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyEnabled))]
+        [GUIColor(nameof(_disabledColor))]
+        [PropertyOrder(-10)]
+        public void DisableAll()
         {
-            get
+            for (var i = 0; i < _state.Count; i++)
             {
-                if (_state == null)
-                {
-                    _state = new TI();
+                _state.at[i].Enable(false);
 #if UNITY_EDITOR
-                   this.MarkAsModified();
-
-                    _state.SetMarkModifiedAction(this.MarkAsModified);
+                Modifications.MarkAsModified(_state.at[i]);
 #endif
-                }
-
-                return _state;
             }
-        }
 
-        public TL GetInstance()
-        {
-            return instance;
+#if UNITY_EDITOR
+            MarkAsModified();
+#endif
         }
 
         [TabGroup(_TAB, _QUICK)]
@@ -156,31 +163,45 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 _state.at[i].Enable(true);
 #if UNITY_EDITOR
-                _state.at[i].MarkAsModified();
+                Modifications.MarkAsModified(_state.at[i]);
 #endif
             }
 
 #if UNITY_EDITOR
-           this.MarkAsModified();
+            MarkAsModified();
 #endif
         }
 
+        public TW GetTypeOptions(TE type)
+        {
+            using (_PRF_GetTypeOptions.Auto())
+            {
+                //type = type.CheckObsolete();
+
+                var options = _state[type];
+
+                options.Refresh();
+
+                return options;
+            }
+        }
+
         [ResponsiveButtonGroup(_QUICK_A)]
-        [EnableIf(nameof(_anyEnabled))]
-        [GUIColor(nameof(_disabledColor))]
+        [EnableIf(nameof(_anyMuted))]
+        [GUIColor(nameof(_mutedColor))]
         [PropertyOrder(-10)]
-        public void DisableAll()
+        public void UnmuteAll()
         {
             for (var i = 0; i < _state.Count; i++)
             {
-                _state.at[i].Enable(false);
+                _state.at[i].Mute(false);
 #if UNITY_EDITOR
-                _state.at[i].MarkAsModified();
+                Modifications.MarkAsModified(_state.at[i]);
 #endif
             }
 
 #if UNITY_EDITOR
-           this.MarkAsModified();
+            MarkAsModified();
 #endif
         }
 
@@ -194,68 +215,44 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             {
                 _state.at[i].Solo(false);
 #if UNITY_EDITOR
-                _state.at[i].MarkAsModified();
+                Modifications.MarkAsModified(_state.at[i]);
 #endif
             }
 
 #if UNITY_EDITOR
-           this.MarkAsModified();
+            MarkAsModified();
 #endif
         }
 
-        [ResponsiveButtonGroup(_QUICK_A)]
-        [EnableIf(nameof(_anyMuted))]
-        [GUIColor(nameof(_mutedColor))]
-        [PropertyOrder(-10)]
-        public void UnmuteAll()
-        {
-            for (var i = 0; i < _state.Count; i++)
-            {
-                _state.at[i].Mute(false);
-#if UNITY_EDITOR
-                _state.at[i].MarkAsModified();
-#endif
-            }
-
-#if UNITY_EDITOR
-           this.MarkAsModified();
-#endif
-        }
-
-        protected override void WhenEnabled()
-        {
-            Initialize();
-        }
-
-        protected override void Initialize()
+        protected override async AppaTask Initialize(Initializer initializer)
         {
             using (_PRF_Initialize.Auto())
             {
-                base.Initialize();
-                
+                await base.Initialize(initializer);
+
                 if (_state == null)
                 {
                     _state = new TI();
 
 #if UNITY_EDITOR
-                   this.MarkAsModified();
+                    MarkAsModified();
 #endif
                 }
 
 #if UNITY_EDITOR
-                _state.SetMarkModifiedAction(this.MarkAsModified);
+                _state.SetObjectOwnership(this);
 #endif
 
                 if (_toggles == null)
                 {
                     _toggles = new TOGI();
 #if UNITY_EDITOR
-                   this.MarkAsModified();
+                    MarkAsModified();
 #endif
                 }
 
 #if UNITY_EDITOR
-                _toggles.SetMarkModifiedAction(this.MarkAsModified);
+                _toggles.SetObjectOwnership(this);
 #endif
 
                 for (var i = _state.Count - 1; i >= 0; i--)
@@ -266,7 +263,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     {
                         _state.RemoveAt(i);
 #if UNITY_EDITOR
-                       this.MarkAsModified();
+                        MarkAsModified();
 #endif
                     }
                 }
@@ -286,17 +283,36 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 {
                     var s = _state.at[i];
 
-                    var toggle = new TT {options = s};
+                    var toggle = new TT { options = s };
 
                     _toggles.Add(s.type, toggle);
                 }
 
-
 #if UNITY_EDITOR
-               this.MarkAsModified();
+                MarkAsModified();
 #endif
             }
         }
+
+        protected override void WhenEnabled()
+        {
+            Initialize2();
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX =
+            nameof(PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
+            ".";
+
+#if UNITY_EDITOR
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize2));
+        private static readonly ProfilerMarker _PRF_GetPrefabType = new(_PRF_PFX + nameof(GetPrefabType));
+#endif
+
+        private static readonly ProfilerMarker _PRF_GetTypeOptions = new(_PRF_PFX + nameof(GetTypeOptions));
+
+        #endregion
 
 #if UNITY_EDITOR
         protected abstract void InitializeState();
@@ -315,9 +331,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                     }
                 }
 
-                AppaLog.Warn("Could not find match...now logging.");
+                Context.Log.Warn("Could not find match...now logging.");
 
-                Initialize();
+                Initialize2();
 
                 for (var i = 0; i < _state.Count; i++)
                 {
@@ -333,19 +349,5 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 #endif
-
-        public TW GetTypeOptions(TE type)
-        {
-            using (_PRF_GetTypeOptions.Auto())
-            {
-                //type = type.CheckObsolete();
-
-                var options = _state[type];
-
-                options.Refresh();
-
-                return options;
-            }
-        }
     }
 }

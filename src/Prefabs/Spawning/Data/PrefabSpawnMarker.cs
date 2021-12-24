@@ -1,10 +1,10 @@
 using System;
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Objects.Root;
 using Unity.Profiling;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
-    public class PrefabSpawnMarker : AppalachiaBehaviour
+    public sealed class PrefabSpawnMarker : AppalachiaBehaviour<PrefabSpawnMarker>
     {
         #region Fields and Autoproperties
 

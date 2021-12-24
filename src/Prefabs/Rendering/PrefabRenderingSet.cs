@@ -2,13 +2,14 @@
 
 using System.Diagnostics;
 using Appalachia.CI.Integration.Assets;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections.Extensions;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Sets;
 using Appalachia.Core.Collections.Interfaces;
+using Appalachia.Core.Objects.Scriptables;
 using Appalachia.Core.Preferences.Globals;
-using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
@@ -21,7 +22,7 @@ using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Replacement;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Collections;
@@ -35,7 +36,8 @@ using UnityEngine.Serialization;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
-    public partial class PrefabRenderingSet : IdentifiableAppalachiaObject
+    [CallStaticConstructorInEditor]
+    public partial class PrefabRenderingSet : IdentifiableAppalachiaObject<PrefabRenderingSet>
     {
         #region Constants and Static Readonly
 
@@ -52,11 +54,25 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #endregion
 
+        static PrefabRenderingSet()
+        {
+            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
+            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
+            PrefabReplacementCollection.InstanceAvailable += i => _prefabReplacementCollection = i;
+            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+        }
+
         #region Static Fields and Autoproperties
 
         private static bool _anyMute;
 
         private static bool _anySolo;
+        private static PrefabContentTypeOptionsLookup _prefabContentTypeOptionsLookup;
+
+        private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
+
+        private static PrefabReplacementCollection _prefabReplacementCollection;
+        private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
 
         #endregion
 
@@ -261,9 +277,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     _externalParameters = new ExternalRenderingParametersLookup();
 #if UNITY_EDITOR
-                   this.MarkAsModified();
+                    MarkAsModified();
 
-                    _externalParameters.SetMarkModifiedAction(this.MarkAsModified);
+                    _externalParameters.SetObjectOwnership(this);
 #endif
                 }
 
@@ -278,7 +294,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                 if (_contentOptions == null)
                 {
-                    _contentOptions = AppalachiaObject.LoadOrCreateNew<PrefabContentTypeOptionsSetData>(prefab.name);
+                    _contentOptions = PrefabContentTypeOptionsSetData.LoadOrCreateNew(prefab.name);
                 }
 #endif
 
@@ -293,7 +309,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                 if (_modelOptions == null)
                 {
-                    _modelOptions = AppalachiaObject.LoadOrCreateNew<PrefabModelTypeOptionsSetData>(prefab.name);
+                    _modelOptions = PrefabModelTypeOptionsSetData.LoadOrCreateNew(prefab.name);
                 }
 #endif
 
@@ -312,7 +328,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     return _setName;
                 }
 
-                _setName = prefab == null ? $"MISSING PREFAB [{_suffix}]" : $"{prefab.name} [{_suffix}]";
+                _setName = prefab == null
+                    ? ZString.Format("MISSING PREFAB [{0}]", _suffix)
+                    : ZString.Format("{0} [{1}]",            prefab.name, _suffix);
 
                 return _setName;
             }
@@ -393,12 +411,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private string _substateLabel =>
             _instanceManager?.currentSupplementalStateCode.ToString().SeperateWords() ?? string.Empty;
 
-        private string _suffix => $"{_modelType.value.ToString()} / {_contentType.value.ToString()}";
+        private string _suffix =>
+            ZString.Format("{0} / {1}", _modelType.value.ToString(), _contentType.value.ToString());
 
         [DebuggerStepThrough]
         public override string ToString()
         {
-            return $"{prefab.name} - Prefab Render Set";
+            return ZString.Format("{0} - Prefab Render Set", prefab.name);
         }
 
         public void Enable(bool e)
@@ -427,7 +446,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                 if (locations == null)
                 {
-                    locations = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSetLocations>(name);
+                    locations = PrefabRenderingSetLocations.LoadOrCreateNew(name);
                 }
 #endif
 
@@ -441,7 +460,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 Refresh();
 
 #if UNITY_EDITOR
-               this.MarkAsModified();
+                MarkAsModified();
 #endif
             }
         }
@@ -478,12 +497,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 else if (instanceManager.initializationCompleted)
                 {
                     if (!instanceManager.OnLateUpdate_Execute(
-                        this,
-                        globalRenderingOptions.global,
-                        globalRenderingOptions.execution
-                    ))
+                            this,
+                            globalRenderingOptions.global,
+                            globalRenderingOptions.execution
+                        ))
                     {
-                        AppaLog.Error($"Instance validation for [{prefab.name}] producing continued errors.");
+                        Context.Log.Error(
+                            ZString.Format(
+                                "Instance validation for [{0}] producing continued errors.",
+                                prefab.name
+                            )
+                        );
                         return false;
                     }
                 }
@@ -553,7 +577,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
 #if UNITY_EDITOR
                 var labelsArray = AssetDatabaseManager.GetLabels(prefab);
-                labels = labelsArray.ToAppaSet<string, AppaSet_string, AppaList_string>();
+                labels = labelsArray.ToAppaSet<string, AppaSet_string, stringList>();
 
                 //AssetType = AssetType.CheckObsolete();
 
@@ -569,9 +593,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     _externalParameters = new ExternalRenderingParametersLookup();
 #if UNITY_EDITOR
-                   this.MarkAsModified();
+                    MarkAsModified();
 
-                    _externalParameters.SetMarkModifiedAction(this.MarkAsModified);
+                    _externalParameters.SetObjectOwnership(this);
 #endif
                 }
 
@@ -621,9 +645,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                             cheapestMesh = cheapestMeshFilter.sharedMesh;
 #else
-                            throw new NotSupportedException(
-                                    $"Mesh [{cheapestMesh.name}] must be readable!"
-                                );
+                            throw new System.NotSupportedException(
+                                $"Mesh [{cheapestMesh.name}] must be readable!"
+                            );
 #endif
                         }
 
@@ -644,7 +668,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 modelOptions.SyncOverridesFull(hasInteraction, hasColliders);
 
-                PrefabReplacementCollection.instance.State.TryGet(prefab, out replacement);
+                _prefabReplacementCollection.State.TryGet(prefab, out replacement);
             }
         }
 
@@ -737,7 +761,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #endif
         private static void ReloadSoloAndMute()
         {
-            var sets = PrefabRenderingSetCollection.instance.Sets;
+            var collection = _prefabRenderingSetCollection;
+
+            if (collection == null)
+            {
+                return;
+            }
+
+            var sets = collection.Sets;
 
             _anySolo = false;
             _anyMute = false;
@@ -812,7 +843,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
 
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
 
         private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
 

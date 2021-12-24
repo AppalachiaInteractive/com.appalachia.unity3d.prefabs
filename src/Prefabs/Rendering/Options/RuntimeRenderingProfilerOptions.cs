@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -9,7 +10,7 @@ using Sirenix.OdinInspector;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class RuntimeRenderingProfilerOptions
+    public class RuntimeRenderingProfilerOptions : AppalachiaSimpleBase
     {
         [ToggleLeft]
         [SmartLabel]

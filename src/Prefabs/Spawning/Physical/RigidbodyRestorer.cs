@@ -1,7 +1,6 @@
 #region
 
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Extensions;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Simulation.Core;
 using Appalachia.Utility.Extensions;
 using Unity.Profiling;
@@ -11,7 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 {
-    public class RigidbodyRestorer : AppalachiaBehaviour
+    public sealed class RigidbodyRestorer : AppalachiaBehaviour<RigidbodyRestorer>
     {
         private const string _PRF_PFX = nameof(RigidbodyRestorer) + ".";
 

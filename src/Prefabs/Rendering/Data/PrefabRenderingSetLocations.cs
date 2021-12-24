@@ -1,9 +1,8 @@
 #region
 
 using System;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Core.States;
-using Appalachia.Utility.Extensions;
 using Unity.Mathematics;
 using UnityEngine;
 
@@ -11,8 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Data
 {
-    public class
-        PrefabRenderingSetLocations  : AppalachiaObject
+    public class PrefabRenderingSetLocations : AppalachiaObject<>
     {
         [SerializeField] private float4x4[] _locations;
 

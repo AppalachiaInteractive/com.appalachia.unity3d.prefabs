@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +12,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
     public class MeshWindMetadata  : AppalachiaObject
     {
+        
+        
         [Range(0f, 1f)] public float generalMotionXZInfluence = .35f;
 
         public float generalMotionNoiseScale = 3f;
@@ -31,7 +33,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         [MinMaxSlider(0f, 1f)] public Vector2 grassFadeA = new(0f, 1f);
 
         [Serializable]
-        public class MeshWindMaterialMatchGroup
+        public class MeshWindMaterialMatchGroup : AppalachiaSimpleBase
         {
             public string setName;
             public Color vertexColor = new(1f, 0f, .1f, 1f);
@@ -39,7 +41,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         }
 
         [Serializable]
-        public class MeshWindModel
+        public class MeshWindModel : AppalachiaSimpleBase
         {
             public Mesh mesh;
             public List<Material> materials = new();

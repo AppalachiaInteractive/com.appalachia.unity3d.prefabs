@@ -1,10 +1,9 @@
 #region
 
 using System;
-using Appalachia.Core.Behaviours;
 using Appalachia.Rendering.Prefabs.Spawning.Physical;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -13,7 +12,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class RandomPrefabInstanceData : AppalachiaBase
+    public class RandomPrefabInstanceData
     {
         private const string _PRF_PFX = nameof(RandomPrefabInstanceData) + ".";
 
@@ -114,7 +113,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 {
                     rigidbody.drag = settings.drag;
                     rigidbody.angularDrag = settings.angularDrag;
-                    AppaLog.Info($"Setting mass from {rigidbody.mass} to {settings.mass}.");
+                    Context.Log.Info(
+                        ZString.Format("Setting mass from {0} to {1}.", rigidbody.mass, settings.mass)
+                    );
                     rigidbody.mass = settings.mass;
                     rigidbody.interpolation = RigidbodyInterpolation.Interpolate;
                     rigidbody.isKinematic = false;

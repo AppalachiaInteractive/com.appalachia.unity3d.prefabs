@@ -2,7 +2,6 @@
 
 using System;
 using Appalachia.Core.Attributes;
-using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Utility.Enums;
@@ -12,7 +11,7 @@ using Appalachia.Utility.Enums;
 namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
 {
     [Serializable]
-    [AlwaysInitializeOnLoad]
+    [CallStaticConstructorInEditor]
     public class PrefabContentTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabContentType,
         PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
         PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
@@ -43,7 +42,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
                     (_state[value].type == PrefabContentType.None) ||
                     (_state[value].options == default))
                 {
-                    var options = LoadOrCreateNew<PrefabContentTypeOptionsWrapper>(value.ToString());
+                    var options = PrefabContentTypeOptionsWrapper.LoadOrCreateNew(value.ToString());
 
                     options.type = value;
 

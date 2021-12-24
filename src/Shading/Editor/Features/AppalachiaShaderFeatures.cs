@@ -4,8 +4,7 @@ using System.IO;
 using System.Text;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
-using Appalachia.Core.Scriptables;
-using Appalachia.Utility.Extensions;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using UnityEditor;
 using UnityEngine;
@@ -16,9 +15,11 @@ namespace Appalachia.Rendering.Shading.Features
     {
         #region Fields and Autoproperties
 
-        public List<AppalachiaShaderFeature> features = new List<AppalachiaShaderFeature>();
+        public AppalachiaShaderFeatureList features = new AppalachiaShaderFeatureList();
 
         #endregion
+
+        
 
         /*public void UpdateShader(
             AppalachiaShaderFeature feature,

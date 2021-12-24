@@ -1,6 +1,6 @@
 #region
 
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Scriptables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,6 +10,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
 {
     public class MeshShadingComponentData : EmbeddedAppalachiaObject<MeshShadingComponentData>
     {
+        
+        
         [HideLabel]
         [InlineEditor(Expanded = true)]
         public MeshShadingMetadata metadata;

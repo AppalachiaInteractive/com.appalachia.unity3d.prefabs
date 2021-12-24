@@ -3,19 +3,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.CI.Integration;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Extensions;
-using Appalachia.Core.Extensions.Helpers;
 using Appalachia.Core.Math;
+using Appalachia.Core.Math.Noise;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
-using Perlin = Appalachia.Core.Math.Noise.Perlin;
 
 // ReSharper disable UnusedVariable
 
@@ -27,7 +25,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class MeshWindComponent : AppalachiaBehaviour
+    public sealed class MeshWindComponent : AppalachiaBehaviour<MeshWindComponent>
     {
         private const string _PRF_PFX = nameof(MeshWindComponent) + ".";
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + "Awake");
@@ -91,8 +89,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             var textureSettings = new UnityEditor.TextureImporterSettings();
             importer.ReadTextureSettings(textureSettings);
 
-            var newPath =
-                $"{AppaPath.GetDirectoryName(texturePath)}\\{AppaPath.GetFileNameWithoutExtension(texturePath)}_wind.png";
+            var newPath = ZString.Format(
+                "{0}\\{1}_wind.png",
+                AppaPath.GetDirectoryName(texturePath),
+                AppaPath.GetFileNameWithoutExtension(texturePath)
+            );
 
             var tex = new Texture2D(
                 (int) generatedMaskSize,
@@ -154,8 +155,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 var textureSettings = new UnityEditor.TextureImporterSettings();
                 importer.ReadTextureSettings(textureSettings);
 
-                var newPath =
-                    $"{AppaPath.GetDirectoryName(texturePath)}\\{AppaPath.GetFileNameWithoutExtension(texturePath)}_wind.png";
+                var newPath = ZString.Format(
+                    "{0}\\{1}_wind.png",
+                    AppaPath.GetDirectoryName(texturePath),
+                    AppaPath.GetFileNameWithoutExtension(texturePath)
+                );
 
                 var tex = new Texture2D(
                     (int) generatedMaskSize,
@@ -184,11 +188,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
             using (_PRF_OnEnable.Auto())
             {
-                base.OnEnable();
+                await base.WhenEnabled();
                 
 #if UNITY_EDITOR
                 try
@@ -212,8 +216,9 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                AppaLog.Error(
-                                    $"Could not find asset path for prefab {name}.", this
+                                Context.Log.Error(
+                                    ZString.Format("Could not find asset path for prefab {0}.", name),
+                                    this
                                 );
 
                                 return;
@@ -243,8 +248,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 }
                 catch (Exception ex)
                 {
-                    AppaLog.Error($"Failed to assign mesh wind data to {name}.", this);
-                    AppaLog.Exception(ex, this);
+                    Context.Log.Error(ZString.Format("Failed to assign mesh wind data to {0}.", name), this);
+                    Context.Log.Error(ex,                                                              this);
 
                     return;
                 }
@@ -355,11 +360,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         if ((matchingRecoveryInfo == null) ||
                             (matchingRecoveryInfo.updated == null))
                         {
-                            var newMeshName = $"{currentMesh.name}_ADSP";
+                            var newMeshName = ZString.Format("{0}_ADSP", currentMesh.name);
                             var path = AssetDatabaseManager.GetAssetPath(currentMesh);
                             var directory = AppaPath.GetDirectoryName(path);
 
-                            var newPath = $"{directory}\\{newMeshName}.asset";
+                            var newPath = ZString.Format("{0}\\{1}.asset", directory, newMeshName);
 
                             updatedMesh = AssetDatabaseManager.LoadAssetAtPath<Mesh>(newPath);
 
@@ -440,8 +445,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 }
                 catch (Exception ex)
                 {
-                    AppaLog.Error($"Failed to assign mesh wind data to {name}.", this);
-                    AppaLog.Exception(ex, this);
+                    Context.Log.Error(ZString.Format("Failed to assign mesh wind data to {0}.", name), this);
+                    Context.Log.Error(ex,                                                              this);
                 }
             }
         }
@@ -489,8 +494,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
             catch (Exception ex)
             {
-                AppaLog.Error($"Failed to revert mesh wind data to {name}.", this);
-                AppaLog.Exception(ex, this);
+                Context.Log.Error(ZString.Format("Failed to revert mesh wind data to {0}.", name), this);
+                Context.Log.Error(ex,                                                              this);
             }
         }
 
@@ -733,7 +738,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     ret[i] = Color.black;
                 }
 
-                AppaLog.Error($"Could not find wind mask for object {mesh.name}", mesh);
+                Context.Log.Error(ZString.Format("Could not find wind mask for object {0}", mesh.name), mesh);
                 return ret;
             }
 

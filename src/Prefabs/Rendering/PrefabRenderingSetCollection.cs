@@ -2,12 +2,11 @@
 
 using System;
 using Appalachia.Core.Collections.Interfaces;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences.Globals;
-using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
-using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -17,15 +16,19 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
-    public class
-        PrefabRenderingSetCollection : SingletonAppalachiaObject<
-            PrefabRenderingSetCollection>
+    public class PrefabRenderingSetCollection : SingletonAppalachiaObject<PrefabRenderingSetCollection>
     {
-        private const string _TAB = "TAB";
+        #region Constants and Static Readonly
+
+        private const string _FULL = "Detailed";
         private const string _QUICK = "Quick";
         private const string _QUICK_ = _TAB + "/" + _QUICK;
         private const string _QUICK_A = _QUICK_ + "/A";
-        private const string _FULL = "Detailed";
+        private const string _TAB = "TAB";
+
+        #endregion
+
+        #region Fields and Autoproperties
 
         [TabGroup(_TAB, _QUICK)]
         [SerializeField]
@@ -61,38 +64,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private PrefabContentTypeCounts _contentTypeCounts;
         private PrefabModelTypeCounts _modelTypeCounts;
 
-        /*[Button]
-        public void Reset()
-        {
-            this.Clear();
-        }*/
-        /*static PrefabRenderingSetCollection()
-        {
-        }*/
+        #endregion
 
-        private bool _anyDisabled
-        {
-            get { return _state.Any(s => !s.renderingEnabled); }
-        }
-
-        private bool _anyEnabled
-        {
-            get { return _state.Any(s => s.renderingEnabled); }
-        }
-
-        private bool _anySoloed => PrefabRenderingSet.AnySolo;
-        private bool _anyMuted => PrefabRenderingSet.AnyMute;
-
-        private Color _enabledColor => _anyDisabled ? ColorPrefs.Instance.Enabled.v : Color.white;
-
-        private Color _disabledColor =>
-            _anyEnabled ? ColorPrefs.Instance.DisabledImportant.v : Color.white;
-
-        private Color _soloedColor => _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : Color.white;
-        private Color _mutedColor => _anyMuted ? ColorPrefs.Instance.MuteEnabled.v : Color.white;
-
-        public IAppaLookupSafeUpdates<GameObject, PrefabRenderingSet, AppaList_PrefabRenderingSet>
-            Sets
+        public IAppaLookupSafeUpdates<GameObject, PrefabRenderingSet, AppaList_PrefabRenderingSet> Sets
         {
             get
             {
@@ -102,9 +76,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     {
                         _state = new PrefabRenderingSetLookup();
 #if UNITY_EDITOR
-                       this.MarkAsModified();
+                        MarkAsModified();
 
-                        _state.SetMarkModifiedAction(this.MarkAsModified);
+                        _state.SetObjectOwnership(this);
 #endif
                     }
 
@@ -141,20 +115,78 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        public void RefreshRuntimeCounts()
+        /*[Button]
+        public void Reset()
         {
-            if (_contentTypeCounts == null)
-            {
-                _contentTypeCounts = new PrefabContentTypeCounts();
-            }
+            this.Clear();
+        }*/
+        /*static PrefabRenderingSetCollection()
+        {
+        }*/
 
-            if (_modelTypeCounts == null)
-            {
-                _modelTypeCounts = new PrefabModelTypeCounts();
-            }
+        private bool _anyDisabled
+        {
+            get { return _state.Any(s => !s.renderingEnabled); }
+        }
 
-            _contentTypeCounts.RefreshRuntimeCounts();
-            _modelTypeCounts.RefreshRuntimeCounts();
+        private bool _anyEnabled
+        {
+            get { return _state.Any(s => s.renderingEnabled); }
+        }
+
+        private bool _anyMuted => PrefabRenderingSet.AnyMute;
+
+        private bool _anySoloed => PrefabRenderingSet.AnySolo;
+
+        private Color _disabledColor => _anyEnabled ? ColorPrefs.Instance.DisabledImportant.v : Color.white;
+
+        private Color _enabledColor => _anyDisabled ? ColorPrefs.Instance.Enabled.v : Color.white;
+        private Color _mutedColor => _anyMuted ? ColorPrefs.Instance.MuteEnabled.v : Color.white;
+
+        private Color _soloedColor => _anySoloed ? ColorPrefs.Instance.SoloEnabled.v : Color.white;
+
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyEnabled))]
+        [GUIColor(nameof(_disabledColor))]
+        [PropertyOrder(-10)]
+        public void DisableAll()
+        {
+            for (var i = 0; i < _state.Count; i++)
+            {
+                _state.at[i].Enable(false);
+                _state.at[i].MarkAsModified();
+            }
+        }
+
+        public void DoForAll(Action<PrefabRenderingSet> action)
+        {
+            using (_PRF_DoForAll.Auto())
+            {
+                var count = Sets.Count;
+
+                for (var i = 0; i < count; i++)
+                {
+                    action(Sets.at[i]);
+                }
+            }
+        }
+
+        public void DoForAllIf(Predicate<PrefabRenderingSet> doIf, Action<PrefabRenderingSet> action)
+        {
+            using (_PRF_DoForAllIf.Auto())
+            {
+                var count = Sets.Count;
+
+                for (var i = 0; i < count; i++)
+                {
+                    var set = Sets.at[i];
+
+                    if (doIf(set))
+                    {
+                        action(set);
+                    }
+                }
+            }
         }
 
         [TabGroup(_TAB, _QUICK)]
@@ -171,91 +203,20 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        [ResponsiveButtonGroup(_QUICK_A)]
-        [EnableIf(nameof(_anyEnabled))]
-        [GUIColor(nameof(_disabledColor))]
-        [PropertyOrder(-10)]
-        public void DisableAll()
+        public void RefreshRuntimeCounts()
         {
-            for (var i = 0; i < _state.Count; i++)
+            if (_contentTypeCounts == null)
             {
-                _state.at[i].Enable(false);
-                _state.at[i].MarkAsModified();
+                _contentTypeCounts = new PrefabContentTypeCounts();
             }
-        }
 
-        [ResponsiveButtonGroup(_QUICK_A)]
-        [EnableIf(nameof(_anySoloed))]
-        [GUIColor(nameof(_soloedColor))]
-        [PropertyOrder(-10)]
-        public void UnsoloAll()
-        {
-            for (var i = 0; i < _state.Count; i++)
+            if (_modelTypeCounts == null)
             {
-                _state.at[i].Solo(false);
-                _state.at[i].MarkAsModified();
+                _modelTypeCounts = new PrefabModelTypeCounts();
             }
-        }
 
-        [ResponsiveButtonGroup(_QUICK_A)]
-        [EnableIf(nameof(_anyMuted))]
-        [GUIColor(nameof(_mutedColor))]
-        [PropertyOrder(-10)]
-        public void UnmuteAll()
-        {
-            for (var i = 0; i < _state.Count; i++)
-            {
-                _state.at[i].Mute(false);
-#if UNITY_EDITOR
-                _state.at[i].MarkAsModified();
-#endif
-            }
-        }
-
-#if UNITY_EDITOR
-        [ResponsiveButtonGroup(_QUICK_A)]
-        [GUIColor(nameof(_baseColor))]
-        [PropertyOrder(-10)]
-        public void Types()
-        {
-            for (var i = 0; i < _state.Count; i++)
-            {
-                _state.at[i].AssignPrefabTypes();
-                _state.at[i].MarkAsModified();
-            }
-        }
-#endif
-
-        protected override void WhenEnabled()
-        {
-            using (_PRF_WhenEnabled.Auto())
-            {
-                if (_state == null)
-                {
-                    _state = new PrefabRenderingSetLookup();
-#if UNITY_EDITOR
-                   this.MarkAsModified();
-#endif
-                }
-
-#if UNITY_EDITOR
-                _state.SetMarkModifiedAction(this.MarkAsModified);
-#endif
-
-                if (_toggles == null)
-                {
-                    _toggles = new PrefabRenderingSetToggleLookup();
-#if UNITY_EDITOR
-                   this.MarkAsModified();
-#endif
-                }
-
-                RebuildToggleList();
-
-#if UNITY_EDITOR
-                _toggles.SetMarkModifiedAction(this.MarkAsModified);
-#endif
-            }
+            _contentTypeCounts.RefreshRuntimeCounts();
+            _modelTypeCounts.RefreshRuntimeCounts();
         }
 
         public void RemoveInvalid()
@@ -273,59 +234,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-               this.MarkAsModified();
+                MarkAsModified();
 #endif
-            }
-        }
-
-        private void RebuildToggleList()
-        {
-            using (_PRF_RebuildToggleList.Auto())
-            {
-                if ((_toggles == null) || (_toggles.Count != _state.Count))
-                {
-                    _toggles = new PrefabRenderingSetToggleLookup();
-
-                    for (var i = 0; i < _state.Count; i++)
-                    {
-                        var s = _state.at[i];
-
-                        _toggles.Add(s.prefab, new PrefabRenderingSetToggle(s));
-                    }
-                }
-            }
-        }
-
-        public void DoForAll(Action<PrefabRenderingSet> action)
-        {
-            using (_PRF_DoForAll.Auto())
-            {
-                var count = Sets.Count;
-
-                for (var i = 0; i < count; i++)
-                {
-                    action(Sets.at[i]);
-                }
-            }
-        }
-
-        public void DoForAllIf(
-            Predicate<PrefabRenderingSet> doIf,
-            Action<PrefabRenderingSet> action)
-        {
-            using (_PRF_DoForAllIf.Auto())
-            {
-                var count = Sets.Count;
-
-                for (var i = 0; i < count; i++)
-                {
-                    var set = Sets.at[i];
-
-                    if (doIf(set))
-                    {
-                        action(set);
-                    }
-                }
             }
         }
 
@@ -354,16 +264,106 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-#region ProfilerMarkers
+#if UNITY_EDITOR
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [GUIColor(nameof(_baseColor))]
+        [PropertyOrder(-10)]
+        public void Types()
+        {
+            for (var i = 0; i < _state.Count; i++)
+            {
+                _state.at[i].AssignPrefabTypes();
+                _state.at[i].MarkAsModified();
+            }
+        }
+#endif
+
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anyMuted))]
+        [GUIColor(nameof(_mutedColor))]
+        [PropertyOrder(-10)]
+        public void UnmuteAll()
+        {
+            for (var i = 0; i < _state.Count; i++)
+            {
+                _state.at[i].Mute(false);
+#if UNITY_EDITOR
+                _state.at[i].MarkAsModified();
+#endif
+            }
+        }
+
+        [ResponsiveButtonGroup(_QUICK_A)]
+        [EnableIf(nameof(_anySoloed))]
+        [GUIColor(nameof(_soloedColor))]
+        [PropertyOrder(-10)]
+        public void UnsoloAll()
+        {
+            for (var i = 0; i < _state.Count; i++)
+            {
+                _state.at[i].Solo(false);
+                _state.at[i].MarkAsModified();
+            }
+        }
+
+        protected override void WhenEnabled()
+        {
+            using (_PRF_WhenEnabled.Auto())
+            {
+                if (_state == null)
+                {
+                    _state = new PrefabRenderingSetLookup();
+#if UNITY_EDITOR
+                    MarkAsModified();
+#endif
+                }
+
+#if UNITY_EDITOR
+                _state.SetObjectOwnership(this);
+#endif
+
+                if (_toggles == null)
+                {
+                    _toggles = new PrefabRenderingSetToggleLookup();
+#if UNITY_EDITOR
+                    MarkAsModified();
+#endif
+                }
+
+#if UNITY_EDITOR
+                _toggles.SetObjectOwnership(this);
+#endif
+
+                RebuildToggleList();
+            }
+        }
+
+        private void RebuildToggleList()
+        {
+            using (_PRF_RebuildToggleList.Auto())
+            {
+                if ((_toggles == null) || (_toggles.Count != _state.Count))
+                {
+                    _toggles = new PrefabRenderingSetToggleLookup();
+
+                    for (var i = 0; i < _state.Count; i++)
+                    {
+                        var s = _state.at[i];
+
+                        _toggles.Add(s.prefab, new PrefabRenderingSetToggle(s));
+                    }
+                }
+            }
+        }
+
+        #region ProfilerMarkers
 
         private const string _PRF_PFX = nameof(PrefabRenderingSetCollection) + ".";
         private static readonly ProfilerMarker _PRF_Sets = new(_PRF_PFX + nameof(Sets));
 
-        private static readonly ProfilerMarker _PRF_WhenEnabled =
-            new(_PRF_PFX + nameof(WhenEnabled));
+        private static readonly ProfilerMarker _PRF_WhenEnabled = new(_PRF_PFX + nameof(WhenEnabled));
 
-        private static readonly ProfilerMarker _PRF_RemoveInvalid =
-            new(_PRF_PFX + nameof(RemoveInvalid));
+        private static readonly ProfilerMarker _PRF_RemoveInvalid = new(_PRF_PFX + nameof(RemoveInvalid));
 
         private static readonly ProfilerMarker _PRF_RebuildToggleList =
             new(_PRF_PFX + nameof(RebuildToggleList));
@@ -374,6 +374,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private static readonly ProfilerMarker _PRF_TearDown = new(_PRF_PFX + nameof(TearDown));
 
-#endregion
+        #endregion
     }
 }

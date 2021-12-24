@@ -19,8 +19,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
         HideRemoveButton = true,
         NumberOfItemsPerPage = 5
     )]
-    public class GPUInstancerPrototypeMetadataLookup : AppaLookup<string,
-        GPUInstancerPrototypeMetadata, AppaList_string, AppaList_GPUInstancerPrototypeMetadata>
+    public class GPUInstancerPrototypeMetadataLookup : AppaLookup<string, GPUInstancerPrototypeMetadata,
+        stringList, AppaList_GPUInstancerPrototypeMetadata>
     {
         protected override string GetDisplayTitle(string key, GPUInstancerPrototypeMetadata value)
         {

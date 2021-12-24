@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Appalachia.Utility.Strings;
 using Unity.Burst;
 
 #endregion
@@ -69,7 +70,7 @@ namespace Appalachia.Rendering.Prefabs.Core.States
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [DebuggerStepThrough] public override string ToString()
         {
-            return $"Render {meshRenderingCount}m + {gpuInstancingCount}i / {total}";
+            return ZString.Format("Render {0}m + {1}i / {2}", meshRenderingCount, gpuInstancingCount, total);
         }
     }
 }

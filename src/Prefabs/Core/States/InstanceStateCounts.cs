@@ -3,6 +3,7 @@
 using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using Appalachia.Utility.Strings;
 using Unity.Burst;
 
 #endregion
@@ -57,7 +58,7 @@ namespace Appalachia.Rendering.Prefabs.Core.States
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         [DebuggerStepThrough] public override string ToString()
         {
-            return $"Total: {total} | {rendering} | {physics} | {interaction}";
+            return ZString.Format("Total: {0} | {1} | {2} | {3}", total, rendering, physics, interaction);
         }
     }
 }

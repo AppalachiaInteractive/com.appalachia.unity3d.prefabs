@@ -2,15 +2,18 @@ using System;
 using System.Collections.Generic;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Comparisons;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Scriptables;
+using Appalachia.Utility.Async;
 using Appalachia.Utility.Enums;
-using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldStateSettingCollection : AutonamedIdentifiableAppalachiaObject
+    public class
+        DepthOfFieldStateSettingCollection : AutonamedIdentifiableAppalachiaObject<
+            DepthOfFieldStateSettingCollection>
     {
         #region Fields and Autoproperties
 
@@ -37,7 +40,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         #region Event Functions
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
 #if UNITY_EDITOR
             var values = EnumValueManager.GetAllValues<DepthOfFieldState>();
@@ -45,21 +48,21 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             if (settings == null)
             {
                 settings = new List<DepthOfFieldStateSettings>();
-               this.MarkAsModified();
+                MarkAsModified();
             }
 
             while (settings.Count < values.Length)
             {
-                var targetname = $"{name}_{values[settings.Count]}";
+                var targetname = ZString.Format("{0}_{1}", name, values[settings.Count]);
 
-                settings.Add(LoadOrCreateNew<DepthOfFieldStateSettings>(targetname));
-               this.MarkAsModified();
+                settings.Add(DepthOfFieldStateSettings.LoadOrCreateNew(targetname));
+                MarkAsModified();
             }
 
             while (settings.Count > values.Length)
             {
                 settings.RemoveAt(settings.Count - 1);
-               this.MarkAsModified();
+                MarkAsModified();
             }
 
             if (_comparison == null)
@@ -72,7 +75,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
             for (var i = 0; i < settings.Count; i++)
             {
-                var targetName = $"{name}_{values[i]}";
+                var targetName = ZString.Format("{0}_{1}", name, values[i]);
 
                 if (settings[i].name != targetName)
                 {

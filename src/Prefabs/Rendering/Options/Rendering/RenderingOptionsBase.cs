@@ -1,11 +1,10 @@
 using System;
-using Appalachia.Core.Behaviours;
 using Unity.Profiling;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Options.Rendering
 {
     [Serializable]
-    public class RenderingOptionsBase : AppalachiaBase
+    public class RenderingOptionsBase
     {
         private const string _PRF_PFX = nameof(RenderingOptionsBase) + ".";
 

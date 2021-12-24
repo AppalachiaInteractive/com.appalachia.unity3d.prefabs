@@ -2,15 +2,12 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Debugging;
-using Appalachia.Core.Scriptables;
-using Appalachia.Editing.Debugging;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Spatial.Octree;
-using Appalachia.Utility.Logging;
 using AwesomeTechnologies.Vegetation.PersistentStorage;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
@@ -22,7 +19,8 @@ using UnityEngine.Rendering;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 {
-    public class PersistentStorageObstacleMaskCreator : AppalachiaBehaviour
+    public sealed class
+        PersistentStorageObstacleMaskCreator : AppalachiaBehaviour<PersistentStorageObstacleMaskCreator>
     {
         public ObstacleMaskQuality ObstacleMaskQuality = ObstacleMaskQuality.High4096;
 
@@ -99,7 +97,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
         [Button]
         public void CreateNewMetadata()
         {
-            metadata = AppalachiaObject.CreateNew<VegetationPrefabCollisionRemovalMetadata>();
+            metadata = VegetationPrefabCollisionRemovalMetadata.CreateNew();
         }
 #endif
 
@@ -390,7 +388,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
             }
             catch (Exception ex)
             {
-                AppaLog.Error(ex);
+                Context.Log.Error(ex);
             }
         }
 
@@ -479,7 +477,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
             }
             catch (Exception ex)
             {
-                AppaLog.Error(ex);
+                Context.Log.Error(ex);
             }
         }
 
@@ -519,11 +517,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 
                 itemBounds.size *= 1.1f;
 
-                AppaLog.Info(itemBounds);
+                Context.Log.Info(itemBounds);
             }
             catch (Exception ex)
             {
-                AppaLog.Error(ex);
+                Context.Log.Error(ex);
             }
         }
 
@@ -553,7 +551,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
                         {
                             var removal = new VegetationRemovalInfo
                             {
-                                info = persistent, removals = new AppaList_int(2048)
+                                info = persistent, removals = new intList(2048)
                             };
 
                             removals.Add(removal);
@@ -709,11 +707,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
                     }
                 }
 
-                AppaLog.Info(itemBounds);
+                Context.Log.Info(itemBounds);
             }
             catch (Exception ex)
             {
-                AppaLog.Error(ex);
+                Context.Log.Error(ex);
             }
         }
 
@@ -735,7 +733,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
             }
             catch (Exception ex)
             {
-                AppaLog.Error(ex);
+                Context.Log.Error(ex);
             }
         }
 

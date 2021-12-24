@@ -3,8 +3,8 @@
 using System;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
-using Appalachia.Core.Extensions;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -25,7 +25,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
     {
         protected override string GetDisplayTitle(GameObject key, PrefabRenderingSet value)
         {
-            return $"{value.modelType.ToString().SeperateWords()}: {key.name}";
+            return ZString.Format("{0}: {1}", value.modelType.ToString().SeperateWords(), key.name);
         }
 
         protected override string GetDisplaySubtitle(GameObject key, PrefabRenderingSet value)

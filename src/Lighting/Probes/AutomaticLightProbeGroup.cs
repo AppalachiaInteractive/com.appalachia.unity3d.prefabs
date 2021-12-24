@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Spatial.Terrains.Utilities;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -19,7 +19,7 @@ using Random = UnityEngine.Random;
 namespace Appalachia.Rendering.Lighting.Probes
 {
     [ExecuteAlways]
-    public abstract class AutomaticLightProbeGroup: AppalachiaBehaviour
+    public abstract class AutomaticLightProbeGroup : AppalachiaBehaviour<AutomaticLightProbeGroup>
     {
 #if UNITY_EDITOR
 
@@ -720,7 +720,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                     if ((i % logStep) == 0)
                     {
                         canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
-                            $"Generating Light Probes ({gameObject.name})",
+                            ZString.Format("Generating Light Probes ({0})", gameObject.name),
                             "Transforming Points",
                             i / (float) positions.Count
                         );
@@ -782,8 +782,12 @@ namespace Appalachia.Rendering.Lighting.Probes
                     if ((progress % logStep) == 0)
                     {
                         canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
-                            $"Generating Light Probes ({gameObject.name})",
-                            $"Raymarching... Active [{active.Count}]  Total [{positions.Count}]",
+                            ZString.Format("Generating Light Probes ({0})", gameObject.name),
+                            ZString.Format(
+                                "Raymarching... Active [{0}]  Total [{1}]",
+                                active.Count,
+                                positions.Count
+                            ),
                             progress / (float) progressTotal
                         );
                     }
@@ -966,7 +970,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
             catch (Exception e)
             {
-                AppaLog.Exception(e);
+                Context.Log.Error(e);
             }
             finally
             {
@@ -1213,7 +1217,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                         error
                                     )) // always delete NaN errors, it means light probes are garbage
                                 {
-                                    //									AppaLog.Info("Error tolerance is reasonable for probe " + i + " Err: " + error);
+                                    //									Context.Log.Info("Error tolerance is reasonable for probe " + i + " Err: " + error);
                                     // Note, if the SH we had originally is almost the same as the one we can generate using corner points and interpolation, let's throw it out.
                                     // lock all the verts
                                     toRemove.Add(i);
@@ -1305,7 +1309,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
             catch (Exception e)
             {
-                AppaLog.Exception(e);
+                Context.Log.Error(e);
             }
             finally
             {

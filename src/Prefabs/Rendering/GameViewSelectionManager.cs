@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Utility.Colors;
@@ -17,7 +18,7 @@ using UnityEngine.InputSystem;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
-    public class GameViewSelectionManager
+    public class GameViewSelectionManager : AppalachiaSimpleBase
     {
         #region Profiling And Tracing Markers
 

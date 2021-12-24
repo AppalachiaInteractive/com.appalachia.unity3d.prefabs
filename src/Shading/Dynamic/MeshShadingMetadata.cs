@@ -2,7 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Dynamic
 {
-    public class MeshShadingMetadata  : AppalachiaObject
+    public class MeshShadingMetadata : AppalachiaObject
     {
         public enum MeshChannelValueType
         {
@@ -41,8 +41,14 @@ namespace Appalachia.Rendering.Shading.Dynamic
             Explicit
         }
 
+        #region Fields and Autoproperties
+
         [ListDrawerSettings(IsReadOnly = false)]
         public List<SubmeshShadingMetadata> submeshMetadata = new();
+
+        #endregion
+
+        
 
         public Vector4[][] Calculate(Mesh mesh, Vector3 meshCenterOffset)
         {
@@ -56,43 +62,23 @@ namespace Appalachia.Rendering.Shading.Dynamic
             return results;
         }
 
-        [Serializable]
-        public class SubmeshShadingMetadata
-        {
-            public int submesh;
-            public bool enabled = true;
-
-            [EnableIf(nameof(enabled))]
-            public Material material;
-
-            [EnableIf(nameof(enabled))]
-            public List<SubmeshShadingChannelMetadata> channels = new();
-
-            public Vector4[] Calculate(Mesh mesh, Vector3 meshCenterOffset)
-            {
-                var results = new Vector4[channels.Count];
-
-                for (var i = 0; i < results.Length; i++)
-                {
-                    results[i] = channels[i].Calculate(mesh, meshCenterOffset);
-                }
-
-                return results;
-            }
-        }
+        #region Nested type: SubmeshShadingChannelMetadata
 
         [Serializable]
-        public class SubmeshShadingChannelMetadata
+        public class SubmeshShadingChannelMetadata : AppalachiaSimpleBase
         {
-            public MeshDataChannel channel;
+            #region Fields and Autoproperties
+
             public bool enabled = true;
 
             [EnableIf(nameof(enabled))]
             public MeshChannelValueType channelValueType = MeshChannelValueType.None;
 
+            public MeshDataChannel channel;
+
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(showExplicit))]
-            public Vector4 explicitValue;
+            [ShowIf(nameof(showFields))]
+            public SubmeshShadingFieldMetadata w;
 
             [EnableIf(nameof(enabled))]
             [ShowIf(nameof(showFields))]
@@ -107,8 +93,10 @@ namespace Appalachia.Rendering.Shading.Dynamic
             public SubmeshShadingFieldMetadata z;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(showFields))]
-            public SubmeshShadingFieldMetadata w;
+            [ShowIf(nameof(showExplicit))]
+            public Vector4 explicitValue;
+
+            #endregion
 
             private bool showExplicit => channelValueType == MeshChannelValueType.Explicit;
             private bool showFields => channelValueType == MeshChannelValueType.None;
@@ -154,31 +142,25 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
         }
 
-        [Serializable]
-        public class SubmeshShadingFieldMetadata
-        {
-            public bool enabled = true;
+        #endregion
 
-            [EnableIf(nameof(enabled))]
-            public MeshFieldValueType fieldValueType = MeshFieldValueType.None;
+        #region Nested type: SubmeshShadingFieldMetadata
+
+        [Serializable]
+        public class SubmeshShadingFieldMetadata : AppalachiaSimpleBase
+        {
+            #region Fields and Autoproperties
 
             [OnValueChanged(nameof(UpdateArrayConfig))]
             [EnableIf(nameof(enabled))]
             [ShowIf(nameof(ShowConfigArray))]
             public AppalachiaTextureArrayConfig arrayConfig;
 
-            [ReadOnly]
-            [ShowIf(nameof(ShowConfigArray))]
-            public Texture2DArray textureArray;
+            public bool enabled = true;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowTextureArrayIndex))]
-            [PropertyRange(0, nameof(ArrayRangeMax))]
-            public int textureArrayIndex;
-
-            [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowShaderTextureSet))]
-            public ShaderTextureSet shaderTextureSet;
+            [ShowIf(nameof(ShowExplicit))]
+            public float value;
 
             [EnableIf(nameof(enabled))]
             [ShowIf(nameof(ShowShaderTextureSetId))]
@@ -186,30 +168,35 @@ namespace Appalachia.Rendering.Shading.Dynamic
             public int shaderTextureSetId;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowExplicit))]
-            public float value;
+            [ShowIf(nameof(ShowTextureArrayIndex))]
+            [PropertyRange(0, nameof(ArrayRangeMax))]
+            public int textureArrayIndex;
+
+            [EnableIf(nameof(enabled))]
+            public MeshFieldValueType fieldValueType = MeshFieldValueType.None;
+
+            [EnableIf(nameof(enabled))]
+            [ShowIf(nameof(ShowShaderTextureSet))]
+            public ShaderTextureSet shaderTextureSet;
 
             [ReadOnly]
-            [ShowIf(nameof(ShowShaderTextureSet))]
-            [ShowInInspector]
-            private string ShaderTextureSetName =>
-                shaderTextureSet == null
-                    ? string.Empty
-                    : shaderTextureSet.NameByIndex(shaderTextureSetId);
+            [ShowIf(nameof(ShowConfigArray))]
+            public Texture2DArray textureArray;
+
+            #endregion
 
             private bool ShowConfigArray =>
                 (fieldValueType == MeshFieldValueType.MaterialTextureArrayOverride) ||
                 (fieldValueType == MeshFieldValueType.TextureArrayIndex) ||
                 (fieldValueType == MeshFieldValueType.ShaderSet);
 
-            private bool ShowTextureArrayIndex =>
-                fieldValueType == MeshFieldValueType.TextureArrayIndex;
+            private bool ShowExplicit => fieldValueType == MeshFieldValueType.Explicit;
 
             private bool ShowShaderTextureSet => fieldValueType == MeshFieldValueType.ShaderSet;
 
             private bool ShowShaderTextureSetId => fieldValueType == MeshFieldValueType.ShaderSet;
 
-            private bool ShowExplicit => fieldValueType == MeshFieldValueType.Explicit;
+            private bool ShowTextureArrayIndex => fieldValueType == MeshFieldValueType.TextureArrayIndex;
 
             private int ArrayRangeMax =>
                 textureArray == null
@@ -229,10 +216,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
                             ? 0
                             : shaderTextureSet.textureSets.Count - 1;
 
-            private void UpdateArrayConfig()
-            {
-                textureArray = arrayConfig.diffuseArray;
-            }
+            [ReadOnly]
+            [ShowIf(nameof(ShowShaderTextureSet))]
+            [ShowInInspector]
+            private string ShaderTextureSetName =>
+                shaderTextureSet == null ? string.Empty : shaderTextureSet.NameByIndex(shaderTextureSetId);
 
             public float CalculateValue()
             {
@@ -252,14 +240,61 @@ namespace Appalachia.Rendering.Shading.Dynamic
                         return 0f;
                 }
             }
+
+            private void UpdateArrayConfig()
+            {
+                textureArray = arrayConfig.diffuseArray;
+            }
         }
 
+        #endregion
+
+        #region Nested type: SubmeshShadingMetadata
+
+        [Serializable]
+        public class SubmeshShadingMetadata : AppalachiaSimpleBase
+        {
+            #region Fields and Autoproperties
+
+            public bool enabled = true;
+            public int submesh;
+
+            [EnableIf(nameof(enabled))]
+            public List<SubmeshShadingChannelMetadata> channels = new();
+
+            [EnableIf(nameof(enabled))]
+            public Material material;
+
+            #endregion
+
+            public Vector4[] Calculate(Mesh mesh, Vector3 meshCenterOffset)
+            {
+                var results = new Vector4[channels.Count];
+
+                for (var i = 0; i < results.Length; i++)
+                {
+                    results[i] = channels[i].Calculate(mesh, meshCenterOffset);
+                }
+
+                return results;
+            }
+        }
+
+        #endregion
+
+        #region Menu Items
+
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(MeshShadingMetadata), priority = PKG.Menu.Assets.Priority)]
+        [UnityEditor.MenuItem(
+            PKG.Menu.Assets.Base + nameof(MeshShadingMetadata),
+            priority = PKG.Menu.Assets.Priority
+        )]
         public static void CreateAsset()
         {
             CreateNew<MeshShadingMetadata>();
         }
 #endif
+
+        #endregion
     }
 }

@@ -2,16 +2,16 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 #endregion
@@ -19,7 +19,7 @@ using UnityEngine.Serialization;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class RandomPrefabSpawnSource
+    public class RandomPrefabSpawnSource : AppalachiaSimpleBase
     {
         [ToggleLeft]
         [HorizontalGroup("A", .05f)]
@@ -142,15 +142,15 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             switch (spawnerType)
             {
                 case RandomPrefabSpawnerType.Prefab:
-                    return $"PREFAB_RPSE_{prefab.name}";
+                    return ZString.Format("PREFAB_RPSE_{0}", prefab.name);
                 case RandomPrefabSpawnerType.SceneObject:
-                    return $"SCENE_RPSE_{sceneObject.name}";
+                    return ZString.Format("SCENE_RPSE_{0}", sceneObject.name);
                 case RandomPrefabSpawnerType.VegetationPackage:
-                    return $"VEG-P_RPSE_{vegetationPackage.name}";
+                    return ZString.Format("VEG-P_RPSE_{0}", vegetationPackage.name);
                 case RandomPrefabSpawnerType.VegetationItem:
-                    return $"VEG-I_RPSE_{vegetationItemID}";
+                    return ZString.Format("VEG-I_RPSE_{0}", vegetationItemID);
                 case RandomPrefabSpawnerType.PrefabRenderingSet:
-                    return $"PRE-REN-SET_RPSE_{prefabRenderingSet.name}";
+                    return ZString.Format("PRE-REN-SET_RPSE_{0}", prefabRenderingSet.name);
                 default:
                     throw new ArgumentOutOfRangeException();
             }

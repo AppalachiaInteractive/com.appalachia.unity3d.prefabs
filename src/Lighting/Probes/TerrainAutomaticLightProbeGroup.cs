@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using Appalachia.Core.Collections;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
-
-
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
@@ -70,8 +69,8 @@ namespace Appalachia.Rendering.Lighting.Probes
                         if ((z % logStep) == 0)
                         {
                             canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
-                                $"AutoProbe: Generating Light Probes ({gameObject.name})",
-                                $"Adding points for terrain [{t.name}].",
+                                ZString.Format("AutoProbe: Generating Light Probes ({0})", gameObject.name),
+                                ZString.Format("Adding points for terrain [{0}].",         t.name),
                                 progress
                             );
                         }

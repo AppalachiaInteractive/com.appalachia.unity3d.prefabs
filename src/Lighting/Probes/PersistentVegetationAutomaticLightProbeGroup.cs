@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using Appalachia.Core.Collections;
+using Appalachia.Utility.Strings;
 using AwesomeTechnologies.VegetationStudio;
 using AwesomeTechnologies.VegetationSystem;
 using UnityEngine;
-
-
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
@@ -81,8 +80,12 @@ namespace Appalachia.Rendering.Lighting.Probes
                         if ((itemCount % logStep) == 0)
                         {
                             canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
-                                $"AutoProbe: Generating Light Probes ({gameObject.name})",
-                                $"Adding point for mesh [{veggie.VegetationPrefab.name}]:  Instances [{items}]",
+                                ZString.Format("AutoProbe: Generating Light Probes ({0})", gameObject.name),
+                                ZString.Format(
+                                    "Adding point for mesh [{0}]:  Instances [{1}]",
+                                    veggie.VegetationPrefab.name,
+                                    items
+                                ),
                                 itemCount / (float) items
                             );
                         }

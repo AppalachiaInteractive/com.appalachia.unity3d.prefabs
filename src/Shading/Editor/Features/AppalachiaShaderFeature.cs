@@ -1,14 +1,13 @@
 using System;
-using System.Collections.Generic;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
-using UnityEngine;
 
 namespace Appalachia.Rendering.Shading.Features
 {
     [Serializable]
-    public class AppalachiaShaderFeature
+    public class AppalachiaShaderFeature : AppalachiaSimpleBase
     {
-        [ListDrawerSettings] public List<Shader> shaders = new List<Shader>();
+        [ListDrawerSettings] public ShaderList shaders = new();
 
         public AppalachiaShaderFeatureCompatability compatibility = 0;
 

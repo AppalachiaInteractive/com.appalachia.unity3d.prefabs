@@ -2,11 +2,12 @@
 
 using System;
 using System.Diagnostics;
-using Appalachia.Core.Extensions;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Jobs.Burstable;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Reflection.Delegated;
+using Appalachia.Utility.Strings;
 using Unity.Burst;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -17,7 +18,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Burstable
 {
     [Serializable]
-    public class FrustumPlanesWrapper
+    public class FrustumPlanesWrapper : AppalachiaSimpleBase
     {
         private const string _PRF_PFX = nameof(FrustumPlanesWrapper) + ".";
 
@@ -264,13 +265,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Burstable
             var rangeMag = math.length(range);
             var dir = math.normalize(range);
 
-            return
-                $"From {Format(centerNear)} | Direction {Format(dir)} | Range {rangeMag:F1}m | FOV {fieldOfView:F1}";
+            return ZString.Format(
+                "From {0} | Direction {1} | Range {2:F1}m | FOV {3:F1}",
+                Format(centerNear),
+                Format(dir),
+                rangeMag,
+                fieldOfView
+            );
         }
 
         private string Format(float3 f)
         {
-            return $"({f.x},{f.y},{f.z})";
+            return ZString.Format("({0},{1},{2})", f.x, f.y, f.z);
         }
 
 #endregion

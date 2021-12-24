@@ -2,19 +2,18 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Behaviours;
-using Appalachia.Core.Extensions;
 using Appalachia.Core.Filtering;
 using Appalachia.Core.Labels;
 using Appalachia.Core.Layers;
 using Appalachia.Core.Layers.Extensions;
 using Appalachia.Core.ObjectPooling;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -28,8 +27,10 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingInstance : AppalachiaBase, IDisposable
+    public class PrefabRenderingInstance : AppalachiaSimpleBase, IDisposable
     {
+        
+        
         private const string _PRF_PFX = nameof(PrefabRenderingInstance) + ".";
 
         private static readonly Matrix4x4 _matrix_zero = Matrix4x4.zero;
@@ -289,8 +290,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 catch (Exception ex)
                 {
                     var name = metadata.prototype.prefabObject.name;
-                    
-                    AppaLog.Error($"Error moving [{name}] from [{currentState}] to [{nextState}]"                    );
+
+                    Context.Log.Error(
+                        ZString.Format(
+                            "Error moving [{0}] from [{1}] to [{2}]",
+                            name,
+                            currentState,
+                            nextState
+                        )
+                    );
                     Debug.LogException(ex);
 
                     pushGpuiMatrices = false;
@@ -543,7 +551,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     if (element.prototypeTemplate == null)
                     {
                         throw new NotSupportedException(
-                            $"Template prototype could not be instantiated for {metadata.prototype.name}."
+                            ZString.Format(
+                                "Template prototype could not be instantiated for {0}.",
+                                metadata.prototype.name
+                            )
                         );
                     }
                 }
@@ -958,7 +969,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     rigidbody.useGravity = rigidbodyData.useGravity;
                     rigidbody.angularDrag = rigidbodyData.angularDrag;
 
-                    //AppaLog.Info($"Setting mass from {rigidbody.mass} to {rigidbodyData.mass}.");
+                    //Context.Log.Info($"Setting mass from {rigidbody.mass} to {rigidbodyData.mass}.");
                     rigidbody.mass = rigidbodyData.mass;
                     rigidbody.constraints = rigidbodyData.constraints;
                     rigidbody.detectCollisions = true;

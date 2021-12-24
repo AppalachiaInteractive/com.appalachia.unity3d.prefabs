@@ -1,14 +1,16 @@
 #region
 
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Scriptables;
 using Sirenix.OdinInspector;
 
 #endregion
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Settings
 {
-    public class PrefabSpawnSettings : IdentifiableAppalachiaObject
+    public class PrefabSpawnSettings : IdentifiableAppalachiaObject<PrefabSpawnSettings>
     {
+        
+        
         [BoxGroup("Timing")]
         [HideLabel]
         [LabelWidth(0)]

@@ -6,7 +6,8 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Utility.Execution;
+using Appalachia.Utility.Strings;
 using GPUInstancer;
 using Unity.Profiling;
 using UnityEngine;
@@ -27,7 +28,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_SetSceneDirty.Auto())
             {
-                if (!Application.isPlaying)
+                if (!AppalachiaApplication.IsPlayingOrWillPlay)
                 {
                     UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
                 }
@@ -52,7 +53,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                     if (prototype == null)
                     {
-                        throw new NotSupportedException($"Prototype at index {i} was null.");
+                        throw new NotSupportedException(
+                            ZString.Format("Prototype at index {0} was null.", i)
+                        );
                     }
                     
                     if (prototypeLookup.ContainsKey(prototype))
@@ -65,7 +68,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     prototypeLookup.Add(prototype, registeredPrefabsData);
                 }
 
-                var set = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSet>($"{prefab.name}", true, false);
+                var set = PrefabRenderingSet.LoadOrCreateNew(ZString.Format("{0}", prefab.name), true, false);
 
                 set.Initialize(prefab, metadatas.FindOrCreate(prefab, gpui, prototypeLookup));
 

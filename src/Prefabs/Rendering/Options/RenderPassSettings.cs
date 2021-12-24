@@ -2,7 +2,6 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Behaviours;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 using GPUInstancer;
 using Sirenix.OdinInspector;
@@ -15,7 +14,7 @@ using UnityEngine.Rendering;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class RenderPassSettings : AppalachiaBase
+    public class RenderPassSettings
     {
         private const string _PRF_PFX = nameof(RenderPassSettings) + ".";
 

@@ -1,7 +1,7 @@
 #region
 
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 
 #endregion
 
@@ -11,6 +11,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
         RandomPrefabMasterCollection : SingletonAppalachiaObject<
             RandomPrefabMasterCollection>
     {
+        
         public List<RandomPrefabSetCollection> collections = new();
     }
 }

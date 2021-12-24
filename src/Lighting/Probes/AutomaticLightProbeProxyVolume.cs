@@ -1,16 +1,15 @@
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.NonSerialized;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 
-
-
 namespace Appalachia.Rendering.Lighting.Probes
 {
     [ExecuteAlways]
-    public class AutomaticLightProbeProxyVolume: AppalachiaBehaviour
+    public sealed class AutomaticLightProbeProxyVolume : AppalachiaBehaviour<AutomaticLightProbeProxyVolume>
     {
 #if UNITY_EDITOR
 
@@ -61,7 +60,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private void OnNameChanged()
         {
-            gameObject.name = string.Format(LightProbeGroupName, volumeName);
+            gameObject.name = ZString.Format(LightProbeGroupName, volumeName);
         }
 
         protected override void Awake()
@@ -73,7 +72,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private void Validate()
         {
-            gameObject.name = string.Format(LightProbeGroupName, volumeName);
+            gameObject.name = ZString.Format(LightProbeGroupName, volumeName);
 
             if (volume == null)
             {

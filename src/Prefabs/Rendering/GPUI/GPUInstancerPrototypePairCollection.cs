@@ -46,7 +46,7 @@ using (ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                this.MarkAsModified();
                 
 #if UNITY_EDITOR
-                if (!Application.isPlaying)
+                if (!AppalachiaApplication.IsPlayingOrWillPlay)
                 {
                     GPUInstancerPrototypePair.UpdateAllIDs();                    
                 }

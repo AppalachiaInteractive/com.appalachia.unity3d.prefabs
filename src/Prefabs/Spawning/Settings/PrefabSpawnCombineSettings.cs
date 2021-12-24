@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 
 #endregion
@@ -8,7 +9,7 @@ using Sirenix.OdinInspector;
 namespace Appalachia.Rendering.Prefabs.Spawning.Settings
 {
     [Serializable]
-    public class PrefabSpawnCombineSettings
+    public class PrefabSpawnCombineSettings : AppalachiaSimpleBase
     {
         public bool combiningEnabled;
 

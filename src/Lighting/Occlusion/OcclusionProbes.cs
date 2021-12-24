@@ -1,11 +1,13 @@
-using Appalachia.Core.Behaviours;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
+using Appalachia.Utility.Execution;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
     [ExecuteAlways]
-    public partial class OcclusionProbes: AppalachiaBehaviour
+    public partial sealed class OcclusionProbes : AppalachiaBehaviour<OcclusionProbes>
     {
         private static Vector4[] ms_AmbientProbeSC;
         private static Texture3D ms_White;
@@ -24,9 +26,9 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
         public static OcclusionProbes Instance { get; private set; }
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
-            base.OnEnable();
+            await base.WhenEnabled();
             
 #if UNITY_EDITOR
             UnityEditor.Lightmapping.bakedGI = true;
@@ -37,7 +39,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             }
 #endif
 
-            if (Application.isPlaying)
+            if (AppalachiaApplication.IsPlayingOrWillPlay)
             {
                 Debug.Assert(Instance == null);
             }
@@ -47,15 +49,16 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             Camera.onPreRender += CameraPreRender;
         }
 
-        protected override void OnDisable()
+        protected override async AppaTask WhenDisabled()
+
         {
-            base.OnDisable();
+            await base.WhenDisabled();
             
 #if UNITY_EDITOR
             RemoveLightmapperCallbacks();
 #endif
 
-            if (Application.isPlaying)
+            if (AppalachiaApplication.IsPlayingOrWillPlay)
             {
                 Debug.Assert(Instance == this);
             }
@@ -66,11 +69,11 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             }
         }
 
-        protected override void OnDestroy()
+        protected override async AppaTask WhenDestroyed()
         {
-            base.OnDestroy();
-            
-            if (Application.isPlaying)
+            await base.WhenDestroyed();
+
+            if (AppalachiaApplication.IsPlayingOrWillPlay)
             {
                 Destroy(ms_White);
             }

@@ -3,9 +3,9 @@
 using System;
 using System.Diagnostics;
 using Appalachia.Core.Collections;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Editing.Labels;
-using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -16,38 +16,22 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
-    public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE,
-                                                   IL_TW, IL_TT>  : AppalachiaObject
+    public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
+                                                   IL_TT> : AppalachiaObject<>
         where TE : Enum
-        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>,
-        new()
-        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
-        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
-        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
-        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>
+        where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
+        where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TSD : PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TW : PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+        where TL : PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
         where TI : AppaLookup<TE, TW, IL_TE, IL_TW>, new()
-        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-            IL_TT>, new()
+        where TT : PrefabTypeOptionsToggle<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
         where TOGI : AppaLookup<TE, TT, IL_TE, IL_TT>, new()
         where IL_TE : AppaList<TE>, new()
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
     {
-        private const string _PRF_PFX =
-            nameof(PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-                IL_TT>) +
-            ".";
-
-        private static readonly ProfilerMarker _PRF_ConfirmValidity =
-            new(_PRF_PFX + nameof(ConfirmValidity));
-
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
-
-        private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
+        #region Fields and Autoproperties
 
         //[HideInInspector]
         [SerializeField] public TE type;
@@ -73,6 +57,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [HideInInspector]
         protected bool _baseEnabledState;
 
+        #endregion
+
+        public abstract string Subtitle { get; }
+
+        public abstract string Title { get; }
+
+#if UNITY_EDITOR
+        public virtual string LabelHeader => labels?.DisplayName ?? "Labels (None)";
+#endif
+        
+
+        public bool Enabled => options.isEnabled;
+        public bool Muted => options.Muted;
+        public bool Soloed => options.Soloed;
+
         public TO options
         {
             get
@@ -80,49 +79,25 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 if (_options == null)
                 {
                     _options = new TO();
-                   this.MarkAsModified();
+                    MarkAsModified();
                 }
 
                 return _options;
             }
         }
 
-        public abstract string Title { get; }
-        public abstract string Subtitle { get; }
-
-#if UNITY_EDITOR
-        public virtual string LabelHeader => labels?.DisplayName ?? "Labels (None)";
-#endif
-
-        public bool Enabled => options.isEnabled;
-        public bool Soloed => options.Soloed;
-        public bool Muted => options.Muted;
-#if UNITY_EDITOR
-        [HideInInlineEditors]
-        [Button]
-        [PropertyOrder(-100)]
-        public void SelectPrefabRenderingManager()
+        [DebuggerStepThrough]
+        public override string ToString()
         {
-            UnityEditor.Selection.objects = new Object[] {PrefabRenderingManager.instance};
+            return ZString.Format("{0}: {1}", Title, Subtitle);
         }
-#endif
-        protected virtual void ConfirmValidity()
-        {
-            using (_PRF_ConfirmValidity.Auto())
-            {
-                if (_baseEnabledState && !options.isEnabled)
-                {
-                   this.MarkAsModified();
-                }
-                else if (!_baseEnabledState && options.isEnabled)
-                {
-                   this.MarkAsModified();
-                }
 
-                _options.type = type;
-                _baseEnabledState = options.isEnabled;
-                _options.UpdateForValidity();
-            }
+        public void Enable(bool enabled)
+        {
+            options.Enable(enabled);
+#if UNITY_EDITOR
+            MarkAsModified();
+#endif
         }
 
         public TW Initialize(TE te, TO to)
@@ -138,32 +113,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 
-        [DebuggerStepThrough] public override string ToString()
-        {
-            return $"{Title}: {Subtitle}";
-        }
-
-        public void Enable(bool enabled)
-        {
-            options.Enable(enabled);
-#if UNITY_EDITOR
-           this.MarkAsModified();
-#endif
-        }
-
-        public void Solo(bool soloed)
-        {
-            options.Solo(soloed);
-#if UNITY_EDITOR
-           this.MarkAsModified();
-#endif
-        }
-
         public void Mute(bool muted)
         {
             options.Mute(muted);
 #if UNITY_EDITOR
-           this.MarkAsModified();
+            MarkAsModified();
 #endif
         }
 
@@ -175,12 +129,62 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 if (labels == null)
                 {
                     labels = new LabelSearchSet();
-                   this.MarkAsModified();
+                    MarkAsModified();
                 }
 #endif
 
                 ConfirmValidity();
             }
         }
+#if UNITY_EDITOR
+        [HideInInlineEditors]
+        [Button]
+        [PropertyOrder(-100)]
+        public void SelectPrefabRenderingManager()
+        {
+            UnityEditor.Selection.objects = new Object[] { PrefabRenderingManager.instance };
+        }
+#endif
+
+        public void Solo(bool soloed)
+        {
+            options.Solo(soloed);
+#if UNITY_EDITOR
+            MarkAsModified();
+#endif
+        }
+
+        protected virtual void ConfirmValidity()
+        {
+            using (_PRF_ConfirmValidity.Auto())
+            {
+                if (_baseEnabledState && !options.isEnabled)
+                {
+                    MarkAsModified();
+                }
+                else if (!_baseEnabledState && options.isEnabled)
+                {
+                    MarkAsModified();
+                }
+
+                _options.type = type;
+                _baseEnabledState = options.isEnabled;
+                _options.UpdateForValidity();
+            }
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX =
+            nameof(PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
+            ".";
+
+        private static readonly ProfilerMarker _PRF_ConfirmValidity = new(_PRF_PFX + nameof(ConfirmValidity));
+
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize2));
+
+        private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
+
+        #endregion
     }
 }

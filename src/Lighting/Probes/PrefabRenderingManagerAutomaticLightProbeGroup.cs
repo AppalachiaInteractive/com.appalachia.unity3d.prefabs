@@ -2,9 +2,8 @@ using Appalachia.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
+using Appalachia.Utility.Strings;
 using UnityEngine;
-
-
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
@@ -102,8 +101,12 @@ namespace Appalachia.Rendering.Lighting.Probes
                     if ((itemCount % logStep) == 0)
                     {
                         canceled = UnityEditor.EditorUtility.DisplayCancelableProgressBar(
-                            $"AutoProbe: Generating Light Probes ({gameObject.name})",
-                            $"Adding point for mesh [{data.prefab.name}]:  Instances [{items}]",
+                            ZString.Format("AutoProbe: Generating Light Probes ({0})", gameObject.name),
+                            ZString.Format(
+                                "Adding point for mesh [{0}]:  Instances [{1}]",
+                                data.prefab.name,
+                                items
+                            ),
                             itemCount / (float) items
                         );
                     }

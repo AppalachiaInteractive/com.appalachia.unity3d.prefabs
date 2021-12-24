@@ -1,6 +1,5 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Scriptables;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;

@@ -2,7 +2,8 @@
 
 using System;
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Core.Objects.Scriptables;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
@@ -12,6 +13,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
     public class MeshWindComponentData : EmbeddedAppalachiaObject<MeshWindComponentData>
     {
+        
+        
         public enum MeshWindStyle
         {
             FadeUp,
@@ -70,7 +73,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         private bool showTreeMaterials => style == MeshWindStyle.TreeMaterials;
 
         [Serializable]
-        public class WindMeshSet
+        public class WindMeshSet : AppalachiaSimpleBase
         {
             public Mesh original;
             public List<Material> originalMaterials = new();
@@ -78,7 +81,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         }
 
         [Serializable]
-        public class TreeMaterialSet
+        public class TreeMaterialSet : AppalachiaSimpleBase
         {
             public Material material;
             public Texture2D windMask;

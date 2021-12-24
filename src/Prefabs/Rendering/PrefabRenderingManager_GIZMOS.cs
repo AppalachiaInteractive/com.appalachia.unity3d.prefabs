@@ -18,23 +18,20 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
     public partial class PrefabRenderingManager
     {
-        #region Profiling And Tracing Markers
-
+        #region Preferences
 
         private static PREF<float> gizmoRayShowTime;
 
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + nameof(OnDrawGizmos));
-
         #endregion
 
-        #region Preferences
-
-        #endregion
+        #region Fields and Autoproperties
 
         private GameViewSelectionManager _selectionManager;
         private int[] indexPairs;
 
         private Vector3[] points;
+
+        #endregion
 
         #region Event Functions
 
@@ -51,7 +48,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (options.gizmos.burialGizmosEnabled)
                 {
-                    var b = MeshBurialExecutionManager.bounds;
+                    var b = MeshBurialExecutionManager.instance.bounds;
                     SmartHandles.DrawWireCube(b.center, b.size, ColorPrefs.Instance.MeshBurialBounds.v);
                 }
 
@@ -81,10 +78,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
                 if (_selectionManager.TryGameViewSelection(
-                    gpui.cameraData.mainCamera,
-                    renderingOptions.global.layerMask,
-                    out var hit
-                ))
+                        gpui.cameraData.mainCamera,
+                        renderingOptions.global.layerMask,
+                        out var hit
+                    ))
                 {
                     var parent = hit.transform.parent;
 
@@ -110,6 +107,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
             }
         }
+
+        #endregion
+
+        #region Profiling
+
+        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + nameof(OnDrawGizmos));
 
         #endregion
     }

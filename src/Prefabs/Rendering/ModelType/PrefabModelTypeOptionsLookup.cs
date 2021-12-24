@@ -2,7 +2,6 @@
 
 using System;
 using Appalachia.Core.Attributes;
-using Appalachia.Core.Scriptables;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
@@ -16,7 +15,7 @@ using UnityEngine.Rendering;
 namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 {
     [Serializable]
-    [AlwaysInitializeOnLoad]
+    [CallStaticConstructorInEditor]
     public class PrefabModelTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabModelType,
         PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
         PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
@@ -46,7 +45,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                     (_state[value].options.rangeSettings == null) ||
                     (_state[value].options.rangeSettings.Length == 0))
                 {
-                    var options = AppalachiaObject.LoadOrCreateNew<PrefabModelTypeOptionsWrapper>(value.ToString());
+                    var options = PrefabModelTypeOptionsWrapper.LoadOrCreateNew(value.ToString());
 
                     switch (value)
                     {

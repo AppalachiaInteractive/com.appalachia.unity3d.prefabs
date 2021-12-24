@@ -1,5 +1,6 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -11,7 +12,7 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldActiveSettingsManager
+    public class DepthOfFieldActiveSettingsManager : AppalachiaSimpleBase
     {
         private const string _PRF_PFX = nameof(DepthOfFieldActiveSettingsManager) + ".";
 

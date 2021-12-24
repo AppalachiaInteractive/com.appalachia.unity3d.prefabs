@@ -10,16 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 428066e4ab244806a94b7ce19844b26b, type: 3}
-  m_Name: PrefabContentTypeOptionsLookup_20211015-105950227
+  m_Name: PrefabContentTypeOptionsLookup
   m_EditorClassIdentifier: 
   _initializationData:
-    _nonSerializedTags: []
     _tags: []
     _resetToken: 
   _cachedName: 
   _niceName: 
   _toggles:
     initializerCount: 64
+    _object: {fileID: 11400000}
+    keys:
+      _capacityIncreaseMultiplier: 2
+      _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
+      noTracking: 0
+      _count: 22
     values:
       _capacityIncreaseMultiplier: 2
       _values:
@@ -47,13 +52,14 @@ MonoBehaviour:
       - options: {fileID: 11400000, guid: 18f6f7ede7f37a547b32768a9f1b20c8, type: 2}
       noTracking: 0
       _count: 22
+  _state:
+    initializerCount: 64
+    _object: {fileID: 11400000}
     keys:
       _capacityIncreaseMultiplier: 2
       _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
       noTracking: 0
       _count: 22
-  _state:
-    initializerCount: 64
     values:
       _capacityIncreaseMultiplier: 2
       _values:
@@ -79,10 +85,5 @@ MonoBehaviour:
       - {fileID: 11400000, guid: d45f831494bfc204f823e161ae41abdc, type: 2}
       - {fileID: 11400000, guid: 8864b3872144d64428824b6a349fac41, type: 2}
       - {fileID: 11400000, guid: 18f6f7ede7f37a547b32768a9f1b20c8, type: 2}
-      noTracking: 0
-      _count: 22
-    keys:
-      _capacityIncreaseMultiplier: 2
-      _values: 6400c800d200dc00f000fa000e0118012c0190019a01a401f401fe010802120258026202bc0220032a033403
       noTracking: 0
       _count: 22

@@ -1,9 +1,8 @@
 #region
 
 using System.Collections.Generic;
-using Appalachia.Core.Scriptables;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
-using Appalachia.Utility.Extensions;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -43,7 +42,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             }
 
 #if UNITY_EDITOR
-            State.SetMarkModifiedAction(this.MarkAsModified);
+            State.SetObjectOwnership(this);
 #endif
         }
 
@@ -71,7 +70,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                     return metadata;
                 }
 
-                var newPrototypePair = AppalachiaObject.LoadOrCreateNew<GPUInstancerPrototypeMetadata>(
+                var newPrototypePair = GPUInstancerPrototypeMetadata.LoadOrCreateNew(
                     gameObject.name,
                     true,
                     false

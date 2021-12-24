@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Collections.Interfaces;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Spawning.Collections;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,7 +12,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
-    public class PrefabSpawnStateData
+    public class PrefabSpawnStateData : AppalachiaSimpleBase
     {
         public RandomPrefabSpawnSource spawnSource;
 

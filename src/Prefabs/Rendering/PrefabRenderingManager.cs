@@ -1,20 +1,17 @@
-
 #region
 
 using System;
 using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
-using Appalachia.CI.Integration.Attributes;
 using Appalachia.Core.Aspects.Profiling;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Behaviours;
 using Appalachia.Core.Collections.Extensions;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Collections.NonSerialized;
 using Appalachia.Core.Execution.RateLimiting;
-using Appalachia.Core.Extensions;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Jobs.Concurrency;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
@@ -23,8 +20,10 @@ using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
+using Appalachia.Utility.Async;
+using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
-using Appalachia.Utility.Logging;
+using Appalachia.Utility.Strings;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding.Voxels;
@@ -44,45 +43,191 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [ExecuteAlways]
     [DisallowMultipleComponent]
     [ExecutionOrder(ExecutionOrders.PrefabRenderingManager)]
-    [InspectorIcon(Icons.Squirrel.Red)]
+    [CallStaticConstructorInEditor]
     public partial class PrefabRenderingManager : SingletonAppalachiaBehaviour<PrefabRenderingManager>
     {
-        #region Profiling And Tracing Markers
-
-        private const string _PRF_PFX = nameof(PrefabRenderingManager) + ".";
-
-        private static readonly ProfilerMarker _PRF_RenderingOptions =
-            new(_PRF_PFX + nameof(RenderingOptions));
-
-        private static readonly ProfilerMarker _PRF_UpdateReferencePositions =
-            new(_PRF_PFX + nameof(UpdateReferencePositions));
-
-        private static readonly ProfilerMarker _PRF_Bounce = new(_PRF_PFX + nameof(Bounce));
-
-        private static readonly ProfilerMarker _PRF_InitializeStructureInPlace =
-            new(_PRF_PFX + nameof(InitializeStructureInPlace));
-
-        private static readonly ProfilerMarker _PRF_GetInstanceRootForPrefab =
-            new(_PRF_PFX + nameof(GetInstanceRootForPrefab));
-
-        private static readonly ProfilerMarker _PRF_AddDistanceReferenceObject =
-            new(_PRF_PFX + nameof(AddDistanceReferenceObject));
-
-        private static readonly ProfilerMarker _PRF_RemoveDistanceReferenceObject =
-            new(_PRF_PFX + nameof(RemoveDistanceReferenceObject));
-
-        /*
-        [Button, DisableIf(nameof(IsEditorSimulating))]
-        private void ResetRenderingSets()
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabRenderingManager()
         {
-            
-using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
-            {
-                runtimeRenderingDataSets.Clear();
-            }
-        }*/
+            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
+            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
+            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+            RuntimeRenderingOptions.InstanceAvailable += i => _runtimeRenderingOptions = i;
+        }
+
+        private static PrefabContentTypeOptionsLookup _prefabContentTypeOptionsLookup;
+        private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
+        private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
+        private static RuntimeRenderingOptions _runtimeRenderingOptions;
+
+        #region Constants and Static Readonly
+
+        private const string _CONTENT = "Content Types";
+
+        private const string _HIDETABS = nameof(hideTabs);
+        private const string _META = "Meta and Refs";
+        private const string _MODEL = "Model Types";
+        private const string _PREFABS = "Prefabs";
+        private const string _SETTINGS = "Settings";
+        private const string _TABGROUP = _HIDETABS + "/TABS";
 
         #endregion
+
+        #region Fields and Autoproperties
+
+        [HideIfGroup(_HIDETABS)]
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public ShaderVariantCollection shaderVariants;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [NonSerialized]
+        public GPUInstancerPrefabManager gpui;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [NonSerialized]
+        public VegetationSystemPro vegetationSystem;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public PrefabLocationSource prefabSource;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public GPUInstancerPrototypeMetadataCollection metadatas;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public PrefabRenderingRuntimeStructure structure;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public GameObject distanceReferencePoint;
+
+        [HideInInspector]
+        [SerializeField]
+        private GameObjectLookup _additionalReferences;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [HideInInspector]
+        private NativeList<float3>[] referencePointsCollection;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [HideInInspector]
+        [SerializeField]
+        public bool gpuiRuntimeBuffersInitialized;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public new Bounds renderingBounds;
+
+        public bool ActiveNow { get; private set; }
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public Camera frustumCamera;
+
+        [TabGroup(_TABGROUP, _META)]
+        [SmartLabel]
+        [SerializeField]
+        public AstarPath pathFinder;
+
+        [FormerlySerializedAs("_options")]
+        [TabGroup(_TABGROUP, _SETTINGS, Order = 4)]
+        [SmartLabel]
+        [SerializeField]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden)]
+        [InlineProperty]
+        private RuntimeRenderingOptions renderingOptions;
+
+        private bool stoppedDueToErrors;
+
+        [FormerlySerializedAs("_assetTypeLookup")]
+        [SerializeField]
+        [HideInInspector]
+        private PrefabModelTypeOptionsLookup assetModelTypeLookup;
+
+        [SerializeField]
+        [HideInInspector]
+        private PrefabContentTypeOptionsLookup contentTypeLookup;
+
+        [NonSerialized]
+        [HideInInspector]
+        private PrefabRenderingSetCollection _renderingSets;
+
+        #endregion
+
+        
+
+        [TabGroup(_TABGROUP, _CONTENT, Order = 8)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        [ShowInInspector]
+        [InlineEditor(ObjectFieldMode = InlineEditorObjectFieldModes.Boxed)]
+        public PrefabContentTypeOptionsLookup ContentTypeLookup
+        {
+            get
+            {
+                if (contentTypeLookup == null)
+                {
+                    contentTypeLookup = _prefabContentTypeOptionsLookup;
+                }
+
+                return contentTypeLookup;
+            }
+            set => contentTypeLookup = value;
+        }
+
+        [TabGroup(_TABGROUP, _MODEL, Order = 6)]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        [ShowInInspector]
+        [InlineEditor(ObjectFieldMode = InlineEditorObjectFieldModes.Boxed)]
+        public PrefabModelTypeOptionsLookup AssetModelTypeLookup
+        {
+            get
+            {
+                if (assetModelTypeLookup == null)
+                {
+                    assetModelTypeLookup = _prefabModelTypeOptionsLookup;
+                }
+
+                return assetModelTypeLookup;
+            }
+            set => assetModelTypeLookup = value;
+        }
+
+        [TabGroup(_TABGROUP, _PREFABS, Order = 10)]
+        [SmartLabel]
+        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden)]
+        [InlineProperty]
+        [ShowInInspector]
+        public PrefabRenderingSetCollection renderingSets
+        {
+            get
+            {
+                if (_renderingSets == null)
+                {
+                    _renderingSets = _prefabRenderingSetCollection;
+                }
+
+                return _renderingSets;
+            }
+            set => _renderingSets = value;
+        }
 
         #region Properties
 
@@ -94,7 +239,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 {
                     if (renderingOptions == null)
                     {
-                        renderingOptions = RuntimeRenderingOptions.instance;
+                        renderingOptions = _runtimeRenderingOptions;
                     }
 
                     return renderingOptions;
@@ -184,7 +329,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 if (referencePointsCollection[index].ShouldAllocate())
                 {
                     referencePointsCollection[index] =
-                        new NativeList<float3>(24, Allocator.Persistent) {primaryPosition};
+                        new NativeList<float3>(24, Allocator.Persistent) { primaryPosition };
                 }
 
                 if (referencePointsCollection[index].Length == 0)
@@ -225,167 +370,42 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-        
+        #region Profiling
 
-        private const string _HIDETABS = nameof(hideTabs);
-        private const string _TABGROUP = _HIDETABS + "/TABS";
-        private const string _META = "Meta and Refs";
-        private const string _SETTINGS = "Settings";
-        private const string _MODEL = "Model Types";
-        private const string _CONTENT = "Content Types";
-        private const string _PREFABS = "Prefabs";
+        private const string _PRF_PFX = nameof(PrefabRenderingManager) + ".";
 
-        [HideIfGroup(_HIDETABS)]
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public ShaderVariantCollection shaderVariants;
+        private static readonly ProfilerMarker _PRF_RenderingOptions =
+            new(_PRF_PFX + nameof(RenderingOptions));
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [NonSerialized]
-        public GPUInstancerPrefabManager gpui;
+        private static readonly ProfilerMarker _PRF_UpdateReferencePositions =
+            new(_PRF_PFX + nameof(UpdateReferencePositions));
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [NonSerialized]
-        public VegetationSystemPro vegetationSystem;
+        private static readonly ProfilerMarker _PRF_Bounce = new(_PRF_PFX + nameof(Bounce));
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public PrefabLocationSource prefabSource;
+        private static readonly ProfilerMarker _PRF_InitializeStructureInPlace =
+            new(_PRF_PFX + nameof(InitializeStructureInPlace));
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public GPUInstancerPrototypeMetadataCollection metadatas;
+        private static readonly ProfilerMarker _PRF_GetInstanceRootForPrefab =
+            new(_PRF_PFX + nameof(GetInstanceRootForPrefab));
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public PrefabRenderingRuntimeStructure structure;
+        private static readonly ProfilerMarker _PRF_AddDistanceReferenceObject =
+            new(_PRF_PFX + nameof(AddDistanceReferenceObject));
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public GameObject distanceReferencePoint;
+        private static readonly ProfilerMarker _PRF_RemoveDistanceReferenceObject =
+            new(_PRF_PFX + nameof(RemoveDistanceReferenceObject));
 
-        [HideInInspector]
-        [SerializeField]
-        private GameObjectLookup _additionalReferences;
+        #endregion
 
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [HideInInspector]
-        private NativeList<float3>[] referencePointsCollection;
-
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [HideInInspector]
-        [SerializeField]
-        public bool gpuiRuntimeBuffersInitialized;
-
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public new Bounds renderingBounds;
-
-        public bool ActiveNow { get; private set; }
-
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public Camera frustumCamera;
-
-        [TabGroup(_TABGROUP, _META)]
-        [SmartLabel]
-        [SerializeField]
-        public AstarPath pathFinder;
-
-        [FormerlySerializedAs("_options")]
-        [TabGroup(_TABGROUP, _SETTINGS, Order = 4)]
-        [SmartLabel]
-        [SerializeField]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden)]
-        [InlineProperty]
-        private RuntimeRenderingOptions renderingOptions;
-
-        private bool stoppedDueToErrors;
-
-        [FormerlySerializedAs("_assetTypeLookup")]
-        [SerializeField]
-        [HideInInspector]
-        private PrefabModelTypeOptionsLookup assetModelTypeLookup;
-
-        [TabGroup(_TABGROUP, _MODEL, Order = 6)]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        [ShowInInspector]
-        [InlineEditor(ObjectFieldMode = InlineEditorObjectFieldModes.Boxed)]
-        public PrefabModelTypeOptionsLookup AssetModelTypeLookup
+        /*
+        [Button, DisableIf(nameof(IsEditorSimulating))]
+        private void ResetRenderingSets()
         {
-            get
+            
+using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             {
-                if (assetModelTypeLookup == null)
-                {
-                    assetModelTypeLookup = PrefabModelTypeOptionsLookup.instance;
-                }
-
-                return assetModelTypeLookup;
+                runtimeRenderingDataSets.Clear();
             }
-            set => assetModelTypeLookup = value;
-        }
-
-        [SerializeField]
-        [HideInInspector]
-        private PrefabContentTypeOptionsLookup contentTypeLookup;
-
-        [TabGroup(_TABGROUP, _CONTENT, Order = 8)]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        [ShowInInspector]
-        [InlineEditor(ObjectFieldMode = InlineEditorObjectFieldModes.Boxed)]
-        public PrefabContentTypeOptionsLookup ContentTypeLookup
-        {
-            get
-            {
-                if (contentTypeLookup == null)
-                {
-                    contentTypeLookup = PrefabContentTypeOptionsLookup.instance;
-                }
-
-                return contentTypeLookup;
-            }
-            set => contentTypeLookup = value;
-        }
-
-        [NonSerialized]
-        [HideInInspector]
-        private PrefabRenderingSetCollection _renderingSets;
-
-        [TabGroup(_TABGROUP, _PREFABS, Order = 10)]
-        [SmartLabel]
-        [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.CompletelyHidden)]
-        [InlineProperty]
-        [ShowInInspector]
-        public PrefabRenderingSetCollection renderingSets
-        {
-            get
-            {
-                if (_renderingSets == null)
-                {
-                    _renderingSets = PrefabRenderingSetCollection.instance;
-                }
-
-                return _renderingSets;
-            }
-            set => _renderingSets = value;
-        }
-
-     
+        }*/
 
         #region Unity Events
 
@@ -396,10 +416,10 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             using (_PRF_Awake.Auto())
             {
                 base.Awake();
-                
+
                 currentState = RenderingState.NotRendering;
 
-                nextState = Application.isPlaying
+                nextState = AppalachiaApplication.IsPlayingOrWillPlay
                     ? RenderingOptions.execution.startOnPlay
                         ? RenderingState.Rendering
                         : RenderingState.NotRendering
@@ -413,14 +433,15 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-        private static readonly ProfilerMarker _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
-        
-        protected override void OnEnable()
+        private static readonly ProfilerMarker
+            _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
+
+        protected override async AppaTask WhenEnabled()
         {
             using (_PRF_OnEnable.Auto())
             {
-                base.OnEnable();
-            
+                await base.WhenEnabled();
+
                 HandleEnableLogic(false);
             }
         }
@@ -432,7 +453,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
         {
 #if UNITY_EDITOR
             if (!bouncing &&
-                !Application.isPlaying &&
+                !AppalachiaApplication.IsPlayingOrWillPlay &&
                 !UnityEditorInternal.ProfilerDriver.enabled &&
                 RenderingOptions.profiling.enableProfilingOnStart)
             {
@@ -443,7 +464,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             {
                 currentState = RenderingState.NotRendering;
 
-                nextState = Application.isPlaying
+                nextState = AppalachiaApplication.IsPlayingOrWillPlay
                     ? RenderingOptions.execution.startOnPlay
                         ? RenderingState.Rendering
                         : RenderingState.NotRendering
@@ -458,7 +479,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
 #if UNITY_EDITOR
             if (!bouncing &&
-                !Application.isPlaying &&
+                !AppalachiaApplication.IsPlayingOrWillPlay &&
                 UnityEditorInternal.ProfilerDriver.enabled &&
                 RenderingOptions.profiling.disableProfilingAfterInitializationLoop)
             {
@@ -467,13 +488,16 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #endif
         }
 
-        private static readonly ProfilerMarker _PRF_OnDisable = new ProfilerMarker(_PRF_PFX + nameof(OnDisable));
-        protected override void OnDisable()
+        private static readonly ProfilerMarker _PRF_OnDisable =
+            new ProfilerMarker(_PRF_PFX + nameof(OnDisable));
+
+        protected override async AppaTask WhenDisabled()
+
         {
             using (_PRF_OnDisable.Auto())
             {
-                base.OnDisable();
-                
+                await base.WhenDisabled();
+
                 HandleDisableLogic(false);
             }
         }
@@ -494,9 +518,9 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 //_updateJobList.SafeDispose();
                 referencePointsCollection.SafeDispose();
 #if UNITY_EDITOR
-                if (!bouncing && !Application.isPlaying)
+                if (!bouncing && !AppalachiaApplication.IsPlayingOrWillPlay)
                 {
-                    _renderingSets.Sets?.FirstOrDefault().UpdateAllIDs();
+                    renderingSets.Sets?.FirstOrDefault().UpdateAllIDs();
                     metadatas.State.FirstOrDefault().UpdateAllIDs();
                 }
 #endif
@@ -507,9 +531,9 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 #if UNITY_EDITOR
                 SetSceneDirty();
                 if (!bouncing &&
-                    !UnityEditor.EditorApplication.isCompiling &&
-                    !UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode &&
-                    !Application.isPlaying)
+                    !AppalachiaApplication.IsCompiling &&
+                    !AppalachiaApplication.IsPlayingOrWillPlay &&
+                    !AppalachiaApplication.IsPlayingOrWillPlay)
                 {
                     RateLimiter.DoXTimesEvery(
                         nameof(HandleDisableLogic),
@@ -610,7 +634,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 if (RenderingOptions.profiling.disableProfilingAfterUpdateLoop &&
                     (_updateLoopCount > RenderingOptions.profiling.updateLoopProfilingCount))
                 {
-                    if (!Application.isPlaying &&
+                    if (!AppalachiaApplication.IsPlayingOrWillPlay &&
                         UnityEditorInternal.ProfilerDriver.enabled &&
                         !_updateLoopStopped)
                     {
@@ -677,13 +701,13 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
                         var hasAlreadyChecked = false;
                         while (ShouldContinueUpdate(
-                            cycles,
-                            processed,
-                            setUpdateLimit,
-                            prefabCount,
-                            exeo,
-                            ref hasAlreadyChecked
-                        ))
+                                   cycles,
+                                   processed,
+                                   setUpdateLimit,
+                                   prefabCount,
+                                   exeo,
+                                   ref hasAlreadyChecked
+                               ))
                         {
                             _updateLoopCount += 1;
                             processed += 1;
@@ -699,14 +723,14 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                                 UpdateReferencePositions(dataSetIndex);
 
                                 if (renderingSet.OnUpdate(
-                                    gpui,
-                                    prefabSource,
-                                    referencePointsCollection[dataSetIndex],
-                                    gpui.cameraData.mainCamera,
-                                    frustumCamera,
-                                    RenderingOptions,
-                                    out handle
-                                ))
+                                        gpui,
+                                        prefabSource,
+                                        referencePointsCollection[dataSetIndex],
+                                        gpui.cameraData.mainCamera,
+                                        frustumCamera,
+                                        RenderingOptions,
+                                        out handle
+                                    ))
                                 {
                                     _cycleManager.SetActive(dataSetIndex, handle);
                                 }
@@ -717,14 +741,17 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                             }
                             catch (InvalidOperationException iox)
                             {
-                                AppaLog.Error($"Exception while updating index {dataSetIndex}.");
-                                AppaLog.Exception(iox);
+                                Context.Log.Error(
+                                    ZString.Format("Exception while updating index {0}.", dataSetIndex),
+                                    this,
+                                    iox
+                                );
                                 renderingOptions.execution.allowUpdates = false;
                                 stoppedDueToErrors = true;
                             }
                             catch (Exception ex)
                             {
-                                var identifier = $"index {dataSetIndex}";
+                                var identifier = ZString.Format("index {0}", dataSetIndex);
                                 Object context = this;
 
                                 try
@@ -739,9 +766,11 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                                 {
                                 }
 
-                                AppaLog.Error($"Failed to assign mesh wind data to {name}.");
-                                AppaLog.Exception(ex);
-                                AppaLog.Error($"Exception while updating {identifier}.", context);
+                                Context.Log.Error(
+                                    ZString.Format("Exception while updating {0}.", identifier),
+                                    context,
+                                    ex
+                                );
                                 handle.Complete();
                             }
                         }
@@ -882,13 +911,13 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                         {
                             var hasAlreadyLooped = false;
                             while (ShouldContinueLateUpdate(
-                                cycles,
-                                processed,
-                                setUpdateLimit,
-                                prefabCount,
-                                exeo,
-                                ref hasAlreadyLooped
-                            ))
+                                       cycles,
+                                       processed,
+                                       setUpdateLimit,
+                                       prefabCount,
+                                       exeo,
+                                       ref hasAlreadyLooped
+                                   ))
                             {
                                 processed += 1;
                                 cycles += 1;
@@ -898,7 +927,7 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
                                 var renderingSet = renderingSets.Sets.at[dataSetIndex];
 
-                                if (dataSetIndex == 0 /* && !Application.isPlaying*/)
+                                if (dataSetIndex == 0 /* && !AppalachiaApplication.IsPlayingOrWillPlay*/)
                                 {
                                     renderingSets.RefreshRuntimeCounts();
                                 }
@@ -919,15 +948,22 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                         }
                         catch (InvalidOperationException iox)
                         {
-                            AppaLog.Error($"Exception while late updating index {dataSetIndex}.");
-                            AppaLog.Exception(iox);
+                            Context.Log.Error(
+                                ZString.Format("Exception while late updating index {0}.", dataSetIndex),
+                                this,
+                                iox
+                            );
+
                             renderingOptions.execution.allowUpdates = false;
                             stoppedDueToErrors = true;
                         }
                         catch (Exception ex)
                         {
-                            AppaLog.Error($"Exception while late updating index {dataSetIndex}.");
-                            AppaLog.Exception(ex);
+                            Context.Log.Error(
+                                ZString.Format("Exception while late updating index {0}.", dataSetIndex),
+                                this,
+                                ex
+                            );
                         }
 
                         JobTracker.CompleteAll(PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES);
@@ -949,15 +985,21 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                         }
                         catch (InvalidOperationException iox)
                         {
-                            AppaLog.Error($"Exception while pushing GPUI matrices for index {lateI}.");
-                            AppaLog.Exception(iox);
+                            Context.Log.Error(
+                                ZString.Format("Exception while pushing GPUI matrices for index {0}.", lateI),
+                                this,
+                                iox
+                            );
                             renderingOptions.execution.allowUpdates = false;
                             stoppedDueToErrors = true;
                         }
                         catch (Exception ex)
                         {
-                            AppaLog.Error($"Exception while pushing GPUI matrices for index {lateI}.");
-                            AppaLog.Exception(ex);
+                            Context.Log.Error(
+                                ZString.Format("Exception while pushing GPUI matrices for index {0}.", lateI),
+                                this,
+                                ex
+                            );
                         }
                         finally
                         {

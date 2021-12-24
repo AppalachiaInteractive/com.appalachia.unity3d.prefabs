@@ -1,12 +1,13 @@
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
+using Appalachia.Utility.Strings;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     public class SpawnDataIndex : AppaLookup2<RandomPrefabSet, string, PrefabSpawnStateData,
-        AppaList_RandomPrefabSet, AppaList_string, AppaList_PrefabSpawnStateData,
+        AppaList_RandomPrefabSet, stringList, AppaList_PrefabSpawnStateData,
         PrefabSpawnStateDataLookup, AppaList_PrefabSpawnStateDataIndex>
     {
         protected override string GetDisplayTitle(
@@ -20,7 +21,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             RandomPrefabSet key,
             PrefabSpawnStateDataLookup value)
         {
-            return $"{value.Count} sub-values";
+            return ZString.Format("{0} sub-values", value.Count);
         }
 
         protected override Color GetDisplayColor(

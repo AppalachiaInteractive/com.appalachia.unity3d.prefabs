@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Objects.Root;
 using UnityEngine;
 
 #endregion
@@ -9,7 +10,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingRuntimeStructure
+    public class PrefabRenderingRuntimeStructure : AppalachiaSimpleBase
     {
         public GameObject instanceRoot;
 

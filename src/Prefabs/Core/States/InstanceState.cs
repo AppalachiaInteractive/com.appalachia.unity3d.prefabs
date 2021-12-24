@@ -4,6 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Utility.Strings;
 
 #endregion
 
@@ -37,8 +38,12 @@ namespace Appalachia.Rendering.Prefabs.Core.States
 
         [DebuggerStepThrough] public override string ToString()
         {
-            return $"Rendering: {rendering} | Physics: {physics} | Interaction: {interaction}";
-            ;
+            return ZString.Format(
+                "Rendering: {0} | Physics: {1} | Interaction: {2}",
+                rendering,
+                physics,
+                interaction
+            );
         }
 
 #region IEquatable

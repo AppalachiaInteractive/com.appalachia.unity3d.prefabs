@@ -4,8 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
-using Appalachia.Core.Behaviours;
-using Appalachia.Utility.Logging;
+using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
+using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -16,8 +17,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
-    public class MeshShadingComponent : AppalachiaBehaviour
+    public sealed class MeshShadingComponent : AppalachiaBehaviour<MeshShadingComponent>
     {
+        
+        
+        
         private const string _PRF_PFX = nameof(MeshShadingComponent) + ".";
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + "Awake");
         private static readonly ProfilerMarker _PRF_Start = new(_PRF_PFX + "Start");
@@ -53,11 +57,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
         }
 
-        protected override void OnEnable()
+        protected override async AppaTask WhenEnabled()
         {
             using (_PRF_OnEnable.Auto())
             {
-                base.OnEnable();
+                await base.WhenEnabled();
 #if UNITY_EDITOR
                 try
                 {
@@ -80,8 +84,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                AppaLog.Error(
-                                    $"Could not find asset path for prefab {name}."
+                                Context.Log.Error(
+                                    ZString.Format("Could not find asset path for prefab {0}.", name)
                                 );
 
                                 return;
@@ -111,8 +115,8 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 }
                 catch (Exception ex)
                 {
-                    AppaLog.Error($"Failed to assign mesh shading data to {name}:");
-                    AppaLog.Exception(ex);
+                    Context.Log.Error(ZString.Format("Failed to assign mesh shading data to {0}:", name));
+                    Context.Log.Error(ex);
 
                     return;
                 }
@@ -148,8 +152,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
                                 if ((r == null) || (filter == null))
                                 {
-                                    AppaLog.Error(
-                                        $"{gameObject.name}: Could not find mesh data to assign mesh UV shading data to."
+                                    Context.Log.Error(
+                                        ZString.Format(
+                                            "{0}: Could not find mesh data to assign mesh UV shading data to.",
+                                            gameObject.name
+                                        )
                                     );
                                     return;
                                 }
@@ -173,8 +180,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
                                 if ((r == null) || (filter == null))
                                 {
-                                    AppaLog.Error(
-                                        $"{gameObject.name}: Could not find mesh data to assign mesh UV shading data to."
+                                    Context.Log.Error(
+                                        ZString.Format(
+                                            "{0}: Could not find mesh data to assign mesh UV shading data to.",
+                                            gameObject.name
+                                        )
                                     );
                                     return;
                                 }
@@ -194,8 +204,11 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
                         if ((r == null) || (filter == null))
                         {
-                            AppaLog.Error(
-                                $"{gameObject.name}: Could not find mesh data to assign mesh UV shading data to."
+                            Context.Log.Error(
+                                ZString.Format(
+                                    "{0}: Could not find mesh data to assign mesh UV shading data to.",
+                                    gameObject.name
+                                )
                             );
                             return;
                         }
@@ -208,8 +221,14 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 }
                 catch (Exception ex)
                 {
-                    AppaLog.Error($"{gameObject.name}: Failed to assign mesh shading data to {name}");
-                    AppaLog.Exception(ex);
+                    Context.Log.Error(
+                        ZString.Format(
+                            "{0}: Failed to assign mesh shading data to {1}",
+                            gameObject.name,
+                            name
+                        )
+                    );
+                    Context.Log.Error(ex);
                 }
             }
         }
