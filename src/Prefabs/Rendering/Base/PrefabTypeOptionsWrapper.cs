@@ -2,6 +2,7 @@
 
 using System;
 using System.Diagnostics;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Editing.Labels;
@@ -16,6 +17,7 @@ using Object = UnityEngine.Object;
 namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
+    [CallStaticConstructorInEditor]
     public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
                                                    IL_TT> : AppalachiaObject<TW>
         where TE : Enum
@@ -31,7 +33,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabTypeOptionsWrapper()
         {
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;

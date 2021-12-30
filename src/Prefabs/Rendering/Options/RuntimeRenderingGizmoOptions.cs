@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 
@@ -9,9 +10,9 @@ using Sirenix.OdinInspector;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
+    [CallStaticConstructorInEditor]
     public class RuntimeRenderingGizmoOptions : AppalachiaSimpleBase
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static RuntimeRenderingGizmoOptions()
         {
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;

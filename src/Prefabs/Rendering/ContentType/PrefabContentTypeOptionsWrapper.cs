@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Attributes;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
@@ -15,13 +16,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     [Serializable]
     [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Foldout)]
     [InlineProperty]
+    [CallStaticConstructorInEditor]
     public class PrefabContentTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabContentType,
         PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
         PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup, Index_PrefabContentTypeOptions,
         PrefabContentTypeOptionsToggle, Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabContentTypeOptionsWrapper()
         {
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;

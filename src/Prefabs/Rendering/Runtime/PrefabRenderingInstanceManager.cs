@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Objects.Root;
@@ -33,6 +34,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
+    [CallStaticConstructorInEditor]
     public class PrefabRenderingInstanceManager : AppalachiaSimpleBase, IDisposable
     {
         #region Constants and Static Readonly
@@ -41,7 +43,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
         #endregion
 
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabRenderingInstanceManager()
         {
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;

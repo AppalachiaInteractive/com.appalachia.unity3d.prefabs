@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Attributes;
 using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Rendering.Prefabs.Spawning.Physical;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
@@ -16,9 +17,9 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Spawning
 {
     [Serializable]
+    [CallStaticConstructorInEditor]
     public class PrefabSpawnerRigidbodyManager
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabSpawnerRigidbodyManager()
         {
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;

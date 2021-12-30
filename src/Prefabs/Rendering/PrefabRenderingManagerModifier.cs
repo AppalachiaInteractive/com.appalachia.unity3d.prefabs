@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using Appalachia.Core.Attributes;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Profiling;
 
@@ -9,9 +10,9 @@ using Unity.Profiling;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
+    [CallStaticConstructorInEditor]
     public static class PrefabRenderingManagerModifier
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabRenderingManagerModifier()
         {
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;

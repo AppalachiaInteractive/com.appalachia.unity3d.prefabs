@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Spatial.Terrains;
@@ -17,6 +18,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
     [InlineProperty]
     [HideLabel]
     [LabelWidth(0)]
+    [CallStaticConstructorInEditor]
     public class RandomTransformData : AppalachiaSimpleBase
     {
         #region Constants and Static Readonly
@@ -26,7 +28,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
         #endregion
 
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static RandomTransformData()
         {
             TerrainMetadataManager.InstanceAvailable += i => _terrainMetadataManager = i;
