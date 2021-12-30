@@ -10,9 +10,13 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Data
 {
-    public class PrefabRenderingSetLocations : AppalachiaObject<>
+    public class PrefabRenderingSetLocations : AppalachiaObject<PrefabRenderingSetLocations>
     {
+        #region Fields and Autoproperties
+
         [SerializeField] private float4x4[] _locations;
+
+        #endregion
 
         public float4x4[] locations
         {
@@ -58,7 +62,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Data
             }
 
 #if UNITY_EDITOR
-           this.MarkAsModified();
+            MarkAsModified();
 #endif
         }
     }

@@ -17,7 +17,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
     public abstract class PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW,
-                                                   IL_TT> : AppalachiaObject<>
+                                                   IL_TT> : AppalachiaObject<TW>
         where TE : Enum
         where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
         where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
@@ -31,6 +31,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         where IL_TT : AppaList<TT>, new()
         where IL_TW : AppaList<TW>, new()
     {
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabTypeOptionsWrapper()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
         #region Fields and Autoproperties
 
         //[HideInInspector]
@@ -50,7 +62,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [HideLabel]
         [LabelWidth(0)]
         [SerializeField]
-        public LabelSearchSet labels = new();
+        public LabelSearchSet labels;
 #endif
 
         [SerializeField]
@@ -66,7 +78,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 #if UNITY_EDITOR
         public virtual string LabelHeader => labels?.DisplayName ?? "Labels (None)";
 #endif
-        
 
         public bool Enabled => options.isEnabled;
         public bool Muted => options.Muted;
@@ -128,7 +139,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 #if UNITY_EDITOR
                 if (labels == null)
                 {
-                    labels = new LabelSearchSet();
+                    labels = new LabelSearchSet(this);
                     MarkAsModified();
                 }
 #endif
@@ -142,7 +153,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         [PropertyOrder(-100)]
         public void SelectPrefabRenderingManager()
         {
-            UnityEditor.Selection.objects = new Object[] { PrefabRenderingManager.instance };
+            UnityEditor.Selection.objects = new Object[] { _prefabRenderingManager };
         }
 #endif
 
@@ -179,9 +190,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             nameof(PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
             ".";
 
-        private static readonly ProfilerMarker _PRF_ConfirmValidity = new(_PRF_PFX + nameof(ConfirmValidity));
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
 
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize2));
+        private static readonly ProfilerMarker _PRF_ConfirmValidity = new(_PRF_PFX + nameof(ConfirmValidity));
 
         private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
 

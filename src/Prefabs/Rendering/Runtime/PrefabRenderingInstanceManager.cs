@@ -33,104 +33,27 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [Serializable]
-    public class PrefabRenderingInstanceManager : AppalachiaSimpleBase,
-                                                  IDisposable
+    public class PrefabRenderingInstanceManager : AppalachiaSimpleBase, IDisposable
     {
-        
-        
-        private const string _PRF_PFX = nameof(PrefabRenderingInstanceManager) + ".";
+        #region Constants and Static Readonly
 
         private const int BaseSize = 1024;
 
-        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
+        #endregion
 
-        private static readonly ProfilerMarker
-            _PRF_ResetExternalParameterCollectionsBeforeExecution =
-                new(_PRF_PFX + nameof(ResetExternalParameterCollectionsBeforeExecution));
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabRenderingInstanceManager()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
 
-        private static readonly ProfilerMarker _PRF_InstantiateNewInstances =
-            new(_PRF_PFX + nameof(InstantiateNewInstances));
+        #region Static Fields and Autoproperties
 
-        private static readonly ProfilerMarker _PRF_IsExternalStateValidForExecution =
-            new(_PRF_PFX + nameof(IsExternalStateValidForExecution));
+        private static PrefabRenderingManager _prefabRenderingManager;
 
-        private static readonly ProfilerMarker _PRF_UpdateNextState =
-            new(_PRF_PFX + nameof(UpdateNextState));
+        #endregion
 
-        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize =
-            new(_PRF_PFX + nameof(OnUpdate_Initialize));
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Data =
-            new(_PRF_PFX + nameof(OnUpdate_Initialize_Data));
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Jobs =
-            new(_PRF_PFX + nameof(OnUpdate_Initialize_Jobs));
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute =
-            new(_PRF_PFX + nameof(OnUpdate_Execute));
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Frustum =
-            new(_PRF_PFX + nameof(OnUpdate_Execute) + ".Frustum");
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs));
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_Prepare =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".Prepare");
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_CopySettings =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".CopySettings");
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleTransfer =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleTransfer");
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleEnabled =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleEnabled");
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleDisabled =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleDisabled");
-
-        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleCounts =
-            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleCounts");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize =
-            new(_PRF_PFX + nameof(OnLateUpdate_Initialize));
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize_InitializeNative =
-            new(_PRF_PFX + nameof(OnLateUpdate_Initialize) + ".InitializeNative");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute));
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckDisabled =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckDisabled");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_Processing =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".Processing");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GPUMatrixPush =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GPUMatrixPush");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GetInstanceAndState =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GetInstanceAndState");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_FinalErrorCheck =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".FinalErrorCheck");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckErrors =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckErrors");
-
-        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_SetCounts =
-            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".SetCounts");
-
-        private static readonly ProfilerMarker _PRF_PushAllGPUMatrices =
-            new(_PRF_PFX + nameof(PushAllGPUMatrices));
-
-        private static readonly ProfilerMarker _PRF_TearDownInstances =
-            new(_PRF_PFX + nameof(TearDownInstances));
-
-        private static readonly ProfilerMarker _PRF_TearDownInstances_UpdateInstancesAndPush =
-            new(_PRF_PFX + nameof(TearDownInstances) + ".UpdateInstancesAndPush");
+        #region Fields and Autoproperties
 
         [SerializeField] private int _adoptedBaseSize = BaseSize;
 
@@ -191,18 +114,30 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
         [NonSerialized] private bool _transferOriginalToCurrent;
 
-        public bool StateChanged => _currentState != _previousState;
-        public bool StateChanging => _currentState != _nextState;
+        [field: NonSerialized] public bool gpuiInitialized { get; private set; }
+
+        [field: NonSerialized] public bool initializationStarted { get; private set; }
+
+        [field: NonSerialized] public bool initializationCompleted { get; private set; }
+
+        [field: NonSerialized] public bool gpuMatrixPushPending { get; private set; }
+
+        #endregion
 
         public bool ShouldProcess =>
             (_previousState == RuntimeStateCode.Enabled) ||
             (_currentState == RuntimeStateCode.Enabled) ||
             (_nextState == RuntimeStateCode.Enabled);
 
-        public RuntimeStateCode previousState
+        public bool StateChanged => _currentState != _previousState;
+        public bool StateChanging => _currentState != _nextState;
+
+        public RuntimePrefabRenderingElement element => _element;
+
+        public bool transferOriginalToCurrent
         {
-            get => _previousState;
-            set => _previousState = value;
+            get => _transferOriginalToCurrent;
+            set => _transferOriginalToCurrent = value;
         }
 
         public RuntimeStateCode currentState
@@ -217,10 +152,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             set => _nextState = value;
         }
 
-        public RuntimeSupplementalStateCode previousSupplementalStateCode
+        public RuntimeStateCode previousState
         {
-            get => _previousSupplementalStateCode;
-            set => _previousSupplementalStateCode = value;
+            get => _previousState;
+            set => _previousState = value;
         }
 
         public RuntimeSupplementalStateCode currentSupplementalStateCode
@@ -235,72 +170,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             set => _nextSupplementalStateCode = value;
         }
 
-        [field: NonSerialized] public bool gpuiInitialized { get; private set; }
-
-        [field: NonSerialized] public bool initializationStarted { get; private set; }
-
-        [field: NonSerialized] public bool initializationCompleted { get; private set; }
-
-        [field: NonSerialized] public bool gpuMatrixPushPending { get; private set; }
-
-        public bool transferOriginalToCurrent
+        public RuntimeSupplementalStateCode previousSupplementalStateCode
         {
-            get => _transferOriginalToCurrent;
-            set => _transferOriginalToCurrent = value;
-        }
-
-        public RuntimePrefabRenderingElement element => _element;
-
-        public void Dispose()
-        {
-            using (_PRF_Dispose.Auto())
-            {
-                SafeNative.SafeDispose(ref _element, ref _temp, ref _externalParameterEnabledState);
-            }
+            get => _previousSupplementalStateCode;
+            set => _previousSupplementalStateCode = value;
         }
 
         public InstanceStateCounts GetStateCounts()
         {
             return _element?.stateCounts ?? default;
-        }
-
-        private void ResetExternalParameterCollectionsBeforeExecution(
-            PrefabRenderingSet renderingSet)
-        {
-            using (_PRF_ResetExternalParameterCollectionsBeforeExecution.Auto())
-            {
-                if (!_externalParameterEnabledState.IsCreated)
-                {
-                    _externalParameterEnabledState = new NativeList<bool>(
-                        renderingSet.ExternalParameters.Count,
-                        Allocator.Persistent
-                    );
-                }
-
-                _externalParameterEnabledState.ResizeUninitialized(
-                    renderingSet.ExternalParameters.Count
-                );
-
-                for (var i = 0; i < renderingSet.ExternalParameters.Count; i++)
-                {
-                    var parameters = renderingSet.ExternalParameters.at[i];
-
-                    _externalParameterEnabledState[i] = parameters.enabled;
-                }
-            }
-        }
-
-        private void InstantiateNewInstances(int instanceSum)
-        {
-            using (_PRF_InstantiateNewInstances.Auto())
-            {
-                _element.instances = new PrefabRenderingInstance[instanceSum];
-
-                for (var index = 0; index < _element.instances.Length; index++)
-                {
-                    _element.instances[index] = new PrefabRenderingInstance(index);
-                }
-            }
         }
 
         public bool IsExternalStateValidForExecution(
@@ -339,689 +217,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 }
 
                 return true;
-            }
-        }
-
-        public void UpdateNextState(PrefabRenderingSet renderingSet)
-        {
-            using (_PRF_UpdateNextState.Auto())
-            {
-                _previousSupplementalStateCode = _currentSupplementalStateCode;
-                _currentSupplementalStateCode = _nextSupplementalStateCode;
-                _nextSupplementalStateCode = RuntimeSupplementalStateCode.NotReady;
-
-                _previousState = _currentState;
-                _currentState = _nextState;
-                _nextState = RuntimeStateCode.NotReady;
-
-                if (renderingSet.Muted)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.PrefabRenderingSetIsMuted;
-                    return;
-                }
-
-                if (renderingSet.modelOptions.typeOptions.options.Muted)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ModelTypeIsMuted;
-                    return;
-                }
-
-                if (renderingSet.contentOptions.typeOptions.options.Muted)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ContentTypeIsMuted;
-                    return;
-                }
-
-                if (renderingSet.Soloed)
-                {
-                    _nextState = RuntimeStateCode.Enabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.PrefabRenderingSetIsSoloed;
-                    return;
-                }
-
-                if (renderingSet.modelOptions.typeOptions.options.Soloed)
-                {
-                    _nextState = RuntimeStateCode.Enabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ModelTypeIsSoloed;
-                    return;
-                }
-
-                if (renderingSet.contentOptions.typeOptions.options.Soloed)
-                {
-                    _nextState = RuntimeStateCode.Enabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ContentTypeIsSoloed;
-                    return;
-                }
-
-                if (PrefabRenderingSet.AnySolo)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.AnotherPrefabRenderingSetIsSoloed;
-                    return;
-                }
-
-                if (PrefabModelTypeOptions.AnySolo)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.AnotherModelTypeIsSoloed;
-                    return;
-                }
-
-                if (PrefabContentTypeOptions.AnySolo)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.AnotherContentTypeIsSoloed;
-                    return;
-                }
-
-                if (!renderingSet.modelOptions.typeOptions.options.isEnabled)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ModelTypeDisabled;
-                    return;
-                }
-
-                if (!renderingSet.contentOptions.typeOptions.options.isEnabled)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ContentTypeDisabled;
-                    return;
-                }
-
-                if (!renderingSet.renderingEnabled)
-                {
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.PrefabRenderingSetDisabled;
-                    return;
-                }
-
-                if (renderingSet.useLocations)
-                {
-                    if ((renderingSet.locations == null) ||
-                        (renderingSet.locations.locations == null) ||
-                        (renderingSet.locations.locations.Length == 0))
-                    {
-                        _nextState = RuntimeStateCode.Disabled;
-                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.NoLocationsSaved;
-                    }
-                    else
-                    {
-                        _nextState = RuntimeStateCode.Enabled;
-                        _nextSupplementalStateCode =
-                            RuntimeSupplementalStateCode.UsingSavedLocations;
-                    }
-                }
-                else
-                {
-                    if (renderingSet.ExternalParameters.Count == 0)
-                    {
-                        _nextState = RuntimeStateCode.Enabled;
-                        _nextSupplementalStateCode =
-                            RuntimeSupplementalStateCode.NoExternalParameters;
-                        return;
-                    }
-
-                    _nextState = RuntimeStateCode.Disabled;
-                    _nextSupplementalStateCode =
-                        RuntimeSupplementalStateCode.ExternalParametersDisabled;
-
-                    for (var parameterIndex = 0;
-                        parameterIndex < renderingSet.ExternalParameters.Count;
-                        parameterIndex++)
-                    {
-                        var parameters = renderingSet.ExternalParameters.at[parameterIndex];
-
-                        if (parameters.vegetationItemID == null)
-                        {
-                            _nextState = RuntimeStateCode.Enabled;
-                            _nextSupplementalStateCode = RuntimeSupplementalStateCode
-                               .ExternalParametersEnabledByDefault;
-                            return;
-                        }
-
-                        if (!parameters.veggie.EnableRuntimeSpawn ||
-                            !parameters.veggie.EnableExternalRendering)
-                        {
-                            continue;
-                        }
-
-                        _nextState = RuntimeStateCode.Enabled;
-                        _nextSupplementalStateCode = RuntimeSupplementalStateCode
-                           .ExternalParameterExplicitlyEnabled;
-                        return;
-                    }
-                }
-            }
-        }
-
-        public JobHandle OnUpdate_Initialize(
-            PrefabRenderingSet renderingSet,
-            GPUInstancerPrefabManager gpui,
-            PrefabLocationSource prefabSource,
-            NativeList<float3> referencePoints,
-            RuntimeRenderingOptions globalRenderingOptions)
-        {
-            using (_PRF_OnUpdate_Initialize.Auto())
-            {
-                if ((renderingSet == null) || !renderingSet.renderingEnabled)
-                {
-                    return default;
-                }
-
-                if (_prefabInstanceRoot == null)
-                {
-                    _prefabInstanceRoot =
-                        PrefabRenderingManager.instance.GetInstanceRootForPrefab(
-                            renderingSet.prefab
-                        );
-                }
-
-                if ((_element != null) && _element.populated)
-                {
-                    TearDownInstances(gpui, renderingSet.prototypeMetadata);
-                }
-
-                ResetExternalParameterCollectionsBeforeExecution(renderingSet);
-
-                var newHandle = OnUpdate_Initialize_Data(
-                    renderingSet,
-                    prefabSource,
-                    referencePoints,
-                    globalRenderingOptions
-                );
-
-                if (_element.populated)
-                {
-                    initializationStarted = true;
-                }
-
-                return newHandle;
-            }
-        }
-
-        private JobHandle OnUpdate_Initialize_Data(
-            PrefabRenderingSet renderingSet,
-            PrefabLocationSource prefabSource,
-            NativeList<float3> referencePoints,
-            RuntimeRenderingOptions globalRenderingOptions)
-        {
-            using (_PRF_OnUpdate_Initialize_Data.Auto())
-            {
-                if (_element == null)
-                {
-                    _element = new RuntimePrefabRenderingElement();
-                }
-
-                _element.Initialize(
-                    _adoptedBaseSize,
-                    renderingSet.ExternalParameters.Count,
-                    false,
-                    _prefabInstanceRoot
-                );
-
-                if (_temp == null)
-                {
-                    _temp = new RuntimePrefabRenderingSetTemporary();
-                }
-
-                _temp.MakeReady(_adoptedBaseSize, Allocator.Persistent);
-
-                if (!_element.parameterIndices.ShouldAllocate())
-                {
-                    SafeNative.SafeDispose(ref _element.parameterIndices);
-                }
-
-                _element.parameterIndices = new NativeList<int>(Allocator.Persistent);
-
-                int positionOffset;
-                int instanceSum;
-
-                if (renderingSet.useLocations)
-                {
-                    _temp.matrices.CopyFromNBC(renderingSet.locations.locations);
-
-                    instanceSum = _temp.matrices.Length;
-                    positionOffset = instanceSum;
-
-                    _element.ResizeUninitialized(_temp.matrices.Length);
-
-                    new InitializeJob_int_NA {input = -1, output = _element.parameterIndices}.Run(
-                        _temp.matrices.Length
-                    );
-                }
-                else
-                {
-                    for (var parameterIndex = 0;
-                        parameterIndex < renderingSet.ExternalParameters.Count;
-                        parameterIndex++)
-                    {
-                        var parameters = renderingSet.ExternalParameters.at[parameterIndex];
-
-                        prefabSource.UpdateRuntimeRenderingParameters(
-                            parameters,
-                            out var packageIndex,
-                            out var itemIndex,
-                            out _
-                        );
-
-                        if (packageIndex == -1)
-                        {
-                            continue;
-                        }
-
-                        if (prefabSource.sourceFromActiveVegetationSystems)
-                        {
-                            prefabSource.GetMatricesFromVegetationSystem(
-                                parameters,
-                                packageIndex,
-                                itemIndex,
-                                _temp.matrices,
-                                parameterIndex,
-                                _element.parameterIndices
-                            );
-                        }
-
-                        for (var storagePackageIndex = 0;
-                            storagePackageIndex < prefabSource.storagePackages.Count;
-                            storagePackageIndex++)
-                        {
-                            var storagePackage = prefabSource.storagePackages[storagePackageIndex];
-
-                            prefabSource.GetTRSFromVegetationStorage(
-                                storagePackage,
-                                parameters,
-                                _temp.positions,
-                                _temp.rotations,
-                                _temp.scales,
-                                parameterIndex,
-                                _element.parameterIndices
-                            );
-                        }
-                    }
-
-                    positionOffset = _temp.matrices.Length;
-                    instanceSum = positionOffset + _temp.positions.Length;
-                }
-
-                if (instanceSum == 0)
-                {
-                    return default;
-                }
-
-                if (instanceSum > _adoptedBaseSize)
-                {
-                    _adoptedBaseSize = instanceSum;
-                }
-
-                _element.ResizeUninitialized(instanceSum);
-
-                var newHandle = OnUpdate_Initialize_Jobs(
-                    renderingSet,
-                    globalRenderingOptions,
-                    referencePoints,
-                    instanceSum,
-                    positionOffset
-                );
-
-                InstantiateNewInstances(instanceSum);
-
-                _element.populated = true;
-
-                return newHandle;
-            }
-        }
-
-        private JobHandle OnUpdate_Initialize_Jobs(
-            PrefabRenderingSet renderingSet,
-            RuntimeRenderingOptions globalRenderingOptions,
-            NativeList<float3> referencePoints,
-            int instanceSum,
-            int positionOffset)
-        {
-            using (_PRF_OnUpdate_Initialize_Jobs.Auto())
-            {
-                var handle = new InitializeElementArraysJob
-                {
-                    matrices_original = _element.matrices_original,
-                    matrices_current = _element.matrices_current,
-                    matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED,
-                    matrices_noGameObject_SHARED = _element.matrices_noGameObject_SHARED,
-                    positions = _element.positions,
-                    rotations = _element.rotations,
-                    scales = _element.scales,
-                    inFrustums = _element.inFrustums,
-                    previousPositions = _element.previousPositions,
-                    primaryDistances = _element.primaryDistances,
-                    secondaryDistances = _element.secondaryDistances,
-                    currentStates = _element.currentStates,
-                    pendingStates = _element.nextStates,
-                    instancesExcludedFromFrame = _element.instancesExcludedFromFrame,
-                    instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
-
-                    //hasForcedStatePending = _element.hasForcedStatePending
-                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize);
-
-                handle = new ConvertMatricesJob
-                {
-                    tempMatrices = _temp.matrices,
-                    matrices_current = _element.matrices_current.AsDeferredJobArray(),
-                    positions = _element.positions.AsDeferredJobArray(),
-                    rotations = _element.rotations.AsDeferredJobArray(),
-                    scales = _element.scales.AsDeferredJobArray(),
-                    limit = positionOffset
-                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
-
-                handle = new ConvertTRSJob
-                {
-                    tempPositions = _temp.positions,
-                    tempRotations = _temp.rotations,
-                    tempScales = _temp.scales,
-                    matrices_current = _element.matrices_current.AsDeferredJobArray(),
-                    positions = _element.positions.AsDeferredJobArray(),
-                    rotations = _element.rotations.AsDeferredJobArray(),
-                    scales = _element.scales.AsDeferredJobArray(),
-                    limit = positionOffset
-                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
-
-                handle = new RecordInitialMatrixStateJob
-                {
-                    matrices_original = _element.matrices_original.AsDeferredJobArray(),
-                    matrices_current = _element.matrices_current.AsDeferredJobArray(),
-                    matrices_noGameObject_OWNED =
-                        _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
-                    matrices_noGameObject_SHARED =
-                        _element.matrices_noGameObject_SHARED.AsDeferredJobArray()
-                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
-
-                handle = new CalculateDistanceJob
-                {
-                    currentStates = _element.currentStates.AsDeferredJobArray(),
-                    primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
-                    secondaryDistances = _element.secondaryDistances.AsDeferredJobArray(),
-                    positions = _element.positions.AsDeferredJobArray(),
-                    referencePoints = referencePoints,
-                    maximumDistance = float.MaxValue,
-                    instancesExcludedFromFrame =
-                        _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                    instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
-                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
-
-                if (_element.assetRangeSettings.IsCreated)
-                {
-                    _element.SafeDispose();
-                }
-
-                _element.assetRangeSettings = new NativeList<AssetRangeSettings>(
-                    renderingSet.modelOptions.rangeSettings.Length,
-                    Allocator.Persistent
-                );
-                _element.assetRangeSettings.CopyFromNBC(renderingSet.modelOptions.rangeSettings);
-
-                handle = new UpdatePendingStateJob
-                {
-                    primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
-                    secondaryDistances = _element.secondaryDistances.AsDeferredJobArray(),
-                    currentStates = _element.currentStates.AsDeferredJobArray(),
-                    pendingStates = _element.nextStates.AsDeferredJobArray(),
-                    inFrustums = _element.inFrustums.AsDeferredJobArray(),
-                    assetRangeSettings = _element.assetRangeSettings,
-                    instancesExcludedFromFrame =
-                        _element.instancesExcludedFromFrame.AsDeferredJobArray()
-                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
-
-                return handle;
-            }
-        }
-
-        public bool OnUpdate_Execute(
-            PrefabRenderingSet renderingSet,
-            GPUInstancerPrefabManager gpui,
-            Camera camera,
-            Camera frustumCamera,
-            NativeList<float3> referencePoints,
-            RuntimeRenderingExecutionOptions executionOptions,
-            out JobHandle handle)
-        {
-            using (_PRF_OnUpdate_Execute.Auto())
-            {
-                if (!IsExternalStateValidForExecution(renderingSet, gpui))
-                {
-                    handle = default;
-                    return false;
-                }
-
-                FrustumPlanesWrapper frustum;
-
-                using (_PRF_OnUpdate_Execute_Frustum.Auto())
-                {
-                    frustum = renderingSet.modelOptions.typeOptions.GetFrustum(
-                        camera,
-                        frustumCamera
-                    );
-                }
-
-                ResetExternalParameterCollectionsBeforeExecution(renderingSet);
-
-                handle = OnUpdate_Execute_Jobs(
-                    renderingSet,
-                    referencePoints,
-                    frustum.planes,
-                    executionOptions
-                );
-
-                return true;
-            }
-        }
-
-        private JobHandle OnUpdate_Execute_Jobs(
-            PrefabRenderingSet renderingSet,
-            NativeList<float3> referencePoints,
-            FrustumPlanesBurst frustumPlanes,
-            RuntimeRenderingExecutionOptions executionOptions)
-        {
-            using (_PRF_OnUpdate_Execute_Jobs.Auto())
-            {
-                using (_PRF_OnUpdate_Execute_Jobs_Prepare.Auto())
-                {
-                    if ((_element.instances == null) || (_element.instances.Length == 0))
-                    {
-                        return default;
-                    }
-
-                    _element.matrices_noGameObject_SHARED =
-                        _element.gpuInstancerRuntimeData_NoGO.instanceDataArray;
-
-                    if (_element.instances.Length !=
-                        _element.gpuInstancerRuntimeData_NoGO.instanceCount)
-                    {
-                        throw new NotSupportedException("Instance count does not match!");
-                    }
-                }
-
-                using (_PRF_OnUpdate_Execute_Jobs_CopySettings.Auto())
-                {
-                    _element.assetRangeSettings.CopyFromNBC(
-                        renderingSet.modelOptions.rangeSettings
-                    );
-                }
-
-                JobHandle handle = default;
-
-                if (_transferOriginalToCurrent)
-                {
-                    using (_PRF_OnUpdate_Execute_Jobs_HandleTransfer.Auto())
-                    {
-                        handle = new TransferOriginalMatricesToCurrentJob
-                        {
-                            matrices_current = _element.matrices_current,
-                            matrices_original = _element.matrices_original,
-                            matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-
-                        _transferOriginalToCurrent = false;
-                    }
-                }
-
-                if (_nextState == RuntimeStateCode.Enabled)
-                {
-                    using (_PRF_OnUpdate_Execute_Jobs_HandleEnabled.Auto())
-                    {
-                        handle = new ResetStateChecksJob
-                        {
-                            //hasForcedStatePending = _element.hasForcedStatePending,
-                            instancesExcludedFromFrame = _element.instancesExcludedFromFrame,
-                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray(),
-                            inFrustums = _element.inFrustums
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-
-                        handle = new UnifyTransformArraysJob
-                        {
-                            matrices_current = _element.matrices_current.AsDeferredJobArray(),
-                            positions = _element.positions,
-                            previousPositions = _element.previousPositions,
-                            rotations = _element.rotations,
-                            scales = _element.scales
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-
-                        handle = new CalculateDistanceJob
-                        {
-                            currentStates = _element.currentStates,
-                            primaryDistances = _element.primaryDistances,
-                            secondaryDistances = _element.secondaryDistances,
-                            positions = _element.positions.AsDeferredJobArray(),
-                            referencePoints = referencePoints,
-                            maximumDistance =
-                                renderingSet.modelOptions.maximumStateChangeDistance * 1.1f,
-                            instancesExcludedFromFrame =
-                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                            instancesStateCodes =
-                                _element.instancesStateCodes.AsDeferredJobArray()
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-
-                        handle = new CalculateFrustumInclusionJob
-                        {
-                            positions = _element.positions.AsDeferredJobArray(),
-                            scales = _element.scales.AsDeferredJobArray(),
-                            instancesExcludedFromFrame =
-                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                            frustum = frustumPlanes,
-                            objectBounds = new BoundsBurst(renderingSet.bounds),
-                            inFrustums = _element.inFrustums.AsDeferredJobArray(),
-                            instancesStateCodes =
-                                _element.instancesStateCodes.AsDeferredJobArray()
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-
-                        handle = new UpdatePendingStateJob
-                        {
-                            currentStates = _element.currentStates,
-                            instancesExcludedFromFrame =
-                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                            assetRangeSettings = element.assetRangeSettings,
-                            pendingStates = _element.nextStates,
-                            primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
-                            secondaryDistances =
-                                _element.secondaryDistances.AsDeferredJobArray(),
-                            inFrustums = _element.inFrustums.AsDeferredJobArray(),
-                            stateChanging = StateChanging
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-                    }
-                }
-                else if (_currentState == RuntimeStateCode.Enabled)
-                {
-                    using (_PRF_OnUpdate_Execute_Jobs_HandleDisabled.Auto())
-                    {
-                        handle = new DisableAllJob
-                        {
-                            instancesExcludedFromFrame =
-                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
-                            instancesStateCodes =
-                                _element.instancesStateCodes.AsDeferredJobArray(),
-                            matrices_noGameObject_OWNED =
-                                _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
-                            pendingStates = _element.nextStates
-                        }.Schedule(
-                            _element.instances.Length,
-                            executionOptions.updateJobSize,
-                            handle
-                        );
-                    }
-                }
-
-                using (_PRF_OnUpdate_Execute_Jobs_HandleCounts.Auto())
-                {
-                    handle = new CountStatesJob
-                    {
-                        currentStates = _element.currentStates, counts = _element._stateCounts
-                    }.Schedule(handle);
-                }
-
-                return handle;
-            }
-        }
-
-        public void OnLateUpdate_Initialize(
-            PrefabRenderingSet renderingSet,
-            GPUInstancerPrefabManager gpui)
-        {
-            using (_PRF_OnLateUpdate_Initialize.Auto())
-            {
-                using (_PRF_OnLateUpdate_Initialize_InitializeNative.Auto())
-                {
-                    GPUInstancerAPI.InitializeWithNativeList(
-                        gpui,
-                        renderingSet.prototypeMetadata.prototype,
-                        _element.matrices_noGameObject_SHARED
-                    );
-                }
-
-                _element.gpuInstancerRuntimeData_NoGO = gpui.GetRuntimeData(
-                    renderingSet.prototypeMetadata.prototype,
-                    true
-                );
-
-#if UNITY_EDITOR
-                if (!renderingSet.useLocations && renderingSet.modelOptions.burialOptions.buryMesh)
-                {
-                    //MeshBurialManagementProcessor.EnqueuePrefabRenderingSet(renderingSet);
-                }
-#endif
-
-                _temp.SafeDispose();
-
-                initializationCompleted = true;
             }
         }
 
@@ -1153,16 +348,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                         var handle2 = new CountStatesJob
                         {
-                            currentStates = _element.currentStates,
-                            counts = _element._stateCounts
+                            currentStates = _element.currentStates, counts = _element._stateCounts
                         }.Schedule();
 
                         var joinedHandle = JobHandle.CombineDependencies(handle1, handle2);
 
-                        JobTracker.Track(
-                            PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES,
-                            joinedHandle
-                        );
+                        JobTracker.Track(PrefabRenderingJobKeys._PRSIM_LATEUPDATE_PUSHMATRICES, joinedHandle);
                     }
                 }
                 else
@@ -1170,12 +361,122 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     using (_PRF_OnLateUpdate_Execute_SetCounts.Auto())
                     {
                         var counts = element.stateCounts.rendering;
-                        _realActiveInstances =
-                            counts.gpuInstancingCount + counts.meshRenderingCount;
+                        _realActiveInstances = counts.gpuInstancingCount + counts.meshRenderingCount;
                     }
                 }
 
                 return true;
+            }
+        }
+
+        public void OnLateUpdate_Initialize(PrefabRenderingSet renderingSet, GPUInstancerPrefabManager gpui)
+        {
+            using (_PRF_OnLateUpdate_Initialize.Auto())
+            {
+                using (_PRF_OnLateUpdate_Initialize_InitializeNative.Auto())
+                {
+                    GPUInstancerAPI.InitializeWithNativeList(
+                        gpui,
+                        renderingSet.prototypeMetadata.prototype,
+                        _element.matrices_noGameObject_SHARED
+                    );
+                }
+
+                _element.gpuInstancerRuntimeData_NoGO = gpui.GetRuntimeData(
+                    renderingSet.prototypeMetadata.prototype,
+                    true
+                );
+
+#if UNITY_EDITOR
+                if (!renderingSet.useLocations && renderingSet.modelOptions.burialOptions.buryMesh)
+                {
+                    //MeshBurialManagementProcessor.EnqueuePrefabRenderingSet(renderingSet);
+                }
+#endif
+
+                _temp.SafeDispose();
+
+                initializationCompleted = true;
+            }
+        }
+
+        public bool OnUpdate_Execute(
+            PrefabRenderingSet renderingSet,
+            GPUInstancerPrefabManager gpui,
+            Camera camera,
+            Camera frustumCamera,
+            NativeList<float3> referencePoints,
+            RuntimeRenderingExecutionOptions executionOptions,
+            out JobHandle handle)
+        {
+            using (_PRF_OnUpdate_Execute.Auto())
+            {
+                if (!IsExternalStateValidForExecution(renderingSet, gpui))
+                {
+                    handle = default;
+                    return false;
+                }
+
+                FrustumPlanesWrapper frustum;
+
+                using (_PRF_OnUpdate_Execute_Frustum.Auto())
+                {
+                    frustum = renderingSet.modelOptions.typeOptions.GetFrustum(camera, frustumCamera);
+                }
+
+                ResetExternalParameterCollectionsBeforeExecution(renderingSet);
+
+                handle = OnUpdate_Execute_Jobs(
+                    renderingSet,
+                    referencePoints,
+                    frustum.planes,
+                    executionOptions
+                );
+
+                return true;
+            }
+        }
+
+        public JobHandle OnUpdate_Initialize(
+            PrefabRenderingSet renderingSet,
+            GPUInstancerPrefabManager gpui,
+            PrefabLocationSource prefabSource,
+            NativeList<float3> referencePoints,
+            RuntimeRenderingOptions globalRenderingOptions)
+        {
+            using (_PRF_OnUpdate_Initialize.Auto())
+            {
+                if ((renderingSet == null) || !renderingSet.renderingEnabled)
+                {
+                    return default;
+                }
+
+                if (_prefabInstanceRoot == null)
+                {
+                    _prefabInstanceRoot =
+                        _prefabRenderingManager.GetInstanceRootForPrefab(renderingSet.prefab);
+                }
+
+                if ((_element != null) && _element.populated)
+                {
+                    TearDownInstances(gpui, renderingSet.prototypeMetadata);
+                }
+
+                ResetExternalParameterCollectionsBeforeExecution(renderingSet);
+
+                var newHandle = OnUpdate_Initialize_Data(
+                    renderingSet,
+                    prefabSource,
+                    referencePoints,
+                    globalRenderingOptions
+                );
+
+                if (_element.populated)
+                {
+                    initializationStarted = true;
+                }
+
+                return newHandle;
             }
         }
 
@@ -1227,8 +528,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                         var pushGPUI = false;
 
                         for (var instanceIndex = 0;
-                            instanceIndex < _element.instances.Length;
-                            instanceIndex++)
+                             instanceIndex < _element.instances.Length;
+                             instanceIndex++)
                         {
                             var instance = _element.instances[instanceIndex];
 
@@ -1248,11 +549,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                         if (pushGPUI && !element.gpuInstancerRuntimeData_NoGO.IsDisposed)
                         {
-                            element.gpuInstancerRuntimeData_NoGO
-                                   .transformationMatrixVisibilityBuffer.SetData(
-                                        element.gpuInstancerRuntimeData_NoGO.instanceDataArray
-                                               .AsArray()
-                                    );
+                            element.gpuInstancerRuntimeData_NoGO.transformationMatrixVisibilityBuffer.SetData(
+                                element.gpuInstancerRuntimeData_NoGO.instanceDataArray.AsArray()
+                            );
                         }
                     }
                 }
@@ -1264,5 +563,666 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 gpuiInitialized = false;
             }
         }
+
+        public void UpdateNextState(PrefabRenderingSet renderingSet)
+        {
+            using (_PRF_UpdateNextState.Auto())
+            {
+                _previousSupplementalStateCode = _currentSupplementalStateCode;
+                _currentSupplementalStateCode = _nextSupplementalStateCode;
+                _nextSupplementalStateCode = RuntimeSupplementalStateCode.NotReady;
+
+                _previousState = _currentState;
+                _currentState = _nextState;
+                _nextState = RuntimeStateCode.NotReady;
+
+                if (renderingSet.Muted)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.PrefabRenderingSetIsMuted;
+                    return;
+                }
+
+                if (renderingSet.modelOptions.typeOptions.options.Muted)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ModelTypeIsMuted;
+                    return;
+                }
+
+                if (renderingSet.contentOptions.typeOptions.options.Muted)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ContentTypeIsMuted;
+                    return;
+                }
+
+                if (renderingSet.Soloed)
+                {
+                    _nextState = RuntimeStateCode.Enabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.PrefabRenderingSetIsSoloed;
+                    return;
+                }
+
+                if (renderingSet.modelOptions.typeOptions.options.Soloed)
+                {
+                    _nextState = RuntimeStateCode.Enabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ModelTypeIsSoloed;
+                    return;
+                }
+
+                if (renderingSet.contentOptions.typeOptions.options.Soloed)
+                {
+                    _nextState = RuntimeStateCode.Enabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ContentTypeIsSoloed;
+                    return;
+                }
+
+                if (PrefabRenderingSet.AnySolo)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode =
+                        RuntimeSupplementalStateCode.AnotherPrefabRenderingSetIsSoloed;
+                    return;
+                }
+
+                if (PrefabModelTypeOptions.AnySolo)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.AnotherModelTypeIsSoloed;
+                    return;
+                }
+
+                if (PrefabContentTypeOptions.AnySolo)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.AnotherContentTypeIsSoloed;
+                    return;
+                }
+
+                if (!renderingSet.modelOptions.typeOptions.options.isEnabled)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ModelTypeDisabled;
+                    return;
+                }
+
+                if (!renderingSet.contentOptions.typeOptions.options.isEnabled)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ContentTypeDisabled;
+                    return;
+                }
+
+                if (!renderingSet.renderingEnabled)
+                {
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.PrefabRenderingSetDisabled;
+                    return;
+                }
+
+                if (renderingSet.useLocations)
+                {
+                    if ((renderingSet.locations == null) ||
+                        (renderingSet.locations.locations == null) ||
+                        (renderingSet.locations.locations.Length == 0))
+                    {
+                        _nextState = RuntimeStateCode.Disabled;
+                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.NoLocationsSaved;
+                    }
+                    else
+                    {
+                        _nextState = RuntimeStateCode.Enabled;
+                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.UsingSavedLocations;
+                    }
+                }
+                else
+                {
+                    if (renderingSet.ExternalParameters.Count == 0)
+                    {
+                        _nextState = RuntimeStateCode.Enabled;
+                        _nextSupplementalStateCode = RuntimeSupplementalStateCode.NoExternalParameters;
+                        return;
+                    }
+
+                    _nextState = RuntimeStateCode.Disabled;
+                    _nextSupplementalStateCode = RuntimeSupplementalStateCode.ExternalParametersDisabled;
+
+                    for (var parameterIndex = 0;
+                         parameterIndex < renderingSet.ExternalParameters.Count;
+                         parameterIndex++)
+                    {
+                        var parameters = renderingSet.ExternalParameters.at[parameterIndex];
+
+                        if (parameters.vegetationItemID == null)
+                        {
+                            _nextState = RuntimeStateCode.Enabled;
+                            _nextSupplementalStateCode = RuntimeSupplementalStateCode
+                               .ExternalParametersEnabledByDefault;
+                            return;
+                        }
+
+                        if (!parameters.veggie.EnableRuntimeSpawn ||
+                            !parameters.veggie.EnableExternalRendering)
+                        {
+                            continue;
+                        }
+
+                        _nextState = RuntimeStateCode.Enabled;
+                        _nextSupplementalStateCode = RuntimeSupplementalStateCode
+                           .ExternalParameterExplicitlyEnabled;
+                        return;
+                    }
+                }
+            }
+        }
+
+        private void InstantiateNewInstances(int instanceSum)
+        {
+            using (_PRF_InstantiateNewInstances.Auto())
+            {
+                _element.instances = new PrefabRenderingInstance[instanceSum];
+
+                for (var index = 0; index < _element.instances.Length; index++)
+                {
+                    _element.instances[index] = new PrefabRenderingInstance(index);
+                }
+            }
+        }
+
+        private JobHandle OnUpdate_Execute_Jobs(
+            PrefabRenderingSet renderingSet,
+            NativeList<float3> referencePoints,
+            FrustumPlanesBurst frustumPlanes,
+            RuntimeRenderingExecutionOptions executionOptions)
+        {
+            using (_PRF_OnUpdate_Execute_Jobs.Auto())
+            {
+                using (_PRF_OnUpdate_Execute_Jobs_Prepare.Auto())
+                {
+                    if ((_element.instances == null) || (_element.instances.Length == 0))
+                    {
+                        return default;
+                    }
+
+                    _element.matrices_noGameObject_SHARED =
+                        _element.gpuInstancerRuntimeData_NoGO.instanceDataArray;
+
+                    if (_element.instances.Length != _element.gpuInstancerRuntimeData_NoGO.instanceCount)
+                    {
+                        throw new NotSupportedException("Instance count does not match!");
+                    }
+                }
+
+                using (_PRF_OnUpdate_Execute_Jobs_CopySettings.Auto())
+                {
+                    _element.assetRangeSettings.CopyFromNBC(renderingSet.modelOptions.rangeSettings);
+                }
+
+                JobHandle handle = default;
+
+                if (_transferOriginalToCurrent)
+                {
+                    using (_PRF_OnUpdate_Execute_Jobs_HandleTransfer.Auto())
+                    {
+                        handle = new TransferOriginalMatricesToCurrentJob
+                        {
+                            matrices_current = _element.matrices_current,
+                            matrices_original = _element.matrices_original,
+                            matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+
+                        _transferOriginalToCurrent = false;
+                    }
+                }
+
+                if (_nextState == RuntimeStateCode.Enabled)
+                {
+                    using (_PRF_OnUpdate_Execute_Jobs_HandleEnabled.Auto())
+                    {
+                        handle = new ResetStateChecksJob
+                        {
+                            //hasForcedStatePending = _element.hasForcedStatePending,
+                            instancesExcludedFromFrame = _element.instancesExcludedFromFrame,
+                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray(),
+                            inFrustums = _element.inFrustums
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+
+                        handle = new UnifyTransformArraysJob
+                        {
+                            matrices_current = _element.matrices_current.AsDeferredJobArray(),
+                            positions = _element.positions,
+                            previousPositions = _element.previousPositions,
+                            rotations = _element.rotations,
+                            scales = _element.scales
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+
+                        handle = new CalculateDistanceJob
+                        {
+                            currentStates = _element.currentStates,
+                            primaryDistances = _element.primaryDistances,
+                            secondaryDistances = _element.secondaryDistances,
+                            positions = _element.positions.AsDeferredJobArray(),
+                            referencePoints = referencePoints,
+                            maximumDistance = renderingSet.modelOptions.maximumStateChangeDistance * 1.1f,
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+
+                        handle = new CalculateFrustumInclusionJob
+                        {
+                            positions = _element.positions.AsDeferredJobArray(),
+                            scales = _element.scales.AsDeferredJobArray(),
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            frustum = frustumPlanes,
+                            objectBounds = new BoundsBurst(renderingSet.bounds),
+                            inFrustums = _element.inFrustums.AsDeferredJobArray(),
+                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+
+                        handle = new UpdatePendingStateJob
+                        {
+                            currentStates = _element.currentStates,
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            assetRangeSettings = element.assetRangeSettings,
+                            pendingStates = _element.nextStates,
+                            primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
+                            secondaryDistances = _element.secondaryDistances.AsDeferredJobArray(),
+                            inFrustums = _element.inFrustums.AsDeferredJobArray(),
+                            stateChanging = StateChanging
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                    }
+                }
+                else if (_currentState == RuntimeStateCode.Enabled)
+                {
+                    using (_PRF_OnUpdate_Execute_Jobs_HandleDisabled.Auto())
+                    {
+                        handle = new DisableAllJob
+                        {
+                            instancesExcludedFromFrame =
+                                _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                            instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray(),
+                            matrices_noGameObject_OWNED =
+                                _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
+                            pendingStates = _element.nextStates
+                        }.Schedule(_element.instances.Length, executionOptions.updateJobSize, handle);
+                    }
+                }
+
+                using (_PRF_OnUpdate_Execute_Jobs_HandleCounts.Auto())
+                {
+                    handle = new CountStatesJob
+                    {
+                        currentStates = _element.currentStates, counts = _element._stateCounts
+                    }.Schedule(handle);
+                }
+
+                return handle;
+            }
+        }
+
+        private JobHandle OnUpdate_Initialize_Data(
+            PrefabRenderingSet renderingSet,
+            PrefabLocationSource prefabSource,
+            NativeList<float3> referencePoints,
+            RuntimeRenderingOptions globalRenderingOptions)
+        {
+            using (_PRF_OnUpdate_Initialize_Data.Auto())
+            {
+                if (_element == null)
+                {
+                    _element = new RuntimePrefabRenderingElement();
+                }
+
+                _element.Initialize(
+                    _adoptedBaseSize,
+                    renderingSet.ExternalParameters.Count,
+                    false,
+                    _prefabInstanceRoot
+                );
+
+                if (_temp == null)
+                {
+                    _temp = new RuntimePrefabRenderingSetTemporary();
+                }
+
+                _temp.MakeReady(_adoptedBaseSize, Allocator.Persistent);
+
+                if (!_element.parameterIndices.ShouldAllocate())
+                {
+                    SafeNative.SafeDispose(ref _element.parameterIndices);
+                }
+
+                _element.parameterIndices = new NativeList<int>(Allocator.Persistent);
+
+                int positionOffset;
+                int instanceSum;
+
+                if (renderingSet.useLocations)
+                {
+                    _temp.matrices.CopyFromNBC(renderingSet.locations.locations);
+
+                    instanceSum = _temp.matrices.Length;
+                    positionOffset = instanceSum;
+
+                    _element.ResizeUninitialized(_temp.matrices.Length);
+
+                    new InitializeJob_int_NA { input = -1, output = _element.parameterIndices }.Run(
+                        _temp.matrices.Length
+                    );
+                }
+                else
+                {
+                    for (var parameterIndex = 0;
+                         parameterIndex < renderingSet.ExternalParameters.Count;
+                         parameterIndex++)
+                    {
+                        var parameters = renderingSet.ExternalParameters.at[parameterIndex];
+
+                        prefabSource.UpdateRuntimeRenderingParameters(
+                            parameters,
+                            out var packageIndex,
+                            out var itemIndex,
+                            out _
+                        );
+
+                        if (packageIndex == -1)
+                        {
+                            continue;
+                        }
+
+                        if (prefabSource.sourceFromActiveVegetationSystems)
+                        {
+                            prefabSource.GetMatricesFromVegetationSystem(
+                                parameters,
+                                packageIndex,
+                                itemIndex,
+                                _temp.matrices,
+                                parameterIndex,
+                                _element.parameterIndices
+                            );
+                        }
+
+                        for (var storagePackageIndex = 0;
+                             storagePackageIndex < prefabSource.storagePackages.Count;
+                             storagePackageIndex++)
+                        {
+                            var storagePackage = prefabSource.storagePackages[storagePackageIndex];
+
+                            prefabSource.GetTRSFromVegetationStorage(
+                                storagePackage,
+                                parameters,
+                                _temp.positions,
+                                _temp.rotations,
+                                _temp.scales,
+                                parameterIndex,
+                                _element.parameterIndices
+                            );
+                        }
+                    }
+
+                    positionOffset = _temp.matrices.Length;
+                    instanceSum = positionOffset + _temp.positions.Length;
+                }
+
+                if (instanceSum == 0)
+                {
+                    return default;
+                }
+
+                if (instanceSum > _adoptedBaseSize)
+                {
+                    _adoptedBaseSize = instanceSum;
+                }
+
+                _element.ResizeUninitialized(instanceSum);
+
+                var newHandle = OnUpdate_Initialize_Jobs(
+                    renderingSet,
+                    globalRenderingOptions,
+                    referencePoints,
+                    instanceSum,
+                    positionOffset
+                );
+
+                InstantiateNewInstances(instanceSum);
+
+                _element.populated = true;
+
+                return newHandle;
+            }
+        }
+
+        private JobHandle OnUpdate_Initialize_Jobs(
+            PrefabRenderingSet renderingSet,
+            RuntimeRenderingOptions globalRenderingOptions,
+            NativeList<float3> referencePoints,
+            int instanceSum,
+            int positionOffset)
+        {
+            using (_PRF_OnUpdate_Initialize_Jobs.Auto())
+            {
+                var handle = new InitializeElementArraysJob
+                {
+                    matrices_original = _element.matrices_original,
+                    matrices_current = _element.matrices_current,
+                    matrices_noGameObject_OWNED = _element.matrices_noGameObject_OWNED,
+                    matrices_noGameObject_SHARED = _element.matrices_noGameObject_SHARED,
+                    positions = _element.positions,
+                    rotations = _element.rotations,
+                    scales = _element.scales,
+                    inFrustums = _element.inFrustums,
+                    previousPositions = _element.previousPositions,
+                    primaryDistances = _element.primaryDistances,
+                    secondaryDistances = _element.secondaryDistances,
+                    currentStates = _element.currentStates,
+                    pendingStates = _element.nextStates,
+                    instancesExcludedFromFrame = _element.instancesExcludedFromFrame,
+                    instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
+
+                    //hasForcedStatePending = _element.hasForcedStatePending
+                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize);
+
+                handle = new ConvertMatricesJob
+                {
+                    tempMatrices = _temp.matrices,
+                    matrices_current = _element.matrices_current.AsDeferredJobArray(),
+                    positions = _element.positions.AsDeferredJobArray(),
+                    rotations = _element.rotations.AsDeferredJobArray(),
+                    scales = _element.scales.AsDeferredJobArray(),
+                    limit = positionOffset
+                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
+
+                handle = new ConvertTRSJob
+                {
+                    tempPositions = _temp.positions,
+                    tempRotations = _temp.rotations,
+                    tempScales = _temp.scales,
+                    matrices_current = _element.matrices_current.AsDeferredJobArray(),
+                    positions = _element.positions.AsDeferredJobArray(),
+                    rotations = _element.rotations.AsDeferredJobArray(),
+                    scales = _element.scales.AsDeferredJobArray(),
+                    limit = positionOffset
+                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
+
+                handle = new RecordInitialMatrixStateJob
+                {
+                    matrices_original = _element.matrices_original.AsDeferredJobArray(),
+                    matrices_current = _element.matrices_current.AsDeferredJobArray(),
+                    matrices_noGameObject_OWNED =
+                        _element.matrices_noGameObject_OWNED.AsDeferredJobArray(),
+                    matrices_noGameObject_SHARED =
+                        _element.matrices_noGameObject_SHARED.AsDeferredJobArray()
+                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
+
+                handle = new CalculateDistanceJob
+                {
+                    currentStates = _element.currentStates.AsDeferredJobArray(),
+                    primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
+                    secondaryDistances = _element.secondaryDistances.AsDeferredJobArray(),
+                    positions = _element.positions.AsDeferredJobArray(),
+                    referencePoints = referencePoints,
+                    maximumDistance = float.MaxValue,
+                    instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray(),
+                    instancesStateCodes = _element.instancesStateCodes.AsDeferredJobArray()
+                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
+
+                if (_element.assetRangeSettings.IsCreated)
+                {
+                    _element.SafeDispose();
+                }
+
+                _element.assetRangeSettings = new NativeList<AssetRangeSettings>(
+                    renderingSet.modelOptions.rangeSettings.Length,
+                    Allocator.Persistent
+                );
+                _element.assetRangeSettings.CopyFromNBC(renderingSet.modelOptions.rangeSettings);
+
+                handle = new UpdatePendingStateJob
+                {
+                    primaryDistances = _element.primaryDistances.AsDeferredJobArray(),
+                    secondaryDistances = _element.secondaryDistances.AsDeferredJobArray(),
+                    currentStates = _element.currentStates.AsDeferredJobArray(),
+                    pendingStates = _element.nextStates.AsDeferredJobArray(),
+                    inFrustums = _element.inFrustums.AsDeferredJobArray(),
+                    assetRangeSettings = _element.assetRangeSettings,
+                    instancesExcludedFromFrame = _element.instancesExcludedFromFrame.AsDeferredJobArray()
+                }.Schedule(instanceSum, globalRenderingOptions.execution.updateJobSize, handle);
+
+                return handle;
+            }
+        }
+
+        private void ResetExternalParameterCollectionsBeforeExecution(PrefabRenderingSet renderingSet)
+        {
+            using (_PRF_ResetExternalParameterCollectionsBeforeExecution.Auto())
+            {
+                if (!_externalParameterEnabledState.IsCreated)
+                {
+                    _externalParameterEnabledState = new NativeList<bool>(
+                        renderingSet.ExternalParameters.Count,
+                        Allocator.Persistent
+                    );
+                }
+
+                _externalParameterEnabledState.ResizeUninitialized(renderingSet.ExternalParameters.Count);
+
+                for (var i = 0; i < renderingSet.ExternalParameters.Count; i++)
+                {
+                    var parameters = renderingSet.ExternalParameters.at[i];
+
+                    _externalParameterEnabledState[i] = parameters.enabled;
+                }
+            }
+        }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            using (_PRF_Dispose.Auto())
+            {
+                SafeNative.SafeDispose(ref _element, ref _temp, ref _externalParameterEnabledState);
+            }
+        }
+
+        #endregion
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabRenderingInstanceManager) + ".";
+
+        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
+
+        private static readonly ProfilerMarker _PRF_ResetExternalParameterCollectionsBeforeExecution =
+            new(_PRF_PFX + nameof(ResetExternalParameterCollectionsBeforeExecution));
+
+        private static readonly ProfilerMarker _PRF_InstantiateNewInstances =
+            new(_PRF_PFX + nameof(InstantiateNewInstances));
+
+        private static readonly ProfilerMarker _PRF_IsExternalStateValidForExecution =
+            new(_PRF_PFX + nameof(IsExternalStateValidForExecution));
+
+        private static readonly ProfilerMarker _PRF_UpdateNextState = new(_PRF_PFX + nameof(UpdateNextState));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize =
+            new(_PRF_PFX + nameof(OnUpdate_Initialize));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Data =
+            new(_PRF_PFX + nameof(OnUpdate_Initialize_Data));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Initialize_Jobs =
+            new(_PRF_PFX + nameof(OnUpdate_Initialize_Jobs));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute =
+            new(_PRF_PFX + nameof(OnUpdate_Execute));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Frustum =
+            new(_PRF_PFX + nameof(OnUpdate_Execute) + ".Frustum");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs));
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_Prepare =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".Prepare");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_CopySettings =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".CopySettings");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleTransfer =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleTransfer");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleEnabled =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleEnabled");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleDisabled =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleDisabled");
+
+        private static readonly ProfilerMarker _PRF_OnUpdate_Execute_Jobs_HandleCounts =
+            new(_PRF_PFX + nameof(OnUpdate_Execute_Jobs) + ".HandleCounts");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize =
+            new(_PRF_PFX + nameof(OnLateUpdate_Initialize));
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Initialize_InitializeNative =
+            new(_PRF_PFX + nameof(OnLateUpdate_Initialize) + ".InitializeNative");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute));
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckDisabled =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckDisabled");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_Processing =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".Processing");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GPUMatrixPush =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GPUMatrixPush");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_GetInstanceAndState =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".GetInstanceAndState");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_FinalErrorCheck =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".FinalErrorCheck");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_CheckErrors =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".CheckErrors");
+
+        private static readonly ProfilerMarker _PRF_OnLateUpdate_Execute_SetCounts =
+            new(_PRF_PFX + nameof(OnLateUpdate_Execute) + ".SetCounts");
+
+        private static readonly ProfilerMarker _PRF_PushAllGPUMatrices =
+            new(_PRF_PFX + nameof(PushAllGPUMatrices));
+
+        private static readonly ProfilerMarker _PRF_TearDownInstances =
+            new(_PRF_PFX + nameof(TearDownInstances));
+
+        private static readonly ProfilerMarker _PRF_TearDownInstances_UpdateInstancesAndPush =
+            new(_PRF_PFX + nameof(TearDownInstances) + ".UpdateInstancesAndPush");
+
+        #endregion
     }
 }

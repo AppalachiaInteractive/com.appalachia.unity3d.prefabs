@@ -1,5 +1,6 @@
 #region
 
+using Appalachia.Core.Attributes;
 using Appalachia.Editing.Core;
 using Unity.Profiling;
 
@@ -7,13 +8,40 @@ using Unity.Profiling;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
+    [CallStaticConstructorInEditor]
     public static class PrefabRenderingManagerDestroyer
     {
+        static PrefabRenderingManagerDestroyer()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
+        public static void Dispose()
+        {
+            using (_PRF_Dispose.Auto())
+            {
+                var manager = _prefabRenderingManager;
+                manager.renderingBounds = default;
+                manager.gpuiRuntimeBuffersInitialized = false;
+
+                for (var i = 0; i < manager.renderingSets.Sets.Count; i++)
+                {
+                    manager.renderingSets.Sets.at[i]?.instanceManager.Dispose();
+                }
+            }
+        }
+
         public static void ExecuteDataSetTeardown(PrefabRenderingSet set)
         {
             using (_PRF_ExecuteDataSetTeardown.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
+                var manager = _prefabRenderingManager;
                 set.instanceManager.TearDownInstances(manager.gpui, set.prototypeMetadata);
 
 #if UNITY_EDITOR
@@ -26,15 +54,16 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_ResetExistingRuntimeStateInstances.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
+                var manager = _prefabRenderingManager;
                 using (var bar = new EditorOnlyProgressBar(
-                    "Tearing Down Runtime Prefab Rendering Data",
-                    manager.renderingSets.Sets.Count,
-                    false
-                ))
+                           "Tearing Down Runtime Prefab Rendering Data",
+                           manager.renderingSets.Sets.Count,
+                           false
+                       ))
                 {
                     manager.renderingSets.TearDown(
                         manager.gpui,
+
                         // ReSharper disable once AccessToDisposedClosure
                         value => bar.Increment1AndShowProgress(value)
                     );
@@ -42,22 +71,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        public static void Dispose()
-        {
-            using (_PRF_Dispose.Auto())
-            {
-                var manager = PrefabRenderingManager.instance;
-                manager.renderingBounds = default;
-                manager.gpuiRuntimeBuffersInitialized = false;
-
-                for (var i = 0; i < manager.renderingSets.Sets.Count; i++)
-                {
-                    manager.renderingSets.Sets.at[i]?.instanceManager.Dispose();
-                }
-            }
-        }
-
-#region ProfilerMarkers
+        #region ProfilerMarkers
 
         private const string _PRF_PFX = nameof(PrefabRenderingManagerDestroyer) + ".";
 
@@ -69,6 +83,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
 
-#endregion
+        #endregion
     }
 }

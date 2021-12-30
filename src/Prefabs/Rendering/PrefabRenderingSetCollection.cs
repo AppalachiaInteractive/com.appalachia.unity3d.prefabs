@@ -7,6 +7,7 @@ using Appalachia.Core.Preferences.Globals;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
+using Appalachia.Utility.Async;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -306,10 +307,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        protected override void WhenEnabled()
+        protected override async AppaTask WhenEnabled()
         {
             using (_PRF_WhenEnabled.Auto())
             {
+                await base.WhenEnabled();
+
                 if (_state == null)
                 {
                     _state = new PrefabRenderingSetLookup();

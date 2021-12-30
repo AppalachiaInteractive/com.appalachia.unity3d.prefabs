@@ -7,7 +7,6 @@ using Appalachia.Core.Preferences;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
-using Appalachia.Spatial.MeshBurial.Processing;
 using Unity.Profiling;
 using UnityEngine;
 
@@ -48,7 +47,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (options.gizmos.burialGizmosEnabled)
                 {
-                    var b = MeshBurialExecutionManager.instance.bounds;
+                    var b = _meshBurialExecutionManager.bounds;
                     SmartHandles.DrawWireCube(b.center, b.size, ColorPrefs.Instance.MeshBurialBounds.v);
                 }
 

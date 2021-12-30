@@ -38,11 +38,12 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         #endregion
 
-        #region Event Functions
-
         protected override async AppaTask WhenEnabled()
         {
 #if UNITY_EDITOR
+
+            await base.WhenEnabled();
+
             var values = EnumValueManager.GetAllValues<DepthOfFieldState>();
 
             if (settings == null)
@@ -101,8 +102,6 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             }
 #endif
         }
-
-        #endregion
 
         [Button]
         private void Refresh()

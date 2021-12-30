@@ -1,3 +1,4 @@
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering;
@@ -7,8 +8,20 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
+    [CallStaticConstructorInEditor]
     public class PrefabRenderingManagerAutomaticLightProbeGroup : AutomaticLightProbeGroup
     {
+        static PrefabRenderingManagerAutomaticLightProbeGroup()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
 #if UNITY_EDITOR
 
         protected override float GeometryBackoff => .1f;
@@ -33,20 +46,16 @@ namespace Appalachia.Rendering.Lighting.Probes
             PrefabModelType.TreeMedium
         };
 
-        protected override void GenerateProbesForTargets(
-            AppaList<Vector3> points,
-            ref bool canceled)
+        protected override void GenerateProbesForTargets(AppaList<Vector3> points, ref bool canceled)
         {
-            var instance = PrefabRenderingManager.instance;
-
-            if (!instance.enabled ||
-                (instance.gpui == null) ||
-                !instance.gpui.gpuiSimulator.simulateAtEditor)
+            if (!_prefabRenderingManager.enabled ||
+                (_prefabRenderingManager.gpui == null) ||
+                !_prefabRenderingManager.gpui.gpuiSimulator.simulateAtEditor)
             {
                 return;
             }
 
-            var renderingSets = PrefabRenderingManager.instance.renderingSets;
+            var renderingSets = _prefabRenderingManager.renderingSets;
 
             for (var i = 0; i < renderingSets.Sets.Count; i++)
             {
@@ -107,7 +116,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                 data.prefab.name,
                                 items
                             ),
-                            itemCount / (float) items
+                            itemCount / (float)items
                         );
                     }
 
@@ -117,7 +126,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                         return;
                     }
 
-                    var testPoint = (Vector3) position + point;
+                    var testPoint = (Vector3)position + point;
 
                     if (IsInsideBounds(testPoint, false))
                     {

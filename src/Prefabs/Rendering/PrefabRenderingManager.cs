@@ -11,6 +11,7 @@ using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Native;
 using Appalachia.Core.Collections.NonSerialized;
 using Appalachia.Core.Execution.RateLimiting;
+using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Jobs.Concurrency;
 using Appalachia.Rendering.Prefabs.Core.States;
@@ -20,6 +21,7 @@ using Appalachia.Rendering.Prefabs.Rendering.GPUI;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
+using Appalachia.Spatial.MeshBurial.Processing;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
@@ -46,20 +48,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [CallStaticConstructorInEditor]
     public partial class PrefabRenderingManager : SingletonAppalachiaBehaviour<PrefabRenderingManager>
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
-        static PrefabRenderingManager()
-        {
-            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
-            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
-            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
-            RuntimeRenderingOptions.InstanceAvailable += i => _runtimeRenderingOptions = i;
-        }
-
-        private static PrefabContentTypeOptionsLookup _prefabContentTypeOptionsLookup;
-        private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
-        private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
-        private static RuntimeRenderingOptions _runtimeRenderingOptions;
-
         #region Constants and Static Readonly
 
         private const string _CONTENT = "Content Types";
@@ -70,6 +58,26 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private const string _PREFABS = "Prefabs";
         private const string _SETTINGS = "Settings";
         private const string _TABGROUP = _HIDETABS + "/TABS";
+
+        #endregion
+
+        static PrefabRenderingManager()
+        {
+            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
+            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
+            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+            RuntimeRenderingOptions.InstanceAvailable += i => _runtimeRenderingOptions = i;
+            MeshBurialExecutionManager.InstanceAvailable += i => _meshBurialExecutionManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static MeshBurialExecutionManager _meshBurialExecutionManager;
+
+        private static PrefabContentTypeOptionsLookup _prefabContentTypeOptionsLookup;
+        private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
+        private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
+        private static RuntimeRenderingOptions _runtimeRenderingOptions;
 
         #endregion
 
@@ -167,8 +175,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private PrefabRenderingSetCollection _renderingSets;
 
         #endregion
-
-        
 
         [TabGroup(_TABGROUP, _CONTENT, Order = 8)]
         [InlineProperty]
@@ -409,13 +415,16 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
 
         #region Unity Events
 
-        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
 
-        protected override void Awake()
+        protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Awake.Auto())
+            using (_PRF_Initialize.Auto())
             {
-                base.Awake();
+                await base.Initialize(initializer);
+
+                nextState = RenderingState.Rendering;
 
                 currentState = RenderingState.NotRendering;
 

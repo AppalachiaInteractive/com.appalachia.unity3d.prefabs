@@ -1,5 +1,7 @@
 using System;
+using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
 using Unity.Profiling;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Data
@@ -12,13 +14,11 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
         #endregion
 
-        #region Event Functions
-
-        protected override void Awake()
+        protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Awake.Auto())
+            using (_PRF_Initialize.Auto())
             {
-                base.Awake();
+                await base.Initialize(initializer);
 
                 if (identifier == null)
                 {
@@ -27,12 +27,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             }
         }
 
-        #endregion
-
         #region Profiling
 
         private const string _PRF_PFX = nameof(PrefabSpawnMarker) + ".";
-        private static readonly ProfilerMarker _PRF_Awake = new ProfilerMarker(_PRF_PFX + nameof(Awake));
+
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
 
         #endregion
     }

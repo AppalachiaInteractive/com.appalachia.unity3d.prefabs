@@ -17,14 +17,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
     public sealed class DepthOfFieldAutoFocus : AppalachiaBehaviour<DepthOfFieldAutoFocus>,
                                                 IDepthOfFieldAutoFocus
     {
-        private const string _PRF_PFX = nameof(DepthOfFieldAutoFocus) + ".";
-
-        private static readonly ProfilerMarker _PRF_SetUpAutoFocusParams =
-            new(_PRF_PFX + nameof(SetUpAutoFocusParams));
-
-        private static readonly ProfilerMarker _PRF_Reset = new(_PRF_PFX + nameof(Reset));
-
-        private static readonly ProfilerMarker _PRF_OnDisable = new(_PRF_PFX + nameof(OnDisable));
+        #region Fields and Autoproperties
 
         [FormerlySerializedAs("m_Compute")]
         [SmartLabel]
@@ -45,12 +38,14 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         [HideReferenceObjectPicker]
         private DepthOfFieldActiveSettingsManager _currentSettings;
 
-        protected override void Reset()
+        #endregion
+
+        protected override void ResetActual()
         {
             using (_PRF_Reset.Auto())
             {
-                base.Reset();
-                
+                base.ResetActual();
+
                 if (!CheckManager())
                 {
                     return;
@@ -66,10 +61,33 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             using (_PRF_OnDisable.Auto())
             {
                 await base.WhenDisabled();
-                
+
                 _currentSettings?.ReleaseBuffers();
             }
         }
+
+        private bool CheckManager()
+        {
+            if (settingsCollection == null)
+            {
+                return false;
+            }
+
+            if (_currentSettings == null)
+            {
+                _currentSettings = new DepthOfFieldActiveSettingsManager(settingsCollection);
+            }
+
+            if ((_currentSettings.settingsCollection == null) ||
+                (_currentSettings.settingsCollection != settingsCollection))
+            {
+                _currentSettings.settingsCollection = settingsCollection;
+            }
+
+            return true;
+        }
+
+        #region IDepthOfFieldAutoFocus Members
 
         public void SetUpAutoFocusParams(
             CommandBuffer cmd,
@@ -97,26 +115,19 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             }
         }
 
-        private bool CheckManager()
-        {
-            if (settingsCollection == null)
-            {
-                return false;
-            }
+        #endregion
 
-            if (_currentSettings == null)
-            {
-                _currentSettings = new DepthOfFieldActiveSettingsManager(settingsCollection);
-            }
+        #region Profiling
 
-            if ((_currentSettings.settingsCollection == null) ||
-                (_currentSettings.settingsCollection != settingsCollection))
-            {
-                _currentSettings.settingsCollection = settingsCollection;
-            }
+        private const string _PRF_PFX = nameof(DepthOfFieldAutoFocus) + ".";
 
-            return true;
-        }
+        private static readonly ProfilerMarker _PRF_SetUpAutoFocusParams =
+            new(_PRF_PFX + nameof(SetUpAutoFocusParams));
+
+        private static readonly ProfilerMarker _PRF_Reset = new(_PRF_PFX + nameof(Reset));
+        private static readonly ProfilerMarker _PRF_OnDisable = new(_PRF_PFX + nameof(OnDisable));
+
+        #endregion
 
 #if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));

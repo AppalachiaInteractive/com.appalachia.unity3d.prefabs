@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
+using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Strings;
@@ -19,109 +20,24 @@ namespace Appalachia.Rendering.Shading.Dynamic
     [DisallowMultipleComponent]
     public sealed class MeshShadingComponent : AppalachiaBehaviour<MeshShadingComponent>
     {
-        
-        
-        
-        private const string _PRF_PFX = nameof(MeshShadingComponent) + ".";
-        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + "Awake");
-        private static readonly ProfilerMarker _PRF_Start = new(_PRF_PFX + "Start");
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + "OnEnable");
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + "Update");
-        private static readonly ProfilerMarker _PRF_LateUpdate = new(_PRF_PFX + "LateUpdate");
-        private static readonly ProfilerMarker _PRF_OnDisable = new(_PRF_PFX + "OnDisable");
-        private static readonly ProfilerMarker _PRF_OnDestroy = new(_PRF_PFX + "OnDestroy");
-        private static readonly ProfilerMarker _PRF_Reset = new(_PRF_PFX + "Reset");
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + "OnDrawGizmos");
-
-        private static readonly ProfilerMarker _PRF_OnDrawGizmosSelected =
-            new(_PRF_PFX + "OnDrawGizmosSelected");
-
-        private static readonly ProfilerMarker _PRF_AssignShadingMetadata =
-            new(_PRF_PFX + nameof(AssignShadingMetadata));
-
-        private static readonly ProfilerMarker _PRF_UpdateRenderer =
-            new(_PRF_PFX + nameof(UpdateRenderer));
+        #region Fields and Autoproperties
 
         [HideLabel]
         [InlineEditor(Expanded = true)]
         [HideReferenceObjectPicker]
         public MeshShadingComponentData componentData;
 
-        protected override void Start()
+        #endregion
+
+        [Button]
+        public static void AssignAllShadingMetadata()
         {
-            using (_PRF_Start.Auto())
+            var m1 = FindObjectsOfType<MeshShadingComponent>();
+
+            for (var index = 0; index < m1.Length; index++)
             {
-                base.Start();
-                
-                AssignShadingMetadata();
-            }
-        }
-
-        protected override async AppaTask WhenEnabled()
-        {
-            using (_PRF_OnEnable.Auto())
-            {
-                await base.WhenEnabled();
-#if UNITY_EDITOR
-                try
-                {
-                    if (componentData == null)
-                    {
-                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
-                        {
-                            var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
-
-                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
-                            {
-                                prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
-                            }
-
-                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
-                            {
-                                prefabAssetPath =
-                                    UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(this);
-                            }
-
-                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
-                            {
-                                Context.Log.Error(
-                                    ZString.Format("Could not find asset path for prefab {0}.", name)
-                                );
-
-                                return;
-                            }
-
-                            componentData =
-                                AssetDatabaseManager.LoadAssetAtPath<MeshShadingComponentData>(
-                                    prefabAssetPath
-                                );
-
-                            if (componentData == null)
-                            {
-                                componentData =
-                                    MeshShadingComponentData
-                                       .CreateAndSaveInExisting<MeshShadingComponentData>(
-                                            prefabAssetPath,
-                                            "Mesh Shading Component Data"
-                                        );
-
-                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
-                                    gameObject,
-                                    UnityEditor.InteractionMode.AutomatedAction
-                                );
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Context.Log.Error(ZString.Format("Failed to assign mesh shading data to {0}:", name));
-                    Context.Log.Error(ex);
-
-                    return;
-                }
-#endif
-                AssignShadingMetadata();
+                var m = m1[index];
+                m.AssignShadingMetadata();
             }
         }
 
@@ -233,15 +149,81 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
         }
 
-        [Button]
-        public static void AssignAllShadingMetadata()
+        protected override async AppaTask Initialize(Initializer initializer)
         {
-            var m1 = FindObjectsOfType<MeshShadingComponent>();
-
-            for (var index = 0; index < m1.Length; index++)
+            using (_PRF_Initialize.Auto())
             {
-                var m = m1[index];
-                m.AssignShadingMetadata();
+                await base.Initialize(initializer);
+
+                AssignShadingMetadata();
+            }
+        }
+
+        protected override async AppaTask WhenEnabled()
+        {
+            using (_PRF_WhenEnabled.Auto())
+            {
+                await base.WhenEnabled();
+#if UNITY_EDITOR
+                try
+                {
+                    if (componentData == null)
+                    {
+                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
+                        {
+                            var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
+
+                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
+                            {
+                                prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
+                            }
+
+                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
+                            {
+                                prefabAssetPath = UnityEditor.PrefabUtility
+                                                             .GetPrefabAssetPathOfNearestInstanceRoot(this);
+                            }
+
+                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
+                            {
+                                Context.Log.Error(
+                                    ZString.Format("Could not find asset path for prefab {0}.", name)
+                                );
+
+                                return;
+                            }
+
+                            componentData =
+                                AssetDatabaseManager.LoadAssetAtPath<MeshShadingComponentData>(
+                                    prefabAssetPath
+                                );
+
+                            if (componentData == null)
+                            {
+                                componentData =
+                                    MeshShadingComponentData
+                                       .CreateAndSaveInExisting<MeshShadingComponentData>(
+                                            prefabAssetPath,
+                                            "Mesh Shading Component Data"
+                                        );
+
+                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
+                                    gameObject,
+                                    UnityEditor.InteractionMode.AutomatedAction
+                                );
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Context.Log.Error(ZString.Format("Failed to assign mesh shading data to {0}:", name));
+                    Context.Log.Error(ex);
+
+                    return;
+                }
+#endif
+                AssignShadingMetadata();
             }
         }
 
@@ -258,12 +240,10 @@ namespace Appalachia.Rendering.Shading.Dynamic
                     var submeshValues = values[submeshIndex];
                     var submeshIndices = mesh.GetIndices(submeshIndex).Distinct().ToArray();
 
-                    for (var channelIndex = 0;
-                        channelIndex < submeshMetadata.channels.Count;
-                        channelIndex++)
+                    for (var channelIndex = 0; channelIndex < submeshMetadata.channels.Count; channelIndex++)
                     {
                         var channelMetadata = submeshMetadata.channels[channelIndex];
-                        var channel = (int) channelMetadata.channel;
+                        var channel = (int)channelMetadata.channel;
                         var channelValues = submeshValues[channelIndex];
 
                         var uv = new List<Vector4>();
@@ -292,5 +272,22 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 }
             }
         }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(MeshShadingComponent) + ".";
+
+        private static readonly ProfilerMarker _PRF_WhenEnabled =
+            new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
+
+        private static readonly ProfilerMarker _PRF_AssignShadingMetadata =
+            new(_PRF_PFX + nameof(AssignShadingMetadata));
+
+        private static readonly ProfilerMarker _PRF_UpdateRenderer = new(_PRF_PFX + nameof(UpdateRenderer));
+
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+
+        #endregion
     }
 }

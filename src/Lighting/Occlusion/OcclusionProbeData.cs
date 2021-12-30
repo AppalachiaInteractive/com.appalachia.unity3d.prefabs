@@ -3,8 +3,10 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
-    public class OcclusionProbeData : AppalachiaObject<>
+    public class OcclusionProbeData : AppalachiaObject<OcclusionProbeData>
     {
+        #region Fields and Autoproperties
+
         [Header("Baked Results")]
         [Tooltip("Affects grass occlusion as well.")]
         [Range(0, 1)]
@@ -16,5 +18,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         public Texture3D occlusion;
         public Matrix4x4[] worldToLocalDetail;
         public Texture3D[] occlusionDetail;
+
+        #endregion
     }
 }

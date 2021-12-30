@@ -11,6 +11,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
     [Serializable]
     public class RuntimeRenderingGizmoOptions : AppalachiaSimpleBase
     {
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static RuntimeRenderingGizmoOptions()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
 #if UNITY_EDITOR
         [ToggleLeft] public bool burialGizmosEnabled = true;
 
@@ -32,7 +44,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
             {
                 if ((_gizmoSelectionIDs == null) || (_gizmoSelectionIDs.Count == 0))
                 {
-                    var renderingSets = PrefabRenderingManager.instance.renderingSets;
+                    var renderingSets = _prefabRenderingManager.renderingSets;
 
                     if (_gizmoSelectionIDs == null)
                     {

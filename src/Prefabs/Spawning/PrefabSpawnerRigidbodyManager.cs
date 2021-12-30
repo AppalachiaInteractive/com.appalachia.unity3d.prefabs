@@ -18,15 +18,24 @@ namespace Appalachia.Rendering.Prefabs.Spawning
     [Serializable]
     public class PrefabSpawnerRigidbodyManager
     {
-        private const string _PRF_PFX = nameof(PrefabSpawnerRigidbodyManager) + ".";
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabSpawnerRigidbodyManager()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
 
-        private static readonly ProfilerMarker _PRF_Enqueue = new(_PRF_PFX + nameof(Enqueue));
+        public PrefabSpawnerRigidbodyManager()
+        {
+            _rigidbodies = new Queue<Rigidbody>();
+        }
 
-        private static readonly ProfilerMarker _PRF_HandleRigidbodyRemoval =
-            new(_PRF_PFX + nameof(HandleRigidbodyRemoval));
+        #region Static Fields and Autoproperties
 
-        private static readonly ProfilerMarker _PRF_EligibleForActivation =
-            new(_PRF_PFX + nameof(EligibleForActivation));
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
+        #region Fields and Autoproperties
 
         public Bounds bounds;
 
@@ -34,104 +43,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         [ShowInInspector]
         private readonly Queue<Rigidbody> _rigidbodies;
 
-        public PrefabSpawnerRigidbodyManager()
-        {
-            _rigidbodies = new Queue<Rigidbody>();
-        }
+        #endregion
 
         [ShowInInspector] public int ActiveCount => _rigidbodies.Count;
-
-        public void Enqueue(Rigidbody rb)
-        {
-            using (_PRF_Enqueue.Auto())
-            {
-                if (bounds == default)
-                {
-                    bounds.center = rb.transform.position;
-                    bounds.size = Vector3.one;
-                }
-                else
-                {
-                    bounds.Encapsulate(rb.transform.position);
-                }
-
-                _rigidbodies.Enqueue(rb);
-                PrefabRenderingManager.instance.AddDistanceReferenceObject(rb.gameObject);
-            }
-        }
-
-        public void HandleRigidbodyRemoval(PrefabSpawnSettings settings)
-        {
-            using (_PRF_HandleRigidbodyRemoval.Auto())
-            {
-                if (settings.physics.removeRigidbodiesAtLimit)
-                {
-                    if (!settings.physics.dontDeleteActiveRigidbodies)
-                    {
-                        while (_rigidbodies.Count > settings.physics.rigidbodyLimit)
-                        {
-                            var deq = _rigidbodies.Dequeue();
-
-                            PrefabRenderingManager.instance.RemoveDistanceReferenceObject(
-                                deq.gameObject
-                            );
-                            deq.DestroySafely();
-                        }
-                    }
-                    else
-                    {
-                        for (var i = 0; i < _rigidbodies.Count; i++)
-                        {
-                            if (_rigidbodies.Count < settings.physics.rigidbodyLimit)
-                            {
-                                break;
-                            }
-
-                            var deq = _rigidbodies.Dequeue();
-
-                            if (deq == null)
-                            {
-                                continue;
-                            }
-
-                            var deqPosition = deq.transform.position;
-
-                            var terrainBounds =
-                                Terrain.activeTerrains.GetTerrainAtPosition(deqPosition)
-                                      ?.GetWorldTerrainBounds() ??
-                                default;
-
-                            if ((terrainBounds == default) ||
-                                !terrainBounds.Contains(deq.transform.position))
-                            {
-                                var rdm = deq.GetComponentInParent<RigidbodyDragModifier>();
-
-                                PrefabRenderingManager.instance.RemoveDistanceReferenceObject(
-                                    rdm.gameObject
-                                );
-                                rdm.gameObject.DestroySafely();
-                            }
-                            else if (deq.velocity.magnitude >
-                                     settings.physics.rigidbodyVelocityActiveThreshold)
-                            {
-                                _rigidbodies.Enqueue(deq);
-                            }
-                            else
-                            {
-                                PrefabRenderingManager.instance.RemoveDistanceReferenceObject(
-                                    deq.gameObject
-                                );
-                                deq.DestroySafely();
-                            }
-                        }
-                    }
-                }
-
-                var b = _rigidbodies.GetEncompassingBounds(rb => rb.transform.position);
-
-                bounds = b;
-            }
-        }
 
         public bool EligibleForActivation(PrefabSpawnSettings settings, out int limit)
         {
@@ -154,5 +68,103 @@ namespace Appalachia.Rendering.Prefabs.Spawning
                 return !delay;
             }
         }
+
+        public void Enqueue(Rigidbody rb)
+        {
+            using (_PRF_Enqueue.Auto())
+            {
+                if (bounds == default)
+                {
+                    bounds.center = rb.transform.position;
+                    bounds.size = Vector3.one;
+                }
+                else
+                {
+                    bounds.Encapsulate(rb.transform.position);
+                }
+
+                _rigidbodies.Enqueue(rb);
+                _prefabRenderingManager.AddDistanceReferenceObject(rb.gameObject);
+            }
+        }
+
+        public void HandleRigidbodyRemoval(PrefabSpawnSettings settings)
+        {
+            using (_PRF_HandleRigidbodyRemoval.Auto())
+            {
+                if (settings.physics.removeRigidbodiesAtLimit)
+                {
+                    if (!settings.physics.dontDeleteActiveRigidbodies)
+                    {
+                        while (_rigidbodies.Count > settings.physics.rigidbodyLimit)
+                        {
+                            var deq = _rigidbodies.Dequeue();
+
+                            _prefabRenderingManager.RemoveDistanceReferenceObject(deq.gameObject);
+                            deq.DestroySafely();
+                        }
+                    }
+                    else
+                    {
+                        for (var i = 0; i < _rigidbodies.Count; i++)
+                        {
+                            if (_rigidbodies.Count < settings.physics.rigidbodyLimit)
+                            {
+                                break;
+                            }
+
+                            var deq = _rigidbodies.Dequeue();
+
+                            if (deq == null)
+                            {
+                                continue;
+                            }
+
+                            var deqPosition = deq.transform.position;
+
+                            var terrainBounds = Terrain.activeTerrains.GetTerrainAtPosition(deqPosition)
+                                                      ?.GetWorldTerrainBounds() ??
+                                                default;
+
+                            if ((terrainBounds == default) || !terrainBounds.Contains(deq.transform.position))
+                            {
+                                var rdm = deq.GetComponentInParent<RigidbodyDragModifier>();
+
+                                _prefabRenderingManager.RemoveDistanceReferenceObject(rdm.gameObject);
+                                rdm.gameObject.DestroySafely();
+                            }
+                            else if (deq.velocity.magnitude >
+                                     settings.physics.rigidbodyVelocityActiveThreshold)
+                            {
+                                _rigidbodies.Enqueue(deq);
+                            }
+                            else
+                            {
+                                _prefabRenderingManager.RemoveDistanceReferenceObject(deq.gameObject);
+                                deq.DestroySafely();
+                            }
+                        }
+                    }
+                }
+
+                var b = _rigidbodies.GetEncompassingBounds(rb => rb.transform.position);
+
+                bounds = b;
+            }
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabSpawnerRigidbodyManager) + ".";
+
+        private static readonly ProfilerMarker _PRF_Enqueue = new(_PRF_PFX + nameof(Enqueue));
+
+        private static readonly ProfilerMarker _PRF_HandleRigidbodyRemoval =
+            new(_PRF_PFX + nameof(HandleRigidbodyRemoval));
+
+        private static readonly ProfilerMarker _PRF_EligibleForActivation =
+            new(_PRF_PFX + nameof(EligibleForActivation));
+
+        #endregion
     }
 }

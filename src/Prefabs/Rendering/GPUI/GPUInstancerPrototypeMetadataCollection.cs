@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Rendering.Collections;
+using Appalachia.Utility.Async;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
@@ -16,7 +17,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
     public class GPUInstancerPrototypeMetadataCollection : SingletonAppalachiaObject<
         GPUInstancerPrototypeMetadataCollection>
     {
-        private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadataCollection) + ".";
+        #region Fields and Autoproperties
 
         [FormerlySerializedAs("_metadatas")]
         [SerializeField]
@@ -29,15 +30,24 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
         )]
         private GPUInstancerPrototypeMetadataLookup _state;
 
+        #endregion
+
         internal GPUInstancerPrototypeMetadataLookup State => _state;
 
-        protected override void WhenEnabled()
+        public void ConfirmPrototype(GPUInstancerPrototypeMetadata metadata)
         {
+            State.AddIfKeyNotPresent(metadata.prototype.prefabObject.name, metadata);
+        }
+
+        protected override async AppaTask WhenEnabled()
+        {
+            await base.WhenEnabled();
+
             if (State == null)
             {
                 _state = new GPUInstancerPrototypeMetadataLookup();
 #if UNITY_EDITOR
-               this.MarkAsModified();
+                MarkAsModified();
 #endif
             }
 
@@ -46,14 +56,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
 #endif
         }
 
-        public void ConfirmPrototype(GPUInstancerPrototypeMetadata metadata)
-        {
-            State.AddIfKeyNotPresent(metadata.prototype.prefabObject.name, metadata);
-        }
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadataCollection) + ".";
+
+        #endregion
 
 #if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_FindOrCreate =
-            new(_PRF_PFX + nameof(FindOrCreate));
+        private static readonly ProfilerMarker _PRF_FindOrCreate = new(_PRF_PFX + nameof(FindOrCreate));
 
         public GPUInstancerPrototypeMetadata FindOrCreate(
             GameObject gameObject,
@@ -70,18 +80,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                     return metadata;
                 }
 
-                var newPrototypePair = GPUInstancerPrototypeMetadata.LoadOrCreateNew(
-                    gameObject.name,
-                    true,
-                    false
-                );
+                var newPrototypePair =
+                    GPUInstancerPrototypeMetadata.LoadOrCreateNew<GPUInstancerPrototypeMetadata>(
+                        $"{nameof(GPUInstancerPrototypeMetadata)}_{gameObject.name}"
+                    );
 
                 newPrototypePair.CreatePrototypeIfNecessary(gameObject, gpui, prototypeLookup);
 
                 State.AddOrUpdate(gameObject.name, newPrototypePair);
 
                 newPrototypePair.MarkAsModified();
-               this.MarkAsModified();
+                MarkAsModified();
 
                 return newPrototypePair;
             }

@@ -19,8 +19,26 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
     [LabelWidth(0)]
     public class RandomTransformData : AppalachiaSimpleBase
     {
-        private const float MinScaleComponent = .8f;
+        #region Constants and Static Readonly
+
         private const float MaxScaleComponent = 1.2f;
+        private const float MinScaleComponent = .8f;
+
+        #endregion
+
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static RandomTransformData()
+        {
+            TerrainMetadataManager.InstanceAvailable += i => _terrainMetadataManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static TerrainMetadataManager _terrainMetadataManager;
+
+        #endregion
+
+        #region Fields and Autoproperties
 
         [Title("Placement")]
         [BoxGroup("Type")]
@@ -149,10 +167,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
         [HideIf(nameof(useUniformScale))]
         public Vector3 maxScale = new(MaxScaleComponent, MaxScaleComponent, MaxScaleComponent);
 
+        #endregion
+
         private bool _showDrop => type == RandomPrefabSpawnerInitialization.Dropped;
-        private bool _showThrow => type == RandomPrefabSpawnerInitialization.Thrown;
         private bool _showExact => type == RandomPrefabSpawnerInitialization.Exact;
         private bool _showGrounded => type == RandomPrefabSpawnerInitialization.Grounded;
+        private bool _showThrow => type == RandomPrefabSpawnerInitialization.Thrown;
 
         private bool _showXYZLimit => rotationType == RandomPrefabRotationType.RotateXYZ;
 
@@ -205,11 +225,11 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
             var position = root + additive;
 
-            terrainData = TerrainMetadataManager.instance.GetTerrainAt(position);
+            terrainData = _terrainMetadataManager.GetTerrainAt(position);
 
             if (terrainData == null)
             {
-                terrainData = TerrainMetadataManager.instance.GetTerrainAt(root);
+                terrainData = _terrainMetadataManager.GetTerrainAt(root);
                 position = root;
             }
 
@@ -243,11 +263,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 }
                 case RandomPrefabRotationType.RotateY:
                 {
-                    return Quaternion.Euler(
-                        0.0f,
-                        Random.Range(yRotationLimit.x, yRotationLimit.y),
-                        0.0f
-                    );
+                    return Quaternion.Euler(0.0f, Random.Range(yRotationLimit.x, yRotationLimit.y), 0.0f);
                 }
                 case RandomPrefabRotationType.RotateXYZ:
                 {
@@ -261,7 +277,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 case RandomPrefabRotationType.GroundedRotated:
                 {
                     var rot = Quaternion.identity;
-                    var normal = (Vector3) terrainData.GetTerrainNormal(position);
+                    var normal = (Vector3)terrainData.GetTerrainNormal(position);
 
                     if (normal != Vector3.up)
                     {
@@ -272,11 +288,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
                     if (rotationType == RandomPrefabRotationType.GroundedRotated)
                     {
-                        rot *= Quaternion.Euler(
-                            0,
-                            Random.Range(yRotationLimit.x, yRotationLimit.y),
-                            0
-                        );
+                        rot *= Quaternion.Euler(0, Random.Range(yRotationLimit.x, yRotationLimit.y), 0);
                     }
 
                     return rot;
@@ -311,11 +323,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
             if (randomThrowDirection)
             {
-                direction = new Vector3(
-                    Random.Range(-1f, 1f),
-                    Random.Range(-1f, 1f),
-                    Random.Range(-1f, 1f)
-                );
+                direction = new Vector3(Random.Range(-1f, 1f), Random.Range(-1f, 1f), Random.Range(-1f, 1f));
                 direction = direction.normalized;
             }
             else

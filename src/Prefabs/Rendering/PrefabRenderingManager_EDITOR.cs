@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Execution;
 using Appalachia.Utility.Strings;
 using GPUInstancer;
@@ -18,23 +19,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
-        private static readonly ProfilerMarker _PRF_SetSceneDirty =
-            new(_PRF_PFX + nameof(SetSceneDirty));
-
-        private static readonly ProfilerMarker _PRF_ManageNewPrefabRegistration =
-            new(_PRF_PFX + nameof(ManageNewPrefabRegistration));
-
-        public void SetSceneDirty()
-        {
-            using (_PRF_SetSceneDirty.Auto())
-            {
-                if (!AppalachiaApplication.IsPlayingOrWillPlay)
-                {
-                    UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
-                }
-            }
-        }
-        
         public PrefabRenderingSet ManageNewPrefabRegistration(GameObject prefab)
         {
             using (_PRF_ManageNewPrefabRegistration.Auto())
@@ -44,8 +28,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     return renderingSets.Sets[prefab];
                 }
 
-                var prototypeLookup =
-                    new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
+                var prototypeLookup = new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
 
                 for (var i = 0; i < gpui.prototypeList.Count; i++)
                 {
@@ -57,7 +40,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                             ZString.Format("Prototype at index {0} was null.", i)
                         );
                     }
-                    
+
                     if (prototypeLookup.ContainsKey(prototype))
                     {
                         continue;
@@ -68,7 +51,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     prototypeLookup.Add(prototype, registeredPrefabsData);
                 }
 
-                var set = PrefabRenderingSet.LoadOrCreateNew(ZString.Format("{0}", prefab.name), true, false);
+                var set = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSet>(
+                    ZString.Format("{0}_{1}", nameof(PrefabRenderingSet), prefab.name)
+                );
 
                 set.Initialize(prefab, metadatas.FindOrCreate(prefab, gpui, prototypeLookup));
 
@@ -77,8 +62,27 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 return set;
             }
         }
+
+        public void SetSceneDirty()
+        {
+            using (_PRF_SetSceneDirty.Auto())
+            {
+                if (!AppalachiaApplication.IsPlayingOrWillPlay)
+                {
+                    UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+                }
+            }
+        }
+
+        #region Profiling
+
+        private static readonly ProfilerMarker _PRF_SetSceneDirty = new(_PRF_PFX + nameof(SetSceneDirty));
+
+        private static readonly ProfilerMarker _PRF_ManageNewPrefabRegistration =
+            new(_PRF_PFX + nameof(ManageNewPrefabRegistration));
+
+        #endregion
     }
-    
 }
 
 #endif

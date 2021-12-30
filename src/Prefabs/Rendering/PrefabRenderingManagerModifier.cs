@@ -2,7 +2,6 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Appalachia.Core.Extensions;
 using AwesomeTechnologies.VegetationSystem;
 using Unity.Profiling;
 
@@ -12,11 +11,61 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public static class PrefabRenderingManagerModifier
     {
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabRenderingManagerModifier()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
+        public static void UpdateVegetationItemRendering(string vegetationItemID)
+        {
+            using (_PRF_UpdateVegetationItemRendering.Auto())
+            {
+                var manager = _prefabRenderingManager;
+                if (!manager.enabled)
+                {
+                    return;
+                }
+
+                for (var setIndex = 0; setIndex < manager.renderingSets.Sets.Count; setIndex++)
+                {
+                    var renderingSet = manager.renderingSets.Sets.at[setIndex];
+                    var parameters = renderingSet.ExternalParameters;
+
+                    var targetSet = false;
+
+                    for (var parameterIndex = 0; parameterIndex < parameters.Count; parameterIndex++)
+                    {
+                        var parameter = parameters.at[parameterIndex];
+
+                        if (parameter.vegetationItemID == vegetationItemID)
+                        {
+                            targetSet = true;
+                            break;
+                        }
+                    }
+
+                    if (!targetSet)
+                    {
+                        continue;
+                    }
+
+                    PrefabRenderingManagerDestroyer.ExecuteDataSetTeardown(renderingSet);
+                }
+            }
+        }
+
         public static void UpdateVegetationItemsRendering(IEnumerable<string> vegetationItemIDs)
         {
             using (_PRF_UpdateVegetationItemsRendering.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
+                var manager = _prefabRenderingManager;
                 if (!manager.enabled)
                 {
                     return;
@@ -33,9 +82,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                     var updateSet = false;
 
-                    for (var parameterIndex = 0;
-                        parameterIndex < parameters.Count;
-                        parameterIndex++)
+                    for (var parameterIndex = 0; parameterIndex < parameters.Count; parameterIndex++)
                     {
                         var parameter = parameters.at[parameterIndex];
 
@@ -62,59 +109,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_UpdateVegetationItemsRendering.Auto())
             {
-                var manager = PrefabRenderingManager.instance;
+                var manager = _prefabRenderingManager;
                 if (!manager.enabled)
                 {
                     return;
                 }
 
-                UpdateVegetationItemsRendering(
-                    package.VegetationInfoList.Select(vi => vi.VegetationItemID)
-                );
+                UpdateVegetationItemsRendering(package.VegetationInfoList.Select(vi => vi.VegetationItemID));
             }
         }
 
-        public static void UpdateVegetationItemRendering(string vegetationItemID)
-        {
-            using (_PRF_UpdateVegetationItemRendering.Auto())
-            {
-                var manager = PrefabRenderingManager.instance;
-                if (!manager.enabled)
-                {
-                    return;
-                }
-
-                for (var setIndex = 0; setIndex < manager.renderingSets.Sets.Count; setIndex++)
-                {
-                    var renderingSet = manager.renderingSets.Sets.at[setIndex];
-                    var parameters = renderingSet.ExternalParameters;
-
-                    var targetSet = false;
-
-                    for (var parameterIndex = 0;
-                        parameterIndex < parameters.Count;
-                        parameterIndex++)
-                    {
-                        var parameter = parameters.at[parameterIndex];
-
-                        if (parameter.vegetationItemID == vegetationItemID)
-                        {
-                            targetSet = true;
-                            break;
-                        }
-                    }
-
-                    if (!targetSet)
-                    {
-                        continue;
-                    }
-
-                    PrefabRenderingManagerDestroyer.ExecuteDataSetTeardown(renderingSet);
-                }
-            }
-        }
-
-#region ProfilerMarker
+        #region ProfilerMarker
 
         private const string _PRF_PFX = nameof(PrefabRenderingManagerModifier) + ".";
 
@@ -124,6 +129,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_UpdateVegetationItemRendering =
             new(_PRF_PFX + nameof(UpdateVegetationItemRendering));
 
-#endregion
+        #endregion
     }
 }

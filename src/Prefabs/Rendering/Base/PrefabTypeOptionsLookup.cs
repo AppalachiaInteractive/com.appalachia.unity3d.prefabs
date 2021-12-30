@@ -294,25 +294,23 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 
-        protected override void WhenEnabled()
-        {
-            Initialize2();
-        }
-
         #region Profiling
 
         private const string _PRF_PFX =
             nameof(PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
             ".";
 
-#if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize2));
-        private static readonly ProfilerMarker _PRF_GetPrefabType = new(_PRF_PFX + nameof(GetPrefabType));
-#endif
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
 
+        private static readonly ProfilerMarker _PRF_GetPrefabType = new(_PRF_PFX + nameof(GetPrefabType));
         private static readonly ProfilerMarker _PRF_GetTypeOptions = new(_PRF_PFX + nameof(GetTypeOptions));
 
         #endregion
+
+#if UNITY_EDITOR
+
+#endif
 
 #if UNITY_EDITOR
         protected abstract void InitializeState();
@@ -332,8 +330,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
                 }
 
                 Context.Log.Warn("Could not find match...now logging.");
-
-                Initialize2();
 
                 for (var i = 0; i < _state.Count; i++)
                 {

@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Appalachia.Core.Math.Probability;
+using Appalachia.Core.Objects.Scriptables;
 using Appalachia.Rendering.Prefabs.Spawning.Data;
 using Sirenix.OdinInspector;
 using UnityEngine;
@@ -11,10 +12,10 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 {
-    public class RandomPrefabSet : AutonamedIdentifiableAppalachiaObject
+    public class RandomPrefabSet : AutonamedIdentifiableAppalachiaObject<RandomPrefabSet>
     {
-        
-        
+        #region Fields and Autoproperties
+
         [ListDrawerSettings(Expanded = true)]
         [PropertyOrder(11)]
         public List<RandomPrefab> spawnablePrefabs = new();
@@ -27,11 +28,25 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 
         [HideInInspector] public ProbabilitySet probabilities = new();
 
+        #endregion
+
 #if UNITY_EDITOR
         protected override bool ShowIDProperties => false;
 #endif
 
         private bool _canAdd => (addPrefabs?.Count ?? 0) > 0;
+
+        public GameObject GetNextPrefab(out RandomTransformData useTransformData)
+        {
+            ValidateProbabilities();
+
+            var nextIndex = probabilities.GetNextIndex();
+            var prefab = spawnablePrefabs[nextIndex];
+
+            useTransformData = prefab.overridePositioning ? prefab.transformOverrideData : transformData;
+
+            return prefab.prefab;
+        }
 
         [FoldoutGroup("Add Prefabs", Expanded = false)]
         [Button]
@@ -51,7 +66,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
                 var prefab = addPrefabs[index];
                 if (!existing.Contains(prefab))
                 {
-                    spawnablePrefabs.Add(new RandomPrefab {prefab = prefab});
+                    spawnablePrefabs.Add(new RandomPrefab { prefab = prefab });
                 }
             }
 
@@ -75,20 +90,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
             }
 
             probabilities.ValidateProbabilities(spawnablePrefabs);
-        }
-
-        public GameObject GetNextPrefab(out RandomTransformData useTransformData)
-        {
-            ValidateProbabilities();
-
-            var nextIndex = probabilities.GetNextIndex();
-            var prefab = spawnablePrefabs[nextIndex];
-
-            useTransformData = prefab.overridePositioning
-                ? prefab.transformOverrideData
-                : transformData;
-
-            return prefab.prefab;
         }
     }
 }

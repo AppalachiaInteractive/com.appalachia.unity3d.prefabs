@@ -21,27 +21,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [LabelWidth(0)]
     public partial class PrefabRenderingSet
     {
-
-
         protected override bool ShowIDProperties => false;
-
-        #region Event Functions
-
-        protected override async AppaTask WhenEnabled()
-        {
-            await base.WhenEnabled();
-            if (_externalParameters == null)
-            {
-                _externalParameters = new ExternalRenderingParametersLookup();
-                MarkAsModified();
-            }
-
-            _externalParameters.SetObjectOwnership(this);
-
-            //_assetType = _assetType.CheckObsolete();
-        }
-
-        #endregion
 
         [TabGroup(_TABS, _META)]
         [SmartLabel]
@@ -61,6 +41,20 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
 
             contentOptions.type = contentType;
+        }
+
+        protected override async AppaTask WhenEnabled()
+        {
+            await base.WhenEnabled();
+            if (_externalParameters == null)
+            {
+                _externalParameters = new ExternalRenderingParametersLookup();
+                MarkAsModified();
+            }
+
+            _externalParameters.SetObjectOwnership(this);
+
+            //_assetType = _assetType.CheckObsolete();
         }
 
         [TabGroup(_TABS, _META)]
@@ -110,7 +104,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [Button]
         private void ResetInstances()
         {
-            TearDown(PrefabRenderingManager.instance.gpui);
+            TearDown(_prefabRenderingManager.gpui);
         }
 
         [TabGroup(_TABS, _META)]

@@ -22,16 +22,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
         AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
-        private const string _PRF_PFX = nameof(PrefabModelTypeOptionsLookup) + ".";
-
         static PrefabModelTypeOptionsLookup()
         {
             _types = new EnumValuesCollection<PrefabModelType>(PrefabModelType.None);
         }
 
-        protected override bool _anySoloed => PrefabModelTypeOptions.AnySolo;
-
         protected override bool _anyMuted => PrefabModelTypeOptions.AnyMute;
+
+        protected override bool _anySoloed => PrefabModelTypeOptions.AnySolo;
 
 #if UNITY_EDITOR
         protected override void InitializeState()
@@ -159,9 +157,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                                 PrefabModelTypeOptions.Tree(
                                     256f,
                                     FrustumSettings.Wide(),
-                                    AssetLightingSettings.LitAndShadowed(
-                                        LightProbeUsage.UseProxyVolume
-                                    ),
+                                    AssetLightingSettings.LitAndShadowed(LightProbeUsage.UseProxyVolume),
                                     AssetLightingSettings.LitAndShadowed(),
                                     AssetCullingSettings.CompletelyCulled(),
                                     DistanceFalloffSettings.Slow(),
@@ -178,9 +174,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                                 PrefabModelTypeOptions.Tree(
                                     512f,
                                     FrustumSettings.Wide(),
-                                    AssetLightingSettings.LitAndShadowed(
-                                        LightProbeUsage.UseProxyVolume
-                                    ),
+                                    AssetLightingSettings.LitAndShadowed(LightProbeUsage.UseProxyVolume),
                                     AssetLightingSettings.LitAndShadowed(),
                                     AssetCullingSettings.CompletelyCulled(),
                                     DistanceFalloffSettings.VerySlow(),
@@ -346,5 +340,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             }
         }
 #endif
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabModelTypeOptionsLookup) + ".";
+
+        #endregion
     }
 }

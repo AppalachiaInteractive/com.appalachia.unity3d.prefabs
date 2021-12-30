@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Utility.Strings;
@@ -14,8 +15,19 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 {
     [Serializable]
     [SmartLabel]
-    public class RandomPrefabSetCollectionState
+    public class RandomPrefabSetCollectionState : AppalachiaSimpleBase
     {
+        public RandomPrefabSetCollectionState(Transform parent, RandomPrefabSetCollection collection)
+        {
+            this.collection = collection;
+
+            _spawnData = new SpawnDataIndex();
+
+            ConfirmStructure(parent);
+        }
+
+        #region Fields and Autoproperties
+
         [HideInInspector] public Transform parent;
         [HideInInspector] public Transform root;
 
@@ -25,16 +37,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
         private SpawnDataIndex _spawnData;
 
-        public RandomPrefabSetCollectionState(
-            Transform parent,
-            RandomPrefabSetCollection collection)
-        {
-            this.collection = collection;
-
-            _spawnData = new SpawnDataIndex();
-
-            ConfirmStructure(parent);
-        }
+        #endregion
 
         public void ConfirmStructure(Transform p)
         {
@@ -59,9 +62,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             }
         }
 
-        public PrefabSpawnPointCollection GetActive(
-            out PrefabSpawnStateData spawnStateData,
-            out int limit)
+        public PrefabSpawnPointCollection GetActive(out PrefabSpawnStateData spawnStateData, out int limit)
         {
             if (collection == null)
             {
@@ -91,7 +92,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                     }
 
                     var density = spawnSource.instanceDensity;
-                    limit = (int) (setElement.spawnLimit * density);
+                    limit = (int)(setElement.spawnLimit * density);
 
                     var key = spawnSource.GetKey();
 
@@ -131,6 +132,46 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             spawnStateData = null;
             limit = 0;
             return null;
+        }
+
+        public void SpawnMany(
+            PrefabSpawnSettings settings,
+            PrefabSpawnerRigidbodyManager rigidbodyManager,
+            int count,
+            ref Bounds bounds)
+        {
+            var pointCollection = GetActive(out var spawnerData, out var limit);
+
+            if (pointCollection == null)
+            {
+                return;
+            }
+
+            var spawned = 0;
+
+            while (spawned < count)
+            {
+                if (!pointCollection.EligibleForActivation(limit))
+                {
+                    pointCollection = GetActive(out spawnerData, out limit);
+
+                    if (pointCollection == null)
+                    {
+                        break;
+                    }
+                }
+
+                var remaining = count - spawned;
+
+                spawned += pointCollection.SpawnMany(
+                    limit,
+                    spawnerData.setElement.set,
+                    settings,
+                    ref bounds,
+                    rigidbodyManager,
+                    remaining
+                );
+            }
         }
 
         private Transform GetElementSpawnPointTransform(RandomPrefabSetElement element)
@@ -190,46 +231,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                         );
                     }
                 }
-            }
-        }
-
-        public void SpawnMany(
-            PrefabSpawnSettings settings,
-            PrefabSpawnerRigidbodyManager rigidbodyManager,
-            int count,
-            ref Bounds bounds)
-        {
-            var pointCollection = GetActive(out var spawnerData, out var limit);
-
-            if (pointCollection == null)
-            {
-                return;
-            }
-
-            var spawned = 0;
-
-            while (spawned < count)
-            {
-                if (!pointCollection.EligibleForActivation(limit))
-                {
-                    pointCollection = GetActive(out spawnerData, out limit);
-
-                    if (pointCollection == null)
-                    {
-                        break;
-                    }
-                }
-
-                var remaining = count - spawned;
-
-                spawned += pointCollection.SpawnMany(
-                    limit,
-                    spawnerData.setElement.set,
-                    settings,
-                    ref bounds,
-                    rigidbodyManager,
-                    remaining
-                );
             }
         }
     }

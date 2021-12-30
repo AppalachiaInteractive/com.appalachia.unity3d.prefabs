@@ -20,7 +20,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
-        
         #region Static Fields and Autoproperties
 
         private static RenderingStateReasonCodeLookup _reasonCodes = new();
@@ -170,7 +169,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         }
 
         private Color _cycleColor =>
-            ColorPrefs.Instance.Quality_BadToGood.v.Evaluate(1.0f - (float) _cycleQuality01);
+            ColorPrefs.Instance.Quality_BadToGood.v.Evaluate(1.0f - (float)_cycleQuality01);
 
         private Color _fixColor => _canFix ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.Disabled.v;
 
@@ -245,7 +244,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
                 _reasonCodes.SetObjectOwnership(this);
-                
+
                 if (_reasonCodes.Count == 0)
                 {
                     _reasonCodes.InitializeLookup();
@@ -258,22 +257,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private string _stopText => "Stop";
 
         private string _title => currentState.ToString().SeperateWords();
-
-        #region Event Functions
-
-        private static readonly ProfilerMarker _PRF_Start = new ProfilerMarker(_PRF_PFX + nameof(Start));
-        
-        protected override void Start()
-        {
-            using (_PRF_Start.Auto())
-            {
-                base.Start();
-                
-                nextState = RenderingState.Rendering;
-            }
-        }
-
-        #endregion
 
         private void ChangeRuntimeRenderingState(bool enable)
         {

@@ -60,6 +60,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
             PrefabReplacementCollection.InstanceAvailable += i => _prefabReplacementCollection = i;
             PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
         }
 
         #region Static Fields and Autoproperties
@@ -71,8 +72,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
 
-        private static PrefabReplacementCollection _prefabReplacementCollection;
+        private static PrefabRenderingManager _prefabRenderingManager;
         private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
+
+        private static PrefabReplacementCollection _prefabReplacementCollection;
 
         #endregion
 

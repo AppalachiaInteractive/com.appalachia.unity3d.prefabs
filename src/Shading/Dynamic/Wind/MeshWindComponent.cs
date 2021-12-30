@@ -7,6 +7,7 @@ using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Math;
 using Appalachia.Core.Math.Noise;
+using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Extensions;
@@ -19,29 +20,37 @@ using UnityEngine;
 
 #endregion
 
-
-
 namespace Appalachia.Rendering.Shading.Dynamic.Wind
 {
     [ExecuteAlways]
     [DisallowMultipleComponent]
     public sealed class MeshWindComponent : AppalachiaBehaviour<MeshWindComponent>
     {
-        private const string _PRF_PFX = nameof(MeshWindComponent) + ".";
-        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + "Awake");
-        private static readonly ProfilerMarker _PRF_Start = new(_PRF_PFX + "Start");
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + "OnEnable");
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + "Update");
-        private static readonly ProfilerMarker _PRF_LateUpdate = new(_PRF_PFX + "LateUpdate");
-        private static readonly ProfilerMarker _PRF_OnDisable = new(_PRF_PFX + "OnDisable");
-        private static readonly ProfilerMarker _PRF_OnDestroy = new(_PRF_PFX + "OnDestroy");
-        private static readonly ProfilerMarker _PRF_Reset = new(_PRF_PFX + "Reset");
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + "OnDrawGizmos");
+        #region Constants and Static Readonly
 
-        private static readonly ProfilerMarker _PRF_OnDrawGizmosSelected =
-            new(_PRF_PFX + "OnDrawGizmosSelected");
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
 
-#if UNITY_EDITOR
+        private static readonly Dictionary<Material, MeshWindMetadata.MeshWindMaterialMatchGroup>
+            _materialLookup = new();
+
+        private static readonly object _materialLookupLock = new();
+
+        #endregion
+
+        #region Static Fields and Autoproperties
+
+        private static readonly ProfilerMarker _PRF_AssignWindMetadata =
+            new(_PRF_PFX + nameof(AssignWindMetadata));
+
+        private static bool _showAllButtons;
+        private static bool _showRevertButtons;
+        private static bool _showBatchRevertButtons = _showRevertButtons && _showAllButtons;
+
+        #endregion
+
+        #region Fields and Autoproperties
+
         [HideLabel]
         [InlineEditor(Expanded = true)]
         [HideReferenceObjectPicker]
@@ -50,69 +59,15 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         [InlineEditor(Expanded = true)]
         public MeshWindMetadata metadata;
 
+        [ShowIf(nameof(showGenerateMaskButton))]
+        public MeshWindComponentData.TextureSize generatedMaskSize = MeshWindComponentData.TextureSize.k128;
+
+        #endregion
+
         private bool showGenerateMaskButton =>
             (componentData != null) &&
             (componentData.style == MeshWindComponentData.MeshWindStyle.Texture2D) &&
             (componentData.windMask == null);
-
-        [ShowIf(nameof(showGenerateMaskButton))]
-        public MeshWindComponentData.TextureSize generatedMaskSize =
-            MeshWindComponentData.TextureSize.k128;
-
-        [Button]
-        [ShowIf(nameof(showGenerateMaskButton))]
-        public void GenerateDefaultWindMask()
-        {
-            var meshFilter = GetComponentsInChildren<MeshFilter>()
-                            .OrderByDescending(mf => mf.sharedMesh.vertexCount)
-                            .FirstOrDefault();
-
-            var r = meshFilter.GetComponent<Renderer>();
-
-            var material = r.sharedMaterials[0];
-
-            var texture = (material.mainTexture
-                ? material.mainTexture
-                : material.GetTexture(
-                    material.GetTexturePropertyNames()
-                            .FirstOrDefault(
-                                 m => m.ToLowerInvariant().Contains("color") ||
-                                      m.ToLowerInvariant().Contains("albedo") ||
-                                      m.ToLowerInvariant().Contains("diffuse") ||
-                                      m.ToLowerInvariant().Contains("base") ||
-                                      m.ToLowerInvariant().Contains("maint")
-                             )
-                )) as Texture2D;
-
-            var texturePath = AssetDatabaseManager.GetAssetPath(texture);
-            var importer = UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
-            var textureSettings = new UnityEditor.TextureImporterSettings();
-            importer.ReadTextureSettings(textureSettings);
-
-            var newPath = ZString.Format(
-                "{0}\\{1}_wind.png",
-                AppaPath.GetDirectoryName(texturePath),
-                AppaPath.GetFileNameWithoutExtension(texturePath)
-            );
-
-            var tex = new Texture2D(
-                (int) generatedMaskSize,
-                (int) generatedMaskSize,
-                TextureFormat.ARGB32,
-                true
-            );
-
-           AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
-
-            AssetDatabaseManager.Refresh();
-
-            var textureImporter = (UnityEditor.TextureImporter) UnityEditor.AssetImporter.GetAtPath(newPath);
-
-            textureSettings.sRGBTexture = false;
-            textureSettings.textureType = UnityEditor.TextureImporterType.Default;
-            textureImporter.SetTextureSettings(textureSettings);
-            textureImporter.SaveAndReimport();
-        }
 
         private bool showPopulateTreeMaterialsButton =>
             (componentData != null) &&
@@ -121,156 +76,20 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
              componentData.treeMaterials.Any(tm => tm.windMask == null));
 
         [Button]
-        [ShowIf(nameof(showPopulateTreeMaterialsButton))]
-        public void PopulateTreeMaterials()
+        [ShowIf(nameof(_showAllButtons))]
+        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
+        public void AssignAllWindMetadata()
         {
-            var renderers = GetComponentsInChildren<MeshRenderer>();
-
-            var materials = renderers.SelectMany(rm => rm.sharedMaterials);
-
-            foreach (var material in materials)
+            using (_PRF_AssignAllWindMetadata.Auto())
             {
-                if (componentData.treeMaterials.Any(
-                    tm => (tm.material == material) && (tm.windMask != null)
-                ))
+                var components = FindObjectsOfType<MeshWindComponent>();
+
+                foreach (var comp in components)
                 {
-                    continue;
+                    comp.AssignWindMetadata();
                 }
-
-                var texture = (material.mainTexture
-                    ? material.mainTexture
-                    : material.GetTexture(
-                        material.GetTexturePropertyNames()
-                                .FirstOrDefault(
-                                     m => m.ToLowerInvariant().Contains("color") ||
-                                          m.ToLowerInvariant().Contains("albedo") ||
-                                          m.ToLowerInvariant().Contains("diffuse") ||
-                                          m.ToLowerInvariant().Contains("base") ||
-                                          m.ToLowerInvariant().Contains("maint")
-                                 )
-                    )) as Texture2D;
-
-                var texturePath = AssetDatabaseManager.GetAssetPath(texture);
-                var importer = UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
-                var textureSettings = new UnityEditor.TextureImporterSettings();
-                importer.ReadTextureSettings(textureSettings);
-
-                var newPath = ZString.Format(
-                    "{0}\\{1}_wind.png",
-                    AppaPath.GetDirectoryName(texturePath),
-                    AppaPath.GetFileNameWithoutExtension(texturePath)
-                );
-
-                var tex = new Texture2D(
-                    (int) generatedMaskSize,
-                    (int) generatedMaskSize,
-                    TextureFormat.ARGB32,
-                    true
-                );
-
-               AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
-
-                AssetDatabaseManager.Refresh();
-
-                var textureImporter = (UnityEditor.TextureImporter) UnityEditor.AssetImporter.GetAtPath(newPath);
-
-                textureSettings.sRGBTexture = false;
-                textureSettings.textureType = UnityEditor.TextureImporterType.Default;
-                textureImporter.SetTextureSettings(textureSettings);
-                textureImporter.SaveAndReimport();
-
-                tex = AssetDatabaseManager.LoadAssetAtPath<Texture2D>(newPath);
-
-                var treeMaterial =
-                    new MeshWindComponentData.TreeMaterialSet {material = material, windMask = tex};
-
-                componentData.treeMaterials.Add(treeMaterial);
             }
         }
-
-        protected override async AppaTask WhenEnabled()
-        {
-            using (_PRF_OnEnable.Auto())
-            {
-                await base.WhenEnabled();
-                
-#if UNITY_EDITOR
-                try
-                {
-                    if (componentData == null)
-                    {
-                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
-                        {
-                            var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
-
-                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
-                            {
-                                prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
-                            }
-
-                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
-                            {
-                                prefabAssetPath =
-                                    UnityEditor.PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(this);
-                            }
-
-                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
-                            {
-                                Context.Log.Error(
-                                    ZString.Format("Could not find asset path for prefab {0}.", name),
-                                    this
-                                );
-
-                                return;
-                            }
-
-                            componentData =
-                                AssetDatabaseManager.LoadAssetAtPath<MeshWindComponentData>(
-                                    prefabAssetPath
-                                );
-
-                            if (componentData == null)
-                            {
-                                componentData =
-                                    MeshWindComponentData
-                                       .CreateAndSaveInExisting<MeshWindComponentData>(
-                                            prefabAssetPath,
-                                            "Mesh Wind Component Data"
-                                        );
-
-                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
-                                    gameObject,
-                                    UnityEditor.InteractionMode.AutomatedAction
-                                );
-                            }
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Context.Log.Error(ZString.Format("Failed to assign mesh wind data to {0}.", name), this);
-                    Context.Log.Error(ex,                                                              this);
-
-                    return;
-                }
-#endif
-                AssignWindMetadata(false);
-            }
-        }
-
-        protected override void Start()
-        {
-            using (_PRF_Start.Auto())
-            {
-                base.Start();
-                AssignWindMetadata(false);
-            }
-        }
-
-        private static readonly Dictionary<Material, MeshWindMetadata.MeshWindMaterialMatchGroup>
-            _materialLookup = new();
-
-        private static readonly object _materialLookupLock = new();
 
         [Button]
         public void AssignWindMetadata()
@@ -280,9 +99,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 AssignWindMetadata(true);
             }
         }
-
-        private static readonly ProfilerMarker _PRF_AssignWindMetadata =
-            new(_PRF_PFX + nameof(AssignWindMetadata));
 
         public void AssignWindMetadata(bool force)
         {
@@ -295,13 +111,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         return;
                     }
 
-                    if (_materialLookup.Count !=
-                        metadata.materialMatches.Sum(m => m.materials.Count))
+                    if (_materialLookup.Count != metadata.materialMatches.Sum(m => m.materials.Count))
                     {
                         lock (_materialLookupLock)
                         {
-                            if (_materialLookup.Count !=
-                                metadata.materialMatches.Sum(m => m.materials.Count))
+                            if (_materialLookup.Count != metadata.materialMatches.Sum(m => m.materials.Count))
                             {
                                 _materialLookup.Clear();
                                 foreach (var mat in metadata.materialMatches)
@@ -332,12 +146,9 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         Mesh updatedMesh;
 
                         var matchingRecoveryInfo =
-                            componentData.recoveryInfo.FirstOrDefault(
-                                ri => ri.updated == currentMesh
-                            );
+                            componentData.recoveryInfo.FirstOrDefault(ri => ri.updated == currentMesh);
 
-                        if ((matchingRecoveryInfo != null) &&
-                            (matchingRecoveryInfo.updated != null))
+                        if ((matchingRecoveryInfo != null) && (matchingRecoveryInfo.updated != null))
                         {
                             if (currentMesh != matchingRecoveryInfo.updated)
                             {
@@ -357,8 +168,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             }
                         }
 
-                        if ((matchingRecoveryInfo == null) ||
-                            (matchingRecoveryInfo.updated == null))
+                        if ((matchingRecoveryInfo == null) || (matchingRecoveryInfo.updated == null))
                         {
                             var newMeshName = ZString.Format("{0}_ADSP", currentMesh.name);
                             var path = AssetDatabaseManager.GetAssetPath(currentMesh);
@@ -451,15 +261,127 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
-        private static bool _showRevertButtons;
-        private static bool _showAllButtons;
-        private static bool _showBatchRevertButtons = _showRevertButtons && _showAllButtons;
+        [Button]
+        [ShowIf(nameof(showGenerateMaskButton))]
+        public void GenerateDefaultWindMask()
+        {
+            var meshFilter = GetComponentsInChildren<MeshFilter>()
+                            .OrderByDescending(mf => mf.sharedMesh.vertexCount)
+                            .FirstOrDefault();
+
+            var r = meshFilter.GetComponent<Renderer>();
+
+            var material = r.sharedMaterials[0];
+
+            var texture = (material.mainTexture
+                ? material.mainTexture
+                : material.GetTexture(
+                    material.GetTexturePropertyNames()
+                            .FirstOrDefault(
+                                 m => m.ToLowerInvariant().Contains("color") ||
+                                      m.ToLowerInvariant().Contains("albedo") ||
+                                      m.ToLowerInvariant().Contains("diffuse") ||
+                                      m.ToLowerInvariant().Contains("base") ||
+                                      m.ToLowerInvariant().Contains("maint")
+                             )
+                )) as Texture2D;
+
+            var texturePath = AssetDatabaseManager.GetAssetPath(texture);
+            var importer = UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
+            var textureSettings = new UnityEditor.TextureImporterSettings();
+            importer.ReadTextureSettings(textureSettings);
+
+            var newPath = ZString.Format(
+                "{0}\\{1}_wind.png",
+                AppaPath.GetDirectoryName(texturePath),
+                AppaPath.GetFileNameWithoutExtension(texturePath)
+            );
+
+            var tex = new Texture2D(
+                (int)generatedMaskSize,
+                (int)generatedMaskSize,
+                TextureFormat.ARGB32,
+                true
+            );
+
+            AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
+
+            AssetDatabaseManager.Refresh();
+
+            var textureImporter = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
+
+            textureSettings.sRGBTexture = false;
+            textureSettings.textureType = UnityEditor.TextureImporterType.Default;
+            textureImporter.SetTextureSettings(textureSettings);
+            textureImporter.SaveAndReimport();
+        }
 
         [Button]
-        [FoldoutGroup("Revert", Order = 1000, Expanded = false)]
-        public void ShowRevertButtons()
+        [ShowIf(nameof(showPopulateTreeMaterialsButton))]
+        public void PopulateTreeMaterials()
         {
-            _showRevertButtons = !_showRevertButtons;
+            var renderers = GetComponentsInChildren<MeshRenderer>();
+
+            var materials = renderers.SelectMany(rm => rm.sharedMaterials);
+
+            foreach (var material in materials)
+            {
+                if (componentData.treeMaterials.Any(tm => (tm.material == material) && (tm.windMask != null)))
+                {
+                    continue;
+                }
+
+                var texture = (material.mainTexture
+                    ? material.mainTexture
+                    : material.GetTexture(
+                        material.GetTexturePropertyNames()
+                                .FirstOrDefault(
+                                     m => m.ToLowerInvariant().Contains("color") ||
+                                          m.ToLowerInvariant().Contains("albedo") ||
+                                          m.ToLowerInvariant().Contains("diffuse") ||
+                                          m.ToLowerInvariant().Contains("base") ||
+                                          m.ToLowerInvariant().Contains("maint")
+                                 )
+                    )) as Texture2D;
+
+                var texturePath = AssetDatabaseManager.GetAssetPath(texture);
+                var importer =
+                    UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
+                var textureSettings = new UnityEditor.TextureImporterSettings();
+                importer.ReadTextureSettings(textureSettings);
+
+                var newPath = ZString.Format(
+                    "{0}\\{1}_wind.png",
+                    AppaPath.GetDirectoryName(texturePath),
+                    AppaPath.GetFileNameWithoutExtension(texturePath)
+                );
+
+                var tex = new Texture2D(
+                    (int)generatedMaskSize,
+                    (int)generatedMaskSize,
+                    TextureFormat.ARGB32,
+                    true
+                );
+
+                AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
+
+                AssetDatabaseManager.Refresh();
+
+                var textureImporter =
+                    (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
+
+                textureSettings.sRGBTexture = false;
+                textureSettings.textureType = UnityEditor.TextureImporterType.Default;
+                textureImporter.SetTextureSettings(textureSettings);
+                textureImporter.SaveAndReimport();
+
+                tex = AssetDatabaseManager.LoadAssetAtPath<Texture2D>(newPath);
+
+                var treeMaterial =
+                    new MeshWindComponentData.TreeMaterialSet { material = material, windMask = tex };
+
+                componentData.treeMaterials.Add(treeMaterial);
+            }
         }
 
         [Button]
@@ -500,35 +422,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         }
 
         [Button]
-        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
-        public void ShowAllButtons()
-        {
-            _showAllButtons = !_showAllButtons;
-        }
-
-        private static readonly ProfilerMarker _PRF_AssignAllWindMetadata =
-            new(_PRF_PFX + nameof(AssignAllWindMetadata));
-
-        [Button]
-        [ShowIf(nameof(_showAllButtons))]
-        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
-        public void AssignAllWindMetadata()
-        {
-            using (_PRF_AssignAllWindMetadata.Auto())
-            {
-                var components = FindObjectsOfType<MeshWindComponent>();
-
-                foreach (var comp in components)
-                {
-                    comp.AssignWindMetadata();
-                }
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_RevertMismatchedRecoveryData =
-            new(_PRF_PFX + nameof(RevertMismatchedRecoveryData));
-
-        [Button]
         [ShowIf(nameof(_showBatchRevertButtons))]
         [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
         public void RevertMismatchedRecoveryData()
@@ -546,6 +439,97 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         comp.Revert();
                     }
                 }
+            }
+        }
+
+        [Button]
+        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
+        public void ShowAllButtons()
+        {
+            _showAllButtons = !_showAllButtons;
+        }
+
+        [Button]
+        [FoldoutGroup("Revert", Order = 1000, Expanded = false)]
+        public void ShowRevertButtons()
+        {
+            _showRevertButtons = !_showRevertButtons;
+        }
+
+        protected override async AppaTask Initialize(Initializer initializer)
+        {
+            using (_PRF_Initialize.Auto())
+            {
+                await base.Initialize(initializer);
+
+                AssignWindMetadata(false);
+            }
+        }
+
+        protected override async AppaTask WhenEnabled()
+        {
+            using (_PRF_WhenEnabled.Auto())
+            {
+                await base.WhenEnabled();
+
+#if UNITY_EDITOR
+                try
+                {
+                    if (componentData == null)
+                    {
+                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
+                        {
+                            var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
+
+                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
+                            {
+                                prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
+                            }
+
+                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
+                            {
+                                prefabAssetPath = UnityEditor.PrefabUtility
+                                                             .GetPrefabAssetPathOfNearestInstanceRoot(this);
+                            }
+
+                            if (string.IsNullOrWhiteSpace(prefabAssetPath))
+                            {
+                                Context.Log.Error(
+                                    ZString.Format("Could not find asset path for prefab {0}.", name),
+                                    this
+                                );
+
+                                return;
+                            }
+
+                            componentData =
+                                AssetDatabaseManager.LoadAssetAtPath<MeshWindComponentData>(prefabAssetPath);
+
+                            if (componentData == null)
+                            {
+                                componentData =
+                                    MeshWindComponentData.CreateAndSaveInExisting<MeshWindComponentData>(
+                                        prefabAssetPath,
+                                        "Mesh Wind Component Data"
+                                    );
+
+                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
+                                    gameObject,
+                                    UnityEditor.InteractionMode.AutomatedAction
+                                );
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Context.Log.Error(ZString.Format("Failed to assign mesh wind data to {0}.", name), this);
+                    Context.Log.Error(ex,                                                              this);
+
+                    return;
+                }
+#endif
+                AssignWindMetadata(false);
             }
         }
 
@@ -570,11 +554,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             for (var i = 0; i < vertices.Count; i++)
             {
                 var vertex = vertices[i];
-                var updatedVertex = new Vector3(
-                    vertex.x * scale.x,
-                    vertex.y * scale.y,
-                    vertex.z * scale.z
-                );
+                var updatedVertex = new Vector3(vertex.x * scale.x, vertex.y * scale.y, vertex.z * scale.z);
                 updatedVertex = meshRotation * updatedVertex;
                 updatedVertex += offset;
 
@@ -585,16 +565,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 var color = new Color(
                     LerpHelper.LerpExact(metadata.grassFadeR.x, metadata.grassFadeR.y, timeY),
                     0f,
-                    LerpHelper.LerpExact(
-                        metadata.grassFadeB.x,
-                        metadata.grassFadeB.y,
-                        timeX * timeZ
-                    ),
-                    LerpHelper.LerpExact(
-                        metadata.grassFadeA.x,
-                        metadata.grassFadeA.y,
-                        1 - (timeX * timeZ)
-                    )
+                    LerpHelper.LerpExact(metadata.grassFadeB.x, metadata.grassFadeB.y, timeX * timeZ),
+                    LerpHelper.LerpExact(metadata.grassFadeA.x, metadata.grassFadeA.y, 1 - (timeX * timeZ))
                 );
 
                 color.r = Mathf.Clamp01(color.r * componentData.windStrengthModifier);
@@ -663,9 +635,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     //var timeXYZ = Mathf.Max(timeX, Mathf.Max(timeY, timeZ));
                     var timeXZ = Mathf.Max(timeX, timeZ);
 
-                    var generalNoise = Perlin.Noise(
-                        metadata.generalMotionNoiseScale * updatedVertex.xz()
-                    );
+                    var generalNoise = Perlin.Noise(metadata.generalMotionNoiseScale * updatedVertex.xz());
                     var leafNoise = 1 - Perlin.Noise(metadata.leafMotionNoiseScale * updatedVertex);
 
                     var generalNoiseAmount = metadata.generalMotionNoiseRange.x +
@@ -790,9 +760,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     //var timeXYZ = Mathf.Max(timeX, Mathf.Max(timeY, timeZ));
                     var timeXZ = Mathf.Max(timeX, timeZ);
 
-                    var generalNoise = Perlin.Noise(
-                        metadata.generalMotionNoiseScale * updatedVertex.xz()
-                    );
+                    var generalNoise = Perlin.Noise(metadata.generalMotionNoiseScale * updatedVertex.xz());
                     var leafNoise = 1 - Perlin.Noise(metadata.leafMotionNoiseScale * updatedVertex);
 
                     var generalNoiseAmount = metadata.generalMotionNoiseRange.x +
@@ -840,8 +808,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var finalColor = maskColor * colorAugment;
 
                     finalColor.r = Mathf.Clamp01(finalColor.r * componentData.windStrengthModifier);
-                    finalColor.g =
-                        Mathf.Clamp01(finalColor.g * componentData.branchStrengthModifier);
+                    finalColor.g = Mathf.Clamp01(finalColor.g * componentData.branchStrengthModifier);
                     finalColor.b = Mathf.Clamp01(finalColor.b * componentData.leafStrengthModifier);
 
                     colors[indices[j]] = finalColor;
@@ -886,131 +853,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 go,
                 materials
             );
-        }
-
-        private List<Color> AssignWindMetadata_TreeMaterials_TreeCreator(
-            Mesh mesh,
-            Vector3 offset,
-            Quaternion meshRotation,
-            Vector3 scale,
-            Tree tree,
-
-            // ReSharper disable once UnusedParameter.Local
-            List<MeshWindComponentData.TreeMaterialSet> materials)
-        {
-            var treeOffset = new Vector3(offset.x, offset.y, offset.z);
-            
-#if UNITY_EDITOR
-            var treeData = tree.data as TreeEditor.TreeData;
-            treeOffset.y += treeData.root.groundOffset;
-#endif
-
-            var bounds = new MeshBounds(mesh, treeOffset, meshRotation, scale);
-            bounds.x.min = 0;
-            bounds.z.min = 0;
-
-            var colors = new List<Color>();
-
-            for (var i = 0; i < mesh.vertexCount; i++)
-            {
-                colors.Add(metadata.baseColor);
-            }
-
-            var variationNoise = Perlin.Noise(mesh.bounds.size * metadata.variationNoiseScale);
-            var variationNoiseAmount = metadata.variationNoiseRange.x +
-                                       (variationNoise * metadata.variationNoiseRange.y);
-
-            var vertices = new List<Vector3>();
-            mesh.GetVertices(vertices);
-
-            var indices = new List<int>();
-            var uv1 = new List<Vector2>();
-            mesh.GetUVs(0, uv1);
-
-            for (var i = mesh.subMeshCount - 1; i >= 0; i--)
-            {
-                mesh.GetIndices(indices, i);
-
-                for (var j = 0; j < indices.Count; j++)
-                {
-                    var vertex = vertices[indices[j]];
-                    var updatedVertex = new Vector3(
-                        vertex.x * scale.x,
-                        vertex.y * scale.y,
-                        vertex.z * scale.z
-                    );
-                    updatedVertex = meshRotation * updatedVertex;
-                    updatedVertex += offset;
-                    var uv = uv1[indices[j]];
-
-                    var maskColor = Color.black; //windMask.GetPixelBilinear(uv.x, uv.y);
-
-                    var timeX = Mathf.Clamp01(bounds.NormalizeX(Mathf.Abs(updatedVertex.x)));
-                    var timeY = Mathf.Clamp01(bounds.NormalizeY(Mathf.Abs(updatedVertex.y)));
-                    var timeZ = Mathf.Clamp01(bounds.NormalizeZ(Mathf.Abs(updatedVertex.z)));
-
-                    var timeXYZ = Mathf.Max(timeX, Mathf.Max(timeY, timeZ));
-                    var timeXZ = Mathf.Max(timeX,  timeZ);
-
-                    var generalNoise = Perlin.Noise(
-                        metadata.generalMotionNoiseScale * updatedVertex.xz()
-                    );
-                    var leafNoise = 1 - Perlin.Noise(metadata.leafMotionNoiseScale * updatedVertex);
-
-                    var generalNoiseAmount = metadata.generalMotionNoiseRange.x +
-                                             (generalNoise * metadata.generalMotionNoiseRange.y);
-
-                    var leafNoiseAmount = metadata.leafMotionNoiseRange.x +
-                                          (leafNoise * metadata.leafMotionNoiseRange.y);
-
-                    var generalTime = timeY +
-                                      ((componentData.windMaskXZInfluence * timeXZ) /
-                                       (1 + componentData.windMaskXZInfluence));
-
-                    var colorAugment = new Color(
-                        componentData.disableGeneralMotion
-                            ? 0f
-                            : LerpHelper.SmoothStep(
-                                metadata.grassFadeR.x,
-                                metadata.grassFadeR.y,
-                                generalNoiseAmount * generalTime
-                            ),
-                        0f,
-                        componentData.disableLeafMotion
-                            ? 0f
-                            : LerpHelper.SmoothStep(
-                                metadata.grassFadeB.x,
-                                metadata.grassFadeB.y,
-                                leafNoiseAmount * timeXZ
-                            ),
-                        componentData.disableVariationMotion
-                            ? 0f
-                            : componentData.invertVariationMotion
-                                ? 1 -
-                                  LerpHelper.SmoothStep(
-                                      metadata.grassFadeA.x,
-                                      metadata.grassFadeA.y,
-                                      variationNoiseAmount
-                                  )
-                                : LerpHelper.SmoothStep(
-                                    metadata.grassFadeA.x,
-                                    metadata.grassFadeA.y,
-                                    variationNoiseAmount
-                                )
-                    );
-
-                    var finalColor = maskColor * colorAugment;
-
-                    finalColor.r = Mathf.Clamp01(finalColor.r * componentData.windStrengthModifier);
-                    finalColor.g =
-                        Mathf.Clamp01(finalColor.g * componentData.branchStrengthModifier);
-                    finalColor.b = Mathf.Clamp01(finalColor.b * componentData.leafStrengthModifier);
-
-                    colors[indices[j]] = finalColor;
-                }
-            }
-
-            return colors;
         }
 
         private List<Color> AssignWindMetadata_TreeMaterials_NonTreeCreator(
@@ -1069,9 +911,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var timeXYZ = Mathf.Max(timeX, Mathf.Max(timeY, timeZ));
                     var timeXZ = Mathf.Max(timeX,  timeZ);
 
-                    var generalNoise = Perlin.Noise(
-                        metadata.generalMotionNoiseScale * updatedVertex.xz()
-                    );
+                    var generalNoise = Perlin.Noise(metadata.generalMotionNoiseScale * updatedVertex.xz());
                     var leafNoise = 1 - Perlin.Noise(metadata.leafMotionNoiseScale * updatedVertex);
 
                     var generalNoiseAmount = metadata.generalMotionNoiseRange.x +
@@ -1119,8 +959,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var finalColor = maskColor * colorAugment;
 
                     finalColor.r = Mathf.Clamp01(finalColor.r * componentData.windStrengthModifier);
-                    finalColor.g =
-                        Mathf.Clamp01(finalColor.g * componentData.branchStrengthModifier);
+                    finalColor.g = Mathf.Clamp01(finalColor.g * componentData.branchStrengthModifier);
                     finalColor.b = Mathf.Clamp01(finalColor.b * componentData.leafStrengthModifier);
 
                     colors[indices[j]] = finalColor;
@@ -1130,12 +969,132 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             return colors;
         }
 
+        private List<Color> AssignWindMetadata_TreeMaterials_TreeCreator(
+            Mesh mesh,
+            Vector3 offset,
+            Quaternion meshRotation,
+            Vector3 scale,
+            Tree tree,
+
+            // ReSharper disable once UnusedParameter.Local
+            List<MeshWindComponentData.TreeMaterialSet> materials)
+        {
+            var treeOffset = new Vector3(offset.x, offset.y, offset.z);
+
+#if UNITY_EDITOR
+            var treeData = tree.data as TreeEditor.TreeData;
+            treeOffset.y += treeData.root.groundOffset;
+#endif
+
+            var bounds = new MeshBounds(mesh, treeOffset, meshRotation, scale);
+            bounds.x.min = 0;
+            bounds.z.min = 0;
+
+            var colors = new List<Color>();
+
+            for (var i = 0; i < mesh.vertexCount; i++)
+            {
+                colors.Add(metadata.baseColor);
+            }
+
+            var variationNoise = Perlin.Noise(mesh.bounds.size * metadata.variationNoiseScale);
+            var variationNoiseAmount = metadata.variationNoiseRange.x +
+                                       (variationNoise * metadata.variationNoiseRange.y);
+
+            var vertices = new List<Vector3>();
+            mesh.GetVertices(vertices);
+
+            var indices = new List<int>();
+            var uv1 = new List<Vector2>();
+            mesh.GetUVs(0, uv1);
+
+            for (var i = mesh.subMeshCount - 1; i >= 0; i--)
+            {
+                mesh.GetIndices(indices, i);
+
+                for (var j = 0; j < indices.Count; j++)
+                {
+                    var vertex = vertices[indices[j]];
+                    var updatedVertex = new Vector3(
+                        vertex.x * scale.x,
+                        vertex.y * scale.y,
+                        vertex.z * scale.z
+                    );
+                    updatedVertex = meshRotation * updatedVertex;
+                    updatedVertex += offset;
+                    var uv = uv1[indices[j]];
+
+                    var maskColor = Color.black; //windMask.GetPixelBilinear(uv.x, uv.y);
+
+                    var timeX = Mathf.Clamp01(bounds.NormalizeX(Mathf.Abs(updatedVertex.x)));
+                    var timeY = Mathf.Clamp01(bounds.NormalizeY(Mathf.Abs(updatedVertex.y)));
+                    var timeZ = Mathf.Clamp01(bounds.NormalizeZ(Mathf.Abs(updatedVertex.z)));
+
+                    var timeXYZ = Mathf.Max(timeX, Mathf.Max(timeY, timeZ));
+                    var timeXZ = Mathf.Max(timeX,  timeZ);
+
+                    var generalNoise = Perlin.Noise(metadata.generalMotionNoiseScale * updatedVertex.xz());
+                    var leafNoise = 1 - Perlin.Noise(metadata.leafMotionNoiseScale * updatedVertex);
+
+                    var generalNoiseAmount = metadata.generalMotionNoiseRange.x +
+                                             (generalNoise * metadata.generalMotionNoiseRange.y);
+
+                    var leafNoiseAmount = metadata.leafMotionNoiseRange.x +
+                                          (leafNoise * metadata.leafMotionNoiseRange.y);
+
+                    var generalTime = timeY +
+                                      ((componentData.windMaskXZInfluence * timeXZ) /
+                                       (1 + componentData.windMaskXZInfluence));
+
+                    var colorAugment = new Color(
+                        componentData.disableGeneralMotion
+                            ? 0f
+                            : LerpHelper.SmoothStep(
+                                metadata.grassFadeR.x,
+                                metadata.grassFadeR.y,
+                                generalNoiseAmount * generalTime
+                            ),
+                        0f,
+                        componentData.disableLeafMotion
+                            ? 0f
+                            : LerpHelper.SmoothStep(
+                                metadata.grassFadeB.x,
+                                metadata.grassFadeB.y,
+                                leafNoiseAmount * timeXZ
+                            ),
+                        componentData.disableVariationMotion
+                            ? 0f
+                            : componentData.invertVariationMotion
+                                ? 1 -
+                                  LerpHelper.SmoothStep(
+                                      metadata.grassFadeA.x,
+                                      metadata.grassFadeA.y,
+                                      variationNoiseAmount
+                                  )
+                                : LerpHelper.SmoothStep(
+                                    metadata.grassFadeA.x,
+                                    metadata.grassFadeA.y,
+                                    variationNoiseAmount
+                                )
+                    );
+
+                    var finalColor = maskColor * colorAugment;
+
+                    finalColor.r = Mathf.Clamp01(finalColor.r * componentData.windStrengthModifier);
+                    finalColor.g = Mathf.Clamp01(finalColor.g * componentData.branchStrengthModifier);
+                    finalColor.b = Mathf.Clamp01(finalColor.b * componentData.leafStrengthModifier);
+
+                    colors[indices[j]] = finalColor;
+                }
+            }
+
+            return colors;
+        }
+
+        #region Nested type: MeshBounds
+
         public class MeshBounds
         {
-            public MinMax x = new();
-            public MinMax y = new();
-            public MinMax z = new();
-
             public MeshBounds(Mesh mesh, Vector3 offset, Quaternion meshRotation, Vector3 scale)
             {
                 var vertices = new List<Vector3>();
@@ -1168,6 +1127,14 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 }
             }
 
+            #region Fields and Autoproperties
+
+            public MinMax x = new();
+            public MinMax y = new();
+            public MinMax z = new();
+
+            #endregion
+
             public float NormalizeX(float x)
             {
                 return Normalize(x, this.x.min, this.x.max);
@@ -1188,12 +1155,36 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 return (val - min) / (max - min);
             }
 
+            #region Nested type: MinMax
+
             public class MinMax
             {
+                #region Fields and Autoproperties
+
                 public float max;
                 public float min;
+
+                #endregion
             }
+
+            #endregion
         }
-#endif
+
+        #endregion
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(MeshWindComponent) + ".";
+
+        private static readonly ProfilerMarker _PRF_WhenEnabled =
+            new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
+
+        private static readonly ProfilerMarker _PRF_AssignAllWindMetadata =
+            new(_PRF_PFX + nameof(AssignAllWindMetadata));
+
+        private static readonly ProfilerMarker _PRF_RevertMismatchedRecoveryData =
+            new(_PRF_PFX + nameof(RevertMismatchedRecoveryData));
+
+        #endregion
     }
 }

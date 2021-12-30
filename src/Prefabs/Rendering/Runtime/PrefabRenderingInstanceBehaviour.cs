@@ -26,10 +26,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
     public sealed class
         PrefabRenderingInstanceBehaviour : AppalachiaBehaviour<PrefabRenderingInstanceBehaviour>
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabRenderingInstanceBehaviour()
         {
             PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
         }
 
         #region Preferences
@@ -52,6 +52,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         private static int _drawCount;
 
         private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
+
+        private static PrefabRenderingManager _prefabRenderingManager;
 
         //private static int _lastDrawCount;
         //private static int _additiveRadius;
@@ -157,7 +159,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                 var selections = UnityEditor.Selection.gameObjects;
 
-                var gizmoOptions = PrefabRenderingManager.instance.RenderingOptions.gizmos;
+                var gizmoOptions = _prefabRenderingManager.RenderingOptions.gizmos;
 
                 if (!gizmoOptions.gizmosEnabled)
                 {
@@ -221,7 +223,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     _cachedFrame = frame;
                     _drawCount = 0;
 
-                    var gpui = PrefabRenderingManager.instance.gpui;
+                    var gpui = _prefabRenderingManager.gpui;
                     var options = _prefabModelTypeOptionsLookup.State[set.modelType];
 
                     var cam = gpui.cameraData.mainCamera;
@@ -236,7 +238,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                     var frustum = options.GetFrustum(
                         gpui.cameraData.mainCamera,
-                        PrefabRenderingManager.instance.frustumCamera
+                        _prefabRenderingManager.frustumCamera
                     );
 
                     frustum.DrawFrustumGizmo(ColorPrefs.Instance.PRIIC_Gizmos.v);

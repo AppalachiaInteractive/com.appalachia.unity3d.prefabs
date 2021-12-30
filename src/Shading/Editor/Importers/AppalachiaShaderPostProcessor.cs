@@ -17,7 +17,6 @@ namespace Appalachia.Rendering.Shading.Importers
 
         #endregion
 
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static AppalachiaShaderPostProcessor()
         {
             AppalachiaShaderFeatures.InstanceAvailable += i => _appalachiaShaderFeatures = i;

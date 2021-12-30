@@ -17,29 +17,44 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 {
     [Serializable]
     public class PrefabModelTypeOptionsOverride :
-        PrefabTypeOptionsOverride<PrefabModelType, PrefabModelTypeOptions,
-            PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
-            PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup,
-            Index_PrefabModelTypeOptions, PrefabModelTypeOptionsToggle,
-            Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
-            AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>,
+        PrefabTypeOptionsOverride<PrefabModelType, PrefabModelTypeOptions, PrefabModelTypeOptionsOverride,
+            PrefabModelTypeOptionsSetData, PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup,
+            Index_PrefabModelTypeOptions, PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle,
+            AppaList_PrefabModelType, AppaList_PrefabModelTypeOptionsWrapper,
+            AppaList_PrefabModelTypeOptionsToggle>,
         IEquatable<PrefabModelTypeOptionsOverride>
     {
-        [SerializeField]
-        [InlineProperty]
-        [SmartLabel]
-        public OverridableFloat minimumRenderingDistance;
+        #region Fields and Autoproperties
 
+        [TabGroup("Burial")]
         [SerializeField]
         [InlineProperty]
-        [SmartLabel]
-        public OverridableFloat maximumRenderingDistance;
+        [HideLabel]
+        [LabelWidth(0)]
+        public OverridableAssetBurialOptions burialOptions;
 
-        [TabGroup("Runtime")]
+        [TabGroup("Cull")]
         [SerializeField]
         [InlineProperty]
-        [SmartLabel]
-        public OverridableLayerSelection layer;
+        [HideLabel]
+        [LabelWidth(0)]
+        public OverridableAssetCullingSettings cullingSettings;
+
+        [TabGroup("Light")]
+        [Title("Instancing")]
+        [SerializeField]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        public OverridableAssetLightingSettings instancedLighting;
+
+        [TabGroup("Light")]
+        [Title("Mesh Rendering")]
+        [SerializeField]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        public OverridableAssetLightingSettings normalLighting;
 
         /*
         [TabGroup("Frustum")]
@@ -56,35 +71,28 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [LabelWidth(0)]
         public OverridableAssetRangeSettingsArray rangeSettings;
 
-        [TabGroup("Light")]
-        [Title("Mesh Rendering")]
-        [SerializeField]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        public OverridableAssetLightingSettings normalLighting;
-
-        [TabGroup("Light")]
-        [Title("Instancing")]
-        [SerializeField]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        public OverridableAssetLightingSettings instancedLighting;
-
-        [TabGroup("Cull")]
-        [SerializeField]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        public OverridableAssetCullingSettings cullingSettings;
-
         [TabGroup("Falloff")]
         [SerializeField]
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
         public OverridableDistanceFalloffSettings distanceFalloffSettings;
+
+        [SerializeField]
+        [InlineProperty]
+        [SmartLabel]
+        public OverridableFloat maximumRenderingDistance;
+
+        [SerializeField]
+        [InlineProperty]
+        [SmartLabel]
+        public OverridableFloat minimumRenderingDistance;
+
+        [TabGroup("Runtime")]
+        [SerializeField]
+        [InlineProperty]
+        [SmartLabel]
+        public OverridableLayerSelection layer;
 
         [TabGroup("LOD")]
         [SerializeField]
@@ -93,29 +101,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [LabelWidth(0)]
         public OverridableLODFadeSettings lodFadeSettings;
 
-        [TabGroup("Burial")]
-        [SerializeField]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        public OverridableAssetBurialOptions burialOptions;
+        #endregion
 
         public override void Initialize(PrefabModelTypeOptions options)
         {
             if (minimumRenderingDistance == null)
             {
-                minimumRenderingDistance = new OverridableFloat(
-                    false,
-                    options.minimumRenderingDistance
-                );
+                minimumRenderingDistance = new OverridableFloat(false, options.minimumRenderingDistance);
             }
 
             if (maximumRenderingDistance == null)
             {
-                maximumRenderingDistance = new OverridableFloat(
-                    false,
-                    options.maximumRenderingDistance
-                );
+                maximumRenderingDistance = new OverridableFloat(false, options.maximumRenderingDistance);
             }
 
             if (layer == null)
@@ -130,20 +127,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (rangeSettings == null)
             {
-                rangeSettings = new OverridableAssetRangeSettingsArray(
-                    true,
-                    false,
-                    options.rangeSettings
-                );
+                rangeSettings = new OverridableAssetRangeSettingsArray(true, false, options.rangeSettings);
             }
 
             if (normalLighting == null)
             {
-                normalLighting = new OverridableAssetLightingSettings(
-                    true,
-                    false,
-                    options.normalLighting
-                );
+                normalLighting = new OverridableAssetLightingSettings(true, false, options.normalLighting);
             }
 
             if (instancedLighting == null)
@@ -157,11 +146,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (cullingSettings == null)
             {
-                cullingSettings = new OverridableAssetCullingSettings(
-                    true,
-                    false,
-                    options.cullingSettings
-                );
+                cullingSettings = new OverridableAssetCullingSettings(true, false, options.cullingSettings);
             }
 
             if (distanceFalloffSettings == null)
@@ -175,11 +160,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (lodFadeSettings == null)
             {
-                lodFadeSettings = new OverridableLODFadeSettings(
-                    true,
-                    false,
-                    options.lodFadeSettings
-                );
+                lodFadeSettings = new OverridableLODFadeSettings(true, false, options.lodFadeSettings);
             }
 
             if (burialOptions == null)
@@ -188,9 +169,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             }
         }
 
-#region IEquatable
+        #region IEquatable
 
-        [DebuggerStepThrough] public bool Equals(PrefabModelTypeOptionsOverride other)
+        [DebuggerStepThrough]
+        public bool Equals(PrefabModelTypeOptionsOverride other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -204,17 +186,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             return Equals(minimumRenderingDistance, other.minimumRenderingDistance) &&
                    Equals(maximumRenderingDistance, other.maximumRenderingDistance) &&
-                   Equals(layer, other.layer) /* && Equals(frustum, other.frustum)*/ &&
-                   Equals(rangeSettings, other.rangeSettings) &&
-                   Equals(normalLighting, other.normalLighting) &&
-                   Equals(instancedLighting, other.instancedLighting) &&
-                   Equals(cullingSettings, other.cullingSettings) &&
-                   Equals(distanceFalloffSettings, other.distanceFalloffSettings) &&
-                   Equals(lodFadeSettings, other.lodFadeSettings) &&
-                   Equals(burialOptions, other.burialOptions);
+                   Equals(layer,                    other.layer) /* && Equals(frustum, other.frustum)*/ &&
+                   Equals(rangeSettings,            other.rangeSettings) &&
+                   Equals(normalLighting,           other.normalLighting) &&
+                   Equals(instancedLighting,        other.instancedLighting) &&
+                   Equals(cullingSettings,          other.cullingSettings) &&
+                   Equals(distanceFalloffSettings,  other.distanceFalloffSettings) &&
+                   Equals(lodFadeSettings,          other.lodFadeSettings) &&
+                   Equals(burialOptions,            other.burialOptions);
         }
 
-        [DebuggerStepThrough] public override bool Equals(object obj)
+        [DebuggerStepThrough]
+        public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj))
             {
@@ -231,57 +214,49 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 return false;
             }
 
-            return Equals((PrefabModelTypeOptionsOverride) obj);
+            return Equals((PrefabModelTypeOptionsOverride)obj);
         }
 
-        [DebuggerStepThrough] public override int GetHashCode()
+        [DebuggerStepThrough]
+        public override int GetHashCode()
         {
             unchecked
             {
-                var hashCode = minimumRenderingDistance != null
-                    ? minimumRenderingDistance.GetHashCode()
-                    : 0;
+                var hashCode = minimumRenderingDistance != null ? minimumRenderingDistance.GetHashCode() : 0;
                 hashCode = (hashCode * 397) ^
-                           (maximumRenderingDistance != null
-                               ? maximumRenderingDistance.GetHashCode()
-                               : 0);
+                           (maximumRenderingDistance != null ? maximumRenderingDistance.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^ (layer != null ? layer.GetHashCode() : 0);
 
                 //hashCode = (hashCode * 397) ^ (frustum != null ? frustum.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^
-                           (rangeSettings != null ? rangeSettings.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^
-                           (normalLighting != null ? normalLighting.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (rangeSettings != null ? rangeSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (normalLighting != null ? normalLighting.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^
                            (instancedLighting != null ? instancedLighting.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (cullingSettings != null ? cullingSettings.GetHashCode() : 0);
                 hashCode = (hashCode * 397) ^
-                           (cullingSettings != null ? cullingSettings.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^
-                           (distanceFalloffSettings != null
-                               ? distanceFalloffSettings.GetHashCode()
-                               : 0);
-                hashCode = (hashCode * 397) ^
-                           (lodFadeSettings != null ? lodFadeSettings.GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^
-                           (burialOptions != null ? burialOptions.GetHashCode() : 0);
+                           (distanceFalloffSettings != null ? distanceFalloffSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (lodFadeSettings != null ? lodFadeSettings.GetHashCode() : 0);
+                hashCode = (hashCode * 397) ^ (burialOptions != null ? burialOptions.GetHashCode() : 0);
                 return hashCode;
             }
         }
 
-        [DebuggerStepThrough] public static bool operator ==(
+        [DebuggerStepThrough]
+        public static bool operator ==(
             PrefabModelTypeOptionsOverride left,
             PrefabModelTypeOptionsOverride right)
         {
             return Equals(left, right);
         }
 
-        [DebuggerStepThrough] public static bool operator !=(
+        [DebuggerStepThrough]
+        public static bool operator !=(
             PrefabModelTypeOptionsOverride left,
             PrefabModelTypeOptionsOverride right)
         {
             return !Equals(left, right);
         }
 
-#endregion
+        #endregion
     }
 }

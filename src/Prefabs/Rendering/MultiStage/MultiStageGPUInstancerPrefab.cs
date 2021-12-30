@@ -8,23 +8,24 @@ using Appalachia.Rendering.Prefabs.Rendering.Runtime;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.MultiStage
 {
-    public abstract class MultiStageGPUInstancerPrefab<T> : AppalachiaBehaviour<>
+    public abstract class MultiStageGPUInstancerPrefab<TGP, T> : AppalachiaBehaviour<TGP>
+        where TGP : MultiStageGPUInstancerPrefab<TGP, T>
         where T : Enum
     {
+        #region Fields and Autoproperties
+
         public MultiStagePrefabType prefabType;
 
         public T currentStages;
 
+        #endregion
+
         public bool tree => prefabType == MultiStagePrefabType.Tree;
 
-        protected abstract PrefabRenderingInstance GetInstanceForStage(T stage);
-
         protected abstract bool CanEnableStage(T stage);
+        protected abstract void ClearFlag(T stage);
 
-        protected bool HasStage(T stage)
-        {
-            return currentStages.HasFlag(stage);
-        }
+        protected abstract PrefabRenderingInstance GetInstanceForStage(T stage);
 
         /*
         protected void SetStage(RuntimePrefabRenderingDataElement element, PrefabRenderingInstanceData stageData, T stage, bool enableStage)
@@ -43,7 +44,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.MultiStage
         */
 
         protected abstract void SetFlag(T stage);
-        protected abstract void ClearFlag(T stage);
+
+        protected bool HasStage(T stage)
+        {
+            return currentStages.HasFlag(stage);
+        }
 
         /*
         protected void EnableStage(RuntimePrefabRenderingDataElement element, T stage)

@@ -1,6 +1,7 @@
 #region
 
 using System;
+using Appalachia.Core.Attributes;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
@@ -19,83 +20,48 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
     [Serializable]
     [InlineEditor(Expanded = true, ObjectFieldMode = InlineEditorObjectFieldModes.Foldout)]
     [InlineProperty]
+    [CallStaticConstructorInEditor]
     public class PrefabModelTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabModelType,
         PrefabModelTypeOptions, PrefabModelTypeOptionsOverride, PrefabModelTypeOptionsSetData,
         PrefabModelTypeOptionsWrapper, PrefabModelTypeOptionsLookup, Index_PrefabModelTypeOptions,
         PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
         AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
-        private const string _PRF_PFX = nameof(PrefabModelTypeOptionsWrapper) + ".";
+        static PrefabModelTypeOptionsWrapper()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
 
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+        #region Static Fields and Autoproperties
 
-        private static readonly ProfilerMarker _PRF_GetFrustum = new(_PRF_PFX + nameof(GetFrustum));
+        private static PrefabRenderingManager _prefabRenderingManager;
 
-        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache =
-            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache");
+        #endregion
 
-        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_GetCameras =
-            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.GetCameras");
-
-        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_AssignProperties =
-            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.AssignProperties");
-
-        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_CreatePlanes =
-            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.CreatePlanes");
+        #region Fields and Autoproperties
 
         private Camera _cam;
 
         private FrustumPlanesWrapper _frustum;
         private Camera _frustumCam;
 
-        private int prefabCount =>
-            PrefabRenderingManager.instance.renderingSets == null
-                ? 0
-                : PrefabRenderingManager.instance.renderingSets.ModelTypeCounts.GetPrefabTypeCount(
-                    type
-                );
-
-        private InstanceStateCounts instanceCounts =>
-            PrefabRenderingManager.instance.renderingSets == null
-                ? default
-                : PrefabRenderingManager.instance.renderingSets.ModelTypeCounts.GetInstanceCount(
-                    type
-                );
-
-        public override string Title => type.ToString().SeperateWords();
+        #endregion
 
         //public string Subtitle => $"{prefabCount} prefabs | {instanceCounts.total} instances";
         public override string Subtitle =>
             ZString.Format("{0} prefabs | {1}", prefabCount, instanceCounts.ToString());
 
-        protected override async AppaTask WhenEnabled()
-        {
-            using (_PRF_OnEnable.Auto())
-            {
-                await base.WhenEnabled();
-                var ranges = _options.rangeSettings;
+        public override string Title => type.ToString().SeperateWords();
 
-                if ((ranges == null) || (ranges.Length <= 0))
-                {
-                    return;
-                }
+        private InstanceStateCounts instanceCounts =>
+            _prefabRenderingManager.renderingSets == null
+                ? default
+                : _prefabRenderingManager.renderingSets.ModelTypeCounts.GetInstanceCount(type);
 
-                for (var i = 0; i < (ranges.Length - 2); i++)
-                {
-                    if (!ranges[i].showRangeLimit)
-                    {
-                        ranges[i].showRangeLimit = true;
-                       this.MarkAsModified();
-                    }
-                }
-
-                if (ranges[ranges.Length - 1].showRangeLimit)
-                {
-                    ranges[ranges.Length - 1].showRangeLimit = false;
-                   this.MarkAsModified();
-                }
-            }
-        }
+        private int prefabCount =>
+            _prefabRenderingManager.renderingSets == null
+                ? 0
+                : _prefabRenderingManager.renderingSets.ModelTypeCounts.GetPrefabTypeCount(type);
 
         public FrustumPlanesWrapper GetFrustum(Camera camera, Camera frustumCamera)
         {
@@ -115,7 +81,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
                         if (_frustumCam == null)
                         {
-                            _frustumCam = PrefabRenderingManager.instance.frustumCamera;
+                            _frustumCam = _prefabRenderingManager.frustumCamera;
                         }
                     }
 
@@ -140,5 +106,55 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 }
             }
         }
+
+        protected override async AppaTask WhenEnabled()
+        {
+            using (_PRF_OnEnable.Auto())
+            {
+                await base.WhenEnabled();
+                var ranges = _options.rangeSettings;
+
+                if ((ranges == null) || (ranges.Length <= 0))
+                {
+                    return;
+                }
+
+                for (var i = 0; i < (ranges.Length - 2); i++)
+                {
+                    if (!ranges[i].showRangeLimit)
+                    {
+                        ranges[i].showRangeLimit = true;
+                        MarkAsModified();
+                    }
+                }
+
+                if (ranges[ranges.Length - 1].showRangeLimit)
+                {
+                    ranges[ranges.Length - 1].showRangeLimit = false;
+                    MarkAsModified();
+                }
+            }
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabModelTypeOptionsWrapper) + ".";
+
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+        private static readonly ProfilerMarker _PRF_GetFrustum = new(_PRF_PFX + nameof(GetFrustum));
+
+        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache =
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache");
+
+        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_GetCameras =
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.GetCameras");
+
+        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_AssignProperties =
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.AssignProperties");
+
+        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_CreatePlanes =
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.CreatePlanes");
+
+        #endregion
     }
 }

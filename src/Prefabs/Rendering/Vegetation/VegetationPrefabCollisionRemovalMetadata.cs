@@ -8,10 +8,15 @@ using AwesomeTechnologies.Vegetation.PersistentStorage;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Vegetation
 {
-    public class VegetationPrefabCollisionRemovalMetadata : AppalachiaObject<>
+    public sealed class
+        VegetationPrefabCollisionRemovalMetadata : AppalachiaObject<VegetationPrefabCollisionRemovalMetadata>
     {
+        #region Fields and Autoproperties
+
         public AppaList_VegetationPrefabCollisionRemovalInfo collisionInfos = new(24);
 
         public PersistentVegetationStoragePackage persistentStorage;
+
+        #endregion
     }
 }

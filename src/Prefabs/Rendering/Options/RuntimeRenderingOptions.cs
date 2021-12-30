@@ -1,8 +1,10 @@
 #region
 
 using System;
+using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
+using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 
@@ -11,12 +13,9 @@ using Unity.Profiling;
 namespace Appalachia.Rendering.Prefabs.Rendering.Options
 {
     [Serializable]
-    public class
-        RuntimeRenderingOptions : SingletonAppalachiaObject<RuntimeRenderingOptions>
+    public class RuntimeRenderingOptions : SingletonAppalachiaObject<RuntimeRenderingOptions>
     {
-        private const string _PRF_PFX = nameof(RuntimeRenderingOptions) + ".";
-
-        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
+        #region Fields and Autoproperties
 
         [FoldoutGroup("Global")]
         [HideLabel]
@@ -36,25 +35,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
         [InlineProperty]
         public RuntimeRenderingProfilerOptions profiling = new();
 
-#if UNITY_EDITOR
-        [FoldoutGroup("Gizmos")]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        public RuntimeRenderingGizmoOptions gizmos = new();
+        #endregion
 
-        [FoldoutGroup("Editor")]
-        [InlineProperty]
-        [HideLabel]
-        [LabelWidth(0)]
-        public EditorRenderingOptions editor = new();
-#endif
-
-        protected override void Awake()
+        protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Awake.Auto())
+            using (_PRF_Initialize.Auto())
             {
-                base.Awake();
+                await base.Initialize(initializer);
+
                 if (global == null)
                 {
                     global = new GlobalRenderingOptions();
@@ -83,5 +71,30 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
 #endif
             }
         }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(RuntimeRenderingOptions) + ".";
+
+        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
+
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+
+        #endregion
+
+#if UNITY_EDITOR
+        [FoldoutGroup("Gizmos")]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        public RuntimeRenderingGizmoOptions gizmos = new();
+
+        [FoldoutGroup("Editor")]
+        [InlineProperty]
+        [HideLabel]
+        [LabelWidth(0)]
+        public EditorRenderingOptions editor = new();
+#endif
     }
 }

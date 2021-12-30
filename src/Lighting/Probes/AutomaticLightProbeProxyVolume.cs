@@ -1,17 +1,22 @@
+#if UNITY_EDITOR
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.NonSerialized;
-using Appalachia.Core.Objects.Root;
+using Appalachia.Core.Objects.Initialization;
+using Appalachia.Editing.Core.Behaviours;
+using Appalachia.Utility.Async;
 using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 namespace Appalachia.Rendering.Lighting.Probes
 {
     [ExecuteAlways]
-    public sealed class AutomaticLightProbeProxyVolume : AppalachiaBehaviour<AutomaticLightProbeProxyVolume>
+    public sealed class
+        AutomaticLightProbeProxyVolume : EditorOnlyAppalachiaBehaviour<AutomaticLightProbeProxyVolume>
     {
-#if UNITY_EDITOR
+        #region Fields and Autoproperties
 
         [HideInInspector] public LightProbeProxyVolume volume;
 
@@ -56,39 +61,9 @@ namespace Appalachia.Rendering.Lighting.Probes
         [OnValueChanged(nameof(UpdateVolume))]
         public LayerMask cullingMask = ~0;
 
-        protected string LightProbeGroupName => "_LIGHT_PROBE_PROXY_VOLUME {0}";
+        #endregion
 
-        private void OnNameChanged()
-        {
-            gameObject.name = ZString.Format(LightProbeGroupName, volumeName);
-        }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            Validate();
-        }
-
-        private void Validate()
-        {
-            gameObject.name = ZString.Format(LightProbeGroupName, volumeName);
-
-            if (volume == null)
-            {
-                volume = GetComponent<LightProbeProxyVolume>();
-            }
-
-            if (volume == null)
-            {
-                volume = gameObject.AddComponent<LightProbeProxyVolume>();
-            }
-
-            var t = transform;
-            t.localPosition = Vector3.zero;
-            t.localRotation = Quaternion.identity;
-            t.localScale = Vector3.one;
-        }
+        private string LightProbeGroupName => "_LIGHT_PROBE_PROXY_VOLUME {0}";
 
         public void UpdateVolume()
         {
@@ -165,7 +140,10 @@ namespace Appalachia.Rendering.Lighting.Probes
                         continue;
                     }
 
-                    UnityEditor.GameObjectUtility.SetStaticEditorFlags(r.go, UnityEditor.StaticEditorFlags.ContributeGI);
+                    UnityEditor.GameObjectUtility.SetStaticEditorFlags(
+                        r.go,
+                        UnityEditor.StaticEditorFlags.ContributeGI
+                    );
                     r.mr.receiveGI = ReceiveGI.LightProbes;
                     r.mr.lightProbeUsage = LightProbeUsage.UseProxyVolume;
                     r.mr.lightProbeProxyVolumeOverride = volume.gameObject;
@@ -184,6 +162,50 @@ namespace Appalachia.Rendering.Lighting.Probes
             volume.qualityMode = qualityMode;
         }
 
-#endif
+        protected override async AppaTask Initialize(Initializer initializer)
+        {
+            using (_PRF_Initialize.Auto())
+            {
+                await base.Initialize(initializer);
+
+                Validate();
+            }
+        }
+
+        private void OnNameChanged()
+        {
+            gameObject.name = ZString.Format(LightProbeGroupName, volumeName);
+        }
+
+        private void Validate()
+        {
+            gameObject.name = ZString.Format(LightProbeGroupName, volumeName);
+
+            if (volume == null)
+            {
+                volume = GetComponent<LightProbeProxyVolume>();
+            }
+
+            if (volume == null)
+            {
+                volume = gameObject.AddComponent<LightProbeProxyVolume>();
+            }
+
+            var t = transform;
+            t.localPosition = Vector3.zero;
+            t.localRotation = Quaternion.identity;
+            t.localScale = Vector3.one;
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(AutomaticLightProbeProxyVolume) + ".";
+
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+
+        #endregion
     }
 }
+
+#endif

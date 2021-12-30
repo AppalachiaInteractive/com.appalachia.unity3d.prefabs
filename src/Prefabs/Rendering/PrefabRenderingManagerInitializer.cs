@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Constants;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Editing.Core;
 using Appalachia.Globals.Shading;
 using Appalachia.Rendering.Prefabs.Core;
@@ -39,7 +40,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #endregion
 
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabRenderingManagerInitializer()
         {
             GPUInstancerPrototypeMetadataCollection.InstanceAvailable +=
@@ -378,10 +378,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                             else
                             {
-                                renderingSet = PrefabRenderingSet.LoadOrCreateNew(
-                                    ZString.Format("{0}", renderingParameter.prefab.name),
-                                    true,
-                                    false
+                                renderingSet = AppalachiaObject.LoadOrCreateNew<PrefabRenderingSet>(
+                                    ZString.Format(
+                                        "{0}_{1}",
+                                        nameof(PrefabRenderingSet),
+                                        renderingParameter.prefab.name
+                                    )
                                 );
 
                                 renderingSet.ExternalParameters.AddOrUpdate(

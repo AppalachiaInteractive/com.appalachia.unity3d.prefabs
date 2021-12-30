@@ -4,6 +4,7 @@ using System;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Special;
+using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences.Globals;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -14,7 +15,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 {
     [Serializable]
     [CallStaticConstructorInEditor]
-    public abstract class PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
+    public abstract class
+        PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : AppalachiaSimpleBase
         where TE : Enum
         where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
         where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
@@ -29,7 +31,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         where IL_TW : AppaList<TW>, new()
 
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabTypeOptions()
         {
             PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>

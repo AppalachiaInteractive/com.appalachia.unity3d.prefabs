@@ -30,7 +30,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         where IL_TW : AppaList<TW>, new()
 
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabTypeOptionsSetData()
         {
             PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>

@@ -19,7 +19,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
     [Serializable]
     public class PrefabLocationSource : SingletonAppalachiaObject<PrefabLocationSource>
     {
-        
         #region Fields and Autoproperties
 
         public bool sourceFromActiveVegetationSystems = true;
@@ -76,8 +75,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                                                          .VegetationItemMatrixList[itemIndex];
 
                         for (var instanceIndex = 0;
-                            instanceIndex < vegetationInstanceList.Length;
-                            instanceIndex++)
+                             instanceIndex < vegetationInstanceList.Length;
+                             instanceIndex++)
                         {
                             var vegetationInstance = vegetationInstanceList[instanceIndex];
 
@@ -138,8 +137,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                         if (parameters.vegetationItemID == persistentInfo.VegetationItemID)
                         {
                             for (var itemIndex = 0;
-                                itemIndex < persistentInfo.VegetationItemList.Count;
-                                itemIndex++)
+                                 itemIndex < persistentInfo.VegetationItemList.Count;
+                                 itemIndex++)
                             {
                                 var item = persistentInfo.VegetationItemList[itemIndex];
 
@@ -196,7 +195,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 #if UNITY_EDITOR
                 if (!prefabs.ContainsKey(identifyingKey))
                 {
-                    erp = ExternalRenderingParameters.LoadOrCreateNew(identifyingKey, true, false);
+                    erp = ExternalRenderingParameters.LoadOrCreateNew<ExternalRenderingParameters>(
+                        identifyingKey
+                    );
 
                     prefabs.Add(identifyingKey, erp);
                 }
@@ -222,8 +223,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                 if (sourceFromActiveVegetationSystems)
                 {
                     for (var packageIndex = 0;
-                        packageIndex < veggieSystem.VegetationPackageProList.Count;
-                        packageIndex++)
+                         packageIndex < veggieSystem.VegetationPackageProList.Count;
+                         packageIndex++)
                     {
                         var package = veggieSystem.VegetationPackageProList[packageIndex];
                         for (var infoIndex = 0; infoIndex < package.VegetationInfoList.Count; infoIndex++)
@@ -268,25 +269,25 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                 }
 
                 for (var storagePackageIndex = 0;
-                    storagePackageIndex < storagePackages.Count;
-                    storagePackageIndex++)
+                     storagePackageIndex < storagePackages.Count;
+                     storagePackageIndex++)
                 {
                     var storagePackage = storagePackages[storagePackageIndex];
                     for (var storageCellIndex = 0;
-                        storageCellIndex < storagePackage.PersistentVegetationCellList.Count;
-                        storageCellIndex++)
+                         storageCellIndex < storagePackage.PersistentVegetationCellList.Count;
+                         storageCellIndex++)
                     {
                         var cell = storagePackage.PersistentVegetationCellList[storageCellIndex];
                         for (var storageItemIndex = 0;
-                            storageItemIndex < cell.PersistentVegetationInfoList.Count;
-                            storageItemIndex++)
+                             storageItemIndex < cell.PersistentVegetationInfoList.Count;
+                             storageItemIndex++)
                         {
                             var storageItem = cell.PersistentVegetationInfoList[storageItemIndex];
 
                             if (_packageIndices.TryGetValue(
-                                storageItem.VegetationItemID,
-                                out var packageIndex
-                            ))
+                                    storageItem.VegetationItemID,
+                                    out var packageIndex
+                                ))
                             {
                                 var itemIndex = _itemIndices[storageItem.VegetationItemID];
 

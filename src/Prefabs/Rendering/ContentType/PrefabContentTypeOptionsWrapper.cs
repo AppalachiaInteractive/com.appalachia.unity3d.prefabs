@@ -17,28 +17,36 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     [InlineProperty]
     public class PrefabContentTypeOptionsWrapper : PrefabTypeOptionsWrapper<PrefabContentType,
         PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
-        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
-        Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle,
-        Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
+        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup, Index_PrefabContentTypeOptions,
+        PrefabContentTypeOptionsToggle, Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {
-        private int prefabCount =>
-            PrefabRenderingManager.instance.renderingSets == null
-                ? 0
-                : PrefabRenderingManager.instance.renderingSets.ContentTypeCounts
-                                        .GetPrefabTypeCount(type);
+        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
+        static PrefabContentTypeOptionsWrapper()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
 
-        private InstanceStateCounts instanceCounts =>
-            PrefabRenderingManager.instance.renderingSets == null
-                ? default
-                : PrefabRenderingManager.instance.renderingSets.ContentTypeCounts.GetInstanceCount(
-                    type
-                );
+        #region Static Fields and Autoproperties
 
-        public override string Title => type.ToString().SeperateWords();
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
 
         //public string Subtitle => $"{prefabCount} prefabs | {instanceCounts.total} instances";
         public override string Subtitle =>
             ZString.Format("{0} prefabs | {1}", prefabCount, instanceCounts.ToString());
+
+        public override string Title => type.ToString().SeperateWords();
+
+        private InstanceStateCounts instanceCounts =>
+            _prefabRenderingManager.renderingSets == null
+                ? default
+                : _prefabRenderingManager.renderingSets.ContentTypeCounts.GetInstanceCount(type);
+
+        private int prefabCount =>
+            _prefabRenderingManager.renderingSets == null
+                ? 0
+                : _prefabRenderingManager.renderingSets.ContentTypeCounts.GetPrefabTypeCount(type);
     }
 }

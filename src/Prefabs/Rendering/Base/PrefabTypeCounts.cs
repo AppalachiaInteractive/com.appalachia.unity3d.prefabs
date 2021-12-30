@@ -22,7 +22,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         #endregion
 
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabTypeCounts()
         {
             PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;

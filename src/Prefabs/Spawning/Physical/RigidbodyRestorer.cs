@@ -1,7 +1,9 @@
 #region
 
+using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Simulation.Core;
+using Appalachia.Utility.Async;
 using Appalachia.Utility.Extensions;
 using Unity.Profiling;
 using UnityEngine;
@@ -12,39 +14,14 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 {
     public sealed class RigidbodyRestorer : AppalachiaBehaviour<RigidbodyRestorer>
     {
-        private const string _PRF_PFX = nameof(RigidbodyRestorer) + ".";
-
-        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
-
-        private static readonly ProfilerMarker _PRF_RestoreRigidbody =
-            new(_PRF_PFX + nameof(RestoreRigidbody));
+        #region Fields and Autoproperties
 
         public bool destroyOnRestore;
 
         public Rigidbody rb;
         public RigidbodyData originalData;
 
-        protected override void Awake()
-        {
-            using (_PRF_Awake.Auto())
-            {
-                base.Awake();
-                
-                if (rb != null)
-                {
-                    return;
-                }
-
-                rb = GetComponent<Rigidbody>();
-
-                if (rb == null)
-                {
-                    return;
-                }
-
-                originalData = new RigidbodyData(rb);
-            }
-        }
+        #endregion
 
         public void RestoreRigidbody(bool forceDestroy)
         {
@@ -68,5 +45,41 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
                 }
             }
         }
+
+        protected override async AppaTask Initialize(Initializer initializer)
+        {
+            using (_PRF_Initialize.Auto())
+            {
+                await base.Initialize(initializer);
+
+                if (rb != null)
+                {
+                    return;
+                }
+
+                rb = GetComponent<Rigidbody>();
+
+                if (rb == null)
+                {
+                    return;
+                }
+
+                originalData = new RigidbodyData(rb);
+            }
+        }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(RigidbodyRestorer) + ".";
+
+        private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
+
+        private static readonly ProfilerMarker _PRF_RestoreRigidbody =
+            new(_PRF_PFX + nameof(RestoreRigidbody));
+
+        private static readonly ProfilerMarker _PRF_Initialize =
+            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+
+        #endregion
     }
 }

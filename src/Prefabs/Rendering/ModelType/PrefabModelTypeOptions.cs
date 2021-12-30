@@ -39,13 +39,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         #endregion
 
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static PrefabModelTypeOptions()
         {
             PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
         }
 
         #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
 
         private static PrefabRenderingSetCollection _prefabRenderingSetCollection;
 
@@ -450,7 +452,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 frustum.Confirm();
 
                 var limit = math.min(
-                    PrefabRenderingManager.instance.RenderingOptions.global.maximumFrustrangeRange,
+                    _prefabRenderingManager.RenderingOptions.global.maximumFrustrangeRange,
                     farRange.rangeLimit + 5.0f
                 );
 

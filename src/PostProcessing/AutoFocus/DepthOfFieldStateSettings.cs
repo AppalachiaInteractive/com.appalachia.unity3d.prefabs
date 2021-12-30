@@ -1,5 +1,6 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Scriptables;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 namespace Appalachia.Rendering.PostProcessing.AutoFocus
 {
     [Serializable]
-    public class DepthOfFieldStateSettings : AutonamedIdentifiableAppalachiaObject
+    public class DepthOfFieldStateSettings : AutonamedIdentifiableAppalachiaObject<DepthOfFieldStateSettings>
     {
         #region Fields and Autoproperties
 

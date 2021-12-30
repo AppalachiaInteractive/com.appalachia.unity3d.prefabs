@@ -5,7 +5,9 @@ using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Interfaces;
 using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
+using Unity.Profiling;
 using UnityEngine;
 
 #endregion
@@ -13,10 +15,10 @@ using UnityEngine;
 namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 {
     [Critical]
-    public class
-        PrefabReplacementCollection : SingletonAppalachiaObject<
-            PrefabReplacementCollection>
+    public class PrefabReplacementCollection : SingletonAppalachiaObject<PrefabReplacementCollection>
     {
+        #region Fields and Autoproperties
+
         [SerializeField]
         [ListDrawerSettings(
             Expanded = true,
@@ -27,6 +29,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
         )]
         private GameObjectReplacementLookup _state;
 
+        #endregion
+
         public IAppaLookup<GameObject, GameObject, AppaList_GameObject> State
         {
             get
@@ -35,9 +39,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
                 {
                     _state = new GameObjectReplacementLookup();
 #if UNITY_EDITOR
-                   this.MarkAsModified();
+                    MarkAsModified();
 
-                   _state.SetObjectOwnership(this);
+                    _state.SetObjectOwnership(this);
 #endif
                 }
 
@@ -45,19 +49,32 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
             }
         }
 
-        protected override void WhenEnabled()
+        protected override async AppaTask WhenEnabled()
         {
-            if (_state == null)
+            using (_PRF_WhenEnabled.Auto())
             {
-                _state = new GameObjectReplacementLookup();
+                await base.WhenEnabled();
+                if (_state == null)
+                {
+                    _state = new GameObjectReplacementLookup();
 #if UNITY_EDITOR
-               this.MarkAsModified();
+                    MarkAsModified();
 #endif
-            }
+                }
 
 #if UNITY_EDITOR
-            _state.SetObjectOwnership(this);
+                _state.SetObjectOwnership(this);
 #endif
+            }
         }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(PrefabReplacementCollection) + ".";
+
+        private static readonly ProfilerMarker _PRF_WhenEnabled =
+            new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
+
+        #endregion
     }
 }

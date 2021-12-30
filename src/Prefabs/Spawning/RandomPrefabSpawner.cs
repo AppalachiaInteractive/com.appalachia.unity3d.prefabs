@@ -24,7 +24,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning
     [CallStaticConstructorInEditor]
     public sealed class RandomPrefabSpawner : AppalachiaBehaviour<RandomPrefabSpawner>
     {
-        // [CallStaticConstructorInEditor] should be added to the class (initsingletonattribute)
         static RandomPrefabSpawner()
         {
             RandomPrefabMasterCollection.InstanceAvailable += i => _randomPrefabMasterCollection = i;
@@ -120,24 +119,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
-        protected override async AppaTask WhenEnabled()
-        {
-            using (_PRF_OnEnable.Auto())
-            {
-                await base.WhenEnabled();
-
-#if UNITY_EDITOR
-                settings.UpdateAllIDs();
-                state.collection.UpdateAllIDs();
-                state.collection.prefabSets?.FirstOrDefault()?.set?.UpdateAllIDs();
-#endif
-                if (rigidbodyManager == null)
-                {
-                    rigidbodyManager = new PrefabSpawnerRigidbodyManager();
-                }
-            }
-        }
-
 #if UNITY_EDITOR
         private void OnDrawGizmos()
         {
@@ -194,14 +175,30 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
+        protected override async AppaTask WhenEnabled()
+        {
+            using (_PRF_OnEnable.Auto())
+            {
+                await base.WhenEnabled();
+
+#if UNITY_EDITOR
+                settings.UpdateAllIDs();
+                state.collection.UpdateAllIDs();
+                state.collection.prefabSets?.FirstOrDefault()?.set?.UpdateAllIDs();
+#endif
+                if (rigidbodyManager == null)
+                {
+                    rigidbodyManager = new PrefabSpawnerRigidbodyManager();
+                }
+            }
+        }
+
         #region Profiling
 
         private const string _PRF_PFX = nameof(RandomPrefabSpawner) + ".";
 
         private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
-
         private static readonly ProfilerMarker _PRF_EnableSpawning = new(_PRF_PFX + nameof(EnableSpawning));
-
         private static readonly ProfilerMarker _PRF_DisableSpawning = new(_PRF_PFX + nameof(DisableSpawning));
 
         private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));

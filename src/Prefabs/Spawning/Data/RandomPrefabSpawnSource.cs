@@ -13,6 +13,7 @@ using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 #endregion
 
@@ -21,6 +22,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
     [Serializable]
     public class RandomPrefabSpawnSource : AppalachiaSimpleBase
     {
+        #region Fields and Autoproperties
+
         [ToggleLeft]
         [HorizontalGroup("A", .05f)]
         [SmartLabel]
@@ -70,20 +73,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
         private ValueDropdownList<string> _vegetationItemList;
 
         private VegetationSystemPro _vegetationSystem;
-        private bool _showPrefab => spawnerType == RandomPrefabSpawnerType.Prefab;
 
-        private bool _showSceneObject => spawnerType == RandomPrefabSpawnerType.SceneObject;
-
-        private bool _showVegetationPackage =>
-            spawnerType == RandomPrefabSpawnerType.VegetationPackage;
-
-        private bool _showVegetationItem => spawnerType == RandomPrefabSpawnerType.VegetationItem;
-
-        private bool _showVegetationpackageSelection =>
-            _showVegetationPackage || _showVegetationItem;
-
-        private bool _showPrefabRenderingSet =>
-            spawnerType == RandomPrefabSpawnerType.PrefabRenderingSet;
+        #endregion
 
         public bool PendingReset
         {
@@ -91,32 +82,17 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             set => _pendingReset = value;
         }
 
-        private ValueDropdownList<string> GetVegetationItems()
-        {
-            if (_vegetationItemList == null)
-            {
-                _vegetationItemList = new ValueDropdownList<string>();
-            }
+        private bool _showPrefab => spawnerType == RandomPrefabSpawnerType.Prefab;
 
-            if (vegetationPackage == null)
-            {
-                return _vegetationItemList;
-            }
+        private bool _showPrefabRenderingSet => spawnerType == RandomPrefabSpawnerType.PrefabRenderingSet;
 
-            if (vegetationPackage.VegetationInfoList.Count != _vegetationItemList.Count)
-            {
-                _vegetationItemList.Clear();
+        private bool _showSceneObject => spawnerType == RandomPrefabSpawnerType.SceneObject;
 
-                for (var i = 0; i < vegetationPackage.VegetationInfoList.Count; i++)
-                {
-                    var item = vegetationPackage.VegetationInfoList[i];
+        private bool _showVegetationItem => spawnerType == RandomPrefabSpawnerType.VegetationItem;
 
-                    _vegetationItemList.Add(item.Name, item.VegetationItemID);
-                }
-            }
+        private bool _showVegetationPackage => spawnerType == RandomPrefabSpawnerType.VegetationPackage;
 
-            return _vegetationItemList;
-        }
+        private bool _showVegetationpackageSelection => _showVegetationPackage || _showVegetationItem;
 
         /*public GameObject GetPrefab()
         {
@@ -156,16 +132,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             }
         }
 
-        [Button]
-        public void Reset()
-        {
-            _pendingReset = true;
-        }
-
-        private const string _PRF_PFX = nameof(RandomPrefabSpawnSource) + ".";
-
-        private static readonly ProfilerMarker _PRF_GetSpawnPointCount = new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPointCount));
-        
         public int GetSpawnPointCount()
         {
             using (_PRF_GetSpawnPointCount.Auto())
@@ -182,8 +148,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                         var sum = 0;
 
                         var target = prefab.GetComponentInChildren<PrefabSpawnMarker>();
-                    
-                        var instances = GameObject.FindObjectsOfType<PrefabSpawnMarker>();
+
+                        var instances = Object.FindObjectsOfType<PrefabSpawnMarker>();
 
                         for (var i = 0; i < instances.Length; i++)
                         {
@@ -192,9 +158,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                             if (instance.identifier == target.identifier)
                             {
                                 sum += 1;
-                            } 
+                            }
                         }
-                    
+
                         /*var path = AssetDatabaseManager.GetAssetPath(prefab);
 
                     for (var i = 0; i < SceneManager.sceneCount; i++)
@@ -332,8 +298,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             }
         }
 
-        private static readonly ProfilerMarker _PRF_GetSpawnPoints = new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPoints));
-        
         public IEnumerable<Vector3> GetSpawnPoints()
         {
             using (_PRF_GetSpawnPoints.Auto())
@@ -341,10 +305,10 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 switch (spawnerType)
                 {
                     case RandomPrefabSpawnerType.Prefab:
-                    {                    
+                    {
                         var target = prefab.GetComponentInChildren<PrefabSpawnMarker>();
-                    
-                        var instances = GameObject.FindObjectsOfType<PrefabSpawnMarker>();
+
+                        var instances = Object.FindObjectsOfType<PrefabSpawnMarker>();
 
                         for (var i = 0; i < instances.Length; i++)
                         {
@@ -353,9 +317,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                             if (instance.identifier == target.identifier)
                             {
                                 yield return instance.gameObject.transform.position;
-                            } 
+                            }
                         }
-                        
+
                         /*var path = AssetDatabaseManager.GetAssetPath(prefab);
 
                         for (var i = 0; i < SceneManager.sceneCount; i++)
@@ -460,9 +424,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                         break;
                     case RandomPrefabSpawnerType.PrefabRenderingSet:
                     {
-                        for (var i = 0;
-                            i < prefabRenderingSet.instanceManager.element.positions.Length;
-                            i++)
+                        for (var i = 0; i < prefabRenderingSet.instanceManager.element.positions.Length; i++)
                         {
                             yield return prefabRenderingSet.instanceManager.element.positions[i];
                         }
@@ -474,12 +436,17 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
             }
         }
 
+        [Button]
+        public void Reset()
+        {
+            _pendingReset = true;
+        }
+
         private PrefabRenderingManager GetPrefabRenderingManager()
         {
             if (_prefabRenderingManager != null)
             {
-                if (!_prefabRenderingManager.enabled ||
-                    !_prefabRenderingManager.gameObject.activeInHierarchy)
+                if (!_prefabRenderingManager.enabled || !_prefabRenderingManager.gameObject.activeInHierarchy)
                 {
                     return null;
                 }
@@ -487,15 +454,39 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 return _prefabRenderingManager;
             }
 
-            _prefabRenderingManager = PrefabRenderingManager.instance;
-
-            if (!_prefabRenderingManager.enabled ||
-                !_prefabRenderingManager.gameObject.activeInHierarchy)
+            if (!_prefabRenderingManager.enabled || !_prefabRenderingManager.gameObject.activeInHierarchy)
             {
                 return null;
             }
 
             return _prefabRenderingManager;
+        }
+
+        private ValueDropdownList<string> GetVegetationItems()
+        {
+            if (_vegetationItemList == null)
+            {
+                _vegetationItemList = new ValueDropdownList<string>();
+            }
+
+            if (vegetationPackage == null)
+            {
+                return _vegetationItemList;
+            }
+
+            if (vegetationPackage.VegetationInfoList.Count != _vegetationItemList.Count)
+            {
+                _vegetationItemList.Clear();
+
+                for (var i = 0; i < vegetationPackage.VegetationInfoList.Count; i++)
+                {
+                    var item = vegetationPackage.VegetationInfoList[i];
+
+                    _vegetationItemList.Add(item.Name, item.VegetationItemID);
+                }
+            }
+
+            return _vegetationItemList;
         }
 
         private VegetationSystemPro GetVegetationSystem()
@@ -526,6 +517,19 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
             return _vegetationSystem;
         }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(RandomPrefabSpawnSource) + ".";
+
+        private static readonly ProfilerMarker _PRF_GetSpawnPointCount =
+            new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPointCount));
+
+        private static readonly ProfilerMarker _PRF_GetSpawnPoints =
+            new ProfilerMarker(_PRF_PFX + nameof(GetSpawnPoints));
+
+        #endregion
+
 /*#if UNITY_EDITOR
 
         private int GetPrefabInstanceCountsRecursive(GameObject root, string assetSearch)

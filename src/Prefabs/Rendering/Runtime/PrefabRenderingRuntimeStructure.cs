@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Objects.Root;
 using UnityEngine;
 
@@ -9,18 +10,34 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
+    [CallStaticConstructorInEditor]
     [Serializable]
     public class PrefabRenderingRuntimeStructure : AppalachiaSimpleBase
     {
+        static PrefabRenderingRuntimeStructure()
+        {
+            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+        }
+
+        #region Static Fields and Autoproperties
+
+        private static PrefabRenderingManager _prefabRenderingManager;
+
+        #endregion
+
+        #region Fields and Autoproperties
+
         public GameObject instanceRoot;
 
         [NonSerialized] private Dictionary<string, GameObject> prefabLookup;
+
+        #endregion
 
         public GameObject FindRootForPrefab(GameObject go)
         {
             if (instanceRoot == null)
             {
-                PrefabRenderingManager.instance.InitializeStructureInPlace(this);
+                _prefabRenderingManager.InitializeStructureInPlace(this);
             }
 
             if (instanceRoot == null)

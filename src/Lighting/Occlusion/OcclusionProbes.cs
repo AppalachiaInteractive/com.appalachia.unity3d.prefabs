@@ -7,10 +7,17 @@ using UnityEngine.Rendering;
 namespace Appalachia.Rendering.Lighting.Occlusion
 {
     [ExecuteAlways]
-    public partial sealed class OcclusionProbes : AppalachiaBehaviour<OcclusionProbes>
+    public sealed partial class OcclusionProbes : AppalachiaBehaviour<OcclusionProbes>
     {
-        private static Vector4[] ms_AmbientProbeSC;
+        #region Static Fields and Autoproperties
+
+        public static OcclusionProbes Instance { get; private set; }
         private static Texture3D ms_White;
+        private static Vector4[] ms_AmbientProbeSC;
+
+        #endregion
+
+        #region Fields and Autoproperties
 
         [Header("Baked Results")]
         public OcclusionProbeData m_Data;
@@ -20,16 +27,52 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         )]
         public AmbientProbeData m_AmbientProbeData;
 
+        #endregion
+
 #if UNITY_EDITOR
         public bool BakeDisabled => (m_Data != null) && !UnityEditor.Lightmapping.bakedGI;
 #endif
 
-        public static OcclusionProbes Instance { get; private set; }
+        protected override async AppaTask WhenDestroyed()
+        {
+            await base.WhenDestroyed();
+
+            if (AppalachiaApplication.IsPlayingOrWillPlay)
+            {
+                Destroy(ms_White);
+            }
+            else
+            {
+                DestroyImmediate(ms_White);
+            }
+
+            ms_White = null;
+        }
+
+        protected override async AppaTask WhenDisabled()
+
+        {
+            await base.WhenDisabled();
+
+#if UNITY_EDITOR
+            RemoveLightmapperCallbacks();
+#endif
+
+            if (AppalachiaApplication.IsPlayingOrWillPlay)
+            {
+                Debug.Assert(Instance == this);
+            }
+
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
 
         protected override async AppaTask WhenEnabled()
         {
             await base.WhenEnabled();
-            
+
 #if UNITY_EDITOR
             UnityEditor.Lightmapping.bakedGI = true;
 
@@ -49,54 +92,6 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             Camera.onPreRender += CameraPreRender;
         }
 
-        protected override async AppaTask WhenDisabled()
-
-        {
-            await base.WhenDisabled();
-            
-#if UNITY_EDITOR
-            RemoveLightmapperCallbacks();
-#endif
-
-            if (AppalachiaApplication.IsPlayingOrWillPlay)
-            {
-                Debug.Assert(Instance == this);
-            }
-
-            if (Instance == this)
-            {
-                Instance = null;
-            }
-        }
-
-        protected override async AppaTask WhenDestroyed()
-        {
-            await base.WhenDestroyed();
-
-            if (AppalachiaApplication.IsPlayingOrWillPlay)
-            {
-                Destroy(ms_White);
-            }
-            else
-            {
-                DestroyImmediate(ms_White);
-            }
-
-            ms_White = null;
-        }
-
-        private void CameraPreRender(Camera camera)
-        {
-            if (Instance)
-            {
-                Instance.SetShaderUniforms(null, camera);
-                return;
-            }
-
-            SetAmbientProbeShaderUniforms(null, null);
-            SetDisabledOcclusionShaderUniforms(null);
-        }
-
         // This function should soon make it into the LightProbes Unity api
         private static void GetShaderConstantsFromNormalizedSH(
             ref SphericalHarmonicsL2 ambientProbe,
@@ -110,8 +105,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
                 outCoefficients[channelIdx].x = ambientProbe[channelIdx, 3];
                 outCoefficients[channelIdx].y = ambientProbe[channelIdx, 1];
                 outCoefficients[channelIdx].z = ambientProbe[channelIdx, 2];
-                outCoefficients[channelIdx].w =
-                    ambientProbe[channelIdx, 0] - ambientProbe[channelIdx, 6];
+                outCoefficients[channelIdx].w = ambientProbe[channelIdx, 0] - ambientProbe[channelIdx, 6];
 
                 // Quadratic polynomials
                 outCoefficients[channelIdx + 3].x = ambientProbe[channelIdx, 4];
@@ -125,6 +119,72 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             outCoefficients[6].y = ambientProbe[1, 8];
             outCoefficients[6].z = ambientProbe[2, 8];
             outCoefficients[6].w = 1.0f;
+        }
+
+        private static void InitWhiteTexture()
+        {
+            if (ms_White != null)
+            {
+                return;
+            }
+
+            ms_White = new Texture3D(1, 1, 1, TextureFormat.Alpha8, false);
+            ms_White.hideFlags = HideFlags.DontSave;
+            ms_White.SetPixels32(new[] { new Color32(255, 255, 255, 255) });
+            ms_White.Apply();
+        }
+
+        private static bool IsInside(Vector3 worldPos, Matrix4x4 worldToLocal)
+        {
+            var pos = worldToLocal.MultiplyPoint3x4(worldPos);
+            return (pos.x > 0) && (pos.x < 1) && (pos.y > 0) && (pos.y < 1) && (pos.z > 0) && (pos.z < 1);
+        }
+
+        private static void SetAmbientProbeShaderUniforms(
+            CommandBuffer cmd,
+            AmbientProbeData ambientProbeData)
+        {
+            // Ambient probe, i.e. direct sky contribution
+            if ((ms_AmbientProbeSC == null) || (ms_AmbientProbeSC.Length != 7))
+            {
+                ms_AmbientProbeSC = new Vector4[7];
+            }
+
+            if (ambientProbeData != null)
+            {
+                Shader.SetGlobalVectorArray(Uniforms._AmbientProbeSH, ambientProbeData.sh);
+            }
+            else
+            {
+                var ambientProbe = RenderSettings.ambientProbe;
+
+                // LightProbes.GetShaderConstantsFromNormalizedSH(ref ambientProbe, m_AmbientProbeSC);
+                GetShaderConstantsFromNormalizedSH(ref ambientProbe, ms_AmbientProbeSC);
+
+                Shader.SetGlobalVectorArray(Uniforms._AmbientProbeSH, ms_AmbientProbeSC);
+            }
+        }
+
+        private static void SetDisabledOcclusionShaderUniforms(CommandBuffer cmd)
+        {
+            InitWhiteTexture();
+
+            Shader.SetGlobalTexture(Uniforms._OcclusionProbes, ms_White);
+            Shader.SetGlobalMatrix(Uniforms._OcclusionProbesWorldToLocal, Matrix4x4.identity);
+            Shader.SetGlobalTexture(Uniforms._OcclusionProbesDetail, ms_White);
+            Shader.SetGlobalMatrix(Uniforms._OcclusionProbesWorldToLocalDetail, Matrix4x4.identity);
+        }
+
+        private void CameraPreRender(Camera camera)
+        {
+            if (Instance)
+            {
+                Instance.SetShaderUniforms(null, camera);
+                return;
+            }
+
+            SetAmbientProbeShaderUniforms(null, null);
+            SetDisabledOcclusionShaderUniforms(null);
         }
 
         private void SetShaderUniforms(CommandBuffer cmd, Camera camera)
@@ -170,81 +230,30 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             );
         }
 
-        private static void SetAmbientProbeShaderUniforms(
-            CommandBuffer cmd,
-            AmbientProbeData ambientProbeData)
-        {
-            // Ambient probe, i.e. direct sky contribution
-            if ((ms_AmbientProbeSC == null) || (ms_AmbientProbeSC.Length != 7))
-            {
-                ms_AmbientProbeSC = new Vector4[7];
-            }
-
-            if (ambientProbeData != null)
-            {
-                Shader.SetGlobalVectorArray(Uniforms._AmbientProbeSH, ambientProbeData.sh);
-            }
-            else
-            {
-                var ambientProbe = RenderSettings.ambientProbe;
-
-                // LightProbes.GetShaderConstantsFromNormalizedSH(ref ambientProbe, m_AmbientProbeSC);
-                GetShaderConstantsFromNormalizedSH(ref ambientProbe, ms_AmbientProbeSC);
-
-                Shader.SetGlobalVectorArray(Uniforms._AmbientProbeSH, ms_AmbientProbeSC);
-            }
-        }
-
-        private static bool IsInside(Vector3 worldPos, Matrix4x4 worldToLocal)
-        {
-            var pos = worldToLocal.MultiplyPoint3x4(worldPos);
-            return (pos.x > 0) &&
-                   (pos.x < 1) &&
-                   (pos.y > 0) &&
-                   (pos.y < 1) &&
-                   (pos.z > 0) &&
-                   (pos.z < 1);
-        }
-
-        private static void InitWhiteTexture()
-        {
-            if (ms_White != null)
-            {
-                return;
-            }
-
-            ms_White = new Texture3D(1, 1, 1, TextureFormat.Alpha8, false);
-            ms_White.hideFlags = HideFlags.DontSave;
-            ms_White.SetPixels32(new[] {new Color32(255, 255, 255, 255)});
-            ms_White.Apply();
-        }
-
-        private static void SetDisabledOcclusionShaderUniforms(CommandBuffer cmd)
-        {
-            InitWhiteTexture();
-
-            Shader.SetGlobalTexture(Uniforms._OcclusionProbes, ms_White);
-            Shader.SetGlobalMatrix(Uniforms._OcclusionProbesWorldToLocal, Matrix4x4.identity);
-            Shader.SetGlobalTexture(Uniforms._OcclusionProbesDetail, ms_White);
-            Shader.SetGlobalMatrix(Uniforms._OcclusionProbesWorldToLocalDetail, Matrix4x4.identity);
-        }
+        #region Nested type: Uniforms
 
         private static class Uniforms
         {
+            #region Constants and Static Readonly
+
             internal static readonly int _AmbientProbeSH = Shader.PropertyToID("_AmbientProbeSH");
             internal static readonly int _OcclusionProbes = Shader.PropertyToID("_OcclusionProbes");
-
-            internal static readonly int _OcclusionProbesWorldToLocal =
-                Shader.PropertyToID("_OcclusionProbesWorldToLocal");
 
             internal static readonly int _OcclusionProbesDetail =
                 Shader.PropertyToID("_OcclusionProbesDetail");
 
+            internal static readonly int _OcclusionProbesReflectionOcclusionAmount =
+                Shader.PropertyToID("_OcclusionProbesReflectionOcclusionAmount");
+
+            internal static readonly int _OcclusionProbesWorldToLocal =
+                Shader.PropertyToID("_OcclusionProbesWorldToLocal");
+
             internal static readonly int _OcclusionProbesWorldToLocalDetail =
                 Shader.PropertyToID("_OcclusionProbesWorldToLocalDetail");
 
-            internal static readonly int _OcclusionProbesReflectionOcclusionAmount =
-                Shader.PropertyToID("_OcclusionProbesReflectionOcclusionAmount");
+            #endregion
         }
+
+        #endregion
     }
 }
