@@ -135,6 +135,11 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         {
             using (_PRF_Update.Auto())
             {
+                if (!DependenciesAreReady || !FullyInitialized)
+                {
+                    return;
+                }
+                
                 if (!CheckManager())
                 {
                     return;

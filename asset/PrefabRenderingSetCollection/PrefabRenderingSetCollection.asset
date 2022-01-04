@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9687bd50f3003640a38f4413c5a6a9d, type: 3}
   m_Name: PrefabRenderingSetCollection
   m_EditorClassIdentifier: 
-  _initializationData:
-    _tags: []
-    _resetToken: 
   _cachedName: 
   _niceName: 
+  _initializer:
+    _tags: []
+    _resetToken: 
   _toggles:
     initializerCount: 64
     _object: {fileID: 11400000}

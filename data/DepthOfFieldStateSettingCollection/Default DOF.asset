@@ -12,13 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d4f7c6e14f46798f7cdede6f679b19, type: 3}
   m_Name: Default DOF
   m_EditorClassIdentifier: 
-  _niceName: 
   _cachedName: 
+  _niceName: 
+  _initializer:
+    _tags:
+    - profileName
+    _resetToken: 
   id: 1
   profileName: Default DOF
-  velocitySmoothing: 0.1
-  focusDistance: 15
   aperture: 16
+  focusDistance: 15
+  velocitySmoothing: 0.1
   settings:
   - {fileID: 11400000, guid: e40b0d9673c0b194d9cc60c6aa24a043, type: 2}
   - {fileID: 11400000, guid: 06d069c09f932ed42bcfb15f7f862471, type: 2}

@@ -32,8 +32,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     {
         static PrefabTypeOptionsSetData()
         {
-            PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-               .InstanceAvailable += i => _prefabTypeOptionsLookup = i;
+            RegisterDependency<TL>(i => _prefabTypeOptionsLookup = i);
         }
 
         #region Static Fields and Autoproperties

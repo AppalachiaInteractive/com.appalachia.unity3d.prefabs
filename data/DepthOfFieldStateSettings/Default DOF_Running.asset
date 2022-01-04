@@ -12,29 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b865defcb62445abe907dbe33c105ea, type: 3}
   m_Name: Default DOF_Running
   m_EditorClassIdentifier: 
-  _niceName: 
   _cachedName: 
+  _niceName: 
+  _initializer:
+    _tags:
+    - profileName
+    _resetToken: 
   id: 3
-  profileName: DepthOfFieldStateSettingCollection_20201019-052949674_Running
+  profileName: Default DOF_Running
   state: 50
-  velocityThreshold: 1
-  velocityFadeRange: 0.5
-  defaultFocusDistance: 15
-  maxFocusDistance: 20
-  nearPlane:
-    kernelSize: 0
-    voteBias: 0.9
-    voteSampleKernelSize: 0.05
-    voteDepthTolerance: 0.02
-    adaptationTime: 0.1
-    adaptationSmoothing: 0.1
-    adaptationMaxSpeedTowards: 4
-    adaptationMaxSpeedAway: 3
-    apertureStationary: 40
-    apertureStationarySmoothing: 0.01
-    apertureChangeVelocityThreshold: 0.1
-    apertureMotion: 40
-    apertureMotionSmoothing: 0.2
   farPlane:
     kernelSize: 0
     voteBias: 0.9
@@ -49,3 +35,21 @@ MonoBehaviour:
     apertureChangeVelocityThreshold: 0.1
     apertureMotion: 8
     apertureMotionSmoothing: 0.2
+  nearPlane:
+    kernelSize: 0
+    voteBias: 0.9
+    voteSampleKernelSize: 0.05
+    voteDepthTolerance: 0.02
+    adaptationTime: 0.1
+    adaptationSmoothing: 0.1
+    adaptationMaxSpeedTowards: 4
+    adaptationMaxSpeedAway: 3
+    apertureStationary: 40
+    apertureStationarySmoothing: 0.01
+    apertureChangeVelocityThreshold: 0.1
+    apertureMotion: 40
+    apertureMotionSmoothing: 0.2
+  defaultFocusDistance: 15
+  maxFocusDistance: 20
+  velocityFadeRange: 0.5
+  velocityThreshold: 1

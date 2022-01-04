@@ -13,7 +13,7 @@ namespace Appalachia.Rendering.Lighting.Probes
     {
         static PrefabRenderingManagerAutomaticLightProbeGroup()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            RegisterDependency<PrefabRenderingManager>(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties

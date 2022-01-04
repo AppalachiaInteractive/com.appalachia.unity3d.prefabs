@@ -12,56 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 899152e5f6bb4d4fbafff9fdeb271573, type: 3}
   m_Name: VegetationVerySmall
   m_EditorClassIdentifier: 
-  _niceName: 
   _cachedName: 
+  _niceName: 
+  _initializer:
+    _tags: []
+    _resetToken: 
   type: 100
   _options:
-    type: 100
     isEnabled: 0
+    type: 100
+    _muted: 0
+    _soloed: 0
     _dirty:
       initializerCount: 64
-      values:
-        noTracking: 0
-        _values: 
-        _capacityIncreaseMultiplier: 2
-        _count: 0
+      _object: {fileID: 0}
       keys:
-        noTracking: 0
-        _values: []
         _capacityIncreaseMultiplier: 2
+        _values: []
+        noTracking: 0
+        _count: 0
+      values:
+        _capacityIncreaseMultiplier: 2
+        _values: 
+        noTracking: 0
         _count: 0
       defaultStateIsDirty: 1
-    _soloed: 0
-    _muted: 0
-    minimumRenderingDistance: 0
-    maximumRenderingDistance: 50
-    layer:
-      layer: 0
-    frustum:
-      fovOffset: 0
-      aspectOffset: 1
-      depthOffset: 0
-      nearPlaneOffset: 0
-      farPlaneOffset: 0
-    rangeSettings:
-    - enabled: 1
-      showRangeLimit: 0
-      rangeLimit: 3.4028235e+38
-      frustumOverridesRange: 1
-      outOfFrustumRangeLimit: 8.5070587e+37
-      rendering: 2
-      physics: 2
-      interactions: 2
-    normalLighting:
-      lightProbeUsage: 1
-      forceAdditionalShadowPass: 0
-      isShadowCasting: 0
-      isShadowReceiving: 1
-      cullShadows: 1
-      useOriginalShaderForShadow: 1
-      useCustomShadowDistance: 0
-      shadowRenderingDistance: 0
-      instancedShader: 1
+    burialOptions:
+      adoptTerrainNormal: 0
+      buryMesh: 0
+      adjustmentStrength: 1
+    cullingSettings:
+      isFrustumCulling: 1
+      frustumOffset: 0.2
+      isOcclusionCulling: 1
+      occlusionOffset: 0
+      occlusionAccuracy: 1
+      minCullingDistance: 0
+      updateCullingEveryIteration: 0
+      updateCullingEveryXFrames: 3
     instancedLighting:
       lightProbeUsage: 1
       forceAdditionalShadowPass: 0
@@ -72,32 +60,56 @@ MonoBehaviour:
       useCustomShadowDistance: 0
       shadowRenderingDistance: 0
       instancedShader: 1
-    cullingSettings:
-      isFrustumCulling: 1
-      frustumOffset: 0.2
-      isOcclusionCulling: 1
-      occlusionOffset: 0
-      occlusionAccuracy: 1
-      minCullingDistance: 0
-      updateCullingEveryIteration: 0
-      updateCullingEveryXFrames: 3
+    normalLighting:
+      lightProbeUsage: 1
+      forceAdditionalShadowPass: 0
+      isShadowCasting: 0
+      isShadowReceiving: 1
+      cullShadows: 1
+      useOriginalShaderForShadow: 1
+      useCustomShadowDistance: 0
+      shadowRenderingDistance: 0
+      instancedShader: 1
+    rangeSettings:
+    - enabled: 1
+      showRangeLimit: 0
+      rangeLimit: 3.4028235e+38
+      frustumOverridesRange: 1
+      outOfFrustumRangeLimit: 8.5070587e+37
+      rendering: 2
+      physics: 2
+      interactions: 2
     distanceFalloffSettings:
       useDistanceFalloff: 1
       distanceFalloffStartDistance: 0.2
+    maximumRenderingDistance: 50
+    minimumRenderingDistance: 0
+    frustum:
+      fovOffset: 0
+      aspectOffset: 1
+      depthOffset: 0
+      nearPlaneOffset: 0
+      farPlaneOffset: 0
+    layer:
+      layer: 0
     lodFadeSettings:
       lodBiasAdjustment: 1
       useLODCrossFade: 0
       animateLODCrossFade: 0
       lodFadeTransitionWidth: 0.1
-    burialOptions:
-      buryMesh: 0
-      adoptTerrainNormal: 0
-      adjustmentStrength: 1
   labels:
-    matchStyle: 0
-    terms:
-    - enabled: 1
-      label: VegetationVerySmall
+    _owner: {fileID: 0}
+    _initializer:
+      _tags: []
+      _resetToken: 
     exclusionStyle: 0
+    matchStyle: 0
     exclusions: []
+    terms:
+    - _owner: {fileID: 0}
+      _initializer:
+        _tags: []
+        _resetToken: 
+      enabled: 1
+      label: VegetationVerySmall
   _baseEnabledState: 0

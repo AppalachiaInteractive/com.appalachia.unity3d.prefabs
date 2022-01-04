@@ -41,6 +41,11 @@ namespace Appalachia.Rendering.Shading.Importers
             string[] movedAssets,
             string[] movedFromAssetPaths)
         {
+            if (_appalachiaShaderFeatures == null)
+            {
+                return;
+            }
+            
             if (!enabled)
             {
                 return;
@@ -56,8 +61,7 @@ namespace Appalachia.Rendering.Shading.Importers
                 _hasher = HashAlgorithm.Create();
             }
 
-            var features = _appalachiaShaderFeatures;
-            var lookup = features.GetShaderLookup();
+            var lookup = _appalachiaShaderFeatures.GetShaderLookup();
             var paths = new List<string>();
 
             foreach (var importedAsset in importedAssets)
@@ -107,12 +111,12 @@ namespace Appalachia.Rendering.Shading.Importers
 
                 var value = lookup[importedAsset];
 
-                features.UpdateShader(value.Item2, value.Item1, paths);
+                _appalachiaShaderFeatures.UpdateShader(value.Item2, value.Item1, paths);
             }
 
             if (paths.Count > 0)
             {
-                features.ReimportShaders(paths);
+                _appalachiaShaderFeatures.ReimportShaders(paths);
             }
 
             foreach (var asset in paths)

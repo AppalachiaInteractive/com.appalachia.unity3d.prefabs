@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c72d311d885f43a4941eb45bff532cba, type: 3}
   m_Name: RuntimeRenderingOptions
   m_EditorClassIdentifier: 
-  _niceName: 
   _cachedName: 
+  _niceName: 
+  _initializer:
+    _tags: []
+    _resetToken: 
   global:
     layerMask:
       serializedVersion: 2

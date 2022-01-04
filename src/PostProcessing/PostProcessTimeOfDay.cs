@@ -10,6 +10,8 @@ namespace Appalachia.Rendering.PostProcessing
     [ExecuteAlways]
     public sealed class PostProcessTimeOfDay : AppalachiaBehaviour<PostProcessTimeOfDay>
     {
+        #region Fields and Autoproperties
+
         public PostProcessVolume morning;
         public PostProcessVolume daytime;
         public PostProcessVolume evening;
@@ -17,11 +19,19 @@ namespace Appalachia.Rendering.PostProcessing
         [FormerlySerializedAs("nightime")]
         public PostProcessVolume nighttime;
 
-        [BoxGroup("Time")]
+        #endregion
+
+        [BoxGroup("Strengths")]
         [ShowInInspector]
         [ReadOnly]
         [PropertyRange(0f, 1.0f)]
-        public float solarTime => ENVIRONMENT.solarTime;
+        public float daytimeStrength => daytime.weight;
+
+        [BoxGroup("Strengths")]
+        [ShowInInspector]
+        [ReadOnly]
+        [PropertyRange(0f, 1.0f)]
+        public float eveningStrength => evening.weight;
 
         [BoxGroup("Time")]
         [ShowInInspector]
@@ -39,22 +49,23 @@ namespace Appalachia.Rendering.PostProcessing
         [ShowInInspector]
         [ReadOnly]
         [PropertyRange(0f, 1.0f)]
-        public float daytimeStrength => daytime.weight;
-
-        [BoxGroup("Strengths")]
-        [ShowInInspector]
-        [ReadOnly]
-        [PropertyRange(0f, 1.0f)]
-        public float eveningStrength => evening.weight;
-
-        [BoxGroup("Strengths")]
-        [ShowInInspector]
-        [ReadOnly]
-        [PropertyRange(0f, 1.0f)]
         public float nighttimeStrength => nighttime.weight;
+
+        [BoxGroup("Time")]
+        [ShowInInspector]
+        [ReadOnly]
+        [PropertyRange(0f, 1.0f)]
+        public float solarTime => ENVIRONMENT.solarTime;
+
+        #region Event Functions
 
         private void Update()
         {
+            if (!DependenciesAreReady || !FullyInitialized)
+            {
+                return;
+            }
+
             if (!EnviroTimeManager.Valid)
             {
                 return;
@@ -84,5 +95,7 @@ namespace Appalachia.Rendering.PostProcessing
                 twilight.weight = blend;
             }
         }
+
+        #endregion
     }
 }

@@ -63,11 +63,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         static PrefabRenderingManager()
         {
-            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
-            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
-            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
-            RuntimeRenderingOptions.InstanceAvailable += i => _runtimeRenderingOptions = i;
-            MeshBurialExecutionManager.InstanceAvailable += i => _meshBurialExecutionManager = i;
+            RegisterDependency<PrefabContentTypeOptionsLookup>(i => _prefabContentTypeOptionsLookup = i);
+            RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
+            RegisterDependency<PrefabRenderingSetCollection>(i => _prefabRenderingSetCollection = i);
+            RegisterDependency<RuntimeRenderingOptions>(i => _runtimeRenderingOptions = i);
+            RegisterDependency<MeshBurialExecutionManager>(i => _meshBurialExecutionManager = i);
         }
 
         #region Static Fields and Autoproperties
@@ -680,6 +680,11 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
         {
             using (_PRF_Update.Auto())
             {
+                if (!DependenciesAreReady || !FullyInitialized)
+                {
+                    return;
+                }
+                
                 try
                 {
                     _frameStart = DateTime.UtcNow;

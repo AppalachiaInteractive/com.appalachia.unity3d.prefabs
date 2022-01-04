@@ -12,29 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1b865defcb62445abe907dbe33c105ea, type: 3}
   m_Name: _Running
   m_EditorClassIdentifier: 
-  _niceName: 
   _cachedName: 
+  _niceName: 
+  _initializer:
+    _tags:
+    - profileName
+    _resetToken: 
   id: 6
   profileName: _Running
   state: 0
-  velocityThreshold: 3
-  velocityFadeRange: 1
-  defaultFocusDistance: 10
-  maxFocusDistance: 75
-  nearPlane:
-    kernelSize: 0
-    voteBias: 0.8
-    voteSampleKernelSize: 0.02
-    voteDepthTolerance: 0.02
-    adaptationTime: 0.1
-    adaptationSmoothing: 0.2
-    adaptationMaxSpeedTowards: 4
-    adaptationMaxSpeedAway: 4
-    apertureStationary: 2
-    apertureStationarySmoothing: 0.01
-    apertureChangeVelocityThreshold: 0.1
-    apertureMotion: 2
-    apertureMotionSmoothing: 0.2
   farPlane:
     kernelSize: 0
     voteBias: 0.8
@@ -49,3 +35,21 @@ MonoBehaviour:
     apertureChangeVelocityThreshold: 0.1
     apertureMotion: 2
     apertureMotionSmoothing: 0.2
+  nearPlane:
+    kernelSize: 0
+    voteBias: 0.8
+    voteSampleKernelSize: 0.02
+    voteDepthTolerance: 0.02
+    adaptationTime: 0.1
+    adaptationSmoothing: 0.2
+    adaptationMaxSpeedTowards: 4
+    adaptationMaxSpeedAway: 4
+    apertureStationary: 2
+    apertureStationarySmoothing: 0.01
+    apertureChangeVelocityThreshold: 0.1
+    apertureMotion: 2
+    apertureMotionSmoothing: 0.2
+  defaultFocusDistance: 10
+  maxFocusDistance: 75
+  velocityFadeRange: 1
+  velocityThreshold: 3

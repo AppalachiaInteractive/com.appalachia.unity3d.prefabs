@@ -12,32 +12,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb21d05f10c4b95b603dcdfd7bae443, type: 3}
   m_Name: Tree
   m_EditorClassIdentifier: 
-  _niceName: 
   _cachedName: 
+  _niceName: 
+  _initializer:
+    _tags: []
+    _resetToken: 
   type: 600
   _options:
-    type: 600
     isEnabled: 1
+    type: 600
+    _muted: 0
+    _soloed: 0
     _dirty:
       initializerCount: 64
-      values:
-        noTracking: 0
-        _values: 
-        _capacityIncreaseMultiplier: 2
-        _count: 0
+      _object: {fileID: 0}
       keys:
-        noTracking: 0
-        _values: []
         _capacityIncreaseMultiplier: 2
+        _values: []
+        noTracking: 0
+        _count: 0
+      values:
+        _capacityIncreaseMultiplier: 2
+        _values: 
+        noTracking: 0
         _count: 0
       defaultStateIsDirty: 1
-    _soloed: 0
-    _muted: 0
   labels:
-    matchStyle: 0
-    terms:
-    - enabled: 1
-      label: Tree
+    _owner: {fileID: 0}
+    _initializer:
+      _tags: []
+      _resetToken: 
     exclusionStyle: 0
+    matchStyle: 0
     exclusions: []
+    terms:
+    - _owner: {fileID: 0}
+      _initializer:
+        _tags: []
+        _resetToken: 
+      enabled: 1
+      label: Tree
   _baseEnabledState: 1

@@ -33,13 +33,13 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         public const string NeutralResourcesLanguage = "en";
         public const string AssemblyVersion = "0.2.0.0";
         public const string AssemblyFileVersion = "0.2.0.0";
-        public const int Priority = -281000;
+        public const int Priority = -280000;
         public const string Name = "Rendering/Prefabs/Spawning";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";
         public const string Version = "0.2.0";
         public const int VersionInt = 2000;
-        public const string BuildDate = "2021-12-21T00:29:23.7085682Z";
+        public const string BuildDate = "2021-12-30T17:59:49.8758938Z";
         
         public static partial class Prefs
         {
@@ -256,9 +256,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             {
                 var majorInt = version / 1_000_000;
                 var minorInt = (version / 1_000) % 1_000;
-                var patchInt = version % 1_000; 
+                var patchInt = version % 1_000;
 
-                var result = $"{majorInt}.{minorInt}.{patchInt}";
+                var result = string.Format("0.1.2", majorInt, minorInt, patchInt);
 
                 return result;
             }

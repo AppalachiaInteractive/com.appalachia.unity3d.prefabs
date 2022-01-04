@@ -75,6 +75,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             ((componentData.treeMaterials.Count == 0) ||
              componentData.treeMaterials.Any(tm => tm.windMask == null));
 
+#if UNITY_EDITOR
         [Button]
         [ShowIf(nameof(_showAllButtons))]
         [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
@@ -99,6 +100,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 AssignWindMetadata(true);
             }
         }
+#endif
 
         public void AssignWindMetadata(bool force)
         {
@@ -143,7 +145,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             continue;
                         }
 
-                        Mesh updatedMesh;
 
                         var matchingRecoveryInfo =
                             componentData.recoveryInfo.FirstOrDefault(ri => ri.updated == currentMesh);
@@ -168,6 +169,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             }
                         }
 
+                        Mesh updatedMesh;
+#if UNITY_EDITOR
                         if ((matchingRecoveryInfo == null) || (matchingRecoveryInfo.updated == null))
                         {
                             var newMeshName = ZString.Format("{0}_ADSP", currentMesh.name);
@@ -198,30 +201,31 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             mf.sharedMesh = updatedMesh;
                         }
                         else
+#endif
                         {
                             updatedMesh = matchingRecoveryInfo.updated;
                         }
 
                         List<Color> colors;
 
-                        var transform1 = renderer_.transform;
+                        var rendererTransform = renderer_.transform;
 
                         switch (componentData.style)
                         {
                             case MeshWindComponentData.MeshWindStyle.FadeUp:
                                 colors = AssignWindMetadata_FadeUp(
                                     matchingRecoveryInfo.original,
-                                    transform1.localPosition,
-                                    transform1.localRotation,
-                                    transform1.localScale
+                                    rendererTransform.localPosition,
+                                    rendererTransform.localRotation,
+                                    rendererTransform.localScale
                                 );
                                 break;
                             case MeshWindComponentData.MeshWindStyle.Material:
                                 colors = AssignWindMetadata_Material(
                                     matchingRecoveryInfo.original,
-                                    transform1.localPosition,
-                                    transform1.localRotation,
-                                    transform1.localScale,
+                                    rendererTransform.localPosition,
+                                    rendererTransform.localRotation,
+                                    rendererTransform.localScale,
                                     matchingRecoveryInfo.originalMaterials,
                                     _materialLookup
                                 );
@@ -229,18 +233,18 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             case MeshWindComponentData.MeshWindStyle.Texture2D:
                                 colors = AssignWindMetadata_Texture2D(
                                     matchingRecoveryInfo.original,
-                                    transform1.localPosition,
-                                    transform1.localRotation,
-                                    transform1.localScale,
+                                    rendererTransform.localPosition,
+                                    rendererTransform.localRotation,
+                                    rendererTransform.localScale,
                                     componentData.windMask
                                 );
                                 break;
                             case MeshWindComponentData.MeshWindStyle.TreeMaterials:
                                 colors = AssignWindMetadata_TreeMaterials(
                                     matchingRecoveryInfo.original,
-                                    transform1.localPosition,
-                                    transform1.localRotation,
-                                    transform1.localScale,
+                                    rendererTransform.localPosition,
+                                    rendererTransform.localRotation,
+                                    rendererTransform.localScale,
                                     gameObject,
                                     componentData.treeMaterials
                                 );
@@ -261,6 +265,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
+#if UNITY_EDITOR
         [Button]
         [ShowIf(nameof(showGenerateMaskButton))]
         public void GenerateDefaultWindMask()
@@ -455,6 +460,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         {
             _showRevertButtons = !_showRevertButtons;
         }
+#endif
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
@@ -1179,11 +1185,13 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         private static readonly ProfilerMarker _PRF_WhenEnabled =
             new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
 
+#if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_AssignAllWindMetadata =
             new(_PRF_PFX + nameof(AssignAllWindMetadata));
 
         private static readonly ProfilerMarker _PRF_RevertMismatchedRecoveryData =
             new(_PRF_PFX + nameof(RevertMismatchedRecoveryData));
+#endif
 
         #endregion
     }

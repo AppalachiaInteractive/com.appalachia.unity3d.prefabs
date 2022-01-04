@@ -56,10 +56,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         static PrefabRenderingSet()
         {
-            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
-            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
-            PrefabReplacementCollection.InstanceAvailable += i => _prefabReplacementCollection = i;
-            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+            RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
+            RegisterDependency<PrefabContentTypeOptionsLookup>(i => _prefabContentTypeOptionsLookup = i);
+            RegisterDependency<PrefabReplacementCollection>(i => _prefabReplacementCollection = i);
+            RegisterDependency<PrefabRenderingSetCollection>(i => _prefabRenderingSetCollection = i);
             PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
         }
 

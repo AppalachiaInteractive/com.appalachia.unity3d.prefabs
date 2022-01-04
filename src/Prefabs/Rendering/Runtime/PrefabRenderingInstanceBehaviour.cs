@@ -28,8 +28,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
     {
         static PrefabRenderingInstanceBehaviour()
         {
-            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
+            RegisterDependency<PrefabRenderingManager>(i => _prefabRenderingManager = i);
         }
 
         #region Preferences
