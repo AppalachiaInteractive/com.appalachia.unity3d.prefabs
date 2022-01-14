@@ -7,7 +7,6 @@ using Appalachia.Core.Shading;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
-using Unity.Profiling;
 using UnityEngine;
 #if UNITY_EDITOR
 
@@ -36,16 +35,13 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
-            {
-                await base.Initialize(initializer);
+            await base.Initialize(initializer);
 
-                SetOcclusion();
+            SetOcclusion();
 
 #if UNITY_EDITOR
-                CheckExistingGroups();
+            CheckExistingGroups();
 #endif
-            }
         }
 
         private void SetOcclusion()
@@ -60,10 +56,8 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(AutomaticLightProbes) + ".";
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         #endregion
 

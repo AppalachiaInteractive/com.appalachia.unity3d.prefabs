@@ -340,11 +340,5 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             }
         }
 #endif
-
-        #region Profiling
-
-        private const string _PRF_PFX = nameof(PrefabModelTypeOptionsLookup) + ".";
-
-        #endregion
     }
 }

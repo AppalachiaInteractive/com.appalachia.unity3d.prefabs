@@ -14,21 +14,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     [CallStaticConstructorInEditor]
     public class PrefabContentTypeOptionsLookup : PrefabTypeOptionsLookup<PrefabContentType,
         PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
-        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
-        Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle,
-        Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
+        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup, Index_PrefabContentTypeOptions,
+        PrefabContentTypeOptionsToggle, Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {
-        private const string _PRF_PFX = nameof(PrefabContentTypeOptionsLookup) + ".";
-
         static PrefabContentTypeOptionsLookup()
         {
             _types = new EnumValuesCollection<PrefabContentType>(PrefabContentType.None);
         }
 
-        protected override bool _anySoloed => PrefabContentTypeOptions.AnySolo;
-
         protected override bool _anyMuted => PrefabContentTypeOptions.AnyMute;
+
+        protected override bool _anySoloed => PrefabContentTypeOptions.AnySolo;
 
 #if UNITY_EDITOR
         protected override void InitializeState()

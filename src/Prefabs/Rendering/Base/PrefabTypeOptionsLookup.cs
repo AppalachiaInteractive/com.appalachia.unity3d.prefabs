@@ -101,7 +101,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _state.SetObjectOwnership(this);
+                    _state.SetSerializationOwner(this);
 #endif
                 }
 
@@ -226,82 +226,75 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
+            await base.Initialize(initializer);
+
+            if (_state == null)
             {
-                await base.Initialize(initializer);
-
-                if (_state == null)
-                {
-                    _state = new TI();
-
-#if UNITY_EDITOR
-                    MarkAsModified();
-#endif
-                }
-
-#if UNITY_EDITOR
-                _state.SetObjectOwnership(this);
-#endif
-
-                if (_toggles == null)
-                {
-                    _toggles = new TOGI();
-#if UNITY_EDITOR
-                    MarkAsModified();
-#endif
-                }
-
-#if UNITY_EDITOR
-                _toggles.SetObjectOwnership(this);
-#endif
-
-                for (var i = _state.Count - 1; i >= 0; i--)
-                {
-                    var value = _state.at[i];
-
-                    if (!Enum.IsDefined(typeof(TE), value.type))
-                    {
-                        _state.RemoveAt(i);
-#if UNITY_EDITOR
-                        MarkAsModified();
-#endif
-                    }
-                }
-
-                if ((_state.Count == _types.Length) && (_state.Count > 0))
-                {
-                    return;
-                }
-
-#if UNITY_EDITOR
-                InitializeState();
-#endif
-
-                _toggles.Clear();
-
-                for (var i = 0; i < _state.Count; i++)
-                {
-                    var s = _state.at[i];
-
-                    var toggle = new TT { options = s };
-
-                    _toggles.Add(s.type, toggle);
-                }
+                _state = new TI();
 
 #if UNITY_EDITOR
                 MarkAsModified();
 #endif
             }
+
+#if UNITY_EDITOR
+            _state.SetSerializationOwner(this);
+#endif
+
+            if (_toggles == null)
+            {
+                _toggles = new TOGI();
+#if UNITY_EDITOR
+                MarkAsModified();
+#endif
+            }
+
+#if UNITY_EDITOR
+            _toggles.SetSerializationOwner(this);
+#endif
+
+            for (var i = _state.Count - 1; i >= 0; i--)
+            {
+                var value = _state.at[i];
+
+                if (!Enum.IsDefined(typeof(TE), value.type))
+                {
+                    _state.RemoveAt(i);
+#if UNITY_EDITOR
+                    MarkAsModified();
+#endif
+                }
+            }
+
+            if ((_state.Count == _types.Length) && (_state.Count > 0))
+            {
+                return;
+            }
+
+#if UNITY_EDITOR
+            InitializeState();
+#endif
+
+            _toggles.Clear();
+
+            for (var i = 0; i < _state.Count; i++)
+            {
+                var s = _state.at[i];
+
+                var toggle = new TT { options = s };
+
+                _toggles.Add(s.type, toggle);
+            }
+
+#if UNITY_EDITOR
+            MarkAsModified();
+#endif
         }
 
         #region Profiling
 
-        private const string _PRF_PFX =
-            nameof(PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
-            ".";
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         private static readonly ProfilerMarker _PRF_GetPrefabType = new(_PRF_PFX + nameof(GetPrefabType));
         private static readonly ProfilerMarker _PRF_GetTypeOptions = new(_PRF_PFX + nameof(GetTypeOptions));

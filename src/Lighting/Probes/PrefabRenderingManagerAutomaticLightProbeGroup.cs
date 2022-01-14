@@ -13,6 +13,8 @@ namespace Appalachia.Rendering.Lighting.Probes
     {
         static PrefabRenderingManagerAutomaticLightProbeGroup()
         {
+            
+            
             RegisterDependency<PrefabRenderingManager>(i => _prefabRenderingManager = i);
         }
 

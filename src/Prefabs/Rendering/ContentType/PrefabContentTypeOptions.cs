@@ -9,10 +9,9 @@ using Appalachia.Rendering.Prefabs.Rendering.Base;
 namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
 {
     [Serializable]
-    public class PrefabContentTypeOptions : PrefabTypeOptions<PrefabContentType,
-        PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
-        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
-        Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle,
+    public class PrefabContentTypeOptions : PrefabTypeOptions<PrefabContentType, PrefabContentTypeOptions,
+        PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData, PrefabContentTypeOptionsWrapper,
+        PrefabContentTypeOptionsLookup, Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle,
         Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {

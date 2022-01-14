@@ -39,47 +39,41 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
+            await base.Initialize(initializer);
+
+            if (global == null)
             {
-                await base.Initialize(initializer);
+                global = new GlobalRenderingOptions();
+            }
 
-                if (global == null)
-                {
-                    global = new GlobalRenderingOptions();
-                }
+            if (execution == null)
+            {
+                execution = new RuntimeRenderingExecutionOptions();
+            }
 
-                if (execution == null)
-                {
-                    execution = new RuntimeRenderingExecutionOptions();
-                }
-
-                if (profiling == null)
-                {
-                    profiling = new RuntimeRenderingProfilerOptions();
-                }
+            if (profiling == null)
+            {
+                profiling = new RuntimeRenderingProfilerOptions();
+            }
 
 #if UNITY_EDITOR
-                if (gizmos == null)
-                {
-                    gizmos = new RuntimeRenderingGizmoOptions();
-                }
-
-                if (editor == null)
-                {
-                    editor = new EditorRenderingOptions();
-                }
-#endif
+            if (gizmos == null)
+            {
+                gizmos = new RuntimeRenderingGizmoOptions();
             }
+
+            if (editor == null)
+            {
+                editor = new EditorRenderingOptions();
+            }
+#endif
         }
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(RuntimeRenderingOptions) + ".";
-
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         #endregion
 

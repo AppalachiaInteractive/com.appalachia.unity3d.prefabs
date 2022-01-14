@@ -56,6 +56,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         static PrefabRenderingSet()
         {
+            
+            
             RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
             RegisterDependency<PrefabContentTypeOptionsLookup>(i => _prefabContentTypeOptionsLookup = i);
             RegisterDependency<PrefabReplacementCollection>(i => _prefabReplacementCollection = i);
@@ -282,7 +284,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _externalParameters.SetObjectOwnership(this);
+                    _externalParameters.SetSerializationOwner(this);
 #endif
                 }
 
@@ -598,7 +600,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _externalParameters.SetObjectOwnership(this);
+                    _externalParameters.SetSerializationOwner(this);
 #endif
                 }
 
@@ -844,10 +846,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(PrefabRenderingSet) + ".";
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
 

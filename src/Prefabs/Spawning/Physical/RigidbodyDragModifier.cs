@@ -10,16 +10,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 {
     public sealed class RigidbodyDragModifier : AppalachiaBehaviour<RigidbodyDragModifier>
     {
-        private const string _PRF_PFX = nameof(RigidbodyDragModifier) + ".";
-
-        private static readonly ProfilerMarker _PRF_FixedUpdate =
-            new(_PRF_PFX + nameof(FixedUpdate));
-
-        private static readonly ProfilerMarker _PRF_CheckRigidbody =
-            new(_PRF_PFX + nameof(CheckRigidbody));
-
-        private static readonly ProfilerMarker _PRF_OnCollisionEnter =
-            new(_PRF_PFX + nameof(OnCollisionEnter));
+        #region Fields and Autoproperties
 
         public bool removeOnSleep;
 
@@ -29,6 +20,10 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
 
         public float massModification = 1.05f;
         private Rigidbody _rigidbody;
+
+        #endregion
+
+        #region Event Functions
 
         private void FixedUpdate()
         {
@@ -62,6 +57,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
             }
         }
 
+        #endregion
+
         private bool CheckRigidbody()
         {
             using (_PRF_CheckRigidbody.Auto())
@@ -84,5 +81,14 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
                 return false;
             }
         }
+
+        #region Profiling
+
+        private static readonly ProfilerMarker _PRF_CheckRigidbody = new(_PRF_PFX + nameof(CheckRigidbody));
+
+        private static readonly ProfilerMarker _PRF_OnCollisionEnter =
+            new(_PRF_PFX + nameof(OnCollisionEnter));
+
+        #endregion
     }
 }

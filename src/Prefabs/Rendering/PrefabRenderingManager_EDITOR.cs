@@ -7,6 +7,7 @@
 using System;
 using System.Collections.Generic;
 using Appalachia.Core.Objects.Root;
+using Appalachia.Spatial.MeshBurial.Processing;
 using Appalachia.Utility.Execution;
 using Appalachia.Utility.Strings;
 using GPUInstancer;
@@ -19,6 +20,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 {
     public partial class PrefabRenderingManager
     {
+        #region Static Fields and Autoproperties
+
+        private static MeshBurialExecutionManager _meshBurialExecutionManager;
+
+        #endregion
+
         public PrefabRenderingSet ManageNewPrefabRegistration(GameObject prefab)
         {
             using (_PRF_ManageNewPrefabRegistration.Auto())

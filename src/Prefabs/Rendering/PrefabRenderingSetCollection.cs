@@ -79,7 +79,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                         MarkAsModified();
 
-                        _state.SetObjectOwnership(this);
+                        _state.SetSerializationOwner(this);
 #endif
                     }
 
@@ -322,7 +322,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                _state.SetObjectOwnership(this);
+                _state.SetSerializationOwner(this);
 #endif
 
                 if (_toggles == null)
@@ -334,7 +334,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                _toggles.SetObjectOwnership(this);
+                _toggles.SetSerializationOwner(this);
 #endif
 
                 RebuildToggleList();
@@ -361,11 +361,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #region ProfilerMarkers
 
-        private const string _PRF_PFX = nameof(PrefabRenderingSetCollection) + ".";
         private static readonly ProfilerMarker _PRF_Sets = new(_PRF_PFX + nameof(Sets));
-
-        private static readonly ProfilerMarker _PRF_WhenEnabled = new(_PRF_PFX + nameof(WhenEnabled));
-
+        
         private static readonly ProfilerMarker _PRF_RemoveInvalid = new(_PRF_PFX + nameof(RemoveInvalid));
 
         private static readonly ProfilerMarker _PRF_RebuildToggleList =

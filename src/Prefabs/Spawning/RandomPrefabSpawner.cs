@@ -26,6 +26,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning
     {
         static RandomPrefabSpawner()
         {
+            
+
             RegisterDependency<RandomPrefabMasterCollection>(i => _randomPrefabMasterCollection = i);
         }
 
@@ -66,7 +68,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_Update.Auto())
             {
-                if (!DependenciesAreReady || !FullyInitialized)
+                if (ShouldSkipUpdate)
                 {
                     return;
                 }
@@ -182,7 +184,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 
         protected override async AppaTask WhenEnabled()
         {
-            using (_PRF_OnEnable.Auto())
+            using (_PRF_WhenEnabled.Auto())
             {
                 await base.WhenEnabled();
 
@@ -200,12 +202,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(RandomPrefabSpawner) + ".";
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
-        private static readonly ProfilerMarker _PRF_EnableSpawning = new(_PRF_PFX + nameof(EnableSpawning));
         private static readonly ProfilerMarker _PRF_DisableSpawning = new(_PRF_PFX + nameof(DisableSpawning));
-
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
+        private static readonly ProfilerMarker _PRF_EnableSpawning = new(_PRF_PFX + nameof(EnableSpawning));
 
         #endregion
 

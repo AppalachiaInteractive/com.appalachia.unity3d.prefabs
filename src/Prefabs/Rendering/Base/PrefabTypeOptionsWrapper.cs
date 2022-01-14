@@ -187,12 +187,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         #region Profiling
 
-        private const string _PRF_PFX =
-            nameof(PrefabTypeOptionsWrapper<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
-            ".";
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         private static readonly ProfilerMarker _PRF_ConfirmValidity = new(_PRF_PFX + nameof(ConfirmValidity));
 

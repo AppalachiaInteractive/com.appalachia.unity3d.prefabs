@@ -22,8 +22,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
     {
         #region Profiling And Tracing Markers
 
-        private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadata) + ".";
-
 #if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_CreatePrototypeIfNecessary =
             new(_PRF_PFX + nameof(CreatePrototypeIfNecessary));

@@ -52,7 +52,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 MarkAsModified();
             }
 
-            _externalParameters.SetObjectOwnership(this);
+            _externalParameters.SetSerializationOwner(this);
 
             //_assetType = _assetType.CheckObsolete();
         }

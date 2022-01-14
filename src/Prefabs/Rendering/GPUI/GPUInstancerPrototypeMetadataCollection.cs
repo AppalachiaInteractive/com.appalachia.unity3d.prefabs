@@ -52,15 +52,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             }
 
 #if UNITY_EDITOR
-            State.SetObjectOwnership(this);
+            State.SetSerializationOwner(this);
 #endif
         }
-
-        #region Profiling
-
-        private const string _PRF_PFX = nameof(GPUInstancerPrototypeMetadataCollection) + ".";
-
-        #endregion
 
 #if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_FindOrCreate = new(_PRF_PFX + nameof(FindOrCreate));

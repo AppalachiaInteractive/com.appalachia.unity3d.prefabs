@@ -32,6 +32,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     {
         static PrefabTypeOptionsSetData()
         {
+            
+            
             RegisterDependency<TL>(i => _prefabTypeOptionsLookup = i);
         }
 
@@ -85,10 +87,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         public abstract void SyncOverridesFull(bool hasInteractions, bool hasColliders);
 
         #region Profiling
-
-        private const string _PRF_PFX =
-            nameof(PrefabTypeOptionsSetData<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) +
-            ".";
 
         #endregion
     }

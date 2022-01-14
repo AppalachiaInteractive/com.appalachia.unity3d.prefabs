@@ -19,6 +19,7 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Rendering.Prefabs.Rendering.Options;
 using Appalachia.Rendering.Prefabs.Rendering.Options.Rendering;
+using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Strings;
 using GPUInstancer;
 using Sirenix.OdinInspector;
@@ -894,7 +895,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                 if (!_element.parameterIndices.ShouldAllocate())
                 {
-                    SafeNative.SafeDispose(ref _element.parameterIndices);
+                    IDisposableExtensions.SafeDispose(ref _element.parameterIndices);
                 }
 
                 _element.parameterIndices = new NativeList<int>(Allocator.Persistent);
@@ -1126,7 +1127,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         {
             using (_PRF_Dispose.Auto())
             {
-                SafeNative.SafeDispose(ref _element, ref _temp, ref _externalParameterEnabledState);
+                IDisposableExtensions.SafeDispose(
+                    ref _element,
+                    ref _temp,
+                    ref _externalParameterEnabledState
+                );
             }
         }
 

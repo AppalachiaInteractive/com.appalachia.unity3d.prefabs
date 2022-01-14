@@ -40,9 +40,9 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         protected override async AppaTask WhenEnabled()
         {
-#if UNITY_EDITOR
-
             await base.WhenEnabled();
+
+#if UNITY_EDITOR
 
             var values = EnumValueManager.GetAllValues<DepthOfFieldState>();
 

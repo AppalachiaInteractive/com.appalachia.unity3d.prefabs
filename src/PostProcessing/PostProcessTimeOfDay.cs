@@ -61,7 +61,7 @@ namespace Appalachia.Rendering.PostProcessing
 
         private void Update()
         {
-            if (!DependenciesAreReady || !FullyInitialized)
+            if (ShouldSkipUpdate)
             {
                 return;
             }

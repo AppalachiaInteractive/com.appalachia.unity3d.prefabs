@@ -56,12 +56,11 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         }
 
         protected override async AppaTask WhenDisabled()
-
         {
-            using (_PRF_OnDisable.Auto())
-            {
-                await base.WhenDisabled();
+            await base.WhenDisabled();
 
+            using (_PRF_WhenDisabled.Auto())
+            {
                 _currentSettings?.ReleaseBuffers();
             }
         }
@@ -119,7 +118,6 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(DepthOfFieldAutoFocus) + ".";
 
         private static readonly ProfilerMarker _PRF_SetUpAutoFocusParams =
             new(_PRF_PFX + nameof(SetUpAutoFocusParams));
@@ -130,16 +128,15 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         #endregion
 
 #if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
         private void Update()
         {
             using (_PRF_Update.Auto())
             {
-                if (!DependenciesAreReady || !FullyInitialized)
+                if (ShouldSkipUpdate)
                 {
                     return;
                 }
-                
+
                 if (!CheckManager())
                 {
                     return;

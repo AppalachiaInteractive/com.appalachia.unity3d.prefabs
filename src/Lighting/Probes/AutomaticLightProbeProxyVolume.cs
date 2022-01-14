@@ -6,7 +6,6 @@ using Appalachia.Editing.Core.Behaviours;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
-using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -164,12 +163,9 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
-            {
-                await base.Initialize(initializer);
+            await base.Initialize(initializer);
 
-                Validate();
-            }
+            Validate();
         }
 
         private void OnNameChanged()
@@ -199,10 +195,8 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(AutomaticLightProbeProxyVolume) + ".";
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         #endregion
     }

@@ -28,9 +28,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
     {
         #region Constants and Static Readonly
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
-
         private static readonly Dictionary<Material, MeshWindMetadata.MeshWindMaterialMatchGroup>
             _materialLookup = new();
 
@@ -39,9 +36,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         #endregion
 
         #region Static Fields and Autoproperties
-
-        private static readonly ProfilerMarker _PRF_AssignWindMetadata =
-            new(_PRF_PFX + nameof(AssignWindMetadata));
 
         private static bool _showAllButtons;
         private static bool _showRevertButtons;
@@ -74,33 +68,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             (componentData.style == MeshWindComponentData.MeshWindStyle.TreeMaterials) &&
             ((componentData.treeMaterials.Count == 0) ||
              componentData.treeMaterials.Any(tm => tm.windMask == null));
-
-#if UNITY_EDITOR
-        [Button]
-        [ShowIf(nameof(_showAllButtons))]
-        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
-        public void AssignAllWindMetadata()
-        {
-            using (_PRF_AssignAllWindMetadata.Auto())
-            {
-                var components = FindObjectsOfType<MeshWindComponent>();
-
-                foreach (var comp in components)
-                {
-                    comp.AssignWindMetadata();
-                }
-            }
-        }
-
-        [Button]
-        public void AssignWindMetadata()
-        {
-            using (_PRF_AssignWindMetadata.Auto())
-            {
-                AssignWindMetadata(true);
-            }
-        }
-#endif
 
         public void AssignWindMetadata(bool force)
         {
@@ -144,7 +111,6 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         {
                             continue;
                         }
-
 
                         var matchingRecoveryInfo =
                             componentData.recoveryInfo.FirstOrDefault(ri => ri.updated == currentMesh);
@@ -265,211 +231,11 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
-#if UNITY_EDITOR
-        [Button]
-        [ShowIf(nameof(showGenerateMaskButton))]
-        public void GenerateDefaultWindMask()
-        {
-            var meshFilter = GetComponentsInChildren<MeshFilter>()
-                            .OrderByDescending(mf => mf.sharedMesh.vertexCount)
-                            .FirstOrDefault();
-
-            var r = meshFilter.GetComponent<Renderer>();
-
-            var material = r.sharedMaterials[0];
-
-            var texture = (material.mainTexture
-                ? material.mainTexture
-                : material.GetTexture(
-                    material.GetTexturePropertyNames()
-                            .FirstOrDefault(
-                                 m => m.ToLowerInvariant().Contains("color") ||
-                                      m.ToLowerInvariant().Contains("albedo") ||
-                                      m.ToLowerInvariant().Contains("diffuse") ||
-                                      m.ToLowerInvariant().Contains("base") ||
-                                      m.ToLowerInvariant().Contains("maint")
-                             )
-                )) as Texture2D;
-
-            var texturePath = AssetDatabaseManager.GetAssetPath(texture);
-            var importer = UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
-            var textureSettings = new UnityEditor.TextureImporterSettings();
-            importer.ReadTextureSettings(textureSettings);
-
-            var newPath = ZString.Format(
-                "{0}\\{1}_wind.png",
-                AppaPath.GetDirectoryName(texturePath),
-                AppaPath.GetFileNameWithoutExtension(texturePath)
-            );
-
-            var tex = new Texture2D(
-                (int)generatedMaskSize,
-                (int)generatedMaskSize,
-                TextureFormat.ARGB32,
-                true
-            );
-
-            AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
-
-            AssetDatabaseManager.Refresh();
-
-            var textureImporter = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
-
-            textureSettings.sRGBTexture = false;
-            textureSettings.textureType = UnityEditor.TextureImporterType.Default;
-            textureImporter.SetTextureSettings(textureSettings);
-            textureImporter.SaveAndReimport();
-        }
-
-        [Button]
-        [ShowIf(nameof(showPopulateTreeMaterialsButton))]
-        public void PopulateTreeMaterials()
-        {
-            var renderers = GetComponentsInChildren<MeshRenderer>();
-
-            var materials = renderers.SelectMany(rm => rm.sharedMaterials);
-
-            foreach (var material in materials)
-            {
-                if (componentData.treeMaterials.Any(tm => (tm.material == material) && (tm.windMask != null)))
-                {
-                    continue;
-                }
-
-                var texture = (material.mainTexture
-                    ? material.mainTexture
-                    : material.GetTexture(
-                        material.GetTexturePropertyNames()
-                                .FirstOrDefault(
-                                     m => m.ToLowerInvariant().Contains("color") ||
-                                          m.ToLowerInvariant().Contains("albedo") ||
-                                          m.ToLowerInvariant().Contains("diffuse") ||
-                                          m.ToLowerInvariant().Contains("base") ||
-                                          m.ToLowerInvariant().Contains("maint")
-                                 )
-                    )) as Texture2D;
-
-                var texturePath = AssetDatabaseManager.GetAssetPath(texture);
-                var importer =
-                    UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
-                var textureSettings = new UnityEditor.TextureImporterSettings();
-                importer.ReadTextureSettings(textureSettings);
-
-                var newPath = ZString.Format(
-                    "{0}\\{1}_wind.png",
-                    AppaPath.GetDirectoryName(texturePath),
-                    AppaPath.GetFileNameWithoutExtension(texturePath)
-                );
-
-                var tex = new Texture2D(
-                    (int)generatedMaskSize,
-                    (int)generatedMaskSize,
-                    TextureFormat.ARGB32,
-                    true
-                );
-
-                AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
-
-                AssetDatabaseManager.Refresh();
-
-                var textureImporter =
-                    (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
-
-                textureSettings.sRGBTexture = false;
-                textureSettings.textureType = UnityEditor.TextureImporterType.Default;
-                textureImporter.SetTextureSettings(textureSettings);
-                textureImporter.SaveAndReimport();
-
-                tex = AssetDatabaseManager.LoadAssetAtPath<Texture2D>(newPath);
-
-                var treeMaterial =
-                    new MeshWindComponentData.TreeMaterialSet { material = material, windMask = tex };
-
-                componentData.treeMaterials.Add(treeMaterial);
-            }
-        }
-
-        [Button]
-        [ShowIf(nameof(_showRevertButtons))]
-        [FoldoutGroup("Revert", Order = 1000, Expanded = false)]
-        public void Revert()
-        {
-            try
-            {
-                var renderers = GetComponentsInChildren<MeshRenderer>();
-
-                foreach (var renderer_ in renderers)
-                {
-                    var currentMesh = renderer_.GetSharedMesh();
-
-                    var matchingRecoveryInfo =
-                        componentData.recoveryInfo.FirstOrDefault(ri => ri.updated == currentMesh);
-
-                    if ((matchingRecoveryInfo != null) && (matchingRecoveryInfo.original != null))
-                    {
-                        var mf = renderer_.GetComponent<MeshFilter>();
-                        mf.sharedMesh = matchingRecoveryInfo.original;
-                    }
-                    else if ((currentMesh != null) && currentMesh.name.Contains("_ADSP"))
-                    {
-                        var mf = renderer_.GetComponent<MeshFilter>();
-                        mf.sharedMesh = null;
-                    }
-
-                    componentData.recoveryInfo.Clear();
-                }
-            }
-            catch (Exception ex)
-            {
-                Context.Log.Error(ZString.Format("Failed to revert mesh wind data to {0}.", name), this);
-                Context.Log.Error(ex,                                                              this);
-            }
-        }
-
-        [Button]
-        [ShowIf(nameof(_showBatchRevertButtons))]
-        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
-        public void RevertMismatchedRecoveryData()
-        {
-            using (_PRF_RevertMismatchedRecoveryData.Auto())
-            {
-                var components = FindObjectsOfType<MeshWindComponent>();
-
-                foreach (var comp in components)
-                {
-                    var renderers = comp.GetComponentsInChildren<MeshRenderer>();
-
-                    if (comp.componentData.recoveryInfo.Count != renderers.Length)
-                    {
-                        comp.Revert();
-                    }
-                }
-            }
-        }
-
-        [Button]
-        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
-        public void ShowAllButtons()
-        {
-            _showAllButtons = !_showAllButtons;
-        }
-
-        [Button]
-        [FoldoutGroup("Revert", Order = 1000, Expanded = false)]
-        public void ShowRevertButtons()
-        {
-            _showRevertButtons = !_showRevertButtons;
-        }
-#endif
-
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
-            {
-                await base.Initialize(initializer);
+            await base.Initialize(initializer);
 
-                AssignWindMetadata(false);
-            }
+            AssignWindMetadata(false);
         }
 
         protected override async AppaTask WhenEnabled()
@@ -1180,10 +946,234 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(MeshWindComponent) + ".";
+        private static readonly ProfilerMarker _PRF_AssignWindMetadata =
+            new(_PRF_PFX + nameof(AssignWindMetadata));
 
-        private static readonly ProfilerMarker _PRF_WhenEnabled =
-            new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
+        #endregion
+
+#if UNITY_EDITOR
+        [Button]
+        [ShowIf(nameof(_showAllButtons))]
+        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
+        public void AssignAllWindMetadata()
+        {
+            using (_PRF_AssignAllWindMetadata.Auto())
+            {
+                var components = FindObjectsOfType<MeshWindComponent>();
+
+                foreach (var comp in components)
+                {
+                    comp.AssignWindMetadata();
+                }
+            }
+        }
+
+        [Button]
+        public void AssignWindMetadata()
+        {
+            using (_PRF_AssignWindMetadata.Auto())
+            {
+                AssignWindMetadata(true);
+            }
+        }
+#endif
+
+#if UNITY_EDITOR
+        [Button]
+        [ShowIf(nameof(showGenerateMaskButton))]
+        public void GenerateDefaultWindMask()
+        {
+            var meshFilter = GetComponentsInChildren<MeshFilter>()
+                            .OrderByDescending(mf => mf.sharedMesh.vertexCount)
+                            .FirstOrDefault();
+
+            var r = meshFilter.GetComponent<Renderer>();
+
+            var material = r.sharedMaterials[0];
+
+            var texture = (material.mainTexture
+                ? material.mainTexture
+                : material.GetTexture(
+                    material.GetTexturePropertyNames()
+                            .FirstOrDefault(
+                                 m => m.ToLowerInvariant().Contains("color") ||
+                                      m.ToLowerInvariant().Contains("albedo") ||
+                                      m.ToLowerInvariant().Contains("diffuse") ||
+                                      m.ToLowerInvariant().Contains("base") ||
+                                      m.ToLowerInvariant().Contains("maint")
+                             )
+                )) as Texture2D;
+
+            var texturePath = AssetDatabaseManager.GetAssetPath(texture);
+            var importer = UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
+            var textureSettings = new UnityEditor.TextureImporterSettings();
+            importer.ReadTextureSettings(textureSettings);
+
+            var newPath = ZString.Format(
+                "{0}\\{1}_wind.png",
+                AppaPath.GetDirectoryName(texturePath),
+                AppaPath.GetFileNameWithoutExtension(texturePath)
+            );
+
+            var tex = new Texture2D(
+                (int)generatedMaskSize,
+                (int)generatedMaskSize,
+                TextureFormat.ARGB32,
+                true
+            );
+
+            AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
+
+            AssetDatabaseManager.Refresh();
+
+            var textureImporter = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
+
+            textureSettings.sRGBTexture = false;
+            textureSettings.textureType = UnityEditor.TextureImporterType.Default;
+            textureImporter.SetTextureSettings(textureSettings);
+            textureImporter.SaveAndReimport();
+        }
+
+        [Button]
+        [ShowIf(nameof(showPopulateTreeMaterialsButton))]
+        public void PopulateTreeMaterials()
+        {
+            var renderers = GetComponentsInChildren<MeshRenderer>();
+
+            var materials = renderers.SelectMany(rm => rm.sharedMaterials);
+
+            foreach (var material in materials)
+            {
+                if (componentData.treeMaterials.Any(tm => (tm.material == material) && (tm.windMask != null)))
+                {
+                    continue;
+                }
+
+                var texture = (material.mainTexture
+                    ? material.mainTexture
+                    : material.GetTexture(
+                        material.GetTexturePropertyNames()
+                                .FirstOrDefault(
+                                     m => m.ToLowerInvariant().Contains("color") ||
+                                          m.ToLowerInvariant().Contains("albedo") ||
+                                          m.ToLowerInvariant().Contains("diffuse") ||
+                                          m.ToLowerInvariant().Contains("base") ||
+                                          m.ToLowerInvariant().Contains("maint")
+                                 )
+                    )) as Texture2D;
+
+                var texturePath = AssetDatabaseManager.GetAssetPath(texture);
+                var importer =
+                    UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
+                var textureSettings = new UnityEditor.TextureImporterSettings();
+                importer.ReadTextureSettings(textureSettings);
+
+                var newPath = ZString.Format(
+                    "{0}\\{1}_wind.png",
+                    AppaPath.GetDirectoryName(texturePath),
+                    AppaPath.GetFileNameWithoutExtension(texturePath)
+                );
+
+                var tex = new Texture2D(
+                    (int)generatedMaskSize,
+                    (int)generatedMaskSize,
+                    TextureFormat.ARGB32,
+                    true
+                );
+
+                AppaFile.WriteAllBytes(newPath, tex.EncodeToPNG());
+
+                AssetDatabaseManager.Refresh();
+
+                var textureImporter =
+                    (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
+
+                textureSettings.sRGBTexture = false;
+                textureSettings.textureType = UnityEditor.TextureImporterType.Default;
+                textureImporter.SetTextureSettings(textureSettings);
+                textureImporter.SaveAndReimport();
+
+                tex = AssetDatabaseManager.LoadAssetAtPath<Texture2D>(newPath);
+
+                var treeMaterial =
+                    new MeshWindComponentData.TreeMaterialSet { material = material, windMask = tex };
+
+                componentData.treeMaterials.Add(treeMaterial);
+            }
+        }
+
+        [Button]
+        [ShowIf(nameof(_showRevertButtons))]
+        [FoldoutGroup("Revert", Order = 1000, Expanded = false)]
+        public void Revert()
+        {
+            try
+            {
+                var renderers = GetComponentsInChildren<MeshRenderer>();
+
+                foreach (var renderer_ in renderers)
+                {
+                    var currentMesh = renderer_.GetSharedMesh();
+
+                    var matchingRecoveryInfo =
+                        componentData.recoveryInfo.FirstOrDefault(ri => ri.updated == currentMesh);
+
+                    if ((matchingRecoveryInfo != null) && (matchingRecoveryInfo.original != null))
+                    {
+                        var mf = renderer_.GetComponent<MeshFilter>();
+                        mf.sharedMesh = matchingRecoveryInfo.original;
+                    }
+                    else if ((currentMesh != null) && currentMesh.name.Contains("_ADSP"))
+                    {
+                        var mf = renderer_.GetComponent<MeshFilter>();
+                        mf.sharedMesh = null;
+                    }
+
+                    componentData.recoveryInfo.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                Context.Log.Error(ZString.Format("Failed to revert mesh wind data to {0}.", name), this);
+                Context.Log.Error(ex,                                                              this);
+            }
+        }
+
+        [Button]
+        [ShowIf(nameof(_showBatchRevertButtons))]
+        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
+        public void RevertMismatchedRecoveryData()
+        {
+            using (_PRF_RevertMismatchedRecoveryData.Auto())
+            {
+                var components = FindObjectsOfType<MeshWindComponent>();
+
+                foreach (var comp in components)
+                {
+                    var renderers = comp.GetComponentsInChildren<MeshRenderer>();
+
+                    if (comp.componentData.recoveryInfo.Count != renderers.Length)
+                    {
+                        comp.Revert();
+                    }
+                }
+            }
+        }
+
+        [Button]
+        [FoldoutGroup("Batch Operations", Order = 2000, Expanded = false)]
+        public void ShowAllButtons()
+        {
+            _showAllButtons = !_showAllButtons;
+        }
+
+        [Button]
+        [FoldoutGroup("Revert", Order = 1000, Expanded = false)]
+        public void ShowRevertButtons()
+        {
+            _showRevertButtons = !_showRevertButtons;
+        }
+#endif
 
 #if UNITY_EDITOR
         private static readonly ProfilerMarker _PRF_AssignAllWindMetadata =
@@ -1192,7 +1182,5 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         private static readonly ProfilerMarker _PRF_RevertMismatchedRecoveryData =
             new(_PRF_PFX + nameof(RevertMismatchedRecoveryData));
 #endif
-
-        #endregion
     }
 }

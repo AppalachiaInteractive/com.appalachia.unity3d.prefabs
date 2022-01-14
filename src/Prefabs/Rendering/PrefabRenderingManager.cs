@@ -50,6 +50,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     {
         #region Constants and Static Readonly
 
+        internal const string FRUSTUM_NAME = "Frustum";
+        internal const string GPUI_PREFAB_MANAGER = "GPUI Prefab Manager";
+
         private const string _CONTENT = "Content Types";
 
         private const string _HIDETABS = nameof(hideTabs);
@@ -59,6 +62,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private const string _SETTINGS = "Settings";
         private const string _TABGROUP = _HIDETABS + "/TABS";
 
+        private const string RUNTIME_INSTANCE_ROOT_NAME = "Runtime Instances";
+
         #endregion
 
         static PrefabRenderingManager()
@@ -67,12 +72,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
             RegisterDependency<PrefabRenderingSetCollection>(i => _prefabRenderingSetCollection = i);
             RegisterDependency<RuntimeRenderingOptions>(i => _runtimeRenderingOptions = i);
+#if UNITY_EDITOR
             RegisterDependency<MeshBurialExecutionManager>(i => _meshBurialExecutionManager = i);
+#endif
         }
 
         #region Static Fields and Autoproperties
-
-        private static MeshBurialExecutionManager _meshBurialExecutionManager;
 
         private static PrefabContentTypeOptionsLookup _prefabContentTypeOptionsLookup;
         private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
@@ -174,6 +179,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [HideInInspector]
         private PrefabRenderingSetCollection _renderingSets;
 
+        [NonSerialized] private int _updateLoopCount;
+        [NonSerialized] private bool _updateLoopStopped;
+        [NonSerialized] private DateTime _frameStart;
+        [NonSerialized] private JobCycleQueueManager _cycleManager;
+        [NonSerialized] private readonly bool _loopSafetyBreak = false;
+        [NonSerialized] private NonSerializedList<int> _lateUpdateIndices;
+
         #endregion
 
         [TabGroup(_TABGROUP, _CONTENT, Order = 8)]
@@ -235,8 +247,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             set => _renderingSets = value;
         }
 
-        #region Properties
-
         public RuntimeRenderingOptions RenderingOptions
         {
             get
@@ -260,431 +270,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        #endregion
-
-        public void AddDistanceReferenceObject(GameObject go)
-        {
-            using (_PRF_AddDistanceReferenceObject.Auto())
-            {
-                _additionalReferences.AddOrUpdate(go.GetInstanceID(), go);
-            }
-        }
-
-        public GameObject GetInstanceRootForPrefab(GameObject prefab)
-        {
-            using (_PRF_GetInstanceRootForPrefab.Auto())
-            {
-                if (structure == null)
-                {
-                    PrefabRenderingManagerInitializer.InitializeStructure();
-                }
-
-                if (structure == null)
-                {
-                    throw new NotSupportedException();
-                }
-
-                return structure.FindRootForPrefab(prefab);
-            }
-        }
-
-        public void InitializeStructureInPlace(PrefabRenderingRuntimeStructure s)
-        {
-            using (_PRF_InitializeStructureInPlace.Auto())
-            {
-                for (var i = transform.childCount - 1; i >= 0; i--)
-                {
-                    var child = transform.GetChild(i);
-
-                    child.gameObject.DestroySafely();
-                }
-
-                s.instanceRoot = new GameObject("Runtime Instances");
-                s.instanceRoot.transform.SetParent(transform, false);
-            }
-        }
-
-        public void RemoveDistanceReferenceObject(GameObject go)
-        {
-            using (_PRF_RemoveDistanceReferenceObject.Auto())
-            {
-                _additionalReferences.RemoveByKey(go.GetInstanceID());
-            }
-        }
-
-        private void Bounce()
-        {
-            using (_PRF_Bounce.Auto())
-            {
-                HandleDisableLogic(true);
-                HandleEnableLogic(true);
-            }
-        }
-
-        private void UpdateReferencePositions(int index)
-        {
-            using (_PRF_UpdateReferencePositions.Auto())
-            {
-                var primaryPosition = distanceReferencePoint.transform.position;
-
-                if (referencePointsCollection == null)
-                {
-                    referencePointsCollection = new NativeList<float3>[renderingSets.Sets.Count];
-                }
-
-                if (referencePointsCollection[index].ShouldAllocate())
-                {
-                    referencePointsCollection[index] =
-                        new NativeList<float3>(24, Allocator.Persistent) { primaryPosition };
-                }
-
-                if (referencePointsCollection[index].Length == 0)
-                {
-                    referencePointsCollection[index].Add(primaryPosition);
-                }
-                else
-                {
-                    referencePointsCollection[index][0] = primaryPosition;
-                }
-
-                if (_additionalReferences == null)
-                {
-                    _additionalReferences = new GameObjectLookup();
-                }
-                else
-                {
-                    _additionalReferences.RemoveNulls();
-
-                    for (var i = 0; i < _additionalReferences.Count; i++)
-                    {
-                        var pos = _additionalReferences[i].transform.position;
-
-                        var refIndex = i + 1;
-
-                        if (referencePointsCollection[index].Length > refIndex)
-                        {
-                            referencePointsCollection[index][refIndex] = pos;
-                        }
-                        else
-                        {
-                            referencePointsCollection[index].Add(pos);
-                        }
-                    }
-                }
-
-                referencePointsCollection[index].Length = _additionalReferences.Count + 1;
-            }
-        }
-
-        #region Profiling
-
-        private const string _PRF_PFX = nameof(PrefabRenderingManager) + ".";
-
-        private static readonly ProfilerMarker _PRF_RenderingOptions =
-            new(_PRF_PFX + nameof(RenderingOptions));
-
-        private static readonly ProfilerMarker _PRF_UpdateReferencePositions =
-            new(_PRF_PFX + nameof(UpdateReferencePositions));
-
-        private static readonly ProfilerMarker _PRF_Bounce = new(_PRF_PFX + nameof(Bounce));
-
-        private static readonly ProfilerMarker _PRF_InitializeStructureInPlace =
-            new(_PRF_PFX + nameof(InitializeStructureInPlace));
-
-        private static readonly ProfilerMarker _PRF_GetInstanceRootForPrefab =
-            new(_PRF_PFX + nameof(GetInstanceRootForPrefab));
-
-        private static readonly ProfilerMarker _PRF_AddDistanceReferenceObject =
-            new(_PRF_PFX + nameof(AddDistanceReferenceObject));
-
-        private static readonly ProfilerMarker _PRF_RemoveDistanceReferenceObject =
-            new(_PRF_PFX + nameof(RemoveDistanceReferenceObject));
-
-        #endregion
-
-        /*
-        [Button, DisableIf(nameof(IsEditorSimulating))]
-        private void ResetRenderingSets()
-        {
-            
-using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
-            {
-                runtimeRenderingDataSets.Clear();
-            }
-        }*/
-
-        #region Unity Events
-
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
-
-        protected override async AppaTask Initialize(Initializer initializer)
-        {
-            using (_PRF_Initialize.Auto())
-            {
-                await base.Initialize(initializer);
-
-                nextState = RenderingState.Rendering;
-
-                currentState = RenderingState.NotRendering;
-
-                nextState = AppalachiaApplication.IsPlayingOrWillPlay
-                    ? RenderingOptions.execution.startOnPlay
-                        ? RenderingState.Rendering
-                        : RenderingState.NotRendering
-                    : RenderingOptions.execution.startInEditor
-                        ? RenderingState.Rendering
-                        : RenderingState.NotRendering;
-
-                ConfirmExecutionState();
-
-                PrefabRenderingManagerInitializer.OnAwake();
-            }
-        }
-
-        private static readonly ProfilerMarker
-            _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
-
-        protected override async AppaTask WhenEnabled()
-        {
-            using (_PRF_OnEnable.Auto())
-            {
-                await base.WhenEnabled();
-
-                HandleEnableLogic(false);
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_HandleEnableLogic =
-            new(_PRF_PFX + nameof(HandleEnableLogic));
-
-        private void HandleEnableLogic(bool bouncing)
-        {
-#if UNITY_EDITOR
-            if (!bouncing &&
-                !AppalachiaApplication.IsPlayingOrWillPlay &&
-                !UnityEditorInternal.ProfilerDriver.enabled &&
-                RenderingOptions.profiling.enableProfilingOnStart)
-            {
-                UnityEditorInternal.ProfilerDriver.enabled = true;
-            }
-#endif
-            using (_PRF_HandleEnableLogic.Auto())
-            {
-                currentState = RenderingState.NotRendering;
-
-                nextState = AppalachiaApplication.IsPlayingOrWillPlay
-                    ? RenderingOptions.execution.startOnPlay
-                        ? RenderingState.Rendering
-                        : RenderingState.NotRendering
-                    : RenderingOptions.execution.startInEditor
-                        ? RenderingState.Rendering
-                        : RenderingState.NotRendering;
-
-                ConfirmExecutionState();
-
-                PrefabRenderingManagerInitializer.OnEnable();
-            }
-
-#if UNITY_EDITOR
-            if (!bouncing &&
-                !AppalachiaApplication.IsPlayingOrWillPlay &&
-                UnityEditorInternal.ProfilerDriver.enabled &&
-                RenderingOptions.profiling.disableProfilingAfterInitializationLoop)
-            {
-                UnityEditorInternal.ProfilerDriver.enabled = false;
-            }
-#endif
-        }
-
-        private static readonly ProfilerMarker _PRF_OnDisable =
-            new ProfilerMarker(_PRF_PFX + nameof(OnDisable));
-
-        protected override async AppaTask WhenDisabled()
-
-        {
-            using (_PRF_OnDisable.Auto())
-            {
-                await base.WhenDisabled();
-
-                HandleDisableLogic(false);
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_HandleDisableLogic =
-            new(_PRF_PFX + nameof(HandleDisableLogic));
-
-        private void HandleDisableLogic(bool bouncing)
-        {
-            using (_PRF_HandleDisableLogic.Auto())
-            {
-                currentState = RenderingState.NotRendering;
-                nextState = RenderingState.NotRendering;
-
-                _cycleManager?.ForceCompleteAll();
-                _cycleManager?.Dispose();
-
-                //_updateJobList.SafeDispose();
-                referencePointsCollection.SafeDispose();
-#if UNITY_EDITOR
-                if (!bouncing && !AppalachiaApplication.IsPlayingOrWillPlay)
-                {
-                    renderingSets.Sets?.FirstOrDefault().UpdateAllIDs();
-                    metadatas.State.FirstOrDefault().UpdateAllIDs();
-                }
-#endif
-
-                PrefabRenderingManagerDestroyer.ResetExistingRuntimeStateInstances();
-
-                PrefabRenderingManagerDestroyer.Dispose();
-#if UNITY_EDITOR
-                SetSceneDirty();
-                if (!bouncing &&
-                    !AppalachiaApplication.IsCompiling &&
-                    !AppalachiaApplication.IsPlayingOrWillPlay &&
-                    !AppalachiaApplication.IsPlayingOrWillPlay)
-                {
-                    RateLimiter.DoXTimesEvery(
-                        nameof(HandleDisableLogic),
-                        AssetDatabaseManager.SaveAssets,
-                        1,
-                        1000 * 60,
-                        Time.time
-                    );
-                }
-#endif
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_RecastGraphOnOnCollectSceneMeshes =
-            new(_PRF_PFX + nameof(RecastGraphOnOnCollectSceneMeshes));
-
-        public void RecastGraphOnOnCollectSceneMeshes(
-            List<RasterizationMesh> meshes,
-            LayerMask mask,
-            List<string> tags,
-            Bounds pathBounds)
-        {
-            using (_PRF_RecastGraphOnOnCollectSceneMeshes.Auto())
-            {
-                var setCount = renderingSets.Sets.Count;
-                for (var i = 0; i < setCount; i++)
-                {
-                    var set = renderingSets.Sets.at[i];
-
-                    if (!set.modelOptions.layer.IsLayerInMask(mask))
-                    {
-                        continue;
-                    }
-
-                    if (tags.Count > 0)
-                    {
-                        var tagMatch = false;
-                        for (var tagI = 0; tagI < tags.Count; tagI++)
-                        {
-                            var t = tags[tagI];
-
-                            if (set.prefab.CompareTag(t))
-                            {
-                                tagMatch = true;
-                                break;
-                            }
-                        }
-
-                        if (!tagMatch)
-                        {
-                            continue;
-                        }
-                    }
-
-                    var instanceManager = set.instanceManager;
-
-                    var instanceCount = instanceManager.element.Count;
-
-                    for (var j = 0; j < instanceCount; j++)
-                    {
-                        var matrix = instanceManager.element.matrices_original[j];
-
-                        var bounds = matrix.TranslateAndScaleBounds(set.bounds);
-                        var rasterizationMesh = new RasterizationMesh(
-                            set.cheapestMeshVerts,
-                            set.cheapestMeshTris,
-                            bounds,
-                            matrix
-                        );
-
-                        meshes.Add(rasterizationMesh);
-                    }
-                }
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_PrepareToExecuteUpdateLoop =
-            new(_PRF_PFX + nameof(PrepareToExecuteUpdateLoop));
-
-        private void PrepareToExecuteUpdateLoop()
-        {
-            using (_PRF_PrepareToExecuteUpdateLoop.Auto())
-            {
-                if (_cycleManager == null)
-                {
-                    _cycleManager = new JobCycleQueueManager();
-                }
-
-                if (_cycleManager.RequiresPopulation)
-                {
-                    _cycleManager.Populate(
-                        renderingSets.Sets.Count,
-                        RenderingOptions.execution.fastestAllowedSetCycleMilliseconds
-                    );
-                }
-
-#if UNITY_EDITOR
-                if (RenderingOptions.profiling.disableProfilingAfterUpdateLoop &&
-                    (_updateLoopCount > RenderingOptions.profiling.updateLoopProfilingCount))
-                {
-                    if (!AppalachiaApplication.IsPlayingOrWillPlay &&
-                        UnityEditorInternal.ProfilerDriver.enabled &&
-                        !_updateLoopStopped)
-                    {
-                        PROFILING.Profiling_Disable();
-                        _updateLoopStopped = true;
-                    }
-                }
-
-                RenderingOptions.editor.ApplyTo(gpui.gpuiSimulator);
-#endif
-                if (RenderingOptions.global.ApplyTo(gpui.renderSettings))
-                {
-                    gpui.layerMask = RenderingOptions.global.layerMask;
-                }
-            }
-        }
-
-        [NonSerialized] private int _updateLoopCount;
-        [NonSerialized] private bool _updateLoopStopped;
-        [NonSerialized] private DateTime _frameStart;
-        [NonSerialized] private JobCycleQueueManager _cycleManager;
-        [NonSerialized] private readonly bool _loopSafetyBreak = false;
-        [NonSerialized] private NonSerializedList<int> _lateUpdateIndices;
-
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
-
-        private static readonly ProfilerMarker _PRF_Update_ProcessingLoop =
-            new(_PRF_PFX + nameof(Update) + ".ProcessingLoop");
-
-        private static readonly ProfilerMarker _PRF_Update_ScheduleJobs =
-            new(_PRF_PFX + nameof(Update) + ".ScheduleJobs");
+        #region Event Functions
 
         private void Update()
         {
             using (_PRF_Update.Auto())
             {
-                if (!DependenciesAreReady || !FullyInitialized)
+                if (ShouldSkipUpdate)
                 {
                     return;
                 }
-                
+
                 try
                 {
                     _frameStart = DateTime.UtcNow;
@@ -801,95 +397,6 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 }
             }
         }
-
-        private static readonly ProfilerMarker _PRF_ShouldContinueUpdate =
-            new(_PRF_PFX + nameof(ShouldContinueUpdate));
-
-        private bool ShouldContinueUpdate(
-            int cycles,
-            int processed,
-            int setUpdateLimit,
-            int prefabCount,
-            RuntimeRenderingExecutionOptions exeo,
-            ref bool hasAlreadyChecked)
-        {
-            using (_PRF_ShouldContinueUpdate.Auto())
-            {
-                if (_loopSafetyBreak)
-                {
-                    updateBreak = RenderLoopBreakCode.LoopSafetyBreak;
-                    return false;
-                }
-
-                if (!RenderingOptions.execution.allowUpdates)
-                {
-                    updateBreak = RenderLoopBreakCode.OptionsDoNotAllowUpdates;
-                    return false;
-                }
-
-                if (currentState == RenderingState.NotRendering)
-                {
-                    updateBreak = RenderLoopBreakCode.CurrentStateNotRendering;
-                    return false;
-                }
-
-                if (nextState == RenderingState.NotRendering)
-                {
-                    updateBreak = RenderLoopBreakCode.NextStateNotRendering;
-                    return false;
-                }
-
-                if (cycles >= prefabCount)
-                {
-                    updateBreak = RenderLoopBreakCode.CyclesGreaterThanPrefabCount;
-                    return false;
-                }
-
-                if (!hasAlreadyChecked)
-                {
-                    _cycleManager.CheckTiming();
-                    hasAlreadyChecked = true;
-                }
-
-                if (!_cycleManager.AnyInactive)
-                {
-                    updateBreak = RenderLoopBreakCode.CycleManagerNoneWaiting;
-                    return false;
-                }
-
-                if (_cycleManager.CompletedCount > 10)
-                {
-                    updateBreak = RenderLoopBreakCode.CycleManagerCompletedQueueDepth;
-                    return false;
-                }
-
-                if (exeo.useExplicitFrameCounts)
-                {
-                    if (processed >= setUpdateLimit)
-                    {
-                        updateBreak = RenderLoopBreakCode.ProcessedMoreThanExplicitLimit;
-                        return false;
-                    }
-                }
-                else
-                {
-                    var elapsed = (DateTime.UtcNow - _frameStart).TotalMilliseconds;
-
-                    if ((cycles > 0) && (elapsed > exeo.setUpdateMillisecondsPerFrame))
-                    {
-                        updateBreak = RenderLoopBreakCode.ExceededAllowedTime;
-                        return false;
-                    }
-                }
-
-                return true;
-            }
-        }
-
-        private static readonly ProfilerMarker _PRF_LateUpdate = new(_PRF_PFX + nameof(LateUpdate));
-
-        private static readonly ProfilerMarker _PRF_LateUpdate_ProcessingLoop =
-            new(_PRF_PFX + nameof(LateUpdate) + ".ProcessingLoop");
 
         private void LateUpdate()
         {
@@ -1028,8 +535,304 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
             }
         }
 
-        private static readonly ProfilerMarker _PRF_ShouldContinueLateUpdate =
-            new(_PRF_PFX + nameof(ShouldContinueLateUpdate));
+        #endregion
+
+        public void AddDistanceReferenceObject(GameObject go)
+        {
+            using (_PRF_AddDistanceReferenceObject.Auto())
+            {
+                _additionalReferences.AddOrUpdate(go.GetInstanceID(), go);
+            }
+        }
+
+        public GameObject GetInstanceRootForPrefab(GameObject prefab)
+        {
+            using (_PRF_GetInstanceRootForPrefab.Auto())
+            {
+                if (structure == null)
+                {
+                    PrefabRenderingManagerInitializer.InitializeStructure();
+                }
+
+                if (structure == null)
+                {
+                    throw new NotSupportedException();
+                }
+
+                return structure.FindRootForPrefab(prefab);
+            }
+        }
+
+        public void InitializeStructureInPlace(PrefabRenderingRuntimeStructure s)
+        {
+            using (_PRF_InitializeStructureInPlace.Auto())
+            {
+                for (var i = transform.childCount - 1; i >= 0; i--)
+                {
+                    var child = transform.GetChild(i);
+
+                    if ((child.gameObject.name == RUNTIME_INSTANCE_ROOT_NAME) ||
+                        (child.gameObject.name == FRUSTUM_NAME))
+                    {
+                        continue;
+                    }
+
+                    child.gameObject.DestroySafely();
+                }
+
+                if (s.instanceRoot == null)
+                {
+                    s.instanceRoot = new GameObject(RUNTIME_INSTANCE_ROOT_NAME);
+                }
+
+                s.instanceRoot.transform.SetParent(transform, false);
+            }
+        }
+
+        public void RecastGraphOnOnCollectSceneMeshes(
+            List<RasterizationMesh> meshes,
+            LayerMask mask,
+            List<string> tags,
+            Bounds pathBounds)
+        {
+            using (_PRF_RecastGraphOnOnCollectSceneMeshes.Auto())
+            {
+                var setCount = renderingSets.Sets.Count;
+                for (var i = 0; i < setCount; i++)
+                {
+                    var set = renderingSets.Sets.at[i];
+
+                    if (!set.modelOptions.layer.IsLayerInMask(mask))
+                    {
+                        continue;
+                    }
+
+                    if (tags.Count > 0)
+                    {
+                        var tagMatch = false;
+                        for (var tagI = 0; tagI < tags.Count; tagI++)
+                        {
+                            var t = tags[tagI];
+
+                            if (set.prefab.CompareTag(t))
+                            {
+                                tagMatch = true;
+                                break;
+                            }
+                        }
+
+                        if (!tagMatch)
+                        {
+                            continue;
+                        }
+                    }
+
+                    var instanceManager = set.instanceManager;
+
+                    var instanceCount = instanceManager.element.Count;
+
+                    for (var j = 0; j < instanceCount; j++)
+                    {
+                        var matrix = instanceManager.element.matrices_original[j];
+
+                        var bounds = matrix.TranslateAndScaleBounds(set.bounds);
+                        var rasterizationMesh = new RasterizationMesh(
+                            set.cheapestMeshVerts,
+                            set.cheapestMeshTris,
+                            bounds,
+                            matrix
+                        );
+
+                        meshes.Add(rasterizationMesh);
+                    }
+                }
+            }
+        }
+
+        public void RemoveDistanceReferenceObject(GameObject go)
+        {
+            using (_PRF_RemoveDistanceReferenceObject.Auto())
+            {
+                _additionalReferences.RemoveByKey(go.GetInstanceID());
+            }
+        }
+
+        protected override async AppaTask Initialize(Initializer initializer)
+        {
+            await base.Initialize(initializer);
+
+            nextState = RenderingState.Rendering;
+
+            currentState = RenderingState.NotRendering;
+
+            nextState = AppalachiaApplication.IsPlayingOrWillPlay
+                ? RenderingOptions.execution.startOnPlay
+                    ? RenderingState.Rendering
+                    : RenderingState.NotRendering
+                : RenderingOptions.execution.startInEditor
+                    ? RenderingState.Rendering
+                    : RenderingState.NotRendering;
+
+            ConfirmExecutionState();
+
+            PrefabRenderingManagerInitializer.OnAwake();
+        }
+
+        protected override async AppaTask WhenDisabled()
+        {
+            using (_PRF_WhenDisabled.Auto())
+            {
+                await base.WhenDisabled();
+
+                HandleDisableLogic(false);
+            }
+        }
+
+        protected override async AppaTask WhenEnabled()
+        {
+            using (_PRF_OnEnable.Auto())
+            {
+                await base.WhenEnabled();
+
+                HandleEnableLogic(false);
+            }
+        }
+
+        private void Bounce()
+        {
+            using (_PRF_Bounce.Auto())
+            {
+                HandleDisableLogic(true);
+                HandleEnableLogic(true);
+            }
+        }
+
+        private void HandleDisableLogic(bool bouncing)
+        {
+            using (_PRF_HandleDisableLogic.Auto())
+            {
+                currentState = RenderingState.NotRendering;
+                nextState = RenderingState.NotRendering;
+
+                _cycleManager?.ForceCompleteAll();
+                _cycleManager?.Dispose();
+
+                //_updateJobList.SafeDispose();
+                referencePointsCollection.SafeDispose();
+#if UNITY_EDITOR
+                if (!bouncing && !AppalachiaApplication.IsPlayingOrWillPlay)
+                {
+                    if (renderingSets != null)
+                    {
+                        renderingSets.Sets?.FirstOrDefault()?.UpdateAllIDs();
+                    }
+
+                    if (metadatas != null)
+                    {
+                        metadatas.State.FirstOrDefault()?.UpdateAllIDs();
+                    }
+                }
+#endif
+
+                PrefabRenderingManagerDestroyer.ResetExistingRuntimeStateInstances();
+
+                PrefabRenderingManagerDestroyer.Dispose();
+#if UNITY_EDITOR
+                SetSceneDirty();
+                if (!bouncing &&
+                    !AppalachiaApplication.IsCompiling &&
+                    !AppalachiaApplication.IsPlayingOrWillPlay &&
+                    !AppalachiaApplication.IsPlayingOrWillPlay)
+                {
+                    RateLimiter.DoXTimesEvery(
+                        nameof(HandleDisableLogic),
+                        () => AssetDatabaseManager.SaveAssets(),
+                        1,
+                        1000 * 60,
+                        Time.time
+                    );
+                }
+#endif
+            }
+        }
+
+        private void HandleEnableLogic(bool bouncing)
+        {
+#if UNITY_EDITOR
+            if (!bouncing &&
+                !AppalachiaApplication.IsPlayingOrWillPlay &&
+                !UnityEditorInternal.ProfilerDriver.enabled &&
+                RenderingOptions.profiling.enableProfilingOnStart)
+            {
+                UnityEditorInternal.ProfilerDriver.enabled = true;
+            }
+#endif
+            using (_PRF_HandleEnableLogic.Auto())
+            {
+                currentState = RenderingState.NotRendering;
+
+                nextState = AppalachiaApplication.IsPlayingOrWillPlay
+                    ? RenderingOptions.execution.startOnPlay
+                        ? RenderingState.Rendering
+                        : RenderingState.NotRendering
+                    : RenderingOptions.execution.startInEditor
+                        ? RenderingState.Rendering
+                        : RenderingState.NotRendering;
+
+                ConfirmExecutionState();
+
+                PrefabRenderingManagerInitializer.OnEnable();
+            }
+
+#if UNITY_EDITOR
+            if (!bouncing &&
+                !AppalachiaApplication.IsPlayingOrWillPlay &&
+                UnityEditorInternal.ProfilerDriver.enabled &&
+                RenderingOptions.profiling.disableProfilingAfterInitializationLoop)
+            {
+                UnityEditorInternal.ProfilerDriver.enabled = false;
+            }
+#endif
+        }
+
+        private void PrepareToExecuteUpdateLoop()
+        {
+            using (_PRF_PrepareToExecuteUpdateLoop.Auto())
+            {
+                if (_cycleManager == null)
+                {
+                    _cycleManager = new JobCycleQueueManager();
+                }
+
+                if (_cycleManager.RequiresPopulation)
+                {
+                    _cycleManager.Populate(
+                        renderingSets.Sets.Count,
+                        RenderingOptions.execution.fastestAllowedSetCycleMilliseconds
+                    );
+                }
+
+#if UNITY_EDITOR
+                if (RenderingOptions.profiling.disableProfilingAfterUpdateLoop &&
+                    (_updateLoopCount > RenderingOptions.profiling.updateLoopProfilingCount))
+                {
+                    if (!AppalachiaApplication.IsPlayingOrWillPlay &&
+                        UnityEditorInternal.ProfilerDriver.enabled &&
+                        !_updateLoopStopped)
+                    {
+                        PROFILING.Profiling_Disable();
+                        _updateLoopStopped = true;
+                    }
+                }
+
+                RenderingOptions.editor.ApplyTo(gpui.gpuiSimulator);
+#endif
+                if (RenderingOptions.global.ApplyTo(gpui.renderSettings))
+                {
+                    gpui.layerMask = RenderingOptions.global.layerMask;
+                }
+            }
+        }
 
         private bool ShouldContinueLateUpdate(
             int cycles,
@@ -1105,6 +908,194 @@ using(ASPECT.Many(ASPECT.Profile(), ASPECT.Trace()))
                 return true;
             }
         }
+
+        private bool ShouldContinueUpdate(
+            int cycles,
+            int processed,
+            int setUpdateLimit,
+            int prefabCount,
+            RuntimeRenderingExecutionOptions exeo,
+            ref bool hasAlreadyChecked)
+        {
+            using (_PRF_ShouldContinueUpdate.Auto())
+            {
+                if (_loopSafetyBreak)
+                {
+                    updateBreak = RenderLoopBreakCode.LoopSafetyBreak;
+                    return false;
+                }
+
+                if (!RenderingOptions.execution.allowUpdates)
+                {
+                    updateBreak = RenderLoopBreakCode.OptionsDoNotAllowUpdates;
+                    return false;
+                }
+
+                if (currentState == RenderingState.NotRendering)
+                {
+                    updateBreak = RenderLoopBreakCode.CurrentStateNotRendering;
+                    return false;
+                }
+
+                if (nextState == RenderingState.NotRendering)
+                {
+                    updateBreak = RenderLoopBreakCode.NextStateNotRendering;
+                    return false;
+                }
+
+                if (cycles >= prefabCount)
+                {
+                    updateBreak = RenderLoopBreakCode.CyclesGreaterThanPrefabCount;
+                    return false;
+                }
+
+                if (!hasAlreadyChecked)
+                {
+                    _cycleManager.CheckTiming();
+                    hasAlreadyChecked = true;
+                }
+
+                if (!_cycleManager.AnyInactive)
+                {
+                    updateBreak = RenderLoopBreakCode.CycleManagerNoneWaiting;
+                    return false;
+                }
+
+                if (_cycleManager.CompletedCount > 10)
+                {
+                    updateBreak = RenderLoopBreakCode.CycleManagerCompletedQueueDepth;
+                    return false;
+                }
+
+                if (exeo.useExplicitFrameCounts)
+                {
+                    if (processed >= setUpdateLimit)
+                    {
+                        updateBreak = RenderLoopBreakCode.ProcessedMoreThanExplicitLimit;
+                        return false;
+                    }
+                }
+                else
+                {
+                    var elapsed = (DateTime.UtcNow - _frameStart).TotalMilliseconds;
+
+                    if ((cycles > 0) && (elapsed > exeo.setUpdateMillisecondsPerFrame))
+                    {
+                        updateBreak = RenderLoopBreakCode.ExceededAllowedTime;
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+        }
+
+        private void UpdateReferencePositions(int index)
+        {
+            using (_PRF_UpdateReferencePositions.Auto())
+            {
+                var primaryPosition = distanceReferencePoint.transform.position;
+
+                if (referencePointsCollection == null)
+                {
+                    referencePointsCollection = new NativeList<float3>[renderingSets.Sets.Count];
+                }
+
+                if (referencePointsCollection[index].ShouldAllocate())
+                {
+                    referencePointsCollection[index] =
+                        new NativeList<float3>(24, Allocator.Persistent) { primaryPosition };
+                }
+
+                if (referencePointsCollection[index].Length == 0)
+                {
+                    referencePointsCollection[index].Add(primaryPosition);
+                }
+                else
+                {
+                    referencePointsCollection[index][0] = primaryPosition;
+                }
+
+                if (_additionalReferences == null)
+                {
+                    _additionalReferences = new GameObjectLookup();
+                }
+                else
+                {
+                    _additionalReferences.RemoveNulls();
+
+                    for (var i = 0; i < _additionalReferences.Count; i++)
+                    {
+                        var pos = _additionalReferences[i].transform.position;
+
+                        var refIndex = i + 1;
+
+                        if (referencePointsCollection[index].Length > refIndex)
+                        {
+                            referencePointsCollection[index][refIndex] = pos;
+                        }
+                        else
+                        {
+                            referencePointsCollection[index].Add(pos);
+                        }
+                    }
+                }
+
+                referencePointsCollection[index].Length = _additionalReferences.Count + 1;
+            }
+        }
+
+        #region Profiling
+
+        private static readonly ProfilerMarker _PRF_AddDistanceReferenceObject =
+            new(_PRF_PFX + nameof(AddDistanceReferenceObject));
+
+        private static readonly ProfilerMarker _PRF_Bounce = new(_PRF_PFX + nameof(Bounce));
+
+        private static readonly ProfilerMarker _PRF_GetInstanceRootForPrefab =
+            new(_PRF_PFX + nameof(GetInstanceRootForPrefab));
+
+        private static readonly ProfilerMarker _PRF_HandleDisableLogic =
+            new(_PRF_PFX + nameof(HandleDisableLogic));
+
+        private static readonly ProfilerMarker _PRF_HandleEnableLogic =
+            new(_PRF_PFX + nameof(HandleEnableLogic));
+
+        private static readonly ProfilerMarker _PRF_InitializeStructureInPlace =
+            new(_PRF_PFX + nameof(InitializeStructureInPlace));
+
+        private static readonly ProfilerMarker _PRF_LateUpdate_ProcessingLoop =
+            new(_PRF_PFX + nameof(LateUpdate) + ".ProcessingLoop");
+
+        private static readonly ProfilerMarker
+            _PRF_OnEnable = new ProfilerMarker(_PRF_PFX + nameof(OnEnable));
+
+        private static readonly ProfilerMarker _PRF_PrepareToExecuteUpdateLoop =
+            new(_PRF_PFX + nameof(PrepareToExecuteUpdateLoop));
+
+        private static readonly ProfilerMarker _PRF_RecastGraphOnOnCollectSceneMeshes =
+            new(_PRF_PFX + nameof(RecastGraphOnOnCollectSceneMeshes));
+
+        private static readonly ProfilerMarker _PRF_RemoveDistanceReferenceObject =
+            new(_PRF_PFX + nameof(RemoveDistanceReferenceObject));
+
+        private static readonly ProfilerMarker _PRF_RenderingOptions =
+            new(_PRF_PFX + nameof(RenderingOptions));
+
+        private static readonly ProfilerMarker _PRF_ShouldContinueLateUpdate =
+            new(_PRF_PFX + nameof(ShouldContinueLateUpdate));
+
+        private static readonly ProfilerMarker _PRF_ShouldContinueUpdate =
+            new(_PRF_PFX + nameof(ShouldContinueUpdate));
+
+        private static readonly ProfilerMarker _PRF_Update_ProcessingLoop =
+            new(_PRF_PFX + nameof(Update) + ".ProcessingLoop");
+
+        private static readonly ProfilerMarker _PRF_Update_ScheduleJobs =
+            new(_PRF_PFX + nameof(Update) + ".ScheduleJobs");
+
+        private static readonly ProfilerMarker _PRF_UpdateReferencePositions =
+            new(_PRF_PFX + nameof(UpdateReferencePositions));
 
         #endregion
     }

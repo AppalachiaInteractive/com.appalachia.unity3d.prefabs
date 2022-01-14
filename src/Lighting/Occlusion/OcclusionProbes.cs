@@ -50,7 +50,6 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         }
 
         protected override async AppaTask WhenDisabled()
-
         {
             await base.WhenDisabled();
 

@@ -28,6 +28,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
     {
         static PrefabRenderingInstanceBehaviour()
         {
+            
+
             RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
             RegisterDependency<PrefabRenderingManager>(i => _prefabRenderingManager = i);
         }
@@ -136,12 +138,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         public void Sleep()
         {
         }
-
-        #region Profiling
-
-        private const string _PRF_PFX = nameof(PrefabRenderingInstanceBehaviour) + ".";
-
-        #endregion
 
 #if UNITY_EDITOR
 

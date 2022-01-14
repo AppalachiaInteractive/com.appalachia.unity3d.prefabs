@@ -7,7 +7,6 @@ using Appalachia.Core.Collections.Interfaces;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Async;
 using Sirenix.OdinInspector;
-using Unity.Profiling;
 using UnityEngine;
 
 #endregion
@@ -41,7 +40,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _state.SetObjectOwnership(this);
+                    _state.SetSerializationOwner(this);
 #endif
                 }
 
@@ -63,17 +62,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
                 }
 
 #if UNITY_EDITOR
-                _state.SetObjectOwnership(this);
+                _state.SetSerializationOwner(this);
 #endif
             }
         }
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(PrefabReplacementCollection) + ".";
-
-        private static readonly ProfilerMarker _PRF_WhenEnabled =
-            new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
+        
 
         #endregion
     }

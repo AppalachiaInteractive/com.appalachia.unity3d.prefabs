@@ -8,8 +8,7 @@ using Appalachia.Core.Collections;
 namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
 {
     [Serializable]
-    public sealed class
-        AppaList_PrefabContentTypeOptionsWrapper : AppaList<PrefabContentTypeOptionsWrapper>
+    public sealed class AppaList_PrefabContentTypeOptionsWrapper : AppaList<PrefabContentTypeOptionsWrapper>
     {
         public AppaList_PrefabContentTypeOptionsWrapper()
         {
@@ -22,13 +21,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
         {
         }
 
-        public AppaList_PrefabContentTypeOptionsWrapper(
-            AppaList<PrefabContentTypeOptionsWrapper> list) : base(list)
+        public AppaList_PrefabContentTypeOptionsWrapper(AppaList<PrefabContentTypeOptionsWrapper> list) :
+            base(list)
         {
         }
 
-        public AppaList_PrefabContentTypeOptionsWrapper(PrefabContentTypeOptionsWrapper[] values) :
-            base(values)
+        public AppaList_PrefabContentTypeOptionsWrapper(PrefabContentTypeOptionsWrapper[] values) : base(
+            values
+        )
         {
         }
     }

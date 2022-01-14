@@ -200,37 +200,32 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private float ooResolution = 1.0f;
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
+            await base.Initialize(initializer);
+
+            if (lpg == null)
             {
-                await base.Initialize(initializer);
-
-                if (lpg == null)
-                {
-                    lpg = GetComponent<LightProbeGroup>();
-                }
-
-                if (lpg == null)
-                {
-                    lpg = gameObject.AddComponent<LightProbeGroup>();
-                }
-
-                gameObject.name = LightProbeGroupName;
-
-                var t = transform;
-                t.localPosition = Vector3.zero;
-                t.localRotation = Quaternion.identity;
-                t.localScale = Vector3.one;
-
-                ValidateConstraints();
+                lpg = GetComponent<LightProbeGroup>();
             }
+
+            if (lpg == null)
+            {
+                lpg = gameObject.AddComponent<LightProbeGroup>();
+            }
+
+            gameObject.name = LightProbeGroupName;
+
+            var t = transform;
+            t.localPosition = Vector3.zero;
+            t.localRotation = Quaternion.identity;
+            t.localScale = Vector3.one;
+
+            ValidateConstraints();
         }
 
-        private const string _PRF_PFX = nameof(AutomaticLightProbeGroup) + ".";
 
         private void ValidateConstraints()
         {

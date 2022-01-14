@@ -22,7 +22,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
         AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
-        private const string _PRF_PFX = nameof(PrefabModelTypeOptionsSetData) + ".";
 
         private static readonly ProfilerMarker _PRF_SyncOverrides =
             new(_PRF_PFX + nameof(SyncOverrides));

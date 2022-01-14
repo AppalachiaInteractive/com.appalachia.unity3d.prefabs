@@ -75,7 +75,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         {
             using (_PRF_Dispose.Auto())
             {
-                SafeNative.SafeDispose(
+                IDisposableExtensions.SafeDispose(
                     ref matrices_original,
                     ref matrices_current,
                     ref matrices_noGameObject_OWNED,
@@ -109,7 +109,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     {
                         var instance = instances[i];
 
-                        SafeNative.SafeDispose(ref instance);
+                        IDisposableExtensions.SafeDispose(ref instance);
                     }
                 }
 

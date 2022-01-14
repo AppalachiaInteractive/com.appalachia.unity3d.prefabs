@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,8 +23,6 @@ using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Rendering;
 using Object = UnityEngine.Object;
-
-#endregion
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
@@ -54,6 +50,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         #region Static Fields and Autoproperties
 
         [NonSerialized] private static AppaContext _context;
+        [NonSerialized] private static bool graphAssigned;
 
         private static GPUInstancerPrototypeMetadataCollection _GPUInstancerPrototypeMetadataCollection;
         private static GSR _GSR;
@@ -61,66 +58,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static PrefabLocationSource _prefabLocationSource;
         private static PrefabModelTypeOptionsLookup _prefabModelTypeOptionsLookup;
         private static PrefabRenderingManager _prefabRenderingManager;
-        private static readonly ProfilerMarker _PRF_OnAwake = new(_PRF_PFX + nameof(OnAwake));
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
-        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
-
-        private static readonly ProfilerMarker _PRF_ExecuteInitialization =
-            new(_PRF_PFX + nameof(ExecuteInitialization));
-
-        private static readonly ProfilerMarker _PRF_CheckNulls = new(_PRF_PFX + nameof(CheckNulls));
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateMetadata =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateMetadata");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateReferencePoints =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateReferencePoints");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePrefabSource =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdatePrefabSource");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateVSP =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateVSP");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateGPUI =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateGPUI");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateShaderVariants =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateShaderVariants");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateFrustum =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateFrustum");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePathfinder =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdatePathfinder");
-
-        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateSimulator =
-            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateSimulator");
-
-        private static readonly ProfilerMarker _PRF_InitializeTransform =
-            new(_PRF_PFX + nameof(InitializeTransform));
-
-        private static readonly ProfilerMarker _PRF_InitializeStructure =
-            new(_PRF_PFX + nameof(InitializeStructure));
-
-        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds =
-            new(_PRF_PFX + nameof(RecalculateRenderingBounds));
-
-        private static readonly ProfilerMarker _PRF_InitializeGPUIInitializationTracking =
-            new(_PRF_PFX + nameof(InitializeGPUIInitializationTracking));
-
-        private static readonly ProfilerMarker _PRF_WarmUpShaders = new(_PRF_PFX + nameof(WarmUpShaders));
-
-        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets =
-            new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets));
-
-        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes =
-            new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets) + ".UpdatePrototypes");
-
-        private static readonly ProfilerMarker _PRF_InitializeOptions =
-            new(_PRF_PFX + nameof(InitializeOptions));
-
-        [NonSerialized] private static bool graphAssigned;
 
         private static Terrain[] _terrains;
 
@@ -194,7 +131,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                         if (_prefabRenderingManager.gpui == null)
                         {
-                            var go = new GameObject("GPUI Prefab Manager");
+                            var go = new GameObject(PrefabRenderingManager.GPUI_PREFAB_MANAGER);
                             _prefabRenderingManager.gpui = go.AddComponent<GPUInstancerPrefabManager>();
                             _prefabRenderingManager.gpui.OnEnable();
                             _prefabRenderingManager.gpui.Awake();
@@ -206,19 +143,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 {
                     if (_prefabRenderingManager.frustumCamera == null)
                     {
-                        var child = _prefabRenderingManager.transform.Find("Frustum");
+                        var frustum =
+                            _prefabRenderingManager.transform.Find(PrefabRenderingManager.FRUSTUM_NAME);
 
-                        if (child == null)
+                        if (frustum == null)
                         {
-                            child = new GameObject("Frustum").transform;
-                            child.SetParent(_prefabRenderingManager.transform);
+                            frustum = new GameObject(PrefabRenderingManager.FRUSTUM_NAME).transform;
                         }
 
-                        _prefabRenderingManager.frustumCamera = child.GetComponent<Camera>();
+                        frustum.SetParent(_prefabRenderingManager.transform);
+
+                        _prefabRenderingManager.frustumCamera = frustum.GetComponent<Camera>();
 
                         if (_prefabRenderingManager.frustumCamera == null)
                         {
-                            _prefabRenderingManager.frustumCamera = child.gameObject.AddComponent<Camera>();
+                            _prefabRenderingManager.frustumCamera = frustum.gameObject.AddComponent<Camera>();
                         }
                     }
 
@@ -240,9 +179,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                 }
 
+#if UNITY_EDITOR
                 using (_PRF_CheckNulls_UpdateSimulator.Auto())
                 {
-#if UNITY_EDITOR
                     var simulator = _prefabRenderingManager.gpui.gpuiSimulator;
 
                     if (simulator == null)
@@ -257,8 +196,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     {
                         _prefabRenderingManager.RenderingOptions.editor.ApplyTo(simulator);
                     }
-#endif
                 }
+#endif
             }
         }
 
@@ -301,8 +240,19 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     }
                 }
 
-                var externalParameters =
-                    _prefabRenderingManager.prefabSource.GetRenderingParameters(existingParameters);
+                var prefabSounrce = _prefabRenderingManager.prefabSource;
+
+                if (prefabSounrce == null)
+                {
+                    return;
+                }
+
+                var externalParameters = prefabSounrce.GetRenderingParameters(existingParameters);
+
+                if ((externalParameters == null) || (externalParameters.Count == 0))
+                {
+                    return;
+                }
 
                 using (var bar = new EditorOnlyProgressBar(
                            "Initializing Prefab Rendering Parameters",
@@ -744,11 +694,66 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #region Profiling
 
-        #region ProfilerMarkers
-
         private const string _PRF_PFX = nameof(PrefabRenderingManagerInitializer) + ".";
 
-        #endregion
+        private static readonly ProfilerMarker _PRF_OnAwake = new(_PRF_PFX + nameof(OnAwake));
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
+        private static readonly ProfilerMarker _PRF_Update = new(_PRF_PFX + nameof(Update));
+
+        private static readonly ProfilerMarker _PRF_ExecuteInitialization =
+            new(_PRF_PFX + nameof(ExecuteInitialization));
+
+        private static readonly ProfilerMarker _PRF_CheckNulls = new(_PRF_PFX + nameof(CheckNulls));
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateMetadata =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateMetadata");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateReferencePoints =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateReferencePoints");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePrefabSource =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdatePrefabSource");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateVSP =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateVSP");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateGPUI =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateGPUI");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateShaderVariants =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateShaderVariants");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateFrustum =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateFrustum");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdatePathfinder =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdatePathfinder");
+
+        private static readonly ProfilerMarker _PRF_CheckNulls_UpdateSimulator =
+            new(_PRF_PFX + nameof(CheckNulls) + ".UpdateSimulator");
+
+        private static readonly ProfilerMarker _PRF_InitializeTransform =
+            new(_PRF_PFX + nameof(InitializeTransform));
+
+        private static readonly ProfilerMarker _PRF_InitializeStructure =
+            new(_PRF_PFX + nameof(InitializeStructure));
+
+        private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds =
+            new(_PRF_PFX + nameof(RecalculateRenderingBounds));
+
+        private static readonly ProfilerMarker _PRF_InitializeGPUIInitializationTracking =
+            new(_PRF_PFX + nameof(InitializeGPUIInitializationTracking));
+
+        private static readonly ProfilerMarker _PRF_WarmUpShaders = new(_PRF_PFX + nameof(WarmUpShaders));
+
+        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets =
+            new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets));
+
+        private static readonly ProfilerMarker _PRF_InitializeAllPrefabRenderingSets_UpdatePrototypes =
+            new(_PRF_PFX + nameof(InitializeAllPrefabRenderingSets) + ".UpdatePrototypes");
+
+        private static readonly ProfilerMarker _PRF_InitializeOptions =
+            new(_PRF_PFX + nameof(InitializeOptions));
 
         private static readonly ProfilerMarker _PRF_RecalculateRenderingBounds_Terrains =
             new(_PRF_PFX + nameof(RecalculateRenderingBounds) + ".Terrains");

@@ -104,7 +104,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
 #if UNITY_EDITOR
                 var instance = existing.Values.FirstOrDefault();
-                instance.UpdateAllIDs();
+
+                if (instance != null)
+                {
+                    instance.UpdateAllIDs();
+                }
 
 #endif
                 return existing.Values.ToList();
@@ -222,6 +226,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
             {
                 if (sourceFromActiveVegetationSystems)
                 {
+                    if (veggieSystem == null)
+                    {
+                        return;
+                    }
+
                     for (var packageIndex = 0;
                          packageIndex < veggieSystem.VegetationPackageProList.Count;
                          packageIndex++)
@@ -340,6 +349,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
                     _itemIndices.Clear();
                 }
 
+                if (veggieSystem == null)
+                {
+                    return;
+                }
+
                 for (var i = 0; i < veggieSystem.VegetationPackageProList.Count; i++)
                 {
                     var package = veggieSystem.VegetationPackageProList[i];
@@ -357,7 +371,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(PrefabLocationSource) + ".";
+        private static readonly ProfilerMarker _PRF_CreateParametersForPrefab =
+            new(_PRF_PFX + nameof(CreateParametersForPrefab));
+
+        private static readonly ProfilerMarker _PRF_GetMatricesFromVegetationSystem =
+            new(_PRF_PFX + nameof(GetMatricesFromVegetationSystem));
 
         private static readonly ProfilerMarker _PRF_GetRenderingParameters =
             new(_PRF_PFX + nameof(GetRenderingParameters));
@@ -365,20 +383,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.External
         private static readonly ProfilerMarker _PRF_GetRenderingParametersFromVegetationStudio =
             new(_PRF_PFX + nameof(GetRenderingParametersFromVegetationStudio));
 
-        private static readonly ProfilerMarker _PRF_CreateParametersForPrefab =
-            new(_PRF_PFX + nameof(CreateParametersForPrefab));
+        private static readonly ProfilerMarker _PRF_GetTRSFromVegetationStorage =
+            new(_PRF_PFX + nameof(GetTRSFromVegetationStorage));
 
         private static readonly ProfilerMarker _PRF_InitializeVegetationItemIndexLookup =
             new(_PRF_PFX + nameof(InitializeVegetationItemIndexLookup));
 
         private static readonly ProfilerMarker _PRF_UpdateRuntimeRenderingParameters =
             new(_PRF_PFX + nameof(UpdateRuntimeRenderingParameters));
-
-        private static readonly ProfilerMarker _PRF_GetMatricesFromVegetationSystem =
-            new(_PRF_PFX + nameof(GetMatricesFromVegetationSystem));
-
-        private static readonly ProfilerMarker _PRF_GetTRSFromVegetationStorage =
-            new(_PRF_PFX + nameof(GetTRSFromVegetationStorage));
 
         #endregion
     }

@@ -151,12 +151,9 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
         protected override async AppaTask Initialize(Initializer initializer)
         {
-            using (_PRF_Initialize.Auto())
-            {
-                await base.Initialize(initializer);
+            await base.Initialize(initializer);
 
-                AssignShadingMetadata();
-            }
+            AssignShadingMetadata();
         }
 
         protected override async AppaTask WhenEnabled()
@@ -275,18 +272,14 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
         #region Profiling
 
-        private const string _PRF_PFX = nameof(MeshShadingComponent) + ".";
-
-        private static readonly ProfilerMarker _PRF_WhenEnabled =
-            new ProfilerMarker(_PRF_PFX + nameof(WhenEnabled));
-
         private static readonly ProfilerMarker _PRF_AssignShadingMetadata =
             new(_PRF_PFX + nameof(AssignShadingMetadata));
 
+        
+
         private static readonly ProfilerMarker _PRF_UpdateRenderer = new(_PRF_PFX + nameof(UpdateRenderer));
 
-        private static readonly ProfilerMarker _PRF_Initialize =
-            new ProfilerMarker(_PRF_PFX + nameof(Initialize));
+        
 
         #endregion
     }
