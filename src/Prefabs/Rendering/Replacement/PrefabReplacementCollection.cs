@@ -13,7 +13,6 @@ using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 {
-    [Critical]
     public class PrefabReplacementCollection : SingletonAppalachiaObject<PrefabReplacementCollection>
     {
         #region Fields and Autoproperties
