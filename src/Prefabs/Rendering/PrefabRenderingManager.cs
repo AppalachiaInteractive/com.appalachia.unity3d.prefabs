@@ -142,7 +142,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [TabGroup(_TABGROUP, _META)]
         [SmartLabel]
         [SerializeField]
-        public new Bounds renderingBounds;
+        public Bounds renderingBounds;
 
         public bool ActiveNow { get; private set; }
 
@@ -175,9 +175,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [HideInInspector]
         private PrefabContentTypeOptionsLookup contentTypeLookup;
 
-        [NonSerialized]
-        [HideInInspector]
-        private PrefabRenderingSetCollection _renderingSets;
+        [NonSerialized] private PrefabRenderingSetCollection _renderingSets;
 
         [NonSerialized] private int _updateLoopCount;
         [NonSerialized] private bool _updateLoopStopped;

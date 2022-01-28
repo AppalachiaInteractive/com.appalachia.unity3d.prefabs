@@ -25,7 +25,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     {
         static PrefabContentTypeOptionsWrapper()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties

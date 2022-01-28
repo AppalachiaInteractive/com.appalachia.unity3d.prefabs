@@ -7,6 +7,7 @@ using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Strings;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -176,7 +177,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
             public Compression compression;
             public FilterMode filterMode;
 
-            [Range(0, 16)] public int Aniso;
+            [PropertyRange(0, 16)] public int Aniso;
 
             public InternalTextureArraySettings(
                 TextureSize s,

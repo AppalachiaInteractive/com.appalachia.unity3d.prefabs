@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Objects.Root;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 #endregion
 
@@ -12,11 +13,19 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
     [CallStaticConstructorInEditor]
     [Serializable]
-    public class PrefabRenderingRuntimeStructure : AppalachiaSimpleBase
+    public class PrefabRenderingRuntimeStructure : AppalachiaBase<PrefabRenderingRuntimeStructure>
     {
         static PrefabRenderingRuntimeStructure()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen( i => _prefabRenderingManager = i);
+        }
+
+        public PrefabRenderingRuntimeStructure()
+        {
+        }
+
+        public PrefabRenderingRuntimeStructure(Object owner) : base(owner)
+        {
         }
 
         #region Static Fields and Autoproperties

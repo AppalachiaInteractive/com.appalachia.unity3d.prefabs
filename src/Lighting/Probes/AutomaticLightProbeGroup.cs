@@ -47,7 +47,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         public AppaList_Collider boundsColliders = new(_LIST_SIZE);
 
         [BoxGroup("Collisions")]
-        [Tooltip(
+        [PropertyTooltip(
             "Use MeshFilter and Terrain vertices to spawn light probes by dragging them (or a parent node) here. You can also set the maximum height relative to these meshes, so probes can be restricted to near-ground areas."
         )]
         [SceneObjectsOnly]
@@ -70,7 +70,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Initial Placement")]
         [LabelText("Probe Algorithm")]
         [SmartLabel]
-        [Tooltip(
+        [PropertyTooltip(
             "Grid style spaces probes uniformly.  Spray style is more organic and explores spaces more organically."
         )]
         public AutomaticLightProbeGeneratorType generatorAlgorithm = AutomaticLightProbeGeneratorType.Spray;
@@ -80,7 +80,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Initial Placement")]
         [LabelText("Rays Per Point")]
         [SmartLabel]
-        [Tooltip("Number of random rays cast per probe position, looking for valid spots to put new probes.")]
+        [PropertyTooltip("Number of random rays cast per probe position, looking for valid spots to put new probes.")]
         [PropertyRange(1.0f, 24.0f)]
         [ShowIf(nameof(_showRayCount))]
         public int rayCount = 10;
@@ -91,14 +91,14 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Initial Placement")]
         [LabelText("$" + nameof(_maxDistanceLabel))]
         [SmartLabel]
-        [Tooltip("Typical spacing between points.")]
+        [PropertyTooltip("Typical spacing between points.")]
         [PropertyRange(1.0f, 32.0f)]
         public float maxDistance = 4.0f;
 
         [BoxGroup("Initial Placement")]
         [LabelText("Min Probe Distance")]
         [SmartLabel]
-        [Tooltip(
+        [PropertyTooltip(
             "No probes will be generated that are closer than this distance, unless they are occluded from each other."
         )]
         [PropertyRange(1.0f, 24.0f)]
@@ -107,14 +107,14 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Initial Placement")]
         [LabelText("Height offset")]
         [SmartLabel]
-        [Tooltip("Probes will be placed no more than this amount above the surface.")]
+        [PropertyTooltip("Probes will be placed no more than this amount above the surface.")]
         [PropertyRange(-10.0f, 10.0f)]
         public float heightOffset = 3.0f;
 
         [BoxGroup("Initial Placement")]
         [LabelText("Layer Mask")]
         [SmartLabel]
-        [Tooltip(
+        [PropertyTooltip(
             "Choose the layers that you want rays to consider for collision.  Useful if dynamic objects are mixed into your scene (in a separate layer) but aren't supposed to block light."
         )]
         public LayerMask cullingMask = ~0;
@@ -122,7 +122,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Optimization")]
         [LabelText("Probe Budget")]
         [SmartLabel]
-        [Tooltip(
+        [PropertyTooltip(
             "Set how many light probes you want in this space.  AutoProbe will generate more, but the Optimize button will remove lower quality probes until the budget is achieved."
         )]
         [PropertyRange(16.0f, 4096.0f)]

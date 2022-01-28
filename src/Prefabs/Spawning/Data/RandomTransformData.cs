@@ -3,6 +3,7 @@
 using System;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Spatial.Terrains;
 using Appalachia.Spatial.Terrains.Utilities;
@@ -30,7 +31,9 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
         static RandomTransformData()
         {
-            TerrainMetadataManager.InstanceAvailable += i => _terrainMetadataManager = i;
+            RegisterInstanceCallbacks.For<RandomTransformData>()
+                                     .When.Behaviour<TerrainMetadataManager>()
+                                     .IsAvailableThen(i => _terrainMetadataManager = i);
         }
 
         #region Static Fields and Autoproperties

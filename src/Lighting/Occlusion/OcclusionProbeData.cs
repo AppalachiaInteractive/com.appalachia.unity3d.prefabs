@@ -1,4 +1,5 @@
 using Appalachia.Core.Objects.Root;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
@@ -8,8 +9,8 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         #region Fields and Autoproperties
 
         [Header("Baked Results")]
-        [Tooltip("Affects grass occlusion as well.")]
-        [Range(0, 1)]
+        [PropertyTooltip("Affects grass occlusion as well.")]
+        [PropertyRange(0, 1)]
         public float reflectionOcclusionAmount = 0.5f;
 
         [Header("Internal Data")]

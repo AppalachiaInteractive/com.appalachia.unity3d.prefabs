@@ -141,9 +141,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
 #if UNITY_EDITOR
 
-        private static readonly ProfilerMarker _PRF_OnDrawGizmosSelected =
-            new(_PRF_PFX + nameof(OnDrawGizmosSelected));
-
         private void OnDrawGizmosSelected()
         {
             using (_PRF_OnDrawGizmosSelected.Auto())

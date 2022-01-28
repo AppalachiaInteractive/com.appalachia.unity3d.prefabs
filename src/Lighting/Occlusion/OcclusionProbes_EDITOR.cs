@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.Core.Debugging;
 using Appalachia.Utility.Strings;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -25,20 +26,20 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         public int m_ZCount = 10;
 
         [Header("Settings")]
-        [Range(0, 1)]
-        [Tooltip(
+        [PropertyRange(0, 1)]
+        [PropertyTooltip(
             "Portion of rays allowed to hit backfaces of non-double-sided objects. If more rays hit, the probe will be considered invalid and possibly overwritten by dilation."
         )]
         public float m_BackfaceTolerance;
 
-        [Range(0, 5)]
-        [Tooltip(
+        [PropertyRange(0, 5)]
+        [PropertyTooltip(
             "Propagates valid probes over invalid ones located inside objects, to limit darkness leaks."
         )]
         public int m_DilateIterations = 3;
 
-        [Range(0, 1)]
-        [Tooltip(
+        [PropertyRange(0, 1)]
+        [PropertyTooltip(
             "Offsets rays away from the probe center to limit self occlusion. 1 will offset in all directions by the distance equal to the nearest probe in any direction."
         )]
         public float m_RayOffset = 0.8f;

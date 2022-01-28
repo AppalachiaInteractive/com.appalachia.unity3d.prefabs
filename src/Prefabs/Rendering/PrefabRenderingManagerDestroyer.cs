@@ -1,6 +1,7 @@
 #region
 
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Editing.Core;
 using Unity.Profiling;
 
@@ -13,7 +14,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     {
         static PrefabRenderingManagerDestroyer()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            RegisterInstanceCallbacks.WithoutSorting().When.Behaviour<PrefabRenderingManager>().IsAvailableThen( i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties

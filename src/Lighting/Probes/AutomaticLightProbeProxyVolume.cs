@@ -26,35 +26,35 @@ namespace Appalachia.Rendering.Lighting.Probes
         [OnValueChanged(nameof(OnNameChanged))]
         public string volumeName;
 
-        [Tooltip("The volume will encompass these objects.")]
+        [PropertyTooltip("The volume will encompass these objects.")]
         [SceneObjectsOnly]
         public AppaList_GameObject encompassing = new(12);
 
-        [Tooltip("Should child objects be encompassed?")]
+        [PropertyTooltip("Should child objects be encompassed?")]
         [OnValueChanged(nameof(UpdateVolume))]
         public bool includeChildren = true;
 
-        [Tooltip("Typical spacing between points.")]
+        [PropertyTooltip("Typical spacing between points.")]
         [PropertyRange(0.01f, 1.0f)]
         [OnValueChanged(nameof(UpdateVolume))]
         public float density = 0.1f;
 
-        [Tooltip("Expands or contracts bounds.")]
+        [PropertyTooltip("Expands or contracts bounds.")]
         [PropertyRange(0.5f, 2.0f)]
         [OnValueChanged(nameof(UpdateVolume))]
         public float multiplier = 1.1f;
 
-        [Tooltip("Should the probe be placed in the center of the cell or the corner?")]
+        [PropertyTooltip("Should the probe be placed in the center of the cell or the corner?")]
         [OnValueChanged(nameof(UpdateVolume))]
         public LightProbeProxyVolume.ProbePositionMode positionMode;
 
-        [Tooltip("What should the quality of the spherical harmonics be?")]
+        [PropertyTooltip("What should the quality of the spherical harmonics be?")]
         [OnValueChanged(nameof(UpdateVolume))]
         public LightProbeProxyVolume.QualityMode qualityMode;
 
         [BoxGroup("Initial Placement")]
         [LabelText("Layer Mask")]
-        [Tooltip(
+        [PropertyTooltip(
             "Choose the layers that you want rays to consider for collision.  Useful if dynamic objects are mixed into your scene (in a separate layer) but aren't supposed to block light."
         )]
         [OnValueChanged(nameof(UpdateVolume))]

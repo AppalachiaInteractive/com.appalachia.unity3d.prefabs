@@ -38,6 +38,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_OnDrawGizmos.Auto())
             {
+                if (!enabled) return;
+                if (ShouldSkipUpdate) return;
+                
                 if (!GizmoCameraChecker.ShouldRenderGizmos())
                 {
                     return;
@@ -106,12 +109,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
             }
         }
-
-        #endregion
-
-        #region Profiling
-
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + nameof(OnDrawGizmos));
 
         #endregion
     }

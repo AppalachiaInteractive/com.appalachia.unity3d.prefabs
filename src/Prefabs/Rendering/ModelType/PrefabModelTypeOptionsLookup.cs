@@ -51,6 +51,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InstancedOnly(
+                                    this,
                                     50f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -65,6 +66,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InstancedOnly(
+                                    this,
                                     100f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -79,6 +81,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InstancedOnly(
+                                    this,
                                     125f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -93,6 +96,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InstancedOnly(
+                                    this,
                                     150f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -107,6 +111,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InstancedOnly(
+                                    this,
                                     200,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -122,6 +127,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InstancedOnly(
+                                    this,
                                     128f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -137,6 +143,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Tree(
+                                    this,
                                     128f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(),
@@ -155,6 +162,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Tree(
+                                    this,
                                     256f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(LightProbeUsage.UseProxyVolume),
@@ -172,6 +180,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Tree(
+                                    this,
                                     512f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(LightProbeUsage.UseProxyVolume),
@@ -189,6 +198,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InteractableObject(
+                                    this,
                                     64f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 32f),
@@ -206,6 +216,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InteractableObject(
+                                    this,
                                     128f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 64f),
@@ -223,6 +234,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.InteractableObject(
+                                    this,
                                     256f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 128f),
@@ -240,6 +252,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Object(
+                                    this,
                                     384f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 192f),
@@ -255,6 +268,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Object(
+                                    this,
                                     512f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 256f),
@@ -271,6 +285,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Assembly(
+                                    this,
                                     128f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 64f),
@@ -287,6 +302,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Assembly(
+                                    this,
                                     256f,
                                     FrustumSettings.Wide(),
                                     AssetLightingSettings.LitAndShadowed(distance: 128f),
@@ -303,6 +319,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Assembly(
+                                    this,
                                     512f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(distance: 256f),
@@ -319,6 +336,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                             options = options.Initialize(
                                 value,
                                 PrefabModelTypeOptions.Assembly(
+                                    this,
                                     1024f,
                                     FrustumSettings.MatchCamera(),
                                     AssetLightingSettings.LitAndShadowed(distance: 512f),

@@ -19,6 +19,10 @@ MonoBehaviour:
     _resetToken: 
   type: 150
   _options:
+    _owner: {fileID: 0}
+    _initializer:
+      _tags: []
+      _resetToken: 
     isEnabled: 0
     type: 150
     _muted: 0

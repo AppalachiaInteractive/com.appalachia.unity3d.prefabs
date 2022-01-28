@@ -6,8 +6,10 @@ using Appalachia.Core.Collections;
 using Appalachia.Core.Collections.Special;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences.Globals;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Object = UnityEngine.Object;
 
 #endregion
 
@@ -16,7 +18,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     [Serializable]
     [CallStaticConstructorInEditor]
     public abstract class
-        PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : AppalachiaSimpleBase
+        PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT> : AppalachiaBase<TO>
         where TE : Enum
         where TO : PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>, new()
         where TOO : PrefabTypeOptionsOverride<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
@@ -33,8 +35,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     {
         static PrefabTypeOptions()
         {
-            PrefabTypeOptionsLookup<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>
-               .InstanceAvailable += i => _prefabTypeOptionsLookup = i;
+            When.Object<TL>().IsAvailableThen(i => _prefabTypeOptionsLookup = i);
+        }
+
+        protected PrefabTypeOptions()
+        {
+        }
+
+        protected PrefabTypeOptions(Object owner) : base(owner)
+        {
         }
 
         #region Static Fields and Autoproperties
@@ -99,69 +108,96 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         public void Enable(bool enabled)
         {
-            isEnabled = enabled;
+            using (_PRF_Enable.Auto())
+            {
+                isEnabled = enabled;
+            }
         }
 
         public void Mute(bool muted)
         {
-            _muted = muted;
+            using (_PRF_Mute.Auto())
+            {
+                _muted = muted;
 
-            ReloadSoloAndMute();
+                ReloadSoloAndMute();
+            }
         }
 
         public void Solo(bool soloed)
         {
-            _soloed = soloed;
+            using (_PRF_Solo.Auto())
+            {
+                _soloed = soloed;
 
-            ReloadSoloAndMute();
+                ReloadSoloAndMute();
+            }
         }
 
         protected void Enable()
         {
-            isEnabled = !isEnabled;
+            using (_PRF_Enable.Auto())
+            {
+                isEnabled = !isEnabled;
+            }
         }
 
         protected void Mute()
         {
-            _muted = !_muted;
+            using (_PRF_Mute.Auto())
+            {
+                _muted = !_muted;
 
-            ReloadSoloAndMute();
+                ReloadSoloAndMute();
+            }
         }
 
         protected void Solo()
         {
-            _soloed = !_soloed;
+            using (_PRF_Solo.Auto())
+            {
+                _soloed = !_soloed;
 
-            ReloadSoloAndMute();
+                ReloadSoloAndMute();
+            }
         }
 
         private static void ReloadSoloAndMute()
         {
-            var sets = _prefabTypeOptionsLookup.State;
-
-            AnySolo = false;
-            AnyMute = false;
-
-            for (var i = 0; i < sets.Count; i++)
+            using (_PRF_ReloadSoloAndMute.Auto())
             {
-                var set = sets.at[i];
+                var sets = _prefabTypeOptionsLookup.State;
 
-                if (set.options._soloed)
-                {
-                    AnySolo = true;
-                }
+                AnySolo = false;
+                AnyMute = false;
 
-                if (set.options._muted)
+                for (var i = 0; i < sets.Count; i++)
                 {
-                    AnyMute = true;
+                    var set = sets.at[i];
+
+                    if (set.options._soloed)
+                    {
+                        AnySolo = true;
+                    }
+
+                    if (set.options._muted)
+                    {
+                        AnyMute = true;
+                    }
                 }
             }
         }
 
         #region Profiling
 
-        private const string _PRF_PFX =
-            nameof(PrefabTypeOptions<TE, TO, TOO, TSD, TW, TL, TI, TT, TOGI, IL_TE, IL_TW, IL_TT>) + ".";
+        private static readonly ProfilerMarker _PRF_Enable = new ProfilerMarker(_PRF_PFX + nameof(Enable));
+
+        private static readonly ProfilerMarker _PRF_Mute = new ProfilerMarker(_PRF_PFX + nameof(Mute));
+
+        private static readonly ProfilerMarker _PRF_Solo = new ProfilerMarker(_PRF_PFX + nameof(Solo));
+
+        private static readonly ProfilerMarker _PRF_ReloadSoloAndMute =
+            new ProfilerMarker(_PRF_PFX + nameof(ReloadSoloAndMute));
 
         #endregion
     }

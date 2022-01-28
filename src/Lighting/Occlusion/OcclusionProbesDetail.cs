@@ -1,6 +1,7 @@
 #if UNITY_EDITOR
 using Appalachia.Core.Debugging;
 using Appalachia.Core.Objects.Root;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Lighting.Occlusion
@@ -13,8 +14,8 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         public int m_ZCount = 10;
 
         [Header("Settings")]
-        [Range(0, 1)]
-        [Tooltip(
+        [PropertyRange(0, 1)]
+        [PropertyTooltip(
             "Offsets rays away from the probe center to limit self occlusion. 1 will offset in all directions by the distance equal to the nearest probe in any direction."
         )]
         public float m_RayOffset = 0.8f;

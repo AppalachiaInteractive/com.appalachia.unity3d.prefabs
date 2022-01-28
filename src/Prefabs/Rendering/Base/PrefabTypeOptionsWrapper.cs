@@ -35,7 +35,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     {
         static PrefabTypeOptionsWrapper()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties
@@ -186,9 +186,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         }
 
         #region Profiling
-
-
-        
 
         private static readonly ProfilerMarker _PRF_ConfirmValidity = new(_PRF_PFX + nameof(ConfirmValidity));
 

@@ -16,6 +16,7 @@ using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 #endregion
 
@@ -39,10 +40,19 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         #endregion
 
+        public PrefabModelTypeOptions()
+        {
+        }
+
+        public PrefabModelTypeOptions(Object owner) : base(owner)
+        {
+        }
+
         static PrefabModelTypeOptions()
         {
-            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            When.Object<PrefabRenderingSetCollection>()
+                .IsAvailableThen(i => _prefabRenderingSetCollection = i);
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties
@@ -160,6 +170,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions Assembly(
+            Object owner,
             float max,
             FrustumSettings frustum,
             AssetLightingSettings instancingSettings,
@@ -169,7 +180,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             AssetBurialOptions assetBurialOptions,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -185,6 +196,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions Create(
+            Object owner,
             float max,
             FrustumSettings frustum,
             AssetLightingSettings normalSettings,
@@ -195,7 +207,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             AssetBurialOptions assetBurialOptions,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -211,6 +223,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions Create(
+            Object owner,
             float min,
             float max,
             FrustumSettings frustum,
@@ -222,7 +235,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             AssetBurialOptions assetBurialOptions,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = min,
@@ -238,6 +251,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions InstancedOnly(
+            Object owner,
             float max,
             FrustumSettings frustum,
             AssetLightingSettings instancingSettings,
@@ -248,7 +262,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             bool physics = false,
             bool interactions = false)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -264,6 +278,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions InteractableObject(
+            Object owner,
             float max,
             FrustumSettings frustum,
             AssetLightingSettings normalSettings,
@@ -273,7 +288,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             LODFadeSettings lodFadeSettings,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -289,6 +304,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions Object(
+            Object owner,
             float max,
             FrustumSettings frustum,
             AssetLightingSettings instancingSettings,
@@ -297,7 +313,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             LODFadeSettings lodFadeSettings,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -313,6 +329,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         public static PrefabModelTypeOptions Tree(
+            Object owner,
             float max,
             FrustumSettings frustum,
             AssetLightingSettings normalSettings,
@@ -322,7 +339,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             LODFadeSettings lodFadeSettings,
             params AssetRangeSettings[] rangeSettings)
         {
-            return new()
+            return new(owner)
             {
                 frustum = frustum,
                 minimumRenderingDistance = 0f,
@@ -502,8 +519,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         }
 
         #region Profiling
-
-        private const string _PRF_PFX = nameof(PrefabModelTypeOptions) + ".";
 
         private static readonly ProfilerMarker _PRF_UpdateForValidity =
             new(_PRF_PFX + nameof(UpdateForValidity));

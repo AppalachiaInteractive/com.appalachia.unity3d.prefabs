@@ -14,7 +14,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
     {
         
         
-        [Range(0f, 1f)] public float generalMotionXZInfluence = .35f;
+        [PropertyRange(0f, 1f)] public float generalMotionXZInfluence = .35f;
 
         public float generalMotionNoiseScale = 3f;
         public float leafMotionNoiseScale = 3f;

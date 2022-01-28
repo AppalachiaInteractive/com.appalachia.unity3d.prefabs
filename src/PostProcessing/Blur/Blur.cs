@@ -1,4 +1,5 @@
 using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
 
@@ -9,11 +10,11 @@ namespace Appalachia.Rendering.PostProcessing.Blur
     public sealed class Blur : PostProcessEffectSettings
     {
         // ReSharper disable FieldCanBeMadeReadOnly.Global
-        [Range(1, 8)] public IntParameter downsample = new IntParameter {value = 1};
+        [PropertyRange(1, 8)] public IntParameter downsample = new IntParameter {value = 1};
 
-        [Range(0.0f, 40.0f)] public FloatParameter blurSize = new FloatParameter {value = 3f};
+        [PropertyRange(0.0f, 40.0f)] public FloatParameter blurSize = new FloatParameter {value = 3f};
 
-        [Range(0, 8)] public IntParameter blurIterations = new IntParameter {value = 2};
+        [PropertyRange(0, 8)] public IntParameter blurIterations = new IntParameter {value = 2};
     }
 
     public sealed class BlurRenderer : PostProcessEffectRenderer<Blur>

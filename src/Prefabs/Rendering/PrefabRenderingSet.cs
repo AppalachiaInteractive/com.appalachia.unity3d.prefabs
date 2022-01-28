@@ -62,7 +62,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             RegisterDependency<PrefabContentTypeOptionsLookup>(i => _prefabContentTypeOptionsLookup = i);
             RegisterDependency<PrefabReplacementCollection>(i => _prefabReplacementCollection = i);
             RegisterDependency<PrefabRenderingSetCollection>(i => _prefabRenderingSetCollection = i);
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen( i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties

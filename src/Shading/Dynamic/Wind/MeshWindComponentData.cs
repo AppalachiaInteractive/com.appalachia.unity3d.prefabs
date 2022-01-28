@@ -53,14 +53,14 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
         public List<TreeMaterialSet> treeMaterials = new();
 
         [ShowIf(nameof(showWindMask))]
-        [Range(0f, 1f)]
+        [PropertyRange(0f, 1f)]
         public float windMaskXZInfluence = .25f;
 
-        [Range(0.1f, 2f)] public float windStrengthModifier = 1f;
+        [PropertyRange(0.1f, 2f)] public float windStrengthModifier = 1f;
 
-        [Range(0.1f, 2f)] public float branchStrengthModifier = 1f;
+        [PropertyRange(0.1f, 2f)] public float branchStrengthModifier = 1f;
 
-        [Range(0.1f, 2f)] public float leafStrengthModifier = 1f;
+        [PropertyRange(0.1f, 2f)] public float leafStrengthModifier = 1f;
 
         [HideInInspector] public List<WindMeshSet> recoveryInfo = new();
 

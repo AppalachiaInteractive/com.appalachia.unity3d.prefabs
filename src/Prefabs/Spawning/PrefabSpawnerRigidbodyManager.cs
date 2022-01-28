@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Rendering.Prefabs.Rendering;
 using Appalachia.Rendering.Prefabs.Spawning.Physical;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
@@ -22,7 +23,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
     {
         static PrefabSpawnerRigidbodyManager()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            RegisterInstanceCallbacks.WithoutSorting().When.Behaviour<PrefabRenderingManager>().IsAvailableThen( i => _prefabRenderingManager = i);
         }
 
         public PrefabSpawnerRigidbodyManager()

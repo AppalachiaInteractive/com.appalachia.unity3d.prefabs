@@ -1,6 +1,7 @@
 using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Execution;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -22,7 +23,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         [Header("Baked Results")]
         public OcclusionProbeData m_Data;
 
-        [Tooltip(
+        [PropertyTooltip(
             "Stores direct sky contribution. Baked with the button below or during lightmap bake. If not set, a probe generated from the current skybox will be used."
         )]
         public AmbientProbeData m_AmbientProbeData;

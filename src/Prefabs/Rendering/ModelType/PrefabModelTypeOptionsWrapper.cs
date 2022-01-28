@@ -29,7 +29,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
     {
         static PrefabModelTypeOptionsWrapper()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties
@@ -138,20 +138,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         #region Profiling
 
-        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
         private static readonly ProfilerMarker _PRF_GetFrustum = new(_PRF_PFX + nameof(GetFrustum));
 
         private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache =
             new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache");
-
-        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_GetCameras =
-            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.GetCameras");
 
         private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_AssignProperties =
             new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.AssignProperties");
 
         private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_CreatePlanes =
             new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.CreatePlanes");
+
+        private static readonly ProfilerMarker _PRF_GetFrustum_RetrieveCache_GetCameras =
+            new(_PRF_PFX + nameof(GetFrustum) + ".RetrieveCache.GetCameras");
+
+        private static readonly ProfilerMarker _PRF_OnEnable = new(_PRF_PFX + nameof(OnEnable));
 
         #endregion
     }

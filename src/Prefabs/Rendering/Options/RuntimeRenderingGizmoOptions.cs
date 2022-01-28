@@ -2,6 +2,7 @@
 
 using System;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Core.Objects.Root;
 using Sirenix.OdinInspector;
 
@@ -15,7 +16,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
     {
         static RuntimeRenderingGizmoOptions()
         {
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
+            RegisterInstanceCallbacks.For<RuntimeRenderingGizmoOptions>()
+                                     .When.Behaviour<PrefabRenderingManager>()
+                                     .IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties

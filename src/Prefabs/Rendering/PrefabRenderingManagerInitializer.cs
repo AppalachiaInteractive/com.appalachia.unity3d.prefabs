@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Constants;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Editing.Core;
 using Appalachia.Globals.Shading;
@@ -38,13 +39,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         static PrefabRenderingManagerInitializer()
         {
-            GPUInstancerPrototypeMetadataCollection.InstanceAvailable +=
-                i => _GPUInstancerPrototypeMetadataCollection = i;
-            PrefabLocationSource.InstanceAvailable += i => _prefabLocationSource = i;
-            PrefabContentTypeOptionsLookup.InstanceAvailable += i => _prefabContentTypeOptionsLookup = i;
-            PrefabModelTypeOptionsLookup.InstanceAvailable += i => _prefabModelTypeOptionsLookup = i;
-            PrefabRenderingManager.InstanceAvailable += i => _prefabRenderingManager = i;
-            GSR.InstanceAvailable += i => _GSR = i;
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<GPUInstancerPrototypeMetadataCollection>().IsAvailableThen(
+                i => _GPUInstancerPrototypeMetadataCollection = i);
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<PrefabLocationSource>().IsAvailableThen( i => _prefabLocationSource = i);
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<PrefabContentTypeOptionsLookup>().IsAvailableThen( i => _prefabContentTypeOptionsLookup = i);
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<PrefabModelTypeOptionsLookup>().IsAvailableThen( i => _prefabModelTypeOptionsLookup = i);
+            RegisterInstanceCallbacks.WithoutSorting().When.Behaviour<PrefabRenderingManager>().IsAvailableThen( i => _prefabRenderingManager = i);
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<GSR>().IsAvailableThen( i => _GSR = i);
         }
 
         #region Static Fields and Autoproperties
@@ -423,7 +424,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             {
                 if (_prefabRenderingManager.structure == null)
                 {
-                    _prefabRenderingManager.structure = new PrefabRenderingRuntimeStructure();
+                    _prefabRenderingManager.structure =
+                        new PrefabRenderingRuntimeStructure(_prefabRenderingManager);
                 }
 
                 _prefabRenderingManager.InitializeStructureInPlace(_prefabRenderingManager.structure);

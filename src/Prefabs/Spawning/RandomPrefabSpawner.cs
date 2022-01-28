@@ -131,6 +131,8 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_OnDrawGizmos.Auto())
             {
+                if (!enabled) return;
+                if (ShouldSkipUpdate) return;
                 if (!GizmoCameraChecker.ShouldRenderGizmos())
                 {
                     return;
@@ -208,7 +210,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         #endregion
 
 #if UNITY_EDITOR
-        private static readonly ProfilerMarker _PRF_OnDrawGizmos = new(_PRF_PFX + nameof(OnDrawGizmos));
 
         private static readonly ProfilerMarker _PRF_CreateNewSettings =
             new(_PRF_PFX + nameof(CreateNewSettings));

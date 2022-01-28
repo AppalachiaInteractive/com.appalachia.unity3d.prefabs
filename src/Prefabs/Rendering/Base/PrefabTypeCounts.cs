@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Utility.Enums;
 using Unity.Profiling;
@@ -24,7 +25,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
         static PrefabTypeCounts()
         {
-            PrefabRenderingSetCollection.InstanceAvailable += i => _prefabRenderingSetCollection = i;
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<PrefabRenderingSetCollection>()
+                                    .IsAvailableThen(i => _prefabRenderingSetCollection = i);
         }
 
         #region Static Fields and Autoproperties

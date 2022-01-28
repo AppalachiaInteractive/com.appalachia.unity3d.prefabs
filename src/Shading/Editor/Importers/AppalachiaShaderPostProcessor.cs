@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using Appalachia.CI.Integration.FileSystem;
 using Appalachia.Core.Attributes;
+using Appalachia.Core.Objects.Availability;
 using Appalachia.Rendering.Shading.Features;
 using UnityEditor;
 using UnityEngine;
@@ -19,7 +20,7 @@ namespace Appalachia.Rendering.Shading.Importers
 
         static AppalachiaShaderPostProcessor()
         {
-            AppalachiaShaderFeatures.InstanceAvailable += i => _appalachiaShaderFeatures = i;
+            RegisterInstanceCallbacks.WithoutSorting().When.Object<AppalachiaShaderFeatures>().IsAvailableThen( i => _appalachiaShaderFeatures = i);
         }
 
         #region Static Fields and Autoproperties
