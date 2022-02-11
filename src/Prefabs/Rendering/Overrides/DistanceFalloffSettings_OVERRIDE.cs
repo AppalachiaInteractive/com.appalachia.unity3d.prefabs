@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 
 #endregion
@@ -19,15 +19,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 
         public OverridableDistanceFalloffSettings(
             bool isOverridingAllowed,
-            bool overrideEnabled,
-            DistanceFalloffSettings value) : base(overrideEnabled, value)
+            bool overriding,
+            DistanceFalloffSettings value) : base(overriding, value)
         {
         }
 
         public OverridableDistanceFalloffSettings(
-            Overridable<DistanceFalloffSettings, OverridableDistanceFalloffSettings> value) : base(
-            value
-        )
+            Overridable<DistanceFalloffSettings, OverridableDistanceFalloffSettings> value) : base(value)
         {
         }
     }

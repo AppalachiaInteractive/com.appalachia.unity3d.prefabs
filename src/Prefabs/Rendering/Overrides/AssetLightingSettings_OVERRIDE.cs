@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 
 #endregion
@@ -19,8 +19,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 
         public OverridableAssetLightingSettings(
             bool isOverridingAllowed,
-            bool overrideEnabled,
-            AssetLightingSettings value) : base(overrideEnabled, value)
+            bool overriding,
+            AssetLightingSettings value) : base(overriding, value)
         {
         }
 

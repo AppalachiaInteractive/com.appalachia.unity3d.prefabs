@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 
 #endregion
@@ -9,8 +9,7 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType.Rendering;
 namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
-    public sealed class
-        OverridableLODFadeSettings : Overridable<LODFadeSettings, OverridableLODFadeSettings>
+    public sealed class OverridableLODFadeSettings : Overridable<LODFadeSettings, OverridableLODFadeSettings>
     {
         public OverridableLODFadeSettings() : base(false, default)
         {
@@ -18,8 +17,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 
         public OverridableLODFadeSettings(
             bool isOverridingAllowed,
-            bool overrideEnabled,
-            LODFadeSettings value) : base(overrideEnabled, value)
+            bool overriding,
+            LODFadeSettings value) : base(overriding, value)
         {
         }
 

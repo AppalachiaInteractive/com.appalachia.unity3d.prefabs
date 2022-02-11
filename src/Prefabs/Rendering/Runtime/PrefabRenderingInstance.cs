@@ -2,11 +2,11 @@
 
 using System;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Filtering;
 using Appalachia.Core.Labels;
-using Appalachia.Core.Layers;
-using Appalachia.Core.Layers.Extensions;
 using Appalachia.Core.ObjectPooling;
+using Appalachia.Core.Objects.Filtering;
+using Appalachia.Core.Objects.Layers;
+using Appalachia.Core.Objects.Layers.Extensions;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.GPUI;
@@ -29,11 +29,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
     [Serializable]
     public class PrefabRenderingInstance : AppalachiaSimpleBase, IDisposable
     {
-        
-        
-        private const string _PRF_PFX = nameof(PrefabRenderingInstance) + ".";
-
-        private static readonly Matrix4x4 _matrix_zero = Matrix4x4.zero;
+        #region Constants and Static Readonly
 
         private static readonly Matrix4x4 _matrix_trs_zero = Matrix4x4.TRS(
             Vector3.zero,
@@ -41,11 +37,16 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             Vector3.one
         );
 
-        private static readonly ProfilerMarker _PRF_CreatePrefabPool =
-            new(_PRF_PFX + nameof(CreatePrefabPool));
+        private static readonly Matrix4x4 _matrix_zero = Matrix4x4.zero;
 
-        private static readonly ProfilerMarker _PRF_CreateModelInstance =
-            new(_PRF_PFX + nameof(CreateModelInstance));
+        #endregion
+
+        public PrefabRenderingInstance(int index)
+        {
+            instanceIndex = index;
+        }
+
+        #region Fields and Autoproperties
 
         /*[ReadOnly, SerializeField, SmartLabel(AlignWith = nameof(matrix_noGameObject_OWNED))]
         public float4x4 matrix_original;
@@ -172,51 +173,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         [ShowInInspector]
         public Transform transform;
 
-        public PrefabRenderingInstance(int index)
-        {
-            instanceIndex = index;
-        }
+        #endregion
 
         public bool alive => transform != null;
-
-        public void Dispose()
-        {
-            using (_PRF_Dispose.Auto())
-            {
-                transform.DestroySafely();
-
-                transform = null;
-                instanceBehaviour = null;
-                renderers = null;
-                physicsColliders = null;
-                interactionColliders = null;
-                firstPhysicsCollider = null;
-                firstInteractionCollider = null;
-                lodGroup = null;
-                rigidbody = null;
-            }
-        }
-
-        private void AssignElementProperties(RuntimePrefabRenderingElement element)
-        {
-            using (_PRF_AssignElementProperties.Auto())
-            {
-                //matrix_original = element.matrices_original[instanceIndex];
-                //matrix_current = element.matrices_current[instanceIndex];
-                //matrix_noGameObject_OWNED = element.matrices_noGameObject_OWNED[instanceIndex];
-                inFrustum = element.inFrustums[instanceIndex];
-                previousPosition = element.previousPositions[instanceIndex];
-                primaryDistance = element.primaryDistances[instanceIndex];
-                secondaryDistance = element.secondaryDistances[instanceIndex];
-                previousState = currentState;
-                currentState = element.currentStates[instanceIndex];
-                nextState = element.nextStates[instanceIndex];
-                hasChangedPosition = element.hasChangedPositions[instanceIndex];
-                parameterIndex = element.parameterIndices[instanceIndex];
-                instancesExcludedFromFrame = element.instancesExcludedFromFrame[instanceIndex];
-                instancesStateCode = element.instancesStateCodes[instanceIndex];
-            }
-        }
 
         public bool ApplyNewInstanceState(
             GameObject prefabInstanceRoot,
@@ -307,6 +266,128 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             }
         }
 
+        public bool ShouldDelayStateChange()
+        {
+            using (_PRF_ShouldDelayStateChange.Auto())
+            {
+                if ((rigidbody != null) && !rigidbody.IsSleeping())
+                {
+                    instancesStateCode = InstanceStateCode.Delayed;
+                    return true;
+                }
+
+#if UNITY_EDITOR
+                if (UnityEditor.Selection.activeTransform == transform)
+                {
+                    instancesStateCode = InstanceStateCode.DelayedBySelection;
+                    return true;
+                }
+#endif
+                return false;
+            }
+        }
+
+        public void Teardown(RuntimePrefabRenderingElement element)
+        {
+            using (_PRF_Teardown.Auto())
+            {
+                Dispose();
+
+                element.matrices_noGameObject_OWNED[instanceIndex] = _matrix_zero;
+            }
+        }
+
+        private static GameObject CreateModelInstance(
+            PrefabRenderingSet set,
+            RuntimePrefabRenderingElement element,
+            GameObject prefabInstanceRoot)
+        {
+            using (_PRF_CreateModelInstance.Auto())
+            {
+                var instance = Object.Instantiate(element.prototypeTemplate, prefabInstanceRoot.transform);
+
+                var lod = instance.GetComponent<LODGroup>();
+                var lods = lod.GetLODs();
+
+                var renderers = instance.GetComponentsInChildren<MeshRenderer>();
+
+                for (var i = renderers.Length - 1; i >= 0; i--)
+                {
+                    var testingRenderer = renderers[i];
+
+                    var found = false;
+
+                    for (var j = 0; j < lods.Length; j++)
+                    {
+                        var lodl = lods[j];
+
+                        for (var k = 0; k < lodl.renderers.Length; k++)
+                        {
+                            var lodlr = lodl.renderers[k];
+
+                            if (lodlr is MeshRenderer lodlmr && (lodlmr == testingRenderer))
+                            {
+                                found = true;
+                                break;
+                            }
+                        }
+
+                        if (found)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        testingRenderer.gameObject.DestroySafely();
+                    }
+                }
+
+                instance.layer = set.modelOptions.layer;
+
+                var colls = instance.FilterComponents<Collider>(true)
+                                    .ExcludeLayers(Layers.ByName.Interactable)
+                                    .ExcludeTags(TAGS.OcclusionBake)
+                                    .RunFilter();
+
+                for (var i = 0; i < colls.Length; i++)
+                {
+                    var collider = colls[i];
+                    if (collider is MeshCollider mc)
+                    {
+                        mc.convex = true;
+                    }
+                }
+
+                var ib = instance.GetComponent<PrefabRenderingInstanceBehaviour>();
+
+                if (ib == null)
+                {
+                    ib = instance.AddComponent<PrefabRenderingInstanceBehaviour>();
+                }
+
+                InitializePrefabRenderingInstanceBehaviour(ib, set);
+
+                instance.hideFlags &= ~HideFlags.HideInHierarchy;
+                prefabInstanceRoot.hideFlags &= ~HideFlags.HideInHierarchy;
+
+                return instance;
+            }
+        }
+
+        private static void InitializePrefabRenderingInstanceBehaviour(
+            PrefabRenderingInstanceBehaviour ib,
+            PrefabRenderingSet set)
+        {
+            ib.set = set;
+            ib.modelType = set.modelOptions.typeOptions;
+            ib.modelOverrides = set.modelOptions;
+
+            ib.contentType = set.contentOptions.typeOptions;
+            ib.contentOverrides = set.contentOptions;
+        }
+
         private void ApplyStateChange(
             GameObject prefabInstanceRoot,
             RuntimePrefabRenderingElement element,
@@ -355,9 +436,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     ? State.Enabled
                     : State.Disabled;
 
-                curr_physx =
-                    curr_physx.on() ||
-                    ((firstPhysicsCollider != null) && firstPhysicsCollider.enabled)
+                curr_physx = curr_physx.on() ||
+                             ((firstPhysicsCollider != null) && firstPhysicsCollider.enabled)
                         ? State.Enabled
                         : State.Disabled;
                 curr_inter =
@@ -507,88 +587,24 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             }
         }
 
-        public bool ShouldDelayStateChange()
+        private void AssignElementProperties(RuntimePrefabRenderingElement element)
         {
-            using (_PRF_ShouldDelayStateChange.Auto())
+            using (_PRF_AssignElementProperties.Auto())
             {
-                if ((rigidbody != null) && !rigidbody.IsSleeping())
-                {
-                    instancesStateCode = InstanceStateCode.Delayed;
-                    return true;
-                }
-
-#if UNITY_EDITOR
-                if (UnityEditor.Selection.activeTransform == transform)
-                {
-                    instancesStateCode = InstanceStateCode.DelayedBySelection;
-                    return true;
-                }
-#endif
-                return false;
-            }
-        }
-
-        private void Instantiate(
-            PrefabRenderingSet set,
-            RuntimePrefabRenderingElement element,
-            GPUInstancerPrototypeMetadata metadata,
-            GameObject prefabInstanceRoot)
-        {
-            using (_PRF_Instantiate.Auto())
-            {
-                using (_PRF_Instantiate_Prototypes.Auto())
-                {
-                    if (element.prototypeTemplate == null)
-                    {
-                        element.prototypeTemplate = metadata.originalPrefab.InstantiatePrefab(
-                            prefabInstanceRoot.transform,
-                            _matrix_trs_zero
-                        );
-                        element.prototypeTemplate.SetActive(false);
-                        element.prototypeTemplate.hideFlags |= HideFlags.HideInHierarchy;
-                    }
-
-                    if (element.prototypeTemplate == null)
-                    {
-                        throw new NotSupportedException(
-                            ZString.Format(
-                                "Template prototype could not be instantiated for {0}.",
-                                metadata.prototype.name
-                            )
-                        );
-                    }
-                }
-
-                using (_PRF_Instantiate_PrefabPool.Auto())
-                {
-                    if (element.prefabPool == null)
-                    {
-                        element.prefabPool = CreatePrefabPool(set, element, prefabInstanceRoot);
-                    }
-                }
-
-                using (_PRF_Instantiate_Clone.Auto())
-                {
-                    var cloned = element.prefabPool.Get();
-                    transform = cloned.transform;
-
-                    var matrix = element.matrices_current[instanceIndex];
-
-                    transform.float4x4ToTransform(matrix);
-
-                    instanceBehaviour = cloned.GetComponent<PrefabRenderingInstanceBehaviour>();
-
-                    if (instanceBehaviour == null)
-                    {
-                        instanceBehaviour = cloned.AddComponent<PrefabRenderingInstanceBehaviour>();
-                    }
-
-                    InitializePrefabRenderingInstanceBehaviour(instanceBehaviour, set);
-                    instanceBehaviour.instance = this;
-
-                    cloned.SetActive(true);
-                    instanceBehaviour.Awaken();
-                }
+                //matrix_original = element.matrices_original[instanceIndex];
+                //matrix_current = element.matrices_current[instanceIndex];
+                //matrix_noGameObject_OWNED = element.matrices_noGameObject_OWNED[instanceIndex];
+                inFrustum = element.inFrustums[instanceIndex];
+                previousPosition = element.previousPositions[instanceIndex];
+                primaryDistance = element.primaryDistances[instanceIndex];
+                secondaryDistance = element.secondaryDistances[instanceIndex];
+                previousState = currentState;
+                currentState = element.currentStates[instanceIndex];
+                nextState = element.nextStates[instanceIndex];
+                hasChangedPosition = element.hasChangedPositions[instanceIndex];
+                parameterIndex = element.parameterIndices[instanceIndex];
+                instancesExcludedFromFrame = element.instancesExcludedFromFrame[instanceIndex];
+                instancesStateCode = element.instancesStateCodes[instanceIndex];
             }
         }
 
@@ -607,120 +623,64 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             }
         }
 
-        private static GameObject CreateModelInstance(
-            PrefabRenderingSet set,
-            RuntimePrefabRenderingElement element,
-            GameObject prefabInstanceRoot)
+        private void InitializeInteractions()
         {
-            using (_PRF_CreateModelInstance.Auto())
+            using (_PRF_InitializeInteractions.Auto())
             {
-                var instance = Object.Instantiate(
-                    element.prototypeTemplate,
-                    prefabInstanceRoot.transform
-                );
-
-                var lod = instance.GetComponent<LODGroup>();
-                var lods = lod.GetLODs();
-
-                var renderers = instance.GetComponentsInChildren<MeshRenderer>();
-
-                for (var i = renderers.Length - 1; i >= 0; i--)
+                if (rigidbody == null)
                 {
-                    var testingRenderer = renderers[i];
+                    rigidbody = transform.GetComponent<Rigidbody>();
+                }
 
-                    var found = false;
+                if (firstInteractionCollider == null)
+                {
+                    interactionColliders = transform.FilterComponents<Collider>(true)
+                                                    .IncludeOnlyLayers(Layers.ByName.Interactable)
+                                                    .ExcludeTags(TAGS.OcclusionBake)
+                                                    .RunFilter();
 
-                    for (var j = 0; j < lods.Length; j++)
+                    firstInteractionCollider = interactionColliders.Length > 0
+                        ? interactionColliders[0]
+                        : null;
+                }
+            }
+        }
+
+        private void InitializePhysics()
+        {
+            using (_PRF_InitializePhysics.Auto())
+            {
+                using (_PRF_InitializePhysics_NullCheck.Auto())
+                {
+                    var doInitialize = false;
+
+                    if (physicsColliders != null)
                     {
-                        var lodl = lods[j];
-
-                        for (var k = 0; k < lodl.renderers.Length; k++)
+                        for (var i = 0; i < physicsColliders.Length; i++)
                         {
-                            var lodlr = lodl.renderers[k];
-
-                            if (lodlr is MeshRenderer lodlmr && (lodlmr == testingRenderer))
+                            if (physicsColliders[i] == null)
                             {
-                                found = true;
+                                doInitialize = true;
                                 break;
                             }
                         }
 
-                        if (found)
+                        if (!doInitialize)
                         {
-                            break;
+                            return;
                         }
                     }
-
-                    if (!found)
-                    {
-                        testingRenderer.gameObject.DestroySafely();
-                    }
                 }
 
-                instance.layer = set.modelOptions.layer;
-
-                var colls = instance.FilterComponents<Collider>(true)
-                                    .ExcludeLayers(Layers.ByName.Interactable)
-                                    .ExcludeTags(TAGS.OcclusionBake)
-                                    .RunFilter();
-
-                for (var i = 0; i < colls.Length; i++)
+                using (_PRF_InitializePhysics_ColliderQuery.Auto())
                 {
-                    var collider = colls[i];
-                    if (collider is MeshCollider mc)
-                    {
-                        mc.convex = true;
-                    }
+                    physicsColliders = transform.FilterComponents<Collider>(true)
+                                                .ExcludeLayers(Layers.ByName.Interactable)
+                                                .ExcludeTags(TAGS.OcclusionBake)
+                                                .RunFilter();
                 }
 
-                var ib = instance.GetComponent<PrefabRenderingInstanceBehaviour>();
-
-                if (ib == null)
-                {
-                    ib = instance.AddComponent<PrefabRenderingInstanceBehaviour>();
-                }
-
-                InitializePrefabRenderingInstanceBehaviour(ib, set);
-
-                instance.hideFlags &= ~HideFlags.HideInHierarchy;
-                prefabInstanceRoot.hideFlags &= ~HideFlags.HideInHierarchy;
-
-                return instance;
-            }
-        }
-
-        private static void InitializePrefabRenderingInstanceBehaviour(
-            PrefabRenderingInstanceBehaviour ib,
-            PrefabRenderingSet set)
-        {
-            ib.set = set;
-            ib.modelType = set.modelOptions.typeOptions;
-            ib.modelOverrides = set.modelOptions;
-
-            ib.contentType = set.contentOptions.typeOptions;
-            ib.contentOverrides = set.contentOptions;
-        }
-
-        private void ReturnInstanceToPool(RuntimePrefabRenderingElement element)
-        {
-            using (_PRF_ReturnInstanceToPool.Auto())
-            {
-                var go = transform.gameObject;
-
-                instanceBehaviour.Sleep();
-
-                go.SetActive(false);
-                element.prefabPool.Return(go);
-
-                transform = null;
-                instanceBehaviour = null;
-                rigidbody = null;
-                physicsColliders = null;
-                interactionColliders = null;
-                renderers = null;
-                lodGroup = null;
-                firstPhysicsCollider = null;
-                firstInteractionCollider = null;
+                firstPhysicsCollider = physicsColliders.Length > 0 ? physicsColliders[0] : null;
             }
         }
 
@@ -799,6 +759,157 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             }
         }
 
+        private void Instantiate(
+            PrefabRenderingSet set,
+            RuntimePrefabRenderingElement element,
+            GPUInstancerPrototypeMetadata metadata,
+            GameObject prefabInstanceRoot)
+        {
+            using (_PRF_Instantiate.Auto())
+            {
+                using (_PRF_Instantiate_Prototypes.Auto())
+                {
+                    if (element.prototypeTemplate == null)
+                    {
+                        element.prototypeTemplate = metadata.originalPrefab.InstantiatePrefab(
+                            prefabInstanceRoot.transform,
+                            _matrix_trs_zero
+                        );
+                        element.prototypeTemplate.SetActive(false);
+                        element.prototypeTemplate.hideFlags |= HideFlags.HideInHierarchy;
+                    }
+
+                    if (element.prototypeTemplate == null)
+                    {
+                        throw new NotSupportedException(
+                            ZString.Format(
+                                "Template prototype could not be instantiated for {0}.",
+                                metadata.prototype.name
+                            )
+                        );
+                    }
+                }
+
+                using (_PRF_Instantiate_PrefabPool.Auto())
+                {
+                    if (element.prefabPool == null)
+                    {
+                        element.prefabPool = CreatePrefabPool(set, element, prefabInstanceRoot);
+                    }
+                }
+
+                using (_PRF_Instantiate_Clone.Auto())
+                {
+                    var cloned = element.prefabPool.Get();
+                    transform = cloned.transform;
+
+                    var matrix = element.matrices_current[instanceIndex];
+
+                    transform.float4x4ToTransform(matrix);
+
+                    instanceBehaviour = cloned.GetComponent<PrefabRenderingInstanceBehaviour>();
+
+                    if (instanceBehaviour == null)
+                    {
+                        instanceBehaviour = cloned.AddComponent<PrefabRenderingInstanceBehaviour>();
+                    }
+
+                    InitializePrefabRenderingInstanceBehaviour(instanceBehaviour, set);
+                    instanceBehaviour.instance = this;
+
+                    cloned.SetActive(true);
+                    instanceBehaviour.Awaken();
+                }
+            }
+        }
+
+        private void ReturnInstanceToPool(RuntimePrefabRenderingElement element)
+        {
+            using (_PRF_ReturnInstanceToPool.Auto())
+            {
+                var go = transform.gameObject;
+
+                instanceBehaviour.Sleep();
+
+                go.SetActive(false);
+                element.prefabPool.Return(go);
+
+                transform = null;
+                instanceBehaviour = null;
+                rigidbody = null;
+                physicsColliders = null;
+                interactionColliders = null;
+                renderers = null;
+                lodGroup = null;
+                firstPhysicsCollider = null;
+                firstInteractionCollider = null;
+            }
+        }
+
+        private void UpdateInteractions(
+            GPUInstancerPrototypeMetadata metadata,
+            InstanceInteractionState state)
+        {
+            using (_PRF_UpdateInteractions.Auto())
+            {
+                if (!metadata.hasRigidBody)
+                {
+                    return;
+                }
+
+                if (state == InstanceInteractionState.Enabled)
+                {
+                    var rigidbodyData = metadata.rigidbodyData;
+
+                    if (rigidbody == null)
+                    {
+                        rigidbody = transform.gameObject.AddComponent<Rigidbody>();
+                    }
+
+                    rigidbody.useGravity = rigidbodyData.useGravity;
+                    rigidbody.angularDrag = rigidbodyData.angularDrag;
+
+                    //Context.Log.Info($"Setting mass from {rigidbody.mass} to {rigidbodyData.mass}.");
+                    rigidbody.mass = rigidbodyData.mass;
+                    rigidbody.constraints = rigidbodyData.constraints;
+                    rigidbody.detectCollisions = true;
+                    rigidbody.drag = rigidbodyData.drag;
+                    rigidbody.isKinematic = rigidbodyData.isKinematic;
+                    rigidbody.interpolation = rigidbodyData.interpolation;
+
+                    if (firstInteractionCollider != null)
+                    {
+                        for (var i = 0; i < interactionColliders.Length; i++)
+                        {
+                            interactionColliders[i].enabled = true;
+                        }
+                    }
+                }
+                else
+                {
+                    rigidbody.DestroySafely();
+                }
+            }
+        }
+
+        private void UpdatePhysics(GlobalRenderingOptions globalOptions, InstancePhysicsState state)
+        {
+            using (_PRF_UpdatePhysics.Auto())
+            {
+                var mask = globalOptions.layerMask;
+
+                for (var i = 0; i < physicsColliders.Length; i++)
+                {
+                    var collider = physicsColliders[i];
+
+                    if (mask.IsLayerInMask(collider.gameObject.layer))
+                    {
+                        collider.enabled = state == InstancePhysicsState.Enabled;
+                    }
+                }
+            }
+        }
+
         private void UpdateRendering(
             PrefabRenderingSet renderingSet,
             GlobalRenderingOptions globalOptions,
@@ -849,8 +960,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                         renderer.shadowCastingMode = shadowCastingMode;
                         renderer.receiveShadows = receiveShadows;
                         renderer.lightProbeUsage = lightProbeUsage;
-                        renderer.lightProbeProxyVolumeOverride =
-                            lightProbeProxyVolumeOverride.gameObject;
+                        renderer.lightProbeProxyVolumeOverride = lightProbeProxyVolumeOverride.gameObject;
                     }
                 }
 
@@ -867,142 +977,41 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
             }
         }
 
-        private void InitializePhysics()
+        #region IDisposable Members
+
+        public void Dispose()
         {
-            using (_PRF_InitializePhysics.Auto())
+            using (_PRF_Dispose.Auto())
             {
-                using (_PRF_InitializePhysics_NullCheck.Auto())
-                {
-                    var doInitialize = false;
+                transform.DestroySafely();
 
-                    if (physicsColliders != null)
-                    {
-                        for (var i = 0; i < physicsColliders.Length; i++)
-                        {
-                            if (physicsColliders[i] == null)
-                            {
-                                doInitialize = true;
-                                break;
-                            }
-                        }
-
-                        if (!doInitialize)
-                        {
-                            return;
-                        }
-                    }
-                }
-
-                using (_PRF_InitializePhysics_ColliderQuery.Auto())
-                {
-                    physicsColliders = transform.FilterComponents<Collider>(true)
-                                                .ExcludeLayers(Layers.ByName.Interactable)
-                                                .ExcludeTags(TAGS.OcclusionBake)
-                                                .RunFilter();
-                }
-
-                firstPhysicsCollider = physicsColliders.Length > 0 ? physicsColliders[0] : null;
+                transform = null;
+                instanceBehaviour = null;
+                renderers = null;
+                physicsColliders = null;
+                interactionColliders = null;
+                firstPhysicsCollider = null;
+                firstInteractionCollider = null;
+                lodGroup = null;
+                rigidbody = null;
             }
         }
 
-        private void UpdatePhysics(GlobalRenderingOptions globalOptions, InstancePhysicsState state)
-        {
-            using (_PRF_UpdatePhysics.Auto())
-            {
-                var mask = globalOptions.layerMask;
+        #endregion
 
-                for (var i = 0; i < physicsColliders.Length; i++)
-                {
-                    var collider = physicsColliders[i];
+        #region Profiling
 
-                    if (mask.IsLayerInMask(collider.gameObject.layer))
-                    {
-                        collider.enabled = state == InstancePhysicsState.Enabled;
-                    }
-                }
-            }
-        }
+        private const string _PRF_PFX = nameof(PrefabRenderingInstance) + ".";
 
-        private void InitializeInteractions()
-        {
-            using (_PRF_InitializeInteractions.Auto())
-            {
-                if (rigidbody == null)
-                {
-                    rigidbody = transform.GetComponent<Rigidbody>();
-                }
+        private static readonly ProfilerMarker _PRF_CreatePrefabPool =
+            new(_PRF_PFX + nameof(CreatePrefabPool));
 
-                if (firstInteractionCollider == null)
-                {
-                    interactionColliders = transform.FilterComponents<Collider>(true)
-                                                    .IncludeOnlyLayers(Layers.ByName.Interactable)
-                                                    .ExcludeTags(TAGS.OcclusionBake)
-                                                    .RunFilter();
+        private static readonly ProfilerMarker _PRF_CreateModelInstance =
+            new(_PRF_PFX + nameof(CreateModelInstance));
 
-                    firstInteractionCollider = interactionColliders.Length > 0
-                        ? interactionColliders[0]
-                        : null;
-                }
-            }
-        }
+        #endregion
 
-        private void UpdateInteractions(
-            GPUInstancerPrototypeMetadata metadata,
-            InstanceInteractionState state)
-        {
-            using (_PRF_UpdateInteractions.Auto())
-            {
-                if (!metadata.hasRigidBody)
-                {
-                    return;
-                }
-
-                if (state == InstanceInteractionState.Enabled)
-                {
-                    var rigidbodyData = metadata.rigidbodyData;
-
-                    if (rigidbody == null)
-                    {
-                        rigidbody = transform.gameObject.AddComponent<Rigidbody>();
-                    }
-
-                    rigidbody.useGravity = rigidbodyData.useGravity;
-                    rigidbody.angularDrag = rigidbodyData.angularDrag;
-
-                    //Context.Log.Info($"Setting mass from {rigidbody.mass} to {rigidbodyData.mass}.");
-                    rigidbody.mass = rigidbodyData.mass;
-                    rigidbody.constraints = rigidbodyData.constraints;
-                    rigidbody.detectCollisions = true;
-                    rigidbody.drag = rigidbodyData.drag;
-                    rigidbody.isKinematic = rigidbodyData.isKinematic;
-                    rigidbody.interpolation = rigidbodyData.interpolation;
-
-                    if (firstInteractionCollider != null)
-                    {
-                        for (var i = 0; i < interactionColliders.Length; i++)
-                        {
-                            interactionColliders[i].enabled = true;
-                        }
-                    }
-                }
-                else
-                {
-                    rigidbody.DestroySafely();
-                }
-            }
-        }
-
-        public void Teardown(RuntimePrefabRenderingElement element)
-        {
-            using (_PRF_Teardown.Auto())
-            {
-                Dispose();
-
-                element.matrices_noGameObject_OWNED[instanceIndex] = _matrix_zero;
-            }
-        }
-
-#region ProfilerMarkers
+        #region ProfilerMarkers
 
         private static readonly ProfilerMarker _PRF_ApplyNewInstanceState =
             new(_PRF_PFX + nameof(ApplyNewInstanceState));
@@ -1039,8 +1048,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         private static readonly ProfilerMarker _PRF_InitializeRendering_Renderers =
             new(_PRF_PFX + nameof(InitializeRendering) + ".Renderers");
 
-        private static readonly ProfilerMarker _PRF_Instantiate =
-            new(_PRF_PFX + nameof(Instantiate));
+        private static readonly ProfilerMarker _PRF_Instantiate = new(_PRF_PFX + nameof(Instantiate));
 
         private static readonly ProfilerMarker _PRF_Instantiate_Clone =
             new(_PRF_PFX + nameof(Instantiate) + ".Clone");
@@ -1068,11 +1076,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         private static readonly ProfilerMarker _PRF_UpdateInteractions =
             new(_PRF_PFX + nameof(UpdateInteractions));
 
-        private static readonly ProfilerMarker _PRF_UpdatePhysics =
-            new(_PRF_PFX + nameof(UpdatePhysics));
+        private static readonly ProfilerMarker _PRF_UpdatePhysics = new(_PRF_PFX + nameof(UpdatePhysics));
 
-        private static readonly ProfilerMarker _PRF_UpdateRendering =
-            new(_PRF_PFX + nameof(UpdateRendering));
+        private static readonly ProfilerMarker _PRF_UpdateRendering = new(_PRF_PFX + nameof(UpdateRendering));
 
         private static readonly ProfilerMarker _PRF_UpdateRendering_CheckEnabled =
             new(_PRF_PFX + nameof(UpdateRendering) + ".CheckEnabled");
@@ -1086,6 +1092,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         private static readonly ProfilerMarker _PRF_UpdateRendering_OverrideLighting =
             new(_PRF_PFX + nameof(UpdateRendering) + ".OverrideLighting");
 
-#endregion
+        #endregion
     }
 }

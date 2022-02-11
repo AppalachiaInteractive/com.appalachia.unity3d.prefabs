@@ -1,18 +1,17 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 
 #endregion
 
 namespace Appalachia.Rendering.Prefabs.Core
 {
     [Serializable]
-    public class
-        OverridablePrefabContentType : Overridable<PrefabContentType, OverridablePrefabContentType>
+    public class OverridablePrefabContentType : Overridable<PrefabContentType, OverridablePrefabContentType>
     {
-        public OverridablePrefabContentType(bool overrideEnabled, PrefabContentType value) : base(
-            overrideEnabled,
+        public OverridablePrefabContentType(bool overriding, PrefabContentType value) : base(
+            overriding,
             value
         )
         {

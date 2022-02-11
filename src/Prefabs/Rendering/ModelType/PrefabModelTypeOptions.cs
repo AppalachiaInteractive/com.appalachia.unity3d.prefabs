@@ -5,7 +5,7 @@ using System.Diagnostics;
 using Appalachia.Core.Attributes;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Collections.Special;
-using Appalachia.Core.Layers;
+using Appalachia.Core.Objects.Layers;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Rendering.Prefabs.Rendering.Burstable;
@@ -17,6 +17,8 @@ using Unity.Mathematics;
 using Unity.Profiling;
 using UnityEngine;
 using Object = UnityEngine.Object;
+
+// ReSharper disable NonReadonlyMemberInGetHashCode
 
 #endregion
 
@@ -40,19 +42,19 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         #endregion
 
+        static PrefabModelTypeOptions()
+        {
+            When.Object<PrefabRenderingSetCollection>()
+                .IsAvailableThen(i => _prefabRenderingSetCollection = i);
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
+        }
+
         public PrefabModelTypeOptions()
         {
         }
 
         public PrefabModelTypeOptions(Object owner) : base(owner)
         {
-        }
-
-        static PrefabModelTypeOptions()
-        {
-            When.Object<PrefabRenderingSetCollection>()
-                .IsAvailableThen(i => _prefabRenderingSetCollection = i);
-            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties
@@ -520,16 +522,16 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         #region Profiling
 
-        private static readonly ProfilerMarker _PRF_UpdateForValidity =
-            new(_PRF_PFX + nameof(UpdateForValidity));
+        private static readonly ProfilerMarker _PRF_CreateFrustumPlanes =
+            new(_PRF_PFX + nameof(CreateFrustumPlanes));
 
         private static readonly ProfilerMarker _PRF_HandleUpdate = new(_PRF_PFX + nameof(HandleUpdate));
 
         private static readonly ProfilerMarker _PRF_HandleUpdate_MarkDirty =
             new(_PRF_PFX + nameof(HandleUpdate) + ".MarkDirty");
 
-        private static readonly ProfilerMarker _PRF_CreateFrustumPlanes =
-            new(_PRF_PFX + nameof(CreateFrustumPlanes));
+        private static readonly ProfilerMarker _PRF_UpdateForValidity =
+            new(_PRF_PFX + nameof(UpdateForValidity));
 
         #endregion
 

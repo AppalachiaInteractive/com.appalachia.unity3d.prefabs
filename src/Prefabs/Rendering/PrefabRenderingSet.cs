@@ -56,13 +56,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         static PrefabRenderingSet()
         {
-            
-            
             RegisterDependency<PrefabModelTypeOptionsLookup>(i => _prefabModelTypeOptionsLookup = i);
             RegisterDependency<PrefabContentTypeOptionsLookup>(i => _prefabContentTypeOptionsLookup = i);
             RegisterDependency<PrefabReplacementCollection>(i => _prefabReplacementCollection = i);
             RegisterDependency<PrefabRenderingSetCollection>(i => _prefabRenderingSetCollection = i);
-            When.Behaviour<PrefabRenderingManager>().IsAvailableThen( i => _prefabRenderingManager = i);
+            When.Behaviour<PrefabRenderingManager>().IsAvailableThen(i => _prefabRenderingManager = i);
         }
 
         #region Static Fields and Autoproperties
@@ -362,7 +360,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _contentType = new OverridablePrefabContentType();
                 }
 
-                return _contentType.value;
+                return _contentType.Value;
             }
             set
             {
@@ -371,9 +369,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _contentType = new OverridablePrefabContentType();
                 }
 
-                if (!_contentType.overrideEnabled)
+                if (!_contentType.Overriding)
                 {
-                    _contentType.value = value;
+                    _contentType.Value = value;
                 }
             }
         }
@@ -387,7 +385,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _modelType = new OverridablePrefabModelType();
                 }
 
-                return _modelType.value;
+                return _modelType.Value;
             }
             set
             {
@@ -396,9 +394,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _modelType = new OverridablePrefabModelType();
                 }
 
-                if (!_modelType.overrideEnabled)
+                if (!_modelType.Overriding)
                 {
-                    _modelType.value = value;
+                    _modelType.Value = value;
                 }
             }
         }
@@ -417,7 +415,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             _instanceManager?.currentSupplementalStateCode.ToString().SeperateWords() ?? string.Empty;
 
         private string _suffix =>
-            ZString.Format("{0} / {1}", _modelType.value.ToString(), _contentType.value.ToString());
+            ZString.Format("{0} / {1}", _modelType.Value.ToString(), _contentType.Value.ToString());
 
         [DebuggerStepThrough]
         public override string ToString()
@@ -846,9 +844,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #region Profiling
 
-
-        
-
         private static readonly ProfilerMarker _PRF_Refresh = new(_PRF_PFX + nameof(Refresh));
 
         private static readonly ProfilerMarker _PRF_UpdatePrototypeSettings =
@@ -857,14 +852,15 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private static readonly ProfilerMarker _PRF_UpdatePrototypeShadowMap =
             new(_PRF_PFX + nameof(UpdatePrototypeShadowMap));
 
-        private static readonly ProfilerMarker _PRF_SyncExternalParameters =
-            new(_PRF_PFX + nameof(SyncExternalParameters));
+        private static readonly ProfilerMarker _PRF_OnLateUpdate = new(_PRF_PFX + nameof(OnLateUpdate));
 
         private static readonly ProfilerMarker _PRF_OnUpdate = new(_PRF_PFX + nameof(OnUpdate));
-        private static readonly ProfilerMarker _PRF_OnLateUpdate = new(_PRF_PFX + nameof(OnLateUpdate));
 
         private static readonly ProfilerMarker _PRF_PushAllGPUMatrices =
             new(_PRF_PFX + nameof(PushAllGPUMatrices));
+
+        private static readonly ProfilerMarker _PRF_SyncExternalParameters =
+            new(_PRF_PFX + nameof(SyncExternalParameters));
 
         private static readonly ProfilerMarker _PRF_TearDown = new(_PRF_PFX + nameof(TearDown));
 

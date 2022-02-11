@@ -26,6 +26,7 @@ using Appalachia.Utility.Async;
 using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Strings;
+using Appalachia.Utility.Timing;
 using AwesomeTechnologies.VegetationSystem;
 using GPUInstancer;
 using Pathfinding.Voxels;
@@ -747,7 +748,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         () => AssetDatabaseManager.SaveAssets(),
                         1,
                         1000 * 60,
-                        Time.time
+                        CoreClock.Instance.Time
                     );
                 }
 #endif

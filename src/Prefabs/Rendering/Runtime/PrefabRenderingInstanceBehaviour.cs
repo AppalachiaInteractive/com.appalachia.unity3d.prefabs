@@ -11,9 +11,9 @@ using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ContentType;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Utility.Strings;
+using Appalachia.Utility.Timing;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
-using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -184,7 +184,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                     }
                 }
 
-                var frame = Time.frameCount;
+                var frame = CoreClock.Instance.FrameCount;
 
                 if (frame > _cachedFrame)
                 {

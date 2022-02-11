@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 
 #endregion
@@ -19,8 +19,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 
         public OverridableAssetRangeSettingsArray(
             bool isOverridingAllowed,
-            bool overrideEnabled,
-            AssetRangeSettings[] value) : base(overrideEnabled, value)
+            bool overriding,
+            AssetRangeSettings[] value) : base(overriding, value)
         {
         }
 

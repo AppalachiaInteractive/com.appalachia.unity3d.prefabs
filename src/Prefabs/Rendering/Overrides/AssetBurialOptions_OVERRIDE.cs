@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Positioning;
 
 #endregion
@@ -18,8 +18,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 
         public OverridableAssetBurialOptions(
             bool isOverridingAllowed,
-            bool overrideEnabled,
-            AssetBurialOptions value) : base(overrideEnabled, value)
+            bool overriding,
+            AssetBurialOptions value) : base(overriding, value)
         {
         }
 

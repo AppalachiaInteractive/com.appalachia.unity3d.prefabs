@@ -19,10 +19,10 @@ MonoBehaviour:
     _resetToken: 
   type: 2000
   _options:
-    _owner: {fileID: 0}
     _initializer:
       _tags: []
       _resetToken: 
+    _owner: {fileID: 0}
     isEnabled: 0
     type: 2000
     _muted: 0
@@ -111,6 +111,10 @@ MonoBehaviour:
       nearPlaneOffset: 0
       farPlaneOffset: 0
     layer:
+      _initializer:
+        _tags: []
+        _resetToken: 
+      _owner: {fileID: 0}
       layer: 0
     lodFadeSettings:
       lodBiasAdjustment: 1
@@ -118,18 +122,18 @@ MonoBehaviour:
       animateLODCrossFade: 0
       lodFadeTransitionWidth: 0.1
   labels:
-    _owner: {fileID: 0}
     _initializer:
       _tags: []
       _resetToken: 
+    _owner: {fileID: 0}
     exclusionStyle: 0
     matchStyle: 0
     exclusions: []
     terms:
-    - _owner: {fileID: 0}
-      _initializer:
+    - _initializer:
         _tags: []
         _resetToken: 
+      _owner: {fileID: 0}
       enabled: 1
       label: TreeSmall
   _baseEnabledState: 0

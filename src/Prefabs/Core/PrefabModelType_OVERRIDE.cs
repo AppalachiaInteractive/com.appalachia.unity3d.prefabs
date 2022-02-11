@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 
 #endregion
 
@@ -10,10 +10,7 @@ namespace Appalachia.Rendering.Prefabs.Core
     [Serializable]
     public class OverridablePrefabModelType : Overridable<PrefabModelType, OverridablePrefabModelType>
     {
-        public OverridablePrefabModelType(bool overrideEnabled, PrefabModelType value) : base(
-            overrideEnabled,
-            value
-        )
+        public OverridablePrefabModelType(bool overriding, PrefabModelType value) : base(overriding, value)
         {
         }
 

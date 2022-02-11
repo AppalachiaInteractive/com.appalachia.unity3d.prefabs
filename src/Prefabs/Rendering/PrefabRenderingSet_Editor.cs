@@ -28,14 +28,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [Button]
         public void AssignPrefabTypes()
         {
-            if (!_modelType.overrideEnabled || (modelType == PrefabModelType.None))
+            if (!_modelType.Overriding || (modelType == PrefabModelType.None))
             {
                 modelType = _prefabModelTypeOptionsLookup.GetPrefabType(labels);
             }
 
             modelOptions.type = modelType;
 
-            if (!_contentType.overrideEnabled || (contentType == PrefabContentType.None))
+            if (!_contentType.Overriding || (contentType == PrefabContentType.None))
             {
                 contentType = _prefabContentTypeOptionsLookup.GetPrefabType(labels);
             }

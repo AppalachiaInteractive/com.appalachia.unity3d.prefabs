@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Layers;
+using Appalachia.Core.Objects.Layers;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
@@ -22,97 +22,63 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         PrefabModelTypeOptionsToggle, Index_PrefabModelTypeOptionsToggle, AppaList_PrefabModelType,
         AppaList_PrefabModelTypeOptionsWrapper, AppaList_PrefabModelTypeOptionsToggle>
     {
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides =
-            new(_PRF_PFX + nameof(SyncOverrides));
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_InitializeSync =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".InitializeSync");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_DistanceSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".DistanceSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_RangeSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".RangeSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_LightingSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".LightingSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_CullingSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".CullingSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_FalloffSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".FalloffSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_FadeSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".FadeSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_BurialSettings =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".BurialSettings");
-
-        private static readonly ProfilerMarker _PRF_SyncOverrides_UpdateRangeLimits =
-            new(_PRF_PFX + nameof(SyncOverrides) + ".UpdateRangeLimits");
-
-        private static readonly ProfilerMarker _PRF_SyncOverridesFull =
-            new(_PRF_PFX + nameof(SyncOverridesFull));
-
-        private static readonly ProfilerMarker _PRF_ApplyTo = new(_PRF_PFX + nameof(ApplyTo));
+        #region Fields and Autoproperties
 
         private float _maximumStateChangeDistance;
+
+        #endregion
+
+        public AssetBurialOptions burialOptions =>
+            _setOverrides.burialOptions.Overriding
+                ? _setOverrides.burialOptions.Value
+                : typeOptions.options.burialOptions;
+
+        public AssetCullingSettings cullingSettings =>
+            _setOverrides.cullingSettings.Overriding
+                ? _setOverrides.cullingSettings.Value
+                : typeOptions.options.cullingSettings;
+
+        public AssetLightingSettings instancedLighting =>
+            _setOverrides.instancedLighting.Overriding
+                ? _setOverrides.instancedLighting.Value
+                : typeOptions.options.instancedLighting;
+
+        public AssetLightingSettings normalLighting =>
+            _setOverrides.normalLighting.Overriding
+                ? _setOverrides.normalLighting.Value
+                : typeOptions.options.normalLighting;
+
+        public AssetRangeSettings[] rangeSettings =>
+            _setOverrides.rangeSettings.Overriding
+                ? _setOverrides.rangeSettings.Value
+                : typeOptions.options.rangeSettings;
+
+        public DistanceFalloffSettings distanceFalloffSettings =>
+            _setOverrides.distanceFalloffSettings.Overriding
+                ? _setOverrides.distanceFalloffSettings.Value
+                : typeOptions.options.distanceFalloffSettings;
+
+        public float maximumRenderingDistance =>
+            _setOverrides.maximumRenderingDistance.Overriding
+                ? _setOverrides.maximumRenderingDistance.Value
+                : typeOptions.options.maximumRenderingDistance;
 
         public float maximumStateChangeDistance => _maximumStateChangeDistance;
 
         public float minimumRenderingDistance =>
-            _setOverrides.minimumRenderingDistance.overrideEnabled
-                ? _setOverrides.minimumRenderingDistance.value
+            _setOverrides.minimumRenderingDistance.Overriding
+                ? _setOverrides.minimumRenderingDistance.Value
                 : typeOptions.options.minimumRenderingDistance;
-
-        public float maximumRenderingDistance =>
-            _setOverrides.maximumRenderingDistance.overrideEnabled
-                ? _setOverrides.maximumRenderingDistance.value
-                : typeOptions.options.maximumRenderingDistance;
-
-        public LayerSelection layer =>
-            _setOverrides.layer.overrideEnabled
-                ? _setOverrides.layer.value
-                : typeOptions.options.layer;
 
         public FrustumSettings frustum => typeOptions.options.frustum;
 
-        public AssetRangeSettings[] rangeSettings =>
-            _setOverrides.rangeSettings.overrideEnabled
-                ? _setOverrides.rangeSettings.value
-                : typeOptions.options.rangeSettings;
-
-        public AssetLightingSettings normalLighting =>
-            _setOverrides.normalLighting.overrideEnabled
-                ? _setOverrides.normalLighting.value
-                : typeOptions.options.normalLighting;
-
-        public AssetLightingSettings instancedLighting =>
-            _setOverrides.instancedLighting.overrideEnabled
-                ? _setOverrides.instancedLighting.value
-                : typeOptions.options.instancedLighting;
-
-        public AssetCullingSettings cullingSettings =>
-            _setOverrides.cullingSettings.overrideEnabled
-                ? _setOverrides.cullingSettings.value
-                : typeOptions.options.cullingSettings;
-
-        public DistanceFalloffSettings distanceFalloffSettings =>
-            _setOverrides.distanceFalloffSettings.overrideEnabled
-                ? _setOverrides.distanceFalloffSettings.value
-                : typeOptions.options.distanceFalloffSettings;
+        public LayerSelection layer =>
+            _setOverrides.layer.Overriding ? _setOverrides.layer.Value : typeOptions.options.layer;
 
         public LODFadeSettings lodFadeSettings =>
-            _setOverrides.lodFadeSettings.overrideEnabled
-                ? _setOverrides.lodFadeSettings.value
+            _setOverrides.lodFadeSettings.Overriding
+                ? _setOverrides.lodFadeSettings.Value
                 : typeOptions.options.lodFadeSettings;
-
-        public AssetBurialOptions burialOptions =>
-            _setOverrides.burialOptions.overrideEnabled
-                ? _setOverrides.burialOptions.value
-                : typeOptions.options.burialOptions;
 
         public override void SyncOverrides()
         {
@@ -129,30 +95,29 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
                 using (_PRF_SyncOverrides_DistanceSettings.Auto())
                 {
-                    if (!o.minimumRenderingDistance.overrideEnabled)
+                    if (!o.minimumRenderingDistance.Overriding)
                     {
-                        o.minimumRenderingDistance.value = options.minimumRenderingDistance;
+                        o.minimumRenderingDistance.Value = options.minimumRenderingDistance;
                     }
 
-                    if (!o.maximumRenderingDistance.overrideEnabled)
+                    if (!o.maximumRenderingDistance.Overriding)
                     {
-                        o.maximumRenderingDistance.value = options.maximumRenderingDistance;
+                        o.maximumRenderingDistance.Value = options.maximumRenderingDistance;
                     }
                 }
 
                 using (_PRF_SyncOverrides_RangeSettings.Auto())
                 {
-                    if (!o.rangeSettings.overrideEnabled)
+                    if (!o.rangeSettings.Overriding)
                     {
-                        var ov = o.rangeSettings.value;
+                        var ov = o.rangeSettings.Value;
                         var rs = options.rangeSettings;
 
                         var length = rs.Length;
 
                         if ((ov == null) || (ov.Length != length))
                         {
-                            o.rangeSettings.value =
-                                options.rangeSettings.Clone() as AssetRangeSettings[];
+                            o.rangeSettings.Value = options.rangeSettings.Clone() as AssetRangeSettings[];
                         }
                         else
                         {
@@ -171,52 +136,52 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
                 using (_PRF_SyncOverrides_LightingSettings.Auto())
                 {
-                    if (!o.normalLighting.overrideEnabled)
+                    if (!o.normalLighting.Overriding)
                     {
-                        o.normalLighting.value = options.normalLighting;
+                        o.normalLighting.Value = options.normalLighting;
                     }
 
-                    if (!o.instancedLighting.overrideEnabled)
+                    if (!o.instancedLighting.Overriding)
                     {
-                        o.instancedLighting.value = options.instancedLighting;
+                        o.instancedLighting.Value = options.instancedLighting;
                     }
                 }
 
                 using (_PRF_SyncOverrides_CullingSettings.Auto())
                 {
-                    if (!o.cullingSettings.overrideEnabled)
+                    if (!o.cullingSettings.Overriding)
                     {
-                        o.cullingSettings.value = options.cullingSettings;
+                        o.cullingSettings.Value = options.cullingSettings;
                     }
                 }
 
                 using (_PRF_SyncOverrides_FalloffSettings.Auto())
                 {
-                    if (!o.distanceFalloffSettings.overrideEnabled)
+                    if (!o.distanceFalloffSettings.Overriding)
                     {
-                        o.distanceFalloffSettings.value = options.distanceFalloffSettings;
+                        o.distanceFalloffSettings.Value = options.distanceFalloffSettings;
                     }
                 }
 
                 using (_PRF_SyncOverrides_FadeSettings.Auto())
                 {
-                    if (!o.lodFadeSettings.overrideEnabled)
+                    if (!o.lodFadeSettings.Overriding)
                     {
-                        o.lodFadeSettings.value = options.lodFadeSettings;
+                        o.lodFadeSettings.Value = options.lodFadeSettings;
                     }
                 }
 
                 using (_PRF_SyncOverrides_BurialSettings.Auto())
                 {
-                    if (!o.burialOptions.overrideEnabled)
+                    if (!o.burialOptions.Overriding)
                     {
-                        o.burialOptions.value = options.burialOptions;
+                        o.burialOptions.Value = options.burialOptions;
                     }
                 }
 
                 using (_PRF_SyncOverrides_UpdateRangeLimits.Auto())
                 {
-                    var rs = o.rangeSettings.value;
+                    var rs = o.rangeSettings.Value;
 
                     for (var i = 0; i < (rs.Length - 1); i++)
                     {
@@ -243,24 +208,23 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 o.Initialize(options);
 
                 if (hasInteractions &&
-                    ((!o.rangeSettings.overrideEnabled &&
-                      (options.rangeSettings[0].interactions !=
-                       InstanceInteractionState.Enabled)) ||
-                     (o.rangeSettings.overrideEnabled &&
-                      (o.rangeSettings.value[0].interactions != InstanceInteractionState.Enabled))))
+                    ((!o.rangeSettings.Overriding &&
+                      (options.rangeSettings[0].interactions != InstanceInteractionState.Enabled)) ||
+                    (o.rangeSettings.Overriding &&
+                     (o.rangeSettings.Value[0].interactions != InstanceInteractionState.Enabled))))
                 {
-                    o.rangeSettings.overrideEnabled = true;
-                    o.rangeSettings.value[0].interactions = InstanceInteractionState.Enabled;
+                    o.rangeSettings.Overriding = true;
+                    o.rangeSettings.Value[0].interactions = InstanceInteractionState.Enabled;
                 }
 
                 if (hasColliders &&
-                    ((!o.rangeSettings.overrideEnabled &&
+                    ((!o.rangeSettings.Overriding &&
                       (options.rangeSettings[0].physics != InstancePhysicsState.Enabled)) ||
-                     (o.rangeSettings.overrideEnabled &&
-                      (o.rangeSettings.value[0].physics != InstancePhysicsState.Enabled))))
+                     (o.rangeSettings.Overriding &&
+                      (o.rangeSettings.Value[0].physics != InstancePhysicsState.Enabled))))
                 {
-                    o.rangeSettings.overrideEnabled = true;
-                    o.rangeSettings.value[0].physics = InstancePhysicsState.Enabled;
+                    o.rangeSettings.Overriding = true;
+                    o.rangeSettings.Value[0].physics = InstancePhysicsState.Enabled;
                 }
             }
         }
@@ -289,5 +253,43 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 prototype.lodBiasAdjustment = lodFadeSettings.lodBiasAdjustment;
             }
         }
+
+        #region Profiling
+
+        private static readonly ProfilerMarker _PRF_ApplyTo = new(_PRF_PFX + nameof(ApplyTo));
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides = new(_PRF_PFX + nameof(SyncOverrides));
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_BurialSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".BurialSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_CullingSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".CullingSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_DistanceSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".DistanceSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_FadeSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".FadeSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_FalloffSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".FalloffSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_InitializeSync =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".InitializeSync");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_LightingSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".LightingSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_RangeSettings =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".RangeSettings");
+
+        private static readonly ProfilerMarker _PRF_SyncOverrides_UpdateRangeLimits =
+            new(_PRF_PFX + nameof(SyncOverrides) + ".UpdateRangeLimits");
+
+        private static readonly ProfilerMarker _PRF_SyncOverridesFull =
+            new(_PRF_PFX + nameof(SyncOverridesFull));
+
+        #endregion
     }
 }

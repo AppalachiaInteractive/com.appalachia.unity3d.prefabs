@@ -41,7 +41,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
 
             var manager = VegetationStudioManager.Instance;
 
-            //var startTime = Time.realtimeSinceStartup;
+            //var startTime = CoreClock.Instance.RealtimeSinceStartup;
             //var elapsed = 0.0f;
 
             try

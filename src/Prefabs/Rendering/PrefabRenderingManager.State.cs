@@ -8,6 +8,7 @@ using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType;
 using Appalachia.Utility.Execution;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Timing;
 using GPUInstancer;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
@@ -140,10 +141,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 using (_PRF_IsEditorSimulating.Auto())
                 {
 #if UNITY_EDITOR
-                    var frame = Time.frameCount;
+                    var frame = CoreClock.Instance.FrameCount;
                     try
                     {
-                        if (Time.frameCount < (_editorCheckFrame + _frameCacheLength))
+                        if (CoreClock.Instance.FrameCount < (_editorCheckFrame + _frameCacheLength))
                         {
                             return _simulationCache;
                         }

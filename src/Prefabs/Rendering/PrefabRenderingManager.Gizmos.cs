@@ -7,7 +7,6 @@ using Appalachia.Core.Preferences;
 using Appalachia.Core.Preferences.Globals;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Rendering.Prefabs.Rendering.Runtime;
-using Unity.Profiling;
 using UnityEngine;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
@@ -56,7 +55,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
                 if (gizmoRayShowTime == null)
                 {
-                    gizmoRayShowTime = PREFS.REG(PKG.Prefs.Gizmos.Base, "Max Size", 1f, .1f, 10f);
+                    gizmoRayShowTime = PREFS.REG(PKG.Prefs.Gizmos.Group, "Max Size", 1f, .1f, 10f);
                 }
 
                 if (!options.gizmos.gizmosEnabled)

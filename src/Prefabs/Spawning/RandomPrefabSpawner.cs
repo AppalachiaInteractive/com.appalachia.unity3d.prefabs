@@ -12,6 +12,7 @@ using Appalachia.Rendering.Prefabs.Spawning.Sets;
 using Appalachia.Rendering.Prefabs.Spawning.Settings;
 using Appalachia.Simulation.Core;
 using Appalachia.Utility.Async;
+using Appalachia.Utility.Timing;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
 using UnityEngine;
@@ -92,7 +93,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 
                 state.ConfirmStructure(transform);
 
-                var current = Time.time;
+                var current = CoreClock.Instance.Time;
 
                 var spawnDuration = 1.0f / settings.timing.spawnsPerSecond;
                 var nextSpawnTime = state.lastSpawnTime + spawnDuration;
@@ -111,7 +112,10 @@ namespace Appalachia.Rendering.Prefabs.Spawning
                     return;
                 }
 
-                var count = Mathf.Max(1, (int)(Time.deltaTime * settings.timing.spawnsPerSecond));
+                var count = Mathf.Max(
+                    1,
+                    (int)(CoreClock.Instance.DeltaTime * settings.timing.spawnsPerSecond)
+                );
                 count = Mathf.Min(count, limit);
 
                 if (count > 0)
@@ -404,7 +408,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning
                 return;
             }
 
-            var spawns = Time.fixedDeltaTime * spawnsPerSecond;
+            var spawns = CoreClock.Instance.FixedDeltaTime * spawnsPerSecond;
 
             _pendingSpawns += spawns;
 

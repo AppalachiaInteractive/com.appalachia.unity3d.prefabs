@@ -3,13 +3,15 @@
 using System;
 using System.Diagnostics;
 using Appalachia.Core.Attributes.Editing;
-using Appalachia.Core.Layers.Overrides;
+using Appalachia.Core.Objects.Layers;
 using Appalachia.Core.Overrides.Implementations;
 using Appalachia.Rendering.Prefabs.Core;
 using Appalachia.Rendering.Prefabs.Rendering.Base;
 using Appalachia.Rendering.Prefabs.Rendering.Overrides;
 using Sirenix.OdinInspector;
 using UnityEngine;
+
+// ReSharper disable NonReadonlyMemberInGetHashCode
 
 #endregion
 
@@ -25,6 +27,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         IEquatable<PrefabModelTypeOptionsOverride>
     {
         #region Fields and Autoproperties
+
+        [TabGroup("Runtime")]
+        [SerializeField]
+        [InlineProperty]
+        [SmartLabel]
+        public LayerSelection.Override layer;
 
         [TabGroup("Burial")]
         [SerializeField]
@@ -88,12 +96,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
         [SmartLabel]
         public OverridableFloat minimumRenderingDistance;
 
-        [TabGroup("Runtime")]
-        [SerializeField]
-        [InlineProperty]
-        [SmartLabel]
-        public OverridableLayerSelection layer;
-
         [TabGroup("LOD")]
         [SerializeField]
         [InlineProperty]
@@ -117,7 +119,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
             if (layer == null)
             {
-                layer = new OverridableLayerSelection(true, false, options.layer);
+                layer = new LayerSelection.Override(false, options.layer);
             }
 
             /*if (frustum == null)

@@ -9,6 +9,7 @@ using Appalachia.Core.Preferences;
 using Appalachia.Editing.Debugging.Handle;
 using Appalachia.Utility.Colors;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Timing;
 using Unity.Mathematics;
 using Unity.Profiling;
 using UnityEngine;
@@ -116,7 +117,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private void DrawRayGizmo()
         {
-            _lastRayAge += Time.deltaTime;
+            _lastRayAge += CoreClock.Instance.DeltaTime;
 
             var rayTime = 1.0f - math.clamp(_lastRayAge / rayDuration.v, 0f, 1f);
             var rayColor = gizmoColor.v;
@@ -159,7 +160,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         private bool ShouldExecute(Camera c)
         {
-            var frame = Time.frameCount;
+            var frame = CoreClock.Instance.FrameCount;
 
             if (_cameraFrames == null)
             {
@@ -222,7 +223,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         _lastHitIndex = -1;
                     }
 
-                    _cameraFrames.AddOrUpdate(camera, Time.frameCount);
+                    _cameraFrames.AddOrUpdate(camera, CoreClock.Instance.FrameCount);
 
                     _lastRay = camera.ScreenPointToRay(_mouseClickPosition);
                     _lastRayAge = 0f;

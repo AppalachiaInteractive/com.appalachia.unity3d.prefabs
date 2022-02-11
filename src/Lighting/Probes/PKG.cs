@@ -33,21 +33,34 @@ namespace Appalachia.Rendering.Lighting.Probes
         public const string NeutralResourcesLanguage = "en";
         public const string AssemblyVersion = "0.2.0.0";
         public const string AssemblyFileVersion = "0.2.0.0";
-        public const int Priority = -373000;
+        public const int Priority = -379000;
         public const string Name = "Rendering/Lighting/Probes";
         public const string Prefix = Root + Name + "/";
         public const string Root = "Appalachia/";
         public const string Version = "0.2.0";
         public const int VersionInt = 2000;
-        public const string BuildDate = "2022-01-28T17:24:44.2463544Z";
+        public const string BuildDate = "2022-02-05T14:11:02.1707630Z";
         
         public static partial class Prefs
         {
             public const string Group = Prefix;
 
+            public static partial class General
+            {
+                public const string Group = Prefs.Group + "General";
+                private const string Base = Group + "/";                
+            }
+
+            public static partial class Colors
+            {
+                public const string Group = Prefs.Group + "Colors";
+                private const string Base = Group + "/";                
+            }
+
             public static partial class Gizmos
             {
-                public const string Base = Group + "Gizmos/";
+                public const string Group = Prefs.Group + "Gizmos";
+                private const string Base = Group + "/";                
             }
         }       
 

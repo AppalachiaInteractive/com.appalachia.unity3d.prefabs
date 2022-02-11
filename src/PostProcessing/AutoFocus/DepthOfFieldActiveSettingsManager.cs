@@ -1,6 +1,7 @@
 using System;
 using Appalachia.Core.Attributes.Editing;
 using Appalachia.Core.Objects.Root;
+using Appalachia.Utility.Timing;
 using Sirenix.OdinInspector;
 using Unity.Mathematics;
 using Unity.Profiling;
@@ -274,7 +275,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
                 commandBuffer.BeginSample("AutoFocus");
                 commandBuffer.EnableShaderKeyword(Uniforms.AutoFocusKeyword);
 
-                var deltaTime = Time.deltaTime;
+                var deltaTime = CoreClock.Instance.DeltaTime;
 
                 var position = cam.transform.position;
                 var distance = math.distance(position, _lastPosition);
@@ -292,7 +293,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
                 }
 
                 var step = math.clamp(
-                    settingsCollection.velocitySmoothing * (deltaTime / Time.fixedDeltaTime),
+                    settingsCollection.velocitySmoothing * (deltaTime / CoreClock.Instance.FixedDeltaTime),
                     0f,
                     1f
                 );
@@ -485,12 +486,12 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
                 commandBuffer.SetComputeFloatParam(
                     computeShader,
                     Uniforms._DeltaTime,
-                    Time.deltaTime
+                    CoreClock.Instance.DeltaTime
                 );
                 commandBuffer.SetComputeFloatParam(
                     computeShader,
                     Uniforms._FixedDeltaTime,
-                    Time.fixedDeltaTime
+                    CoreClock.Instance.FixedDeltaTime
                 );
                 commandBuffer.SetComputeFloatParam(
                     computeShader,

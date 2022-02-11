@@ -1,7 +1,7 @@
 #region
 
 using System;
-using Appalachia.Core.Overrides;
+using Appalachia.Core.Objects.Models;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 
 #endregion
@@ -9,8 +9,7 @@ using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 {
     [Serializable]
-    public sealed class
-        OverridableFrustumSettings : Overridable<FrustumSettings, OverridableFrustumSettings>
+    public sealed class OverridableFrustumSettings : Overridable<FrustumSettings, OverridableFrustumSettings>
     {
         public OverridableFrustumSettings() : base(false, default)
         {
@@ -18,8 +17,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Overrides
 
         public OverridableFrustumSettings(
             bool isOverridingAllowed,
-            bool overrideEnabled,
-            FrustumSettings value) : base(overrideEnabled, value)
+            bool overriding,
+            FrustumSettings value) : base(overriding, value)
         {
         }
 

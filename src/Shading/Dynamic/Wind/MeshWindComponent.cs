@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Appalachia.CI.Integration.Assets;
 using Appalachia.CI.Integration.FileSystem;
-using Appalachia.Core.Math;
 using Appalachia.Core.Math.Noise;
 using Appalachia.Core.Objects.Initialization;
 using Appalachia.Core.Objects.Root;
@@ -335,10 +334,10 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 var timeZ = bounds.NormalizeZ(updatedVertex.z);
 
                 var color = new Color(
-                    LerpHelper.LerpExact(metadata.grassFadeR.x, metadata.grassFadeR.y, timeY),
+                    Mathf.Lerp(metadata.grassFadeR.x, metadata.grassFadeR.y, timeY),
                     0f,
-                    LerpHelper.LerpExact(metadata.grassFadeB.x, metadata.grassFadeB.y, timeX * timeZ),
-                    LerpHelper.LerpExact(metadata.grassFadeA.x, metadata.grassFadeA.y, 1 - (timeX * timeZ))
+                    Mathf.Lerp(metadata.grassFadeB.x, metadata.grassFadeB.y, timeX * timeZ),
+                    Mathf.Lerp(metadata.grassFadeA.x, metadata.grassFadeA.y, 1 - (timeX * timeZ))
                 );
 
                 color.r = Mathf.Clamp01(color.r * componentData.windStrengthModifier);
@@ -423,7 +422,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var colorAugment = new Color(
                         componentData.disableGeneralMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeR.x,
                                 metadata.grassFadeR.y,
                                 generalNoiseAmount * generalTime
@@ -431,7 +430,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         0f,
                         componentData.disableLeafMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeB.x,
                                 metadata.grassFadeB.y,
                                 leafNoiseAmount * timeXZ
@@ -440,12 +439,12 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             ? 0f
                             : componentData.invertVariationMotion
                                 ? 1 -
-                                  LerpHelper.SmoothStep(
+                                  Mathf.SmoothStep(
                                       metadata.grassFadeA.x,
                                       metadata.grassFadeA.y,
                                       variationNoiseAmount
                                   )
-                                : LerpHelper.SmoothStep(
+                                : Mathf.SmoothStep(
                                     metadata.grassFadeA.x,
                                     metadata.grassFadeA.y,
                                     variationNoiseAmount
@@ -548,7 +547,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var colorAugment = new Color(
                         componentData.disableGeneralMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeR.x,
                                 metadata.grassFadeR.y,
                                 generalNoiseAmount * generalTime
@@ -556,7 +555,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         0f,
                         componentData.disableLeafMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeB.x,
                                 metadata.grassFadeB.y,
                                 leafNoiseAmount * timeXZ
@@ -565,12 +564,12 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             ? 0f
                             : componentData.invertVariationMotion
                                 ? 1 -
-                                  LerpHelper.SmoothStep(
+                                  Mathf.SmoothStep(
                                       metadata.grassFadeA.x,
                                       metadata.grassFadeA.y,
                                       variationNoiseAmount
                                   )
-                                : LerpHelper.SmoothStep(
+                                : Mathf.SmoothStep(
                                     metadata.grassFadeA.x,
                                     metadata.grassFadeA.y,
                                     variationNoiseAmount
@@ -699,7 +698,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var colorAugment = new Color(
                         componentData.disableGeneralMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeR.x,
                                 metadata.grassFadeR.y,
                                 generalNoiseAmount * generalTime
@@ -707,7 +706,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         0f,
                         componentData.disableLeafMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeB.x,
                                 metadata.grassFadeB.y,
                                 leafNoiseAmount * timeXZ
@@ -716,12 +715,12 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             ? 0f
                             : componentData.invertVariationMotion
                                 ? 1 -
-                                  LerpHelper.SmoothStep(
+                                  Mathf.SmoothStep(
                                       metadata.grassFadeA.x,
                                       metadata.grassFadeA.y,
                                       variationNoiseAmount
                                   )
-                                : LerpHelper.SmoothStep(
+                                : Mathf.SmoothStep(
                                     metadata.grassFadeA.x,
                                     metadata.grassFadeA.y,
                                     variationNoiseAmount
@@ -821,7 +820,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     var colorAugment = new Color(
                         componentData.disableGeneralMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeR.x,
                                 metadata.grassFadeR.y,
                                 generalNoiseAmount * generalTime
@@ -829,7 +828,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                         0f,
                         componentData.disableLeafMotion
                             ? 0f
-                            : LerpHelper.SmoothStep(
+                            : Mathf.SmoothStep(
                                 metadata.grassFadeB.x,
                                 metadata.grassFadeB.y,
                                 leafNoiseAmount * timeXZ
@@ -838,12 +837,12 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                             ? 0f
                             : componentData.invertVariationMotion
                                 ? 1 -
-                                  LerpHelper.SmoothStep(
+                                  Mathf.SmoothStep(
                                       metadata.grassFadeA.x,
                                       metadata.grassFadeA.y,
                                       variationNoiseAmount
                                   )
-                                : LerpHelper.SmoothStep(
+                                : Mathf.SmoothStep(
                                     metadata.grassFadeA.x,
                                     metadata.grassFadeA.y,
                                     variationNoiseAmount
