@@ -363,6 +363,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             _prefabRenderingSetCollection.DoForAllIf(set => set.modelType == type, MeshBurialManagementProcessor.EnqueuePrefabRenderingSet);
         }*/
 
+        /// <inheritdoc />
         public override bool UpdateForValidity()
         {
             using (_PRF_UpdateForValidity.Auto())
@@ -563,6 +564,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                    burialOptions.Equals(other.burialOptions);
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override bool Equals(object obj)
         {
@@ -584,6 +586,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             return Equals((PrefabModelTypeOptions)obj);
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override int GetHashCode()
         {

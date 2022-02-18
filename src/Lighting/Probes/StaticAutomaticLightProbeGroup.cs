@@ -12,12 +12,16 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         protected readonly HashSet<MeshFilter> hash_meshFilters = new();
 
+        /// <inheritdoc />
         protected override bool ConsiderCollidables => false;
 
+        /// <inheritdoc />
         protected override float GeometryBackoff => .15f;
 
+        /// <inheritdoc />
         protected override string LightProbeGroupName => "_STATIC_LIGHT_PROBE_GROUP";
 
+        /// <inheritdoc />
         protected override int TargetCount => hash_meshFilters.Count;
 
         [BoxGroup("Vertex Placement")]
@@ -27,6 +31,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private bool _considerCollidables;
 
+        /// <inheritdoc />
         protected override void RecreateTargetList()
         {
             // expand spawnObjects lists to include meshes, terrain, and colliders
@@ -65,9 +70,8 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
         }
 
-        protected override void GenerateProbesForTargets(
-            AppaList<Vector3> points,
-            ref bool canceled)
+        /// <inheritdoc />
+        protected override void GenerateProbesForTargets(AppaList<Vector3> points, ref bool canceled)
         {
             var count = 0;
 
@@ -81,7 +85,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                         mf.name,
                         mf.sharedMesh.vertexCount
                     ),
-                    count / (float) hash_meshFilters.Count
+                    count / (float)hash_meshFilters.Count
                 );
 
                 count += 1;
@@ -97,7 +101,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                 int step;
 
-                step = (int) ((float) verts.Length / maxVerticesPerMesh);
+                step = (int)((float)verts.Length / maxVerticesPerMesh);
 
                 if (step < 1)
                 {

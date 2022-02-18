@@ -23,17 +23,20 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Collections
     public class PrefabSpawnPointStateLookup : AppaLookup<Vector3Key, PrefabSpawnPointState,
         AppaList_Vector3Key, AppaList_PrefabSpawnPointState>
     {
-        protected override string GetDisplayTitle(Vector3Key key, PrefabSpawnPointState value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(Vector3Key key, PrefabSpawnPointState value)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(Vector3Key key, PrefabSpawnPointState value)
         {
             throw new NotImplementedException();
         }
 
-        protected override Color GetDisplayColor(Vector3Key key, PrefabSpawnPointState value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(Vector3Key key, PrefabSpawnPointState value)
         {
             throw new NotImplementedException();
         }

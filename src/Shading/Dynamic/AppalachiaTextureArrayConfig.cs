@@ -15,10 +15,8 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Shading.Dynamic
 {
-    public class AppalachiaTextureArrayConfig  : AppalachiaObject
+    public class AppalachiaTextureArrayConfig : AppalachiaObject
     {
-        
-        
         public enum AllTextureChannel
         {
             R = 0,
@@ -72,7 +70,14 @@ namespace Appalachia.Rendering.Shading.Dynamic
             k32 = 32
         }
 
+        #region Static Fields and Autoproperties
+
         private static List<AppalachiaTextureArrayConfig> sAllConfigs = new();
+
+        #endregion
+
+        #region Fields and Autoproperties
+
         [HideInInspector] public bool uiOpenTextures = true;
         [HideInInspector] public bool uiOpenOutput = true;
         [HideInInspector] public bool uiOpenImporter = true;
@@ -107,26 +112,13 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
         [HideInInspector] public AllTextureChannel allTextureChannelHeight = AllTextureChannel.G;
 
-        [HideInInspector]
-        public AllTextureChannel allTextureChannelSmoothness = AllTextureChannel.G;
+        [HideInInspector] public AllTextureChannel allTextureChannelSmoothness = AllTextureChannel.G;
 
         [HideInInspector] public AllTextureChannel allTextureChannelAO = AllTextureChannel.G;
 
         [HideInInspector] public List<InternalTextureEntry> sourceTextures = new();
 
-        protected override async AppaTask Initialize(Initializer initializer)
-        {
-            await base.Initialize(initializer);
-      
-            sAllConfigs.Add(this);
-        }
-
-        protected override async AppaTask WhenDestroyed()
-        {
-            await base.WhenDestroyed();
-            
-            sAllConfigs.Remove(this);
-        }
+        #endregion
 
 #if UNITY_EDITOR
         public static List<T> FindAssetsByType<T>()
@@ -170,50 +162,79 @@ namespace Appalachia.Rendering.Shading.Dynamic
             return null;
         }
 
+        /// <inheritdoc />
+        protected override async AppaTask Initialize(Initializer initializer)
+        {
+            await base.Initialize(initializer);
+
+            sAllConfigs.Add(this);
+        }
+
+        /// <inheritdoc />
+        protected override async AppaTask WhenDestroyed()
+        {
+            await base.WhenDestroyed();
+
+            sAllConfigs.Remove(this);
+        }
+
+        #region Nested type: InternalTextureArraySettings
+
         [Serializable]
         public class InternalTextureArraySettings : AppalachiaSimpleBase
         {
-            public TextureSize textureSize;
-            public Compression compression;
-            public FilterMode filterMode;
-
-            [PropertyRange(0, 16)] public int Aniso;
-
-            public InternalTextureArraySettings(
-                TextureSize s,
-                Compression c,
-                FilterMode f,
-                int a = 1)
+            public InternalTextureArraySettings(TextureSize s, Compression c, FilterMode f, int a = 1)
             {
                 textureSize = s;
                 compression = c;
                 filterMode = f;
                 Aniso = a;
             }
+
+            #region Fields and Autoproperties
+
+            public TextureSize textureSize;
+            public Compression compression;
+            public FilterMode filterMode;
+
+            [PropertyRange(0, 16)] public int Aniso;
+
+            #endregion
         }
+
+        #endregion
+
+        #region Nested type: InternalTextureArraySettingsGroup
 
         [Serializable]
         public class InternalTextureArraySettingsGroup : AppalachiaSimpleBase
         {
-            public InternalTextureArraySettings diffuseSettings =
-                new(TextureSize.k1024, Compression.AutomaticCompressed, FilterMode.Bilinear);
+            #region Fields and Autoproperties
 
-            public InternalTextureArraySettings normalSettings =
-                new(TextureSize.k1024, Compression.AutomaticCompressed, FilterMode.Bilinear);
+            public InternalTextureArraySettings diffuseSettings = new(
+                TextureSize.k1024,
+                Compression.AutomaticCompressed,
+                FilterMode.Bilinear
+            );
+
+            public InternalTextureArraySettings normalSettings = new(
+                TextureSize.k1024,
+                Compression.AutomaticCompressed,
+                FilterMode.Bilinear
+            );
+
+            #endregion
         }
 
-        [Serializable]
-        public class PlatformTextureOverride : AppalachiaSimpleBase
-        {
-#if UNITY_EDITOR
-            public UnityEditor.BuildTarget platform = UnityEditor.BuildTarget.StandaloneWindows;
-#endif
-            public InternalTextureArraySettingsGroup settings = new();
-        }
+        #endregion
+
+        #region Nested type: InternalTextureEntry
 
         [Serializable]
         public class InternalTextureEntry : AppalachiaSimpleBase
         {
+            #region Fields and Autoproperties
+
             public Texture2D diffuse;
             public Texture2D height;
             public TextureChannel heightChannel = TextureChannel.G;
@@ -223,6 +244,17 @@ namespace Appalachia.Rendering.Shading.Dynamic
             public bool isRoughness;
             public Texture2D ao;
             public TextureChannel aoChannel = TextureChannel.G;
+
+            #endregion
+
+            public bool HasTextures()
+            {
+                return (diffuse != null) ||
+                       (height != null) ||
+                       (normal != null) ||
+                       (smoothness != null) ||
+                       (ao != null);
+            }
 
             public void Reset()
             {
@@ -236,23 +268,40 @@ namespace Appalachia.Rendering.Shading.Dynamic
                 smoothnessChannel = TextureChannel.G;
                 aoChannel = TextureChannel.G;
             }
-
-            public bool HasTextures()
-            {
-                return (diffuse != null) ||
-                       (height != null) ||
-                       (normal != null) ||
-                       (smoothness != null) ||
-                       (ao != null);
-            }
         }
 
+        #endregion
+
+        #region Nested type: PlatformTextureOverride
+
+        [Serializable]
+        public class PlatformTextureOverride : AppalachiaSimpleBase
+        {
+            #region Fields and Autoproperties
+
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(AppalachiaTextureArrayConfig), priority = PKG.Menu.Assets.Priority)]
+            public UnityEditor.BuildTarget platform = UnityEditor.BuildTarget.StandaloneWindows;
+#endif
+            public InternalTextureArraySettingsGroup settings = new();
+
+            #endregion
+        }
+
+        #endregion
+
+        #region Menu Items
+
+#if UNITY_EDITOR
+        [UnityEditor.MenuItem(
+            PKG.Menu.Assets.Base + nameof(AppalachiaTextureArrayConfig),
+            priority = PKG.Menu.Assets.Priority
+        )]
         public static void CreateAsset()
         {
             CreateNew<AppalachiaTextureArrayConfig>();
         }
 #endif
+
+        #endregion
     }
 }

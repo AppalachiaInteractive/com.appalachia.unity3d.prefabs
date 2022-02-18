@@ -6,9 +6,20 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
     [CustomPropertyDrawer(typeof(AppalachiaLayersEnumAttribute))]
     public class AppalachiaLayersEnumAttributeDrawer : PropertyDrawer
     {
+        #region Fields and Autoproperties
+
         //private AppalachiaLayersEnumAttribute a;
         private int index;
 
+        #endregion
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return -2;
+        }
+
+        /// <inheritdoc />
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             //a = (AppalachiaLayersEnumAttribute) attribute;
@@ -30,11 +41,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
 
             index = EditorGUILayout.Popup(property.displayName, index, allLayers);
             property.intValue = index;
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return -2;
         }
     }
 }

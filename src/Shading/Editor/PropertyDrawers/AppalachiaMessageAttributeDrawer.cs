@@ -6,23 +6,45 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
     [CustomPropertyDrawer(typeof(AppalachiaMessageAttribute))]
     public class AppalachiaMessageAttributeDrawer : PropertyDrawer
     {
-        private AppalachiaMessageAttribute a;
+        #region Fields and Autoproperties
+
+        public bool Show;
+        public float Down;
+        public float Top;
+        public string Message;
 
         public string Type;
-        public string Message;
-        public bool Show;
-        public float Top;
-        public float Down;
+        private AppalachiaMessageAttribute a;
 
         private MessageType mType;
 
+        #endregion
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            float height;
+
+            if (Show)
+            {
+                height = 40;
+            }
+            else
+            {
+                height = -2;
+            }
+
+            return height;
+        }
+
+        /// <inheritdoc />
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             Show = property.boolValue;
 
             if (Show)
             {
-                a = (AppalachiaMessageAttribute) attribute;
+                a = (AppalachiaMessageAttribute)attribute;
 
                 Type = a.Type;
                 Message = a.Message;
@@ -54,22 +76,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
                 );
                 GUILayout.Space(Down);
             }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            float height;
-
-            if (Show)
-            {
-                height = 40;
-            }
-            else
-            {
-                height = -2;
-            }
-
-            return height;
         }
     }
 }

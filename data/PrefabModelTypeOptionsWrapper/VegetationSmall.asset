@@ -17,12 +17,22 @@ MonoBehaviour:
   _initializer:
     _tags: []
     _resetToken: 
+  _objectId:
+    _increment: 0
+    _machine: 0
+    _timestamp: 0
+    _pid: 0
   type: 150
   _options:
     _initializer:
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
+    _objectId:
+      _increment: 0
+      _machine: 0
+      _timestamp: 0
+      _pid: 0
     isEnabled: 0
     type: 150
     _muted: 0
@@ -99,6 +109,11 @@ MonoBehaviour:
         _tags: []
         _resetToken: 
       _owner: {fileID: 0}
+      _objectId:
+        _increment: 0
+        _machine: 0
+        _timestamp: 0
+        _pid: 0
       layer: 0
     lodFadeSettings:
       lodBiasAdjustment: 1
@@ -110,6 +125,11 @@ MonoBehaviour:
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
+    _objectId:
+      _increment: 0
+      _machine: 0
+      _timestamp: 0
+      _pid: 0
     exclusionStyle: 0
     matchStyle: 0
     exclusions: []
@@ -118,6 +138,11 @@ MonoBehaviour:
         _tags: []
         _resetToken: 
       _owner: {fileID: 0}
+      _objectId:
+        _increment: 0
+        _machine: 0
+        _timestamp: 0
+        _pid: 0
       enabled: 1
       label: VegetationSmall
   _baseEnabledState: 0

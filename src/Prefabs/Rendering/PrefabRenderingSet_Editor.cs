@@ -21,6 +21,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     [LabelWidth(0)]
     public partial class PrefabRenderingSet
     {
+        /// <inheritdoc />
         protected override bool ShowIDProperties => false;
 
         [TabGroup(_TABS, _META)]
@@ -43,18 +44,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             contentOptions.type = contentType;
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
             await base.WhenEnabled();
-            if (_externalParameters == null)
+            using (_PRF_WhenEnabled.Auto())
             {
-                _externalParameters = new ExternalRenderingParametersLookup();
-                MarkAsModified();
+                if (_externalParameters == null)
+                {
+                    _externalParameters = new ExternalRenderingParametersLookup();
+                    MarkAsModified();
+                }
+
+                _externalParameters.SetSerializationOwner(this);
+
+                //_assetType = _assetType.CheckObsolete();
             }
-
-            _externalParameters.SetSerializationOwner(this);
-
-            //_assetType = _assetType.CheckObsolete();
         }
 
         [TabGroup(_TABS, _META)]

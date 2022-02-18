@@ -46,6 +46,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -68,8 +69,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Physical
         #region Profiling
 
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
-
-        
 
         private static readonly ProfilerMarker _PRF_RestoreRigidbody =
             new(_PRF_PFX + nameof(RestoreRigidbody));

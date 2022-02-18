@@ -10,18 +10,24 @@ namespace Appalachia.Rendering.PostProcessing.Blur
     public sealed class Blur : PostProcessEffectSettings
     {
         // ReSharper disable FieldCanBeMadeReadOnly.Global
-        [PropertyRange(1, 8)] public IntParameter downsample = new IntParameter {value = 1};
+        [PropertyRange(1, 8)] public IntParameter downsample = new IntParameter { value = 1 };
 
-        [PropertyRange(0.0f, 40.0f)] public FloatParameter blurSize = new FloatParameter {value = 3f};
+        [PropertyRange(0.0f, 40.0f)]
+        public FloatParameter blurSize = new FloatParameter { value = 3f };
 
-        [PropertyRange(0, 8)] public IntParameter blurIterations = new IntParameter {value = 2};
+        [PropertyRange(0, 8)] public IntParameter blurIterations = new IntParameter { value = 2 };
     }
 
     public sealed class BlurRenderer : PostProcessEffectRenderer<Blur>
     {
+        #region Fields and Autoproperties
+
         private int parameterID;
         private Shader shader;
 
+        #endregion
+
+        /// <inheritdoc />
         public override void Init()
         {
             base.Init();
@@ -29,6 +35,7 @@ namespace Appalachia.Rendering.PostProcessing.Blur
             parameterID = Shader.PropertyToID("_Parameter");
         }
 
+        /// <inheritdoc />
         public override void Render(PostProcessRenderContext context)
         {
             var nbIterations = settings.blurIterations.value;

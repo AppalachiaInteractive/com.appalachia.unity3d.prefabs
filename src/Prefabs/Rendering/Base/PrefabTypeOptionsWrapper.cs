@@ -98,6 +98,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override string ToString()
         {

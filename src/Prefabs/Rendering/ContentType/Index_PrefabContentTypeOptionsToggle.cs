@@ -11,19 +11,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
 {
     [Serializable]
     public class Index_PrefabContentTypeOptionsToggle : AppaLookup<PrefabContentType,
-        PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
-        AppaList_PrefabContentTypeOptionsToggle>
+        PrefabContentTypeOptionsToggle, AppaList_PrefabContentType, AppaList_PrefabContentTypeOptionsToggle>
     {
-        protected override bool ShouldDisplayTitle => false;
+        /// <inheritdoc />
         protected override bool NoTracking => true;
 
-        protected override string GetDisplayTitle(
-            PrefabContentType key,
-            PrefabContentTypeOptionsToggle value)
+        /// <inheritdoc />
+        protected override bool ShouldDisplayTitle => false;
+
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(PrefabContentType key, PrefabContentTypeOptionsToggle value)
         {
-            return string.Empty;
+            return Color.white;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(
             PrefabContentType key,
             PrefabContentTypeOptionsToggle value)
@@ -31,11 +33,10 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
             return string.Empty;
         }
 
-        protected override Color GetDisplayColor(
-            PrefabContentType key,
-            PrefabContentTypeOptionsToggle value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(PrefabContentType key, PrefabContentTypeOptionsToggle value)
         {
-            return Color.white;
+            return string.Empty;
         }
     }
 }

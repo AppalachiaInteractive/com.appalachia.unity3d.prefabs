@@ -307,12 +307,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
+            await base.WhenEnabled();
             using (_PRF_WhenEnabled.Auto())
             {
-                await base.WhenEnabled();
-
                 if (_state == null)
                 {
                     _state = new PrefabRenderingSetLookup();
@@ -362,7 +362,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         #region ProfilerMarkers
 
         private static readonly ProfilerMarker _PRF_Sets = new(_PRF_PFX + nameof(Sets));
-        
+
         private static readonly ProfilerMarker _PRF_RemoveInvalid = new(_PRF_PFX + nameof(RemoveInvalid));
 
         private static readonly ProfilerMarker _PRF_RebuildToggleList =

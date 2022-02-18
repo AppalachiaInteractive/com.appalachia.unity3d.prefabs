@@ -14,6 +14,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     public class Index_PrefabContentTypeOptions : AppaLookup<PrefabContentType,
         PrefabContentTypeOptionsWrapper, AppaList_PrefabContentType, AppaList_PrefabContentTypeOptionsWrapper>
     {
+        /// <inheritdoc />
         protected override Color GetDisplayColor(PrefabContentType key, PrefabContentTypeOptionsWrapper value)
         {
             return value.options.isEnabled
@@ -21,6 +22,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
                 : ColorPrefs.Instance.DisabledImportantSubdued.v;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(
             PrefabContentType key,
             PrefabContentTypeOptionsWrapper value)
@@ -28,6 +30,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
             return value.Subtitle;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplayTitle(
             PrefabContentType key,
             PrefabContentTypeOptionsWrapper value)

@@ -6,13 +6,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
 {
     public class AppalachiaInteractiveDrawer : MaterialPropertyDrawer
     {
-        protected string keyword;
-        protected float value1 = -1f;
-        protected float value2 = -1f;
-        protected float value3 = -1f;
-
-        protected int type;
-
         public AppalachiaInteractiveDrawer(string k)
         {
             type = 0;
@@ -43,7 +36,29 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
             value3 = v3;
         }
 
-        public override void OnGUI(Rect position, MaterialProperty prop, string label, MaterialEditor materialEditor)
+        #region Fields and Autoproperties
+
+        protected float value1 = -1f;
+        protected float value2 = -1f;
+        protected float value3 = -1f;
+
+        protected int type;
+        protected string keyword;
+
+        #endregion
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
+        {
+            return -2;
+        }
+
+        /// <inheritdoc />
+        public override void OnGUI(
+            Rect position,
+            MaterialProperty prop,
+            string label,
+            MaterialEditor materialEditor)
         {
             var material = materialEditor.target as Material;
 
@@ -63,7 +78,7 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
                     }
                 }
             }
-            
+
             else if (type == 0)
             {
                 if (keyword == "ON")
@@ -83,11 +98,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
                     GUI.enabled = false;
                 }
             }
-        }
-
-        public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
-        {
-            return -2;
         }
     }
 }

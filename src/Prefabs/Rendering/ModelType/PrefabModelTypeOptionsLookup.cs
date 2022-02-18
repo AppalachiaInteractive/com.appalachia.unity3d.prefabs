@@ -27,11 +27,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             _types = new EnumValuesCollection<PrefabModelType>(PrefabModelType.None);
         }
 
+        /// <inheritdoc />
         protected override bool _anyMuted => PrefabModelTypeOptions.AnyMute;
 
+        /// <inheritdoc />
         protected override bool _anySoloed => PrefabModelTypeOptions.AnySolo;
 
 #if UNITY_EDITOR
+        /// <inheritdoc />
         protected override void InitializeState()
         {
             for (var i = 0; i < _types.Length; i++)

@@ -12,21 +12,25 @@ namespace Appalachia.Rendering.Lighting.Probes
     {
 #if UNITY_EDITOR
 
+        /// <inheritdoc />
         protected override float GeometryBackoff => .1f;
 
+        /// <inheritdoc />
         protected override string LightProbeGroupName => "_VSP_LIGHT_PROBE_GROUP";
 
+        /// <inheritdoc />
         protected override int TargetCount => 1;
 
+        /// <inheritdoc />
         protected override bool ConsiderCollidables => false;
 
+        /// <inheritdoc />
         protected override void RecreateTargetList()
         {
         }
 
-        protected override void GenerateProbesForTargets(
-            AppaList<Vector3> points,
-            ref bool canceled)
+        /// <inheritdoc />
+        protected override void GenerateProbesForTargets(AppaList<Vector3> points, ref bool canceled)
         {
             var systemList = VegetationStudioManager.Instance.VegetationSystemList;
             if ((systemList == null) || (systemList.Count == 0))
@@ -37,9 +41,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             var system = systemList[0];
             var veggieInfos = new Dictionary<string, VegetationItemInfoPro>();
 
-            for (var packageIndex = 0;
-                packageIndex < system.VegetationPackageProList.Count;
-                packageIndex++)
+            for (var packageIndex = 0; packageIndex < system.VegetationPackageProList.Count; packageIndex++)
             {
                 var package = system.VegetationPackageProList[packageIndex];
                 for (var vegIndex = 0; vegIndex < package.VegetationInfoList.Count; vegIndex++)
@@ -54,15 +56,15 @@ namespace Appalachia.Rendering.Lighting.Probes
                 var cell = system.VegetationCellList[cellIndex];
 
                 for (var packageIndex = 0;
-                    packageIndex < cell.VegetationPackageInstancesList.Count;
-                    packageIndex++)
+                     packageIndex < cell.VegetationPackageInstancesList.Count;
+                     packageIndex++)
                 {
                     var packageInstance = cell.VegetationPackageInstancesList[packageIndex];
                     var package = system.VegetationPackageProList[packageIndex];
 
                     for (var itemIndex = 0;
-                        itemIndex < packageInstance.VegetationItemMatrixList.Count;
-                        itemIndex++)
+                         itemIndex < packageInstance.VegetationItemMatrixList.Count;
+                         itemIndex++)
                     {
                         var matrices = packageInstance.VegetationItemMatrixList[itemIndex];
                         var info = package.VegetationInfoList[itemIndex];
@@ -114,7 +116,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                                         veggie.VegetationPrefab.name,
                                         items
                                     ),
-                                    itemCount / (float) items
+                                    itemCount / (float)items
                                 );
                             }
 

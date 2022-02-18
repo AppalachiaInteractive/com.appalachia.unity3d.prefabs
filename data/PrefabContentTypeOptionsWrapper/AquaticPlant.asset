@@ -17,12 +17,22 @@ MonoBehaviour:
   _initializer:
     _tags: []
     _resetToken: 
+  _objectId:
+    _increment: 0
+    _machine: 0
+    _timestamp: 0
+    _pid: 0
   type: 300
   _options:
     _initializer:
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
+    _objectId:
+      _increment: 0
+      _machine: 0
+      _timestamp: 0
+      _pid: 0
     isEnabled: 1
     type: 300
     _muted: 0
@@ -46,6 +56,11 @@ MonoBehaviour:
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
+    _objectId:
+      _increment: 0
+      _machine: 0
+      _timestamp: 0
+      _pid: 0
     exclusionStyle: 0
     matchStyle: 0
     exclusions: []
@@ -54,6 +69,11 @@ MonoBehaviour:
         _tags: []
         _resetToken: 
       _owner: {fileID: 0}
+      _objectId:
+        _increment: 0
+        _machine: 0
+        _timestamp: 0
+        _pid: 0
       enabled: 1
       label: AquaticPlant
   _baseEnabledState: 1

@@ -35,9 +35,11 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
         #endregion
 
         //public string Subtitle => $"{prefabCount} prefabs | {instanceCounts.total} instances";
+        /// <inheritdoc />
         public override string Subtitle =>
             ZString.Format("{0} prefabs | {1}", prefabCount, instanceCounts.ToString());
 
+        /// <inheritdoc />
         public override string Title => type.ToString().SeperateWords();
 
         private InstanceStateCounts instanceCounts =>

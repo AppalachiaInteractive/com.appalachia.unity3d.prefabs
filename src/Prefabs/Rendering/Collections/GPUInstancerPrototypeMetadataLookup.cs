@@ -22,21 +22,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
     public class GPUInstancerPrototypeMetadataLookup : AppaLookup<string, GPUInstancerPrototypeMetadata,
         stringList, AppaList_GPUInstancerPrototypeMetadata>
     {
-        protected override string GetDisplayTitle(string key, GPUInstancerPrototypeMetadata value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(string key, GPUInstancerPrototypeMetadata value)
         {
-            return value.name;
+            return Color.white;
         }
 
-        protected override string GetDisplaySubtitle(
-            string key,
-            GPUInstancerPrototypeMetadata value)
+        /// <inheritdoc />
+        protected override string GetDisplaySubtitle(string key, GPUInstancerPrototypeMetadata value)
         {
             return key;
         }
 
-        protected override Color GetDisplayColor(string key, GPUInstancerPrototypeMetadata value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(string key, GPUInstancerPrototypeMetadata value)
         {
-            return Color.white;
+            return value.name;
         }
     }
 }

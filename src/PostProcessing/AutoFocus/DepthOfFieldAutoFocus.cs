@@ -40,6 +40,31 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         #endregion
 
+        #region Event Functions
+
+#if UNITY_EDITOR
+        private void Update()
+        {
+            using (_PRF_Update.Auto())
+            {
+                if (ShouldSkipUpdate)
+                {
+                    return;
+                }
+
+                if (!CheckManager())
+                {
+                    return;
+                }
+
+                _currentSettings.RetrieveDisplayData();
+            }
+        }
+#endif
+
+        #endregion
+
+        /// <inheritdoc />
         protected override void ResetActual()
         {
             using (_PRF_Reset.Auto())
@@ -55,6 +80,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenDisabled()
         {
             await base.WhenDisabled();
@@ -118,33 +144,13 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         #region Profiling
 
+        private static readonly ProfilerMarker _PRF_OnDisable = new(_PRF_PFX + nameof(OnDisable));
+
+        private static readonly ProfilerMarker _PRF_Reset = new(_PRF_PFX + nameof(Reset));
 
         private static readonly ProfilerMarker _PRF_SetUpAutoFocusParams =
             new(_PRF_PFX + nameof(SetUpAutoFocusParams));
 
-        private static readonly ProfilerMarker _PRF_Reset = new(_PRF_PFX + nameof(Reset));
-        private static readonly ProfilerMarker _PRF_OnDisable = new(_PRF_PFX + nameof(OnDisable));
-
         #endregion
-
-#if UNITY_EDITOR
-        private void Update()
-        {
-            using (_PRF_Update.Auto())
-            {
-                if (ShouldSkipUpdate)
-                {
-                    return;
-                }
-
-                if (!CheckManager())
-                {
-                    return;
-                }
-
-                _currentSettings.RetrieveDisplayData();
-            }
-        }
-#endif
     }
 }

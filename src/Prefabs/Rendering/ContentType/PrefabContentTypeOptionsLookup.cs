@@ -23,11 +23,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
             _types = new EnumValuesCollection<PrefabContentType>(PrefabContentType.None);
         }
 
+        /// <inheritdoc />
         protected override bool _anyMuted => PrefabContentTypeOptions.AnyMute;
 
+        /// <inheritdoc />
         protected override bool _anySoloed => PrefabContentTypeOptions.AnySolo;
 
 #if UNITY_EDITOR
+        /// <inheritdoc />
         protected override void InitializeState()
         {
             for (var i = 0; i < _types.Length; i++)

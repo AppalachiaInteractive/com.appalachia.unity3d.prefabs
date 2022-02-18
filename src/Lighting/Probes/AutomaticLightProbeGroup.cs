@@ -80,7 +80,9 @@ namespace Appalachia.Rendering.Lighting.Probes
         [BoxGroup("Initial Placement")]
         [LabelText("Rays Per Point")]
         [SmartLabel]
-        [PropertyTooltip("Number of random rays cast per probe position, looking for valid spots to put new probes.")]
+        [PropertyTooltip(
+            "Number of random rays cast per probe position, looking for valid spots to put new probes."
+        )]
         [PropertyRange(1.0f, 24.0f)]
         [ShowIf(nameof(_showRayCount))]
         public int rayCount = 10;
@@ -200,8 +202,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private float ooResolution = 1.0f;
 
-        
-
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -225,7 +226,6 @@ namespace Appalachia.Rendering.Lighting.Probes
 
             ValidateConstraints();
         }
-
 
         private void ValidateConstraints()
         {

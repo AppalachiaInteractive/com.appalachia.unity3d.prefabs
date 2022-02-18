@@ -52,7 +52,8 @@ namespace Appalachia.Core.PostProcessing.AutoFocus
         public ClampedFloatParameter runningMaxFocusDistance = new ClampedFloatParameter(50.0f, 20.0f, 100.0f);
         public ClampedFloatParameter runningVelocitySmoothing = new ClampedFloatParameter(.1f, 0.01f, 1.0f);
 
-        public override void OverrideProperties(PropertyMaster master)
+        /// <inheritdoc />
+public override void OverrideProperties(PropertyMaster master)
         {
             var autoFocus = target.value.Resolve(master);
 

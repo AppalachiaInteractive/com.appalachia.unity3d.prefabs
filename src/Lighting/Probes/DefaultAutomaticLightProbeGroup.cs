@@ -12,12 +12,16 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         protected readonly HashSet<MeshFilter> hash_meshFilters = new();
 
+        /// <inheritdoc />
         protected override bool ConsiderCollidables => true;
 
+        /// <inheritdoc />
         protected override float GeometryBackoff => .02f;
 
+        /// <inheritdoc />
         protected override string LightProbeGroupName => "_DEFAULT_LIGHT_PROBE_GROUP";
 
+        /// <inheritdoc />
         protected override int TargetCount => hash_meshFilters.Count;
 
         [BoxGroup("Vertex Placement")]
@@ -36,6 +40,7 @@ namespace Appalachia.Rendering.Lighting.Probes
         [ShowIf(nameof(maxVerticesByBounds))]
         public float maxVerticesSizeMultiplier = 1.0f;
 
+        /// <inheritdoc />
         protected override void RecreateTargetList()
         {
             // expand spawnObjects lists to include meshes, terrain, and colliders
@@ -86,9 +91,8 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
         }
 
-        protected override void GenerateProbesForTargets(
-            AppaList<Vector3> points,
-            ref bool canceled)
+        /// <inheritdoc />
+        protected override void GenerateProbesForTargets(AppaList<Vector3> points, ref bool canceled)
         {
             var count = 0;
 
@@ -104,7 +108,7 @@ namespace Appalachia.Rendering.Lighting.Probes
                             mf.name,
                             mf.sharedMesh.vertexCount
                         ),
-                        count / (float) hash_meshFilters.Count
+                        count / (float)hash_meshFilters.Count
                     );
                 }
 
@@ -128,11 +132,11 @@ namespace Appalachia.Rendering.Lighting.Probes
                 {
                     var mr = mf.GetComponent<MeshRenderer>();
                     var mag = mr.bounds.size.magnitude;
-                    step = (int) (verts.Length / (mag * maxVerticesSizeMultiplier));
+                    step = (int)(verts.Length / (mag * maxVerticesSizeMultiplier));
                 }
                 else
                 {
-                    step = (int) ((float) verts.Length / maxVerticesPerMesh);
+                    step = (int)((float)verts.Length / maxVerticesPerMesh);
                 }
 
                 if (step < 1)

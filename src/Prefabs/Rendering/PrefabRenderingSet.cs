@@ -417,6 +417,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         private string _suffix =>
             ZString.Format("{0} / {1}", _modelType.Value.ToString(), _contentType.Value.ToString());
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override string ToString()
         {

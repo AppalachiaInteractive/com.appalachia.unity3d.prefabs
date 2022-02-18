@@ -21,14 +21,19 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         private readonly HashSet<Terrain> _terrains = new();
 
+        /// <inheritdoc />
         protected override bool ConsiderCollidables => false;
 
+        /// <inheritdoc />
         protected override float GeometryBackoff => 5.0f;
 
+        /// <inheritdoc />
         protected override string LightProbeGroupName => "_TERRAIN_LIGHT_PROBE_GROUP";
 
+        /// <inheritdoc />
         protected override int TargetCount => _terrains.Count;
 
+        /// <inheritdoc />
         protected override void RecreateTargetList()
         {
             _terrains.Clear();
@@ -49,20 +54,19 @@ namespace Appalachia.Rendering.Lighting.Probes
             }
         }
 
-        protected override void GenerateProbesForTargets(
-            AppaList<Vector3> points,
-            ref bool canceled)
+        /// <inheritdoc />
+        protected override void GenerateProbesForTargets(AppaList<Vector3> points, ref bool canceled)
         {
             //var count = 0;
             foreach (var t in
-                _terrains) // if terrains are selected, spawn at their vertex positions and above them.
+                     _terrains) // if terrains are selected, spawn at their vertex positions and above them.
             {
                 for (var x = 0; x < gridDensity; x++)
                 {
                     for (var z = 0; z < gridDensity; z++)
                     {
-                        var count = (float) ((x * gridDensity) + (z * gridDensity));
-                        var denominator = (float) (gridDensity * gridDensity);
+                        var count = (float)((x * gridDensity) + (z * gridDensity));
+                        var denominator = (float)(gridDensity * gridDensity);
 
                         var progress = count / denominator;
 
@@ -83,11 +87,11 @@ namespace Appalachia.Rendering.Lighting.Probes
 
                         var wsPos = t.GetPosition() +
                                     new Vector3(
-                                        (x / (float) gridDensity) *
+                                        (x / (float)gridDensity) *
                                         t.terrainData.heightmapScale.x *
                                         t.terrainData.heightmapResolution,
                                         0,
-                                        (z / (float) gridDensity) *
+                                        (z / (float)gridDensity) *
                                         t.terrainData.heightmapScale.z *
                                         t.terrainData.heightmapResolution
                                     );

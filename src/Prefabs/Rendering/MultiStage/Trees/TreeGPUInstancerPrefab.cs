@@ -33,6 +33,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.MultiStage.Trees
         public bool IsStump => tree && HasStage(TreeStageType.Stump);
         public bool IsStumpRotted => tree && HasStage(TreeStageType.StumpRotted);
 
+        /// <inheritdoc />
         protected override bool CanEnableStage(TreeStageType stage)
         {
             switch (stage)
@@ -62,11 +63,13 @@ namespace Appalachia.Rendering.Prefabs.Rendering.MultiStage.Trees
             }
         }
 
+        /// <inheritdoc />
         protected override void ClearFlag(TreeStageType stage)
         {
             currentStages &= ~stage;
         }
 
+        /// <inheritdoc />
         protected override PrefabRenderingInstance GetInstanceForStage(TreeStageType stage)
         {
             switch (stage)
@@ -99,6 +102,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.MultiStage.Trees
         // X | Q       sets bit(s) Q
         // X & ~Q      clears bit(s) Q
         // ~X          flips/inverts all bits in X
+        /// <inheritdoc />
         protected override void SetFlag(TreeStageType stage)
         {
             currentStages |= stage;

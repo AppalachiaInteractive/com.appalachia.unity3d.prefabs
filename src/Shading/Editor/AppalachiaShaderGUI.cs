@@ -14,21 +14,6 @@ using UnityEngine.Rendering;
 // ReSharper disable once UnusedType.Global
 public class AppalachiaShaderGUI : ShaderGUI
 {
-    [NonSerialized] private AppaContext _context;
-
-    protected AppaContext Context
-    {
-        get
-        {
-            if (_context == null)
-            {
-                _context = new AppaContext(this);
-            }
-
-            return _context;
-        }
-    }
-
     #region Constants and Static Readonly
 
     private static readonly int Cutoff = Shader.PropertyToID("_Cutoff");
@@ -53,8 +38,26 @@ public class AppalachiaShaderGUI : ShaderGUI
 
     #endregion
 
-    
+    #region Fields and Autoproperties
 
+    [NonSerialized] private AppaContext _context;
+
+    #endregion
+
+    protected AppaContext Context
+    {
+        get
+        {
+            if (_context == null)
+            {
+                _context = new AppaContext(this);
+            }
+
+            return _context;
+        }
+    }
+
+    /// <inheritdoc />
     public override void OnGUI(MaterialEditor materialEditor, MaterialProperty[] props)
     {
         try

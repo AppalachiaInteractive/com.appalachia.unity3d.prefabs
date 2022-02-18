@@ -37,6 +37,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
 
         #endregion
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -72,8 +73,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Options
         #region Profiling
 
         private static readonly ProfilerMarker _PRF_Awake = new(_PRF_PFX + nameof(Awake));
-
-        
 
         #endregion
 

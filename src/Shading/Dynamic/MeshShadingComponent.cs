@@ -10,6 +10,7 @@ using Appalachia.Utility.Async;
 using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
+using UnityEditor;
 using UnityEngine;
 
 #endregion
@@ -149,6 +150,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -156,17 +158,18 @@ namespace Appalachia.Rendering.Shading.Dynamic
             AssignShadingMetadata();
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
+            await base.WhenEnabled();
             using (_PRF_WhenEnabled.Auto())
             {
-                await base.WhenEnabled();
 #if UNITY_EDITOR
                 try
                 {
                     if (componentData == null)
                     {
-                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
+                        if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
                         {
                             var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
 
@@ -177,8 +180,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                prefabAssetPath = UnityEditor.PrefabUtility
-                                                             .GetPrefabAssetPathOfNearestInstanceRoot(this);
+                                prefabAssetPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(this);
                             }
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
@@ -204,9 +206,9 @@ namespace Appalachia.Rendering.Shading.Dynamic
                                             "Mesh Shading Component Data"
                                         );
 
-                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
+                                PrefabUtility.ApplyPrefabInstance(
                                     gameObject,
-                                    UnityEditor.InteractionMode.AutomatedAction
+                                    InteractionMode.AutomatedAction
                                 );
                             }
                         }
@@ -275,11 +277,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         private static readonly ProfilerMarker _PRF_AssignShadingMetadata =
             new(_PRF_PFX + nameof(AssignShadingMetadata));
 
-        
-
         private static readonly ProfilerMarker _PRF_UpdateRenderer = new(_PRF_PFX + nameof(UpdateRenderer));
-
-        
 
         #endregion
     }

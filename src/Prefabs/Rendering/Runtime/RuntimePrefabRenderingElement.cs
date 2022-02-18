@@ -18,20 +18,18 @@ using Object = UnityEngine.Object;
 
 namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 {
-    public class RuntimePrefabRenderingElement : AppalachiaSimpleBase,
-                                                 IDisposable
+    [Serializable]
+    public class RuntimePrefabRenderingElement : AppalachiaSimpleBase, IDisposable
     {
-        private const string _PRF_PFX = nameof(RuntimePrefabRenderingElement) + ".";
+        #region Constants and Static Readonly
 
-        public const int _INITIAL_INSTANCE_CAPACITY = 128;
         public const int _INITIAL_ACTIVE_CAPACITY = 128;
 
-        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
+        public const int _INITIAL_INSTANCE_CAPACITY = 128;
 
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+        #endregion
 
-        private static readonly ProfilerMarker _PRF_ResizeUninitialized =
-            new(_PRF_PFX + nameof(ResizeUninitialized));
+        #region Fields and Autoproperties
 
         public NativeArray<InstanceStateCounts> _stateCounts;
 
@@ -67,62 +65,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         public NativeList<quaternion> rotations;
         public NativeList<float3> scales;
         public NativeList<float> secondaryDistances;
+
+        #endregion
+
         public InstanceStateCounts stateCounts => _stateCounts.IsSafe() ? _stateCounts[0] : default;
 
         public int Count => instances?.Length ?? 0;
-
-        public void Dispose()
-        {
-            using (_PRF_Dispose.Auto())
-            {
-                IDisposableExtensions.SafeDispose(
-                    ref matrices_original,
-                    ref matrices_current,
-                    ref matrices_noGameObject_OWNED,
-                    ref matrices_noGameObject_SHARED,
-                    ref positions,
-                    ref rotations,
-                    ref scales,
-                    ref inFrustums,
-                    ref previousPositions,
-                    ref primaryDistances,
-                    ref secondaryDistances,
-                    ref currentStates,
-                    ref nextStates,
-                    ref hasChangedPositions,
-                    ref parameterIndices,
-                    ref instancesExcludedFromFrame,
-                    ref instancesStateCodes,
-                    ref _stateCounts,
-                    ref assetRangeSettings,
-                    ref prefabPool
-                );
-
-                if (!gpuInstancerRuntimeData_NoGO?.IsDisposed ?? false)
-                {
-                    gpuInstancerRuntimeData_NoGO?.Dispose();
-                }
-
-                if (instances != null)
-                {
-                    for (var i = 0; i < instances.Length; i++)
-                    {
-                        var instance = instances[i];
-
-                        IDisposableExtensions.SafeDispose(ref instance);
-                    }
-                }
-
-                instances = null;
-
-                if (prototypeTemplate != null)
-                {
-                    prototypeTemplate.DestroySafely();
-                }
-
-                prototypeTemplate = null;
-            }
-        }
 
         public void Initialize(int size, int parameterSize, bool force, GameObject root)
         {
@@ -154,14 +102,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                 if (matrices_noGameObject_OWNED.ShouldAllocate())
                 {
-                    matrices_noGameObject_OWNED =
-                        new NativeList<Matrix4x4>(size, Allocator.Persistent);
+                    matrices_noGameObject_OWNED = new NativeList<Matrix4x4>(size, Allocator.Persistent);
                 }
 
                 if (matrices_noGameObject_SHARED.ShouldAllocate())
                 {
-                    matrices_noGameObject_SHARED =
-                        new NativeList<Matrix4x4>(size, Allocator.Persistent);
+                    matrices_noGameObject_SHARED = new NativeList<Matrix4x4>(size, Allocator.Persistent);
                 }
 
                 if (positions.ShouldAllocate())
@@ -226,8 +172,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
 
                 if (instancesStateCodes.ShouldAllocate())
                 {
-                    instancesStateCodes =
-                        new NativeList<InstanceStateCode>(size, Allocator.Persistent);
+                    instancesStateCodes = new NativeList<InstanceStateCode>(size, Allocator.Persistent);
                 }
 
                 if (_stateCounts.ShouldAllocate())
@@ -260,5 +205,75 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
                 instancesStateCodes.ResizeUninitialized(length);
             }
         }
+
+        #region IDisposable Members
+
+        public void Dispose()
+        {
+            using (_PRF_Dispose.Auto())
+            {
+                IDisposableExtensions.SafeDispose(
+                    ref matrices_original,
+                    ref matrices_current,
+                    ref matrices_noGameObject_OWNED,
+                    ref matrices_noGameObject_SHARED,
+                    ref positions,
+                    ref rotations,
+                    ref scales,
+                    ref inFrustums,
+                    ref previousPositions,
+                    ref primaryDistances,
+                    ref secondaryDistances,
+                    ref currentStates,
+                    ref nextStates,
+                    ref hasChangedPositions,
+                    ref parameterIndices,
+                    ref instancesExcludedFromFrame,
+                    ref instancesStateCodes,
+                    ref _stateCounts,
+                    ref assetRangeSettings,
+                    ref prefabPool
+                );
+
+                if (!gpuInstancerRuntimeData_NoGO?.IsDisposed ?? false)
+                {
+                    gpuInstancerRuntimeData_NoGO?.Dispose();
+                }
+
+                if (instances != null)
+                {
+                    for (var i = 0; i < instances.Length; i++)
+                    {
+                        var instance = instances[i];
+
+                        IDisposableExtensions.SafeDispose(ref instance);
+                    }
+                }
+
+                instances = null;
+
+                if (prototypeTemplate != null)
+                {
+                    prototypeTemplate.DestroySafely();
+                }
+
+                prototypeTemplate = null;
+            }
+        }
+
+        #endregion
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(RuntimePrefabRenderingElement) + ".";
+
+        private static readonly ProfilerMarker _PRF_Dispose = new(_PRF_PFX + nameof(Dispose));
+
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+
+        private static readonly ProfilerMarker _PRF_ResizeUninitialized =
+            new(_PRF_PFX + nameof(ResizeUninitialized));
+
+        #endregion
     }
 }

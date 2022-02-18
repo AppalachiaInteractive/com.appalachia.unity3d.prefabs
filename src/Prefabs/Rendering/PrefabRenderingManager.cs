@@ -656,6 +656,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -677,22 +678,21 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             PrefabRenderingManagerInitializer.OnAwake();
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenDisabled()
         {
-            using (_PRF_WhenDisabled.Auto())
-            {
-                await base.WhenDisabled();
+            await base.WhenDisabled();
 
-                HandleDisableLogic(false);
-            }
+            HandleDisableLogic(false);
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
-            using (_PRF_OnEnable.Auto())
-            {
-                await base.WhenEnabled();
+            await base.WhenEnabled();
 
+            using (_PRF_WhenEnabled.Auto())
+            {
                 HandleEnableLogic(false);
             }
         }

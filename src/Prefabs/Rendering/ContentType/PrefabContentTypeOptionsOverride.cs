@@ -15,6 +15,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
         PrefabContentTypeOptionsToggle, Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {
+        /// <inheritdoc />
         public override void Initialize(PrefabContentTypeOptions options)
         {
             throw new NotImplementedException();

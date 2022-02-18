@@ -38,69 +38,74 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
 
         #endregion
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
             await base.WhenEnabled();
-
+            using (_PRF_WhenEnabled.Auto())
+            {
 #if UNITY_EDITOR
 
-            var values = EnumValueManager.GetAllValues<DepthOfFieldState>();
+                var values = EnumValueManager.GetAllValues<DepthOfFieldState>();
 
-            if (settings == null)
-            {
-                settings = new List<DepthOfFieldStateSettings>();
-                MarkAsModified();
-            }
-
-            while (settings.Count < values.Length)
-            {
-                var targetname = ZString.Format("{0}_{1}", name, values[settings.Count]);
-
-                settings.Add(DepthOfFieldStateSettings.LoadOrCreateNew(targetname));
-                MarkAsModified();
-            }
-
-            while (settings.Count > values.Length)
-            {
-                settings.RemoveAt(settings.Count - 1);
-                MarkAsModified();
-            }
-
-            if (_comparison == null)
-            {
-                _comparison =
-                    new ComparisonWrapper<DepthOfFieldStateSettings>((a, b) => a.state.CompareTo(b.state));
-            }
-
-            settings.Sort(_comparison);
-
-            for (var i = 0; i < settings.Count; i++)
-            {
-                var targetName = ZString.Format("{0}_{1}", name, values[i]);
-
-                if (settings[i].name != targetName)
+                if (settings == null)
                 {
-                    settings[i].Rename(targetName);
-                }
-            }
-
-            for (var i = 0; i < settings.Count; i++)
-            {
-                var setting = settings[i];
-
-                if (setting.nearPlane == null)
-                {
-                    setting.nearPlane = new DepthOfFieldStatePlaneSettings();
-                    setting.MarkAsModified();
+                    settings = new List<DepthOfFieldStateSettings>();
+                    MarkAsModified();
                 }
 
-                if (setting.farPlane == null)
+                while (settings.Count < values.Length)
                 {
-                    setting.farPlane = new DepthOfFieldStatePlaneSettings();
-                    setting.MarkAsModified();
+                    var targetname = ZString.Format("{0}_{1}", name, values[settings.Count]);
+
+                    settings.Add(DepthOfFieldStateSettings.LoadOrCreateNew(targetname));
+                    MarkAsModified();
                 }
-            }
+
+                while (settings.Count > values.Length)
+                {
+                    settings.RemoveAt(settings.Count - 1);
+                    MarkAsModified();
+                }
+
+                if (_comparison == null)
+                {
+                    _comparison =
+                        new ComparisonWrapper<DepthOfFieldStateSettings>(
+                            (a, b) => a.state.CompareTo(b.state)
+                        );
+                }
+
+                settings.Sort(_comparison);
+
+                for (var i = 0; i < settings.Count; i++)
+                {
+                    var targetName = ZString.Format("{0}_{1}", name, values[i]);
+
+                    if (settings[i].name != targetName)
+                    {
+                        settings[i].Rename(targetName);
+                    }
+                }
+
+                for (var i = 0; i < settings.Count; i++)
+                {
+                    var setting = settings[i];
+
+                    if (setting.nearPlane == null)
+                    {
+                        setting.nearPlane = new DepthOfFieldStatePlaneSettings();
+                        setting.MarkAsModified();
+                    }
+
+                    if (setting.farPlane == null)
+                    {
+                        setting.farPlane = new DepthOfFieldStatePlaneSettings();
+                        setting.MarkAsModified();
+                    }
+                }
 #endif
+            }
         }
 
         [Button]

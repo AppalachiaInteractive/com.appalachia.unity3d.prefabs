@@ -1,6 +1,5 @@
 #region
 
-using Appalachia.Core.Attributes;
 using Appalachia.Core.Collections.Implementations.Lists;
 using Appalachia.Core.Collections.Implementations.Lookups;
 using Appalachia.Core.Collections.Interfaces;
@@ -47,11 +46,12 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
+            await base.WhenEnabled();
             using (_PRF_WhenEnabled.Auto())
             {
-                await base.WhenEnabled();
                 if (_state == null)
                 {
                     _state = new GameObjectReplacementLookup();
@@ -65,11 +65,5 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 #endif
             }
         }
-
-        #region Profiling
-
-        
-
-        #endregion
     }
 }

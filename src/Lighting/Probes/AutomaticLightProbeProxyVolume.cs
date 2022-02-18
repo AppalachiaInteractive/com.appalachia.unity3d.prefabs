@@ -161,6 +161,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             volume.qualityMode = qualityMode;
         }
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -192,13 +193,6 @@ namespace Appalachia.Rendering.Lighting.Probes
             t.localRotation = Quaternion.identity;
             t.localScale = Vector3.one;
         }
-
-        #region Profiling
-
-
-        
-
-        #endregion
     }
 }
 

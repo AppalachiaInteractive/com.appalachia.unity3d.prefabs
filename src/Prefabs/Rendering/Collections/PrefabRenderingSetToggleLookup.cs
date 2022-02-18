@@ -13,23 +13,28 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
     public class PrefabRenderingSetToggleLookup : AppaLookup<GameObject, PrefabRenderingSetToggle,
         AppaList_GameObject, AppaList_PrefabRenderingSetToggle>
     {
-        protected override bool ShouldDisplayTitle => false;
-
+        /// <inheritdoc />
         protected override bool NoTracking => true;
 
-        protected override string GetDisplayTitle(GameObject key, PrefabRenderingSetToggle value)
+        /// <inheritdoc />
+        protected override bool ShouldDisplayTitle => false;
+
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(GameObject key, PrefabRenderingSetToggle value)
         {
-            return string.Empty;
+            return Color.white;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(GameObject key, PrefabRenderingSetToggle value)
         {
             return string.Empty;
         }
 
-        protected override Color GetDisplayColor(GameObject key, PrefabRenderingSetToggle value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(GameObject key, PrefabRenderingSetToggle value)
         {
-            return Color.white;
+            return string.Empty;
         }
     }
 }

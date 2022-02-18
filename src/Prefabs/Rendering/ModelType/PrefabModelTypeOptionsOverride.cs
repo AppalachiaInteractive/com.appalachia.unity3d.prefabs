@@ -105,6 +105,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
 
         #endregion
 
+        /// <inheritdoc />
         public override void Initialize(PrefabModelTypeOptions options)
         {
             if (minimumRenderingDistance == null)
@@ -198,6 +199,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                    Equals(burialOptions,            other.burialOptions);
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override bool Equals(object obj)
         {
@@ -219,6 +221,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             return Equals((PrefabModelTypeOptionsOverride)obj);
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override int GetHashCode()
         {

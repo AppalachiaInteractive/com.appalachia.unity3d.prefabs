@@ -224,6 +224,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 #endif
         }
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -292,9 +293,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         }
 
         #region Profiling
-
-
-        
 
         private static readonly ProfilerMarker _PRF_GetPrefabType = new(_PRF_PFX + nameof(GetPrefabType));
         private static readonly ProfilerMarker _PRF_GetTypeOptions = new(_PRF_PFX + nameof(GetTypeOptions));

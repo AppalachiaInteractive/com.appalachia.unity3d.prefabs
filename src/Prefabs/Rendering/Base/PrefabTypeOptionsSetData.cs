@@ -32,8 +32,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
     {
         static PrefabTypeOptionsSetData()
         {
-            
-            
             RegisterDependency<TL>(i => _prefabTypeOptionsLookup = i);
         }
 
@@ -64,6 +62,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         protected TW _typeOptions;
 
 #if UNITY_EDITOR
+        /// <inheritdoc />
         protected override bool ShowIDProperties { get; }
 #endif
 
@@ -85,9 +84,5 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         public abstract void SyncOverrides();
 
         public abstract void SyncOverridesFull(bool hasInteractions, bool hasColliders);
-
-        #region Profiling
-
-        #endregion
     }
 }

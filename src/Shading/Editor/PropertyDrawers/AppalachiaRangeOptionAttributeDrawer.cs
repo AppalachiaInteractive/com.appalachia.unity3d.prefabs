@@ -6,15 +6,26 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
     [CustomPropertyDrawer(typeof(AppalachiaRangeOptionsAttribute))]
     public class AppalachiaRangeOptionAttributeDrawer : PropertyDrawer
     {
+        #region Fields and Autoproperties
+
         private AppalachiaRangeOptionsAttribute a;
+        private float max;
 
         private float min;
-        private float max;
         private string[] options;
 
+        #endregion
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return -2;
+        }
+
+        /// <inheritdoc />
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            a = (AppalachiaRangeOptionsAttribute) attribute;
+            a = (AppalachiaRangeOptionsAttribute)attribute;
 
             options = a.options;
             min = a.min;
@@ -60,11 +71,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
                     style
                 );
             }
-        }
-
-        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
-        {
-            return -2;
         }
     }
 }

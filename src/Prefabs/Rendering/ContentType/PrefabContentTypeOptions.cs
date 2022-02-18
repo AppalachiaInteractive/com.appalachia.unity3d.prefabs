@@ -24,6 +24,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
         {
         }
 
+        /// <inheritdoc />
         public override bool UpdateForValidity()
         {
             return false;

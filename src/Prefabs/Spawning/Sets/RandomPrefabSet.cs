@@ -31,6 +31,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
         #endregion
 
 #if UNITY_EDITOR
+        /// <inheritdoc />
         protected override bool ShowIDProperties => false;
 #endif
 

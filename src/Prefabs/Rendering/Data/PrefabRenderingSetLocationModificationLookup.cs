@@ -19,19 +19,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Data
         AppaLookup<int, float4x4, intList, AppaList_float4x4>,
         IGameDataComponent
     {
-        protected override string GetDisplayTitle(int key, float4x4 value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(int key, float4x4 value)
         {
-            return ZString.Format("Instance {0}", key);
+            return Color.white;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(int key, float4x4 value)
         {
             return value.ToStringTRS();
         }
 
-        protected override Color GetDisplayColor(int key, float4x4 value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(int key, float4x4 value)
         {
-            return Color.white;
+            return ZString.Format("Instance {0}", key);
         }
     }
 }

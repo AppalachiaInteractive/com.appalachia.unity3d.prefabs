@@ -13,8 +13,6 @@ namespace Appalachia.Rendering.Lighting.Probes
     {
         static PrefabRenderingManagerAutomaticLightProbeGroup()
         {
-            
-            
             RegisterDependency<PrefabRenderingManager>(i => _prefabRenderingManager = i);
         }
 
@@ -26,14 +24,19 @@ namespace Appalachia.Rendering.Lighting.Probes
 
 #if UNITY_EDITOR
 
+        /// <inheritdoc />
         protected override float GeometryBackoff => .1f;
 
+        /// <inheritdoc />
         protected override string LightProbeGroupName => "_PREFAB_REN_MAN_LIGHT_PROBE_GROUP";
 
+        /// <inheritdoc />
         protected override int TargetCount => 1;
 
+        /// <inheritdoc />
         protected override bool ConsiderCollidables => false;
 
+        /// <inheritdoc />
         protected override void RecreateTargetList()
         {
         }
@@ -48,6 +51,7 @@ namespace Appalachia.Rendering.Lighting.Probes
             PrefabModelType.TreeMedium
         };
 
+        /// <inheritdoc />
         protected override void GenerateProbesForTargets(AppaList<Vector3> points, ref bool canceled)
         {
             if (!_prefabRenderingManager.enabled ||

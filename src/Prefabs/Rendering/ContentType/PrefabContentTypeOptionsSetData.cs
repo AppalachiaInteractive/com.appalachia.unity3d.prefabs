@@ -11,16 +11,17 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     [Serializable]
     public class PrefabContentTypeOptionsSetData : PrefabTypeOptionsSetData<PrefabContentType,
         PrefabContentTypeOptions, PrefabContentTypeOptionsOverride, PrefabContentTypeOptionsSetData,
-        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup,
-        Index_PrefabContentTypeOptions, PrefabContentTypeOptionsToggle,
-        Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
+        PrefabContentTypeOptionsWrapper, PrefabContentTypeOptionsLookup, Index_PrefabContentTypeOptions,
+        PrefabContentTypeOptionsToggle, Index_PrefabContentTypeOptionsToggle, AppaList_PrefabContentType,
         AppaList_PrefabContentTypeOptionsWrapper, AppaList_PrefabContentTypeOptionsToggle>
     {
-        public override void SyncOverridesFull(bool hasInteractions, bool hasColliders)
+        /// <inheritdoc />
+        public override void SyncOverrides()
         {
         }
 
-        public override void SyncOverrides()
+        /// <inheritdoc />
+        public override void SyncOverridesFull(bool hasInteractions, bool hasColliders)
         {
         }
     }

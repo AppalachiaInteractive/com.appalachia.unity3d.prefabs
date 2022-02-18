@@ -2,6 +2,7 @@ using Appalachia.Core.Objects.Root;
 using Appalachia.Utility.Async;
 using Appalachia.Utility.Execution;
 using Sirenix.OdinInspector;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -31,9 +32,10 @@ namespace Appalachia.Rendering.Lighting.Occlusion
         #endregion
 
 #if UNITY_EDITOR
-        public bool BakeDisabled => (m_Data != null) && !UnityEditor.Lightmapping.bakedGI;
+        public bool BakeDisabled => (m_Data != null) && !Lightmapping.bakedGI;
 #endif
 
+        /// <inheritdoc />
         protected override async AppaTask WhenDestroyed()
         {
             await base.WhenDestroyed();
@@ -50,6 +52,7 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             ms_White = null;
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenDisabled()
         {
             await base.WhenDisabled();
@@ -69,27 +72,30 @@ namespace Appalachia.Rendering.Lighting.Occlusion
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
             await base.WhenEnabled();
-
-#if UNITY_EDITOR
-            UnityEditor.Lightmapping.bakedGI = true;
-
-            if (!BakeDisabled)
+            using (_PRF_WhenEnabled.Auto())
             {
-                AddLightmapperCallbacks();
-            }
+#if UNITY_EDITOR
+                Lightmapping.bakedGI = true;
+
+                if (!BakeDisabled)
+                {
+                    AddLightmapperCallbacks();
+                }
 #endif
 
-            if (AppalachiaApplication.IsPlayingOrWillPlay)
-            {
-                Debug.Assert(Instance == null);
+                if (AppalachiaApplication.IsPlayingOrWillPlay)
+                {
+                    Debug.Assert(Instance == null);
+                }
+
+                Instance = this;
+
+                Camera.onPreRender += CameraPreRender;
             }
-
-            Instance = this;
-
-            Camera.onPreRender += CameraPreRender;
         }
 
         // This function should soon make it into the LightProbes Unity api

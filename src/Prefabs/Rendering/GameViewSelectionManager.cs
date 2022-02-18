@@ -4,6 +4,7 @@
 
 using System;
 using System.Collections.Generic;
+using Appalachia.Core.Attributes;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Core.Preferences;
 using Appalachia.Editing.Debugging.Handle;
@@ -19,20 +20,9 @@ using UnityEngine.InputSystem;
 
 namespace Appalachia.Rendering.Prefabs.Rendering
 {
+    [NonSerializable]
     public class GameViewSelectionManager : AppalachiaSimpleBase
     {
-        #region Profiling And Tracing Markers
-
-        private const string _PRF_PFX = nameof(GameViewSelectionManager) + ".";
-
-        private static readonly ProfilerMarker _PRF_TryGameViewSelection =
-            new(_PRF_PFX + nameof(TryGameViewSelection));
-
-        private static readonly ProfilerMarker _PRF_TrySelect = new(_PRF_PFX + nameof(TrySelect));
-        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
-
-        #endregion
-
         public GameViewSelectionManager(int hitDepth = 16, int minFrameInterval = 10)
         {
             _hitDepth = hitDepth;
@@ -49,6 +39,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 
         #endregion
 
+        #region Fields and Autoproperties
+
         private readonly int _hitDepth;
         private readonly int _minFrameInterval;
 
@@ -62,6 +54,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [NonSerialized] private Vector2 _lastMouseClickPosition = Vector2.zero;
 
         [NonSerialized] private Vector2 _mouseClickPosition = Vector2.zero;
+
+        #endregion
 
         public bool TryGameViewSelection(
             Camera camera,
@@ -284,6 +278,18 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             c = null;
             return false;
         }
+
+        #region Profiling
+
+        private const string _PRF_PFX = nameof(GameViewSelectionManager) + ".";
+
+        private static readonly ProfilerMarker _PRF_TryGameViewSelection =
+            new(_PRF_PFX + nameof(TryGameViewSelection));
+
+        private static readonly ProfilerMarker _PRF_TrySelect = new(_PRF_PFX + nameof(TrySelect));
+        private static readonly ProfilerMarker _PRF_Initialize = new(_PRF_PFX + nameof(Initialize));
+
+        #endregion
     }
 }
 

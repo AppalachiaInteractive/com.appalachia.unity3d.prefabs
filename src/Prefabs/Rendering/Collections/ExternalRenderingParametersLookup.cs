@@ -13,19 +13,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
     public class ExternalRenderingParametersLookup : AppaLookup<string, ExternalRenderingParameters,
         stringList, AppaList_ExternalRenderingParameters>
     {
-        protected override string GetDisplayTitle(string key, ExternalRenderingParameters value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(string key, ExternalRenderingParameters value)
         {
-            return key;
+            return Color.white;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(string key, ExternalRenderingParameters value)
         {
             return value.name;
         }
 
-        protected override Color GetDisplayColor(string key, ExternalRenderingParameters value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(string key, ExternalRenderingParameters value)
         {
-            return Color.white;
+            return key;
         }
     }
 }

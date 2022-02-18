@@ -7,32 +7,25 @@ using UnityEngine;
 namespace Appalachia.Rendering.Lighting.Occlusion.Visualizers
 {
     [ExecuteAlways]
-    public class OcclusionProbeTester : InstancedIndirectVolumeVisualization
+    public sealed class OcclusionProbeTester : InstancedIndirectVolumeVisualization<OcclusionProbeTester>
     {
+        #region Fields and Autoproperties
+
         [OnValueChanged(nameof(Regenerate))]
         public OcclusionProbes probes;
 
-        protected override bool ShouldRegenerate => false;
+        #endregion
 
-        protected override bool CanVisualize => probes != null;
+        /// <inheritdoc />
         protected override bool CanGenerate => probes != null;
 
-        protected override void PrepareInitialGeneration()
-        {
-            if (probes == null)
-            {
-                probes = FindObjectOfType<OcclusionProbes>();
-            }
-        }
+        /// <inheritdoc />
+        protected override bool CanVisualize => probes != null;
 
-        protected override void PrepareSubsequentGenerations()
-        {
-            if (probes == null)
-            {
-                probes = FindObjectOfType<OcclusionProbes>();
-            }
-        }
+        /// <inheritdoc />
+        protected override bool ShouldRegenerate => false;
 
+        /// <inheritdoc />
         protected override Bounds GetBounds()
         {
             if (probes == null)
@@ -56,10 +49,29 @@ namespace Appalachia.Rendering.Lighting.Occlusion.Visualizers
             return bounds;
         }
 
+        /// <inheritdoc />
+        protected override void PrepareInitialGeneration()
+        {
+            if (probes == null)
+            {
+                probes = FindObjectOfType<OcclusionProbes>();
+            }
+        }
+
+        /// <inheritdoc />
+        protected override void PrepareSubsequentGenerations()
+        {
+            if (probes == null)
+            {
+                probes = FindObjectOfType<OcclusionProbes>();
+            }
+        }
+
+        /// <inheritdoc />
         protected override async AppaTask WhenDisabled()
         {
             await base.WhenDisabled();
-            
+
             probes = null;
         }
     }

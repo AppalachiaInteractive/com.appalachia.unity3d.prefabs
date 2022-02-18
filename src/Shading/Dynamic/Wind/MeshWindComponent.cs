@@ -13,6 +13,7 @@ using Appalachia.Utility.Extensions;
 using Appalachia.Utility.Strings;
 using Sirenix.OdinInspector;
 using Unity.Profiling;
+using UnityEditor;
 using UnityEngine;
 
 // ReSharper disable UnusedVariable
@@ -230,6 +231,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -237,18 +239,18 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
             AssignWindMetadata(false);
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
+            await base.WhenEnabled();
             using (_PRF_WhenEnabled.Auto())
             {
-                await base.WhenEnabled();
-
 #if UNITY_EDITOR
                 try
                 {
                     if (componentData == null)
                     {
-                        if (UnityEditor.PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
+                        if (PrefabUtility.IsPartOfNonAssetPrefabInstance(gameObject))
                         {
                             var prefabAssetPath = AssetDatabaseManager.GetAssetPath(gameObject);
 
@@ -259,8 +261,7 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
                             {
-                                prefabAssetPath = UnityEditor.PrefabUtility
-                                                             .GetPrefabAssetPathOfNearestInstanceRoot(this);
+                                prefabAssetPath = PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(this);
                             }
 
                             if (string.IsNullOrWhiteSpace(prefabAssetPath))
@@ -284,9 +285,9 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                                         "Mesh Wind Component Data"
                                     );
 
-                                UnityEditor.PrefabUtility.ApplyPrefabInstance(
+                                PrefabUtility.ApplyPrefabInstance(
                                     gameObject,
-                                    UnityEditor.InteractionMode.AutomatedAction
+                                    InteractionMode.AutomatedAction
                                 );
                             }
                         }
@@ -1004,8 +1005,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                 )) as Texture2D;
 
             var texturePath = AssetDatabaseManager.GetAssetPath(texture);
-            var importer = UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
-            var textureSettings = new UnityEditor.TextureImporterSettings();
+            var importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
+            var textureSettings = new TextureImporterSettings();
             importer.ReadTextureSettings(textureSettings);
 
             var newPath = ZString.Format(
@@ -1025,10 +1026,10 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 
             AssetDatabaseManager.Refresh();
 
-            var textureImporter = (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
+            var textureImporter = (TextureImporter)AssetImporter.GetAtPath(newPath);
 
             textureSettings.sRGBTexture = false;
-            textureSettings.textureType = UnityEditor.TextureImporterType.Default;
+            textureSettings.textureType = TextureImporterType.Default;
             textureImporter.SetTextureSettings(textureSettings);
             textureImporter.SaveAndReimport();
         }
@@ -1062,9 +1063,8 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
                     )) as Texture2D;
 
                 var texturePath = AssetDatabaseManager.GetAssetPath(texture);
-                var importer =
-                    UnityEditor.AssetImporter.GetAtPath(texturePath) as UnityEditor.TextureImporter;
-                var textureSettings = new UnityEditor.TextureImporterSettings();
+                var importer = AssetImporter.GetAtPath(texturePath) as TextureImporter;
+                var textureSettings = new TextureImporterSettings();
                 importer.ReadTextureSettings(textureSettings);
 
                 var newPath = ZString.Format(
@@ -1084,11 +1084,10 @@ namespace Appalachia.Rendering.Shading.Dynamic.Wind
 
                 AssetDatabaseManager.Refresh();
 
-                var textureImporter =
-                    (UnityEditor.TextureImporter)UnityEditor.AssetImporter.GetAtPath(newPath);
+                var textureImporter = (TextureImporter)AssetImporter.GetAtPath(newPath);
 
                 textureSettings.sRGBTexture = false;
-                textureSettings.textureType = UnityEditor.TextureImporterType.Default;
+                textureSettings.textureType = TextureImporterType.Default;
                 textureImporter.SetTextureSettings(textureSettings);
                 textureImporter.SaveAndReimport();
 

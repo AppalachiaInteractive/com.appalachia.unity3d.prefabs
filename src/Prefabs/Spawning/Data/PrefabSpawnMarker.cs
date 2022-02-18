@@ -13,6 +13,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
 
         #endregion
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -22,11 +23,5 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Data
                 identifier = Guid.NewGuid().ToString("D");
             }
         }
-
-        #region Profiling
-
-        
-
-        #endregion
     }
 }

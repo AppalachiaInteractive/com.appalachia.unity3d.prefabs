@@ -6,13 +6,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
 {
     public class AppalachiaBannerDrawer : MaterialPropertyDrawer
     {
-        protected string bannerText;
-        protected string bannerSubText;
-        protected Color bannerColor;
-
-        protected string title;
-        protected string subtitle;
-
         public AppalachiaBannerDrawer()
         {
             title = null;
@@ -31,7 +24,29 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
             subtitle = s;
         }
 
-        public override void OnGUI(Rect position, MaterialProperty prop, string label, MaterialEditor materialEditor)
+        #region Fields and Autoproperties
+
+        protected Color bannerColor;
+        protected string bannerSubText;
+        protected string bannerText;
+        protected string subtitle;
+
+        protected string title;
+
+        #endregion
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
+        {
+            return 0;
+        }
+
+        /// <inheritdoc />
+        public override void OnGUI(
+            Rect position,
+            MaterialProperty prop,
+            string label,
+            MaterialEditor materialEditor)
         {
             //EditorGUI.DrawRect(position, new Color(0, 1, 0, 0.05f));
 
@@ -55,12 +70,12 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
                 bannerColor = ShaderGUIStyles.ColorDarkGray;
             }
 
-            AppalachiaShaderEditorGUI.DrawMaterialBanner(bannerColor, bannerText, bannerSubText, material.shader);
-        }
-
-        public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
-        {
-            return 0;
+            AppalachiaShaderEditorGUI.DrawMaterialBanner(
+                bannerColor,
+                bannerText,
+                bannerSubText,
+                material.shader
+            );
         }
     }
 }

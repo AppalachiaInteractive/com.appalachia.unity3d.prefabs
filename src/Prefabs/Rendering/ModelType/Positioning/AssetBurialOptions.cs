@@ -95,12 +95,14 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType.Positioning
             return (buryMesh == other.buryMesh) && (adoptTerrainNormal == other.adoptTerrainNormal);
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override bool Equals(object obj)
         {
             return obj is AssetBurialOptions other && Equals(other);
         }
 
+        /// <inheritdoc />
         [DebuggerStepThrough]
         public override int GetHashCode()
         {

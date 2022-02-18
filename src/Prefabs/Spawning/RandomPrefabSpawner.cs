@@ -27,8 +27,6 @@ namespace Appalachia.Rendering.Prefabs.Spawning
     {
         static RandomPrefabSpawner()
         {
-            
-
             RegisterDependency<RandomPrefabMasterCollection>(i => _randomPrefabMasterCollection = i);
         }
 
@@ -135,8 +133,16 @@ namespace Appalachia.Rendering.Prefabs.Spawning
         {
             using (_PRF_OnDrawGizmos.Auto())
             {
-                if (!enabled) return;
-                if (ShouldSkipUpdate) return;
+                if (!enabled)
+                {
+                    return;
+                }
+
+                if (ShouldSkipUpdate)
+                {
+                    return;
+                }
+
                 if (!GizmoCameraChecker.ShouldRenderGizmos())
                 {
                     return;
@@ -188,12 +194,12 @@ namespace Appalachia.Rendering.Prefabs.Spawning
             }
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
+            await base.WhenEnabled();
             using (_PRF_WhenEnabled.Auto())
             {
-                await base.WhenEnabled();
-
 #if UNITY_EDITOR
                 settings.UpdateAllIDs();
                 state.collection.UpdateAllIDs();
@@ -208,16 +214,17 @@ namespace Appalachia.Rendering.Prefabs.Spawning
 
         #region Profiling
 
-        private static readonly ProfilerMarker _PRF_DisableSpawning = new(_PRF_PFX + nameof(DisableSpawning));
-        private static readonly ProfilerMarker _PRF_EnableSpawning = new(_PRF_PFX + nameof(EnableSpawning));
-
-        #endregion
-
 #if UNITY_EDITOR
 
         private static readonly ProfilerMarker _PRF_CreateNewSettings =
             new(_PRF_PFX + nameof(CreateNewSettings));
 #endif
+
+        private static readonly ProfilerMarker _PRF_DisableSpawning = new(_PRF_PFX + nameof(DisableSpawning));
+        private static readonly ProfilerMarker _PRF_EnableSpawning = new(_PRF_PFX + nameof(EnableSpawning));
+
+        #endregion
+
 #if UNITY_EDITOR
         [Button]
         [ButtonGroup("A")]

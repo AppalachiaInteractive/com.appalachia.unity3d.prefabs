@@ -22,17 +22,20 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Collections
     public class PrefabSpawnPointCollectionLookup : AppaLookup<string, PrefabSpawnPointCollection, stringList,
         AppaList_PrefabSpawnPointCollection>
     {
-        protected override string GetDisplayTitle(string key, PrefabSpawnPointCollection value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(string key, PrefabSpawnPointCollection value)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(string key, PrefabSpawnPointCollection value)
         {
             throw new NotImplementedException();
         }
 
-        protected override Color GetDisplayColor(string key, PrefabSpawnPointCollection value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(string key, PrefabSpawnPointCollection value)
         {
             throw new NotImplementedException();
         }

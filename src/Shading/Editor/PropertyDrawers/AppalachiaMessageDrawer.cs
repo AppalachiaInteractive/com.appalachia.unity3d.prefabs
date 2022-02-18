@@ -6,16 +6,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
 {
     public class AppalachiaMessageDrawer : MaterialPropertyDrawer
     {
-        protected string Type;
-        protected string Message;
-        protected string Keyword;
-        protected float Value;
-        protected float Top;
-        protected float Down;
-
-        private MessageType mType;
-        private bool enabled;
-
         public AppalachiaMessageDrawer(string t, string m, float top, float down)
         {
             Type = t;
@@ -43,7 +33,37 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
             Down = down;
         }
 
-        public override void OnGUI(Rect position, MaterialProperty prop, string label, MaterialEditor materialEditor)
+        #region Fields and Autoproperties
+
+        protected float Down;
+        protected float Top;
+        protected float Value;
+        protected string Keyword;
+        protected string Message;
+        protected string Type;
+        private bool enabled;
+
+        private MessageType mType;
+
+        #endregion
+
+        /// <inheritdoc />
+        public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
+        {
+            if (enabled)
+            {
+                return 40;
+            }
+
+            return -2;
+        }
+
+        /// <inheritdoc />
+        public override void OnGUI(
+            Rect position,
+            MaterialProperty prop,
+            string label,
+            MaterialEditor materialEditor)
         {
             var material = materialEditor.target as Material;
 
@@ -98,16 +118,6 @@ namespace Appalachia.Rendering.Shading.PropertyDrawers
                 GUILayout.Space(Down);
                 enabled = true;
             }
-        }
-
-        public override float GetPropertyHeight(MaterialProperty prop, string label, MaterialEditor editor)
-        {
-            if (enabled)
-            {
-                return 40;
-            }
-
-            return -2;
         }
     }
 }

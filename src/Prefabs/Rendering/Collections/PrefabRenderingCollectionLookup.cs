@@ -26,19 +26,22 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
     public class PrefabRenderingCollectionLookup : AppaLookup<PrefabModelType, List<GameObject>,
         AppaList_PrefabModelType, AppaList_ListOfGameObject>
     {
-        protected override string GetDisplayTitle(PrefabModelType key, List<GameObject> value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(PrefabModelType key, List<GameObject> value)
         {
-            return key.ToString().SeperateWords();
+            return (value != null) && (value.Count > 0) ? Color.white : Color.gray;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(PrefabModelType key, List<GameObject> value)
         {
             return ZString.Format("{0} Game Objects", value.Count);
         }
 
-        protected override Color GetDisplayColor(PrefabModelType key, List<GameObject> value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(PrefabModelType key, List<GameObject> value)
         {
-            return (value != null) && (value.Count > 0) ? Color.white : Color.gray;
+            return key.ToString().SeperateWords();
         }
     }
 }

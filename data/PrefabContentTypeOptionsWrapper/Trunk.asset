@@ -12,17 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccb21d05f10c4b95b603dcdfd7bae443, type: 3}
   m_Name: Trunk
   m_EditorClassIdentifier: 
-  _cachedName: 
-  _niceName: 
+  _cachedName: Trunk
+  _niceName: Trunk
   _initializer:
     _tags: []
     _resetToken: 
+  _objectId:
+    _increment: 12632097
+    _machine: 14129404
+    _timestamp: 1645121887
+    _pid: -14768
   type: 530
   _options:
     _initializer:
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
+    _objectId:
+      _increment: 0
+      _machine: 0
+      _timestamp: 0
+      _pid: 0
     isEnabled: 1
     type: 530
     _muted: 0
@@ -46,6 +56,11 @@ MonoBehaviour:
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
+    _objectId:
+      _increment: 0
+      _machine: 0
+      _timestamp: 0
+      _pid: 0
     exclusionStyle: 0
     matchStyle: 0
     exclusions: []
@@ -54,6 +69,11 @@ MonoBehaviour:
         _tags: []
         _resetToken: 
       _owner: {fileID: 0}
+      _objectId:
+        _increment: 0
+        _machine: 0
+        _timestamp: 0
+        _pid: 0
       enabled: 1
       label: Trunk
   _baseEnabledState: 1

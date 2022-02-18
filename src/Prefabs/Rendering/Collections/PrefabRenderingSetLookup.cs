@@ -20,22 +20,25 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Collections
         HideRemoveButton = true,
         NumberOfItemsPerPage = 5
     )]
-    public class PrefabRenderingSetLookup : AppaLookup<GameObject, PrefabRenderingSet,
-        AppaList_GameObject, AppaList_PrefabRenderingSet>
+    public class PrefabRenderingSetLookup : AppaLookup<GameObject, PrefabRenderingSet, AppaList_GameObject,
+        AppaList_PrefabRenderingSet>
     {
-        protected override string GetDisplayTitle(GameObject key, PrefabRenderingSet value)
+        /// <inheritdoc />
+        protected override Color GetDisplayColor(GameObject key, PrefabRenderingSet value)
         {
-            return ZString.Format("{0}: {1}", value.modelType.ToString().SeperateWords(), key.name);
+            return value._stateColor;
         }
 
+        /// <inheritdoc />
         protected override string GetDisplaySubtitle(GameObject key, PrefabRenderingSet value)
         {
             return value.instanceManager?.element?.stateCounts.ToString();
         }
 
-        protected override Color GetDisplayColor(GameObject key, PrefabRenderingSet value)
+        /// <inheritdoc />
+        protected override string GetDisplayTitle(GameObject key, PrefabRenderingSet value)
         {
-            return value._stateColor;
+            return ZString.Format("{0}: {1}", value.modelType.ToString().SeperateWords(), key.name);
         }
     }
 }

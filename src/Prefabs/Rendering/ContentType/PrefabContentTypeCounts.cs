@@ -11,6 +11,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ContentType
     [Serializable]
     public class PrefabContentTypeCounts : PrefabTypeCounts<PrefabContentType>
     {
+        /// <inheritdoc />
         protected override PrefabContentType FromPrefabSet(PrefabRenderingSet set)
         {
             return set.contentType;

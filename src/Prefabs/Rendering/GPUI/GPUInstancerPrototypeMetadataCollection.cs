@@ -39,21 +39,25 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
             State.AddIfKeyNotPresent(metadata.prototype.prefabObject.name, metadata);
         }
 
+        /// <inheritdoc />
         protected override async AppaTask WhenEnabled()
         {
             await base.WhenEnabled();
 
-            if (State == null)
+            using (_PRF_WhenEnabled.Auto())
             {
-                _state = new GPUInstancerPrototypeMetadataLookup();
+                if (State == null)
+                {
+                    _state = new GPUInstancerPrototypeMetadataLookup();
 #if UNITY_EDITOR
-                MarkAsModified();
+                    MarkAsModified();
 #endif
-            }
+                }
 
 #if UNITY_EDITOR
-            State.SetSerializationOwner(this);
+                State.SetSerializationOwner(this);
 #endif
+            }
         }
 
 #if UNITY_EDITOR

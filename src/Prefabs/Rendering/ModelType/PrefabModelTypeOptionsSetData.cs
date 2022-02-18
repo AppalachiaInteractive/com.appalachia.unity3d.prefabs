@@ -80,6 +80,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 ? _setOverrides.lodFadeSettings.Value
                 : typeOptions.options.lodFadeSettings;
 
+        /// <inheritdoc />
         public override void SyncOverrides()
         {
             using (_PRF_SyncOverrides.Auto())
@@ -195,6 +196,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
             }
         }
 
+        /// <inheritdoc />
         public override void SyncOverridesFull(bool hasInteractions, bool hasColliders)
         {
             using (_PRF_SyncOverridesFull.Auto())
@@ -210,8 +212,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering.ModelType
                 if (hasInteractions &&
                     ((!o.rangeSettings.Overriding &&
                       (options.rangeSettings[0].interactions != InstanceInteractionState.Enabled)) ||
-                    (o.rangeSettings.Overriding &&
-                     (o.rangeSettings.Value[0].interactions != InstanceInteractionState.Enabled))))
+                     (o.rangeSettings.Overriding &&
+                      (o.rangeSettings.Value[0].interactions != InstanceInteractionState.Enabled))))
                 {
                     o.rangeSettings.Overriding = true;
                     o.rangeSettings.Value[0].interactions = InstanceInteractionState.Enabled;

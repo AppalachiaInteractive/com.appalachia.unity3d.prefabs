@@ -33,6 +33,7 @@ namespace Appalachia.Rendering.Lighting.Probes
 
         #endregion
 
+        /// <inheritdoc />
         protected override async AppaTask Initialize(Initializer initializer)
         {
             await base.Initialize(initializer);
@@ -53,13 +54,6 @@ namespace Appalachia.Rendering.Lighting.Probes
                 occlusionProbeTerrainBlendOffset
             );
         }
-
-        #region Profiling
-
-
-        
-
-        #endregion
 
 #if UNITY_EDITOR
 
