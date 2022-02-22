@@ -2,11 +2,11 @@
 
 using System;
 using Appalachia.Core.Collections.Native;
-using Appalachia.Core.ObjectPooling;
 using Appalachia.Core.Objects.Root;
 using Appalachia.Rendering.Prefabs.Core.States;
 using Appalachia.Rendering.Prefabs.Rendering.ModelType.Instancing;
 using Appalachia.Utility.Extensions;
+using Appalachia.Utility.Pooling.Objects;
 using GPUInstancer;
 using Unity.Collections;
 using Unity.Mathematics;
