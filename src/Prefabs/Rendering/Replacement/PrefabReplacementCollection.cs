@@ -38,7 +38,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _state.SetSerializationOwner(this);
+                    _state.Changed.Event += OnChanged;
 #endif
                 }
 
@@ -61,7 +61,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Replacement
                 }
 
 #if UNITY_EDITOR
-                _state.SetSerializationOwner(this);
+                _state.Changed.Event += OnChanged;
 #endif
             }
         }

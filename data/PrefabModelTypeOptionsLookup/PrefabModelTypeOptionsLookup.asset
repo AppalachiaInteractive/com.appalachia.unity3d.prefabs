@@ -15,16 +15,16 @@ MonoBehaviour:
   _cachedName: 
   _niceName: 
   _initializer:
+    _initializationCount: 0
     _tags: []
     _resetToken: 
   _objectId:
-    _increment: 0
-    _machine: 0
-    _timestamp: 0
-    _pid: 0
+    _increment: 3077329
+    _machine: 14129404
+    _timestamp: 1645733511
+    _pid: -8016
   _toggles:
     initializerCount: 64
-    _object: {fileID: 11400000}
     keys:
       _capacityIncreaseMultiplier: 2
       _values: 64009600c8002c019001e803d0079808c409b80b1c0c800ce40c480da00f04106810cc10
@@ -55,7 +55,6 @@ MonoBehaviour:
       _count: 18
   _state:
     initializerCount: 64
-    _object: {fileID: 11400000}
     keys:
       _capacityIncreaseMultiplier: 2
       _values: 64009600c8002c019001e803d0079808c409b80b1c0c800ce40c480da00f04106810cc10

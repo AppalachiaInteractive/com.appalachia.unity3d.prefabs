@@ -282,7 +282,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _externalParameters.SetSerializationOwner(this);
+                    _externalParameters.Changed.Event += MarkAsModified;
 #endif
                 }
 
@@ -599,7 +599,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _externalParameters.SetSerializationOwner(this);
+                    _externalParameters.Changed.Event += OnChanged;
 #endif
                 }
 

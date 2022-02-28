@@ -101,7 +101,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _state.SetSerializationOwner(this);
+                    _state.Changed.Event += MarkAsModified;
 #endif
                 }
 
@@ -239,7 +239,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
 
 #if UNITY_EDITOR
-            _state.SetSerializationOwner(this);
+            _state.Changed.Event += MarkAsModified;
 #endif
 
             if (_toggles == null)
@@ -251,7 +251,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
             }
 
 #if UNITY_EDITOR
-            _toggles.SetSerializationOwner(this);
+            _toggles.Changed.Event += MarkAsModified;
 #endif
 
             for (var i = _state.Count - 1; i >= 0; i--)

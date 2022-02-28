@@ -79,7 +79,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                         MarkAsModified();
 
-                        _state.SetSerializationOwner(this);
+                        _state.Changed.Event += OnChanged;
 #endif
                     }
 
@@ -322,7 +322,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                _state.SetSerializationOwner(this);
+                _state.Changed.Event += OnChanged;
 #endif
 
                 if (_toggles == null)
@@ -334,7 +334,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                 }
 
 #if UNITY_EDITOR
-                _toggles.SetSerializationOwner(this);
+                _toggles.Changed.Event += OnChanged;
 #endif
 
                 RebuildToggleList();

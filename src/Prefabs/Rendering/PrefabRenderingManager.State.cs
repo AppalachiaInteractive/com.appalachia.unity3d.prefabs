@@ -244,7 +244,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     _reasonCodes = new RenderingStateReasonCodeLookup();
                 }
 
-                _reasonCodes.SetSerializationOwner(this);
+                _reasonCodes.Changed.Event += MarkAsModified;
 
                 if (_reasonCodes.Count == 0)
                 {

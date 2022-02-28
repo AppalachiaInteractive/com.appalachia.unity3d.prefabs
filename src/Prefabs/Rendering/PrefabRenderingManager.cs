@@ -695,9 +695,9 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             using (_PRF_WhenEnabled.Auto())
             {
                 HandleEnableLogic(false);
-
-                await AppaTask.WaitUntil(() => gpui.isInitialized);
             }
+
+            await AppaTask.WaitUntil(() => gpui.isInitialized);
         }
 
         private void Bounce()

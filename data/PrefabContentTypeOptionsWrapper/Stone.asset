@@ -15,6 +15,7 @@ MonoBehaviour:
   _cachedName: 
   _niceName: 
   _initializer:
+    _initializationCount: 0
     _tags: []
     _resetToken: 
   _objectId:
@@ -25,6 +26,7 @@ MonoBehaviour:
   type: 420
   _options:
     _initializer:
+      _initializationCount: 0
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
@@ -53,6 +55,7 @@ MonoBehaviour:
       defaultStateIsDirty: 1
   labels:
     _initializer:
+      _initializationCount: 0
       _tags: []
       _resetToken: 
     _owner: {fileID: 0}
@@ -66,6 +69,7 @@ MonoBehaviour:
     exclusions: []
     terms:
     - _initializer:
+        _initializationCount: 0
         _tags: []
         _resetToken: 
       _owner: {fileID: 0}
