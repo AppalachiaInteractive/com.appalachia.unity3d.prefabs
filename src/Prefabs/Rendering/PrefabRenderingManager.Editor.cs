@@ -30,10 +30,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_ManageNewPrefabRegistration.Auto())
             {
-                if (renderingSets.Sets.ContainsKey(prefab))
-                {
-                    return renderingSets.Sets[prefab];
-                }
+                if (renderingSets.Sets.TryGet(prefab, out var result)) return result;
 
                 var prototypeLookup = new Dictionary<GPUInstancerPrefabPrototype, RegisteredPrefabsData>();
 

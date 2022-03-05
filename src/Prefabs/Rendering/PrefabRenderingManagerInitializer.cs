@@ -162,6 +162,8 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                         }
                     }
 
+                    _prefabRenderingManager.frustumCamera.clearFlags = CameraClearFlags.SolidColor;
+                    _prefabRenderingManager.frustumCamera.backgroundColor = Color.black;
                     _prefabRenderingManager.frustumCamera.enabled = false;
                     _prefabRenderingManager.frustumCamera.depth = -100;
                 }
