@@ -88,7 +88,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public PrefabModelTypeOptionsSetData modelOverrides;
+        [SerializeField] public PrefabModelTypeOptionsSetData modelOverrides;
 
         [FormerlySerializedAs("type")]
         [TabGroup("Content Options")]
@@ -103,7 +103,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Runtime
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        public PrefabContentTypeOptionsSetData contentOverrides;
+        [SerializeField] public PrefabContentTypeOptionsSetData contentOverrides;
 
         private Bounds _bounds;
         private int _drawGizmoAt;

@@ -197,8 +197,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        [SerializeField]
-        private PrefabContentTypeOptionsSetData _contentOptions;
+        [SerializeField] private PrefabContentTypeOptionsSetData _contentOptions;
 
         [TabGroup(_TABS, _META)]
         [SmartLabel]
@@ -212,8 +211,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         [InlineProperty]
         [HideLabel]
         [LabelWidth(0)]
-        [SerializeField]
-        private PrefabModelTypeOptionsSetData _modelOptions;
+        [SerializeField] private PrefabModelTypeOptionsSetData _modelOptions;
 
         [HorizontalGroup(_MAIN_COLS)]
         [LabelWidth(0)]
@@ -290,7 +288,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        public PrefabContentTypeOptionsSetData contentOptions
+        [SerializeField] public PrefabContentTypeOptionsSetData contentOptions
         {
             get
             {
@@ -305,7 +303,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
             }
         }
 
-        public PrefabModelTypeOptionsSetData modelOptions
+        [SerializeField] public PrefabModelTypeOptionsSetData modelOptions
         {
             get
             {
