@@ -20,7 +20,7 @@ namespace Appalachia.Rendering.Prefabs.Spawning.Sets
 
 #if UNITY_EDITOR
         /// <inheritdoc />
-        protected override bool ShowIDProperties => false;
+        protected override bool HideIDProperties => true;
 #endif
     }
 }

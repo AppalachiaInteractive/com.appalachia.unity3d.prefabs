@@ -63,7 +63,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
 
 #if UNITY_EDITOR
         /// <inheritdoc />
-        protected override bool ShowIDProperties { get; }
+        protected override bool HideIDProperties { get; }
 #endif
 
         #endregion

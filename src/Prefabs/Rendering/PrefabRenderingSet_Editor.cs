@@ -22,7 +22,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
     public partial class PrefabRenderingSet
     {
         /// <inheritdoc />
-        protected override bool ShowIDProperties => false;
+        protected override bool HideIDProperties => true;
 
         [TabGroup(_TABS, _META)]
         [SmartLabel]

@@ -48,8 +48,6 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
         #endregion
 
-        
-
         public Vector4[][] Calculate(Mesh mesh, Vector3 meshCenterOffset)
         {
             var results = new Vector4[submeshMetadata.Count][];
@@ -153,22 +151,22 @@ namespace Appalachia.Rendering.Shading.Dynamic
 
             [OnValueChanged(nameof(UpdateArrayConfig))]
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowConfigArray))]
+            [HideIf(nameof(HideConfigArray))]
             public AppalachiaTextureArrayConfig arrayConfig;
 
             public bool enabled = true;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowExplicit))]
+            [HideIf(nameof(HideExplicit))]
             public float value;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowShaderTextureSetId))]
+            [HideIf(nameof(HideShaderTextureSetId))]
             [PropertyRange(0, nameof(ShaderSetMax))]
             public int shaderTextureSetId;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowTextureArrayIndex))]
+            [HideIf(nameof(HideTextureArrayIndex))]
             [PropertyRange(0, nameof(ArrayRangeMax))]
             public int textureArrayIndex;
 
@@ -176,27 +174,26 @@ namespace Appalachia.Rendering.Shading.Dynamic
             public MeshFieldValueType fieldValueType = MeshFieldValueType.None;
 
             [EnableIf(nameof(enabled))]
-            [ShowIf(nameof(ShowShaderTextureSet))]
+            [HideIf(nameof(HideShaderTextureSet))]
             public ShaderTextureSet shaderTextureSet;
 
             [ReadOnly]
-            [ShowIf(nameof(ShowConfigArray))]
+            [HideIf(nameof(HideConfigArray))]
             public Texture2DArray textureArray;
 
             #endregion
 
-            private bool ShowConfigArray =>
-                (fieldValueType == MeshFieldValueType.MaterialTextureArrayOverride) ||
-                (fieldValueType == MeshFieldValueType.TextureArrayIndex) ||
-                (fieldValueType == MeshFieldValueType.ShaderSet);
+            private bool HideConfigArray =>
+                fieldValueType is not (MeshFieldValueType.MaterialTextureArrayOverride
+                    or MeshFieldValueType.TextureArrayIndex or MeshFieldValueType.ShaderSet);
 
-            private bool ShowExplicit => fieldValueType == MeshFieldValueType.Explicit;
+            private bool HideExplicit => fieldValueType != MeshFieldValueType.Explicit;
 
-            private bool ShowShaderTextureSet => fieldValueType == MeshFieldValueType.ShaderSet;
+            private bool HideShaderTextureSet => fieldValueType != MeshFieldValueType.ShaderSet;
 
-            private bool ShowShaderTextureSetId => fieldValueType == MeshFieldValueType.ShaderSet;
+            private bool HideShaderTextureSetId => fieldValueType != MeshFieldValueType.ShaderSet;
 
-            private bool ShowTextureArrayIndex => fieldValueType == MeshFieldValueType.TextureArrayIndex;
+            private bool HideTextureArrayIndex => fieldValueType != MeshFieldValueType.TextureArrayIndex;
 
             private int ArrayRangeMax =>
                 textureArray == null
@@ -217,7 +214,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
                             : shaderTextureSet.textureSets.Count - 1;
 
             [ReadOnly]
-            [ShowIf(nameof(ShowShaderTextureSet))]
+            [HideIf(nameof(HideShaderTextureSet))]
             [ShowInInspector]
             private string ShaderTextureSetName =>
                 shaderTextureSet == null ? string.Empty : shaderTextureSet.NameByIndex(shaderTextureSetId);
@@ -285,10 +282,7 @@ namespace Appalachia.Rendering.Shading.Dynamic
         #region Menu Items
 
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem(
-            PKG.Menu.Assets.Base + nameof(MeshShadingMetadata),
-            priority = PKG.Menu.Assets.Priority
-        )]
+        [UnityEditor.MenuItem(PKG.Menu.Assets.Base + nameof(MeshShadingMetadata), priority = PKG.Menu.Assets.Priority)]
         public static void CreateAsset()
         {
             CreateNew<MeshShadingMetadata>();
