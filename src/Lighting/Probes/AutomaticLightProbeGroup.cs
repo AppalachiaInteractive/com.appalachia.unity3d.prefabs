@@ -87,11 +87,11 @@ namespace Appalachia.Rendering.Lighting.Probes
         [ShowIf(nameof(_showRayCount))]
         public int rayCount = 10;
 
-        private string _maxDistanceLabel =>
+        private string MaxDistanceLabel =>
             generatorAlgorithm == AutomaticLightProbeGeneratorType.Spray ? "Ray Length" : "Grid Size";
 
         [BoxGroup("Initial Placement")]
-        [LabelText("$" + nameof(_maxDistanceLabel))]
+        [LabelText("$" + nameof(MaxDistanceLabel))]
         [SmartLabel]
         [PropertyTooltip("Typical spacing between points.")]
         [PropertyRange(1.0f, 32.0f)]
