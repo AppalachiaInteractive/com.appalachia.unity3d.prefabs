@@ -15,6 +15,7 @@ MonoBehaviour:
   _initializer:
     _initializationCount: 0
     _tags: []
+    _unityObject: {fileID: 0}
     _resetToken: 
   _niceName: 
   _objectID:

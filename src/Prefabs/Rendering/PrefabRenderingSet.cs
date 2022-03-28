@@ -280,7 +280,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _externalParameters.Changed.Event += MarkAsModified;
+                    _externalParameters.Changed.Event +=(MarkAsModified);
 #endif
                 }
 
@@ -597,7 +597,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
 #if UNITY_EDITOR
                     MarkAsModified();
 
-                    _externalParameters.Changed.Event += OnChanged;
+                    _externalParameters.Changed.Event +=(OnChanged);
 #endif
                 }
 

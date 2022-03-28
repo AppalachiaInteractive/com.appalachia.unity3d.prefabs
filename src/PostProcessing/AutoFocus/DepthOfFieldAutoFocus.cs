@@ -34,7 +34,7 @@ namespace Appalachia.Rendering.PostProcessing.AutoFocus
         [ShowInInspector]
         [InlineProperty]
         [HideLabel]
-        [BoxGroup("Settings Manager")]
+        [FoldoutGroup("Settings Manager")]
         [HideReferenceObjectPicker]
         private DepthOfFieldActiveSettingsManager _currentSettings;
 

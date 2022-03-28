@@ -120,9 +120,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.Base
         }
 
         protected Color _disabledColor =>
-            _anyEnabled
-                ? ColorPrefs.Instance.DisabledImportant.v
-                : ColorPrefs.Instance.DisabledImportantDisabled.v;
+            _anyEnabled ? ColorPrefs.Instance.DisabledImportant.v : ColorPrefs.Instance.DisabledImportantDisabled.v;
 
         protected Color _enabledColor =>
             _anyDisabled ? ColorPrefs.Instance.Enabled.v : ColorPrefs.Instance.EnabledDisabled.v;

@@ -575,7 +575,6 @@ namespace Appalachia.Rendering.Prefabs.Rendering
         {
             using (_PRF_InitializeTransform.Auto())
             {
-                _prefabRenderingManager.name = "Prefab Rendering Manager";
                 var t = _prefabRenderingManager.transform;
                 t.position = Vector3.zero;
                 t.rotation = Quaternion.identity;

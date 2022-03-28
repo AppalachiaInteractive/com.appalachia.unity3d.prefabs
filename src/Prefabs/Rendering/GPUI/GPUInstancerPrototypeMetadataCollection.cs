@@ -55,7 +55,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering.GPUI
                 }
 
 #if UNITY_EDITOR
-                State.Changed.Event += MarkAsModified;
+                State.Changed.Event +=(MarkAsModified);
 #endif
             }
         }

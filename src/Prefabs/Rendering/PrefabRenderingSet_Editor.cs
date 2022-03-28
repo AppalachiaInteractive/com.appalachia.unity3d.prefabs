@@ -56,7 +56,7 @@ namespace Appalachia.Rendering.Prefabs.Rendering
                     MarkAsModified();
                 }
 
-                _externalParameters.Changed.Event += OnChanged;
+                _externalParameters.Changed.Event +=(OnChanged);
 
                 //_assetType = _assetType.CheckObsolete();
             }
